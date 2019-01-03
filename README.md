@@ -11,10 +11,13 @@ LokiJS is ideal for the following scenarios:
 LokyJS-Server is a transport adapter. It should support TCP (kind of redis-cli equivalent) and/or a HTTP based JSON API.  
 
 
-## Installation (copy paste line you want)
+## Installation 
+
+Copy paste line you want)
 
 * locally: ```npm install LokyJS-Server``` or ```yarn add LokyJS-Server```
 * globaly: ```npm install -g LokyJS-Server``` or ```yarn add -g LokyJS-Server```
+
 
 ## Variables
 
