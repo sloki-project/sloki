@@ -40,14 +40,6 @@ Copy paste line you want)
 
 See [CHANGELOG.md](/CHANGELOG.md)
 
-## Installation
-
-For browser environments you simply need the lokijs.js file contained in src/
-
-You can use bower to install lokijs with `bower install lokijs`
-
-For node and nativescript environments you can install through `npm install lokijs`.
 
 ## Roadmap (TODO)
-
 
