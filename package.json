@@ -1,0 +1,23 @@
+{
+  "name": "lokijs-server",
+  "version": "0.0.0",
+  "description": "A TCP/HTTP Server for LokyJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/franck34/LokiJS-Server.git"
+  },
+  "keywords": [
+    "LokyJS",
+    "Server"
+  ],
+  "author": "Franck TABARY",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/franck34/LokiJS-Server/issues"
+  },
+  "homepage": "https://github.com/franck34/LokiJS-Server#readme"
+}
