@@ -4,7 +4,7 @@
   "description": "A TCP/HTTP Server for LokyJS",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --expose_gc test/index.js"
   },
   "repository": {
     "type": "git",
@@ -19,5 +19,9 @@
   "bugs": {
     "url": "https://github.com/franck34/LokiJS-Server/issues"
   },
-  "homepage": "https://github.com/franck34/LokiJS-Server#readme"
+  "homepage": "https://github.com/franck34/LokiJS-Server#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "tap": "^12.1.1"
+  }
 }
