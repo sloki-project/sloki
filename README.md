@@ -1,6 +1,9 @@
 # LokiJS-Server
 A TCP/HTTP Server for [LokiJS](http://lokijs.org/)
 
+**WORK IN PROGRESS**
+
+
 ## Overview
 
 [LokiJS](http://lokijs.org/) is a document oriented database written in javascript, published under MIT License.
@@ -25,15 +28,15 @@ Copy paste line you want)
 
 | Name   | Default Value  | Possible values | Implemented since version
 |---|---|---|---|
-| LOKY_PATH  | ~/.lokyjs  | 0.1 | 
-| LOKY_EXPOSE  | TCP | [TCP\|HTTP\|TCP-HTTP] | 0.1 |
+| LOKY_PATH  | ~/.lokyjs  | | 
+| LOKY_EXPOSE  | TCP | [TCP\|HTTP\|TCP-HTTP] |  |
 
 * Command line options
 
 | Option   | Default Value  | Possible values | Implemented since version
-|---|---|---|
+|---|---|---|---|
 | path  | ~/.lokyjs  | |
-| expose  | TCP | [TCP\|HTTP\|TCP-HTTP] |
+| expose  | TCP | [TCP\|HTTP\|TCP-HTTP] | |
 
 
 ## Current state
