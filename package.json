@@ -20,7 +20,9 @@
     "url": "https://github.com/franck34/LokiJS-Server/issues"
   },
   "homepage": "https://github.com/franck34/LokiJS-Server#readme",
-  "dependencies": {},
+  "dependencies": {
+    "minimist": "^1.2.0"
+  },
   "devDependencies": {
     "tap": "^12.1.1"
   }
