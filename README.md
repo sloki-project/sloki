@@ -5,6 +5,7 @@ A TCP/HTTP Server for [LokiJS](http://lokijs.org/)
 ![alt CI-badge](https://travis-ci.org/franck34/LokiJS-Server.svg?branch=master)
 [![npm version](https://badge.fury.io/js/lokijs-server.svg)](http://badge.fury.io/js/lokijs-server)
 [![alt packagequality](http://npm.packagequality.com/shield/lokijs-server.svg)](http://packagequality.com/#?package=lokijs-server)
+[![Known Vulnerabilities](https://snyk.io/test/github/franck34/LokiJS-Server/badge.svg?targetFile=package.json)](https://snyk.io/test/github/franck34/LokiJS-Server?targetFile=package.json)
 
 **WORK IN PROGRESS**
 
