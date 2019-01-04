@@ -5,8 +5,8 @@ const homedir = require('os').homedir();
 
 let defaults = {
 
-    // default database dir is in the home of the user, under this subdirectory
-    DATABASES_DIRECTORY:path.resolve(homedir+'/.lokydbs'),
+    // default database dir is in the home of the user
+    DATABASES_DIRECTORY:path.resolve(homedir+'/.lokyjs/dbs'),
 
     // TCP API enabled by default
     NET_TCP_PORT:6370,
