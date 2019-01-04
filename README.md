@@ -1,7 +1,7 @@
 # LokiJS-Server
 A TCP/HTTP Server for [LokiJS](http://lokijs.org/)
 
-[![Join the chat at https://gitter.im/techfort/LokiJS](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/techfort/LokiJS?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/techfort/LokiJS](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/franck34/LokiJS-Server?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 ![alt CI-badge](https://travis-ci.org/franck34/LokiJS-Server.svg?branch=master)
 [![npm version](https://badge.fury.io/js/lokijs-server.svg)](http://badge.fury.io/js/lokijs-server)
 [![alt packagequality](http://npm.packagequality.com/shield/lokijs-server.svg)](http://packagequality.com/#?package=lokijs-server)
@@ -34,15 +34,15 @@ Copy paste line you want)
 
 | Name   | Default Value  | Possible values | Implemented since version
 |---|---|---|---|
-| LOKY_DIR  | ~/.lokyjs  | |
-| LOKY_TRANSPORT  | TCP | TCP\|HTTP\|TCP-HTTP |  |
+| LOKY_DIR  | ~/.lokyjs/dbs  | | 0.0.1 |
+| LOKY_TRANSPORT  | TCP | TCP\|HTTP\|TCP-HTTP | 0.0.1 |
 
 * Command line options
 
 | Option   | Default Value  | Possible values | Implemented since version
 |---|---|---|---|
-| dir  | ~/.lokyjs  | |
-| transport  | TCP | TCP\|HTTP\|TCP-HTTP | |
+| dir  | ~/.lokyjs/dbs  | | 0.0.1 |
+| transport  | TCP | TCP\|HTTP\|TCP-HTTP | 0.0.1 |
 
 
 ## Current state
