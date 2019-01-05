@@ -43,13 +43,13 @@ function socketHandler(socket) {
     socket.src = `${socket.remoteAddress}:${socket.remotePort}`;
 
     if (socketsCount()>ENV.NET_TCP_MAX_CLIENTS) {
-        log.error("%s => Max Clients reached (%s)", src, ENV.NET_TCP_MAX_CLIENTS);
+        log.error("%s Max Clients reached (%s)", src, ENV.NET_TCP_MAX_CLIENTS);
         socket.write(RESPONSE_SOCKET_MAX_CLIENT_REACHED+ENV.NET_TCP_EOF);
         socket.end();
         return;
     }
 
-    ENV.NET_TCP_DEBUG && log.info("%s => connection opened", socket.src);
+    ENV.NET_TCP_DEBUG && log.info("%s connection opened", socket.src);
 
     sockets[socket.src] = socket;
 
@@ -59,12 +59,12 @@ function socketHandler(socket) {
             socket.write(ENV.NET_TCP_PROMPT);
             return;
         }
-        log.info("%s => received %s", socket.src, line);
+        log.info("%s received %s", socket.src, line);
         commandHandler(socket, line);
     }
 
     function socketOnClose() {
-        ENV.NET_TCP_DEBUG && log.info("%s <= connection closed normaly", socket.src);
+        ENV.NET_TCP_DEBUG && log.info("%s connection closed normaly", socket.src);
         delete sockets[socket.src];
     }
 
@@ -104,7 +104,7 @@ function start(callback) {
 function stop(callback) {
     log.warn("shutdown in progress");
     for (src in sockets) {
-        log.warn("%s <= closing connection", src);
+        log.warn("%s closing connection", src);
         sockets[src].end(RESPONSE_SOCKET_SERVER_SHUTDOWN+ENV.NET_TCP_EOF);
         delete sockets[src];
     }
