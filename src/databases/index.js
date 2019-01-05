@@ -43,6 +43,17 @@ for (file of klawSync(ENV.DATABASES_DIRECTORY)) {
     });
 }
 
+let dbTestFile = path.resolve(ENV.DATABASES_DIRECTORY+'/test.json');
+
+if (!dbs['test']) {
+    dbs['test'] = new loki(dbTestFile, {
+    	autoload: true,
+    	autosave: true,
+    	autosaveInterval: 1000
+    });
+    dbs['test'].save();
+}
+
 function listSync() {
     let tmp = [];
     for (db of Object.keys(dbs)) {
