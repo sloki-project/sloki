@@ -1,3 +1,4 @@
+const log = require('evillogger')({ns:'commands:'+require('path').basename(__filename.replace(/\.js/,''))});
 const ENV = require('../env');
 
 /**
@@ -11,9 +12,10 @@ const ENV = require('../env');
  * @param {function} callback - callback
  * @memberof Commands
  */
- function quit(options, callback) {
+ function db(options, callback) {
      options.socket.write(options.socket.loky.currentDatabase+ENV.NET_TCP_EOF);
+     options.socket.write(ENV.NET_TCP_PROMPT);
      callback();
 }
 
-module.exports = quit;
+module.exports = db;
