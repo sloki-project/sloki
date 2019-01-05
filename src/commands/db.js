@@ -13,7 +13,6 @@ const ENV = require('../env');
  */
  function quit(options, callback) {
      options.socket.write(options.socket.loky.currentDatabase+ENV.NET_TCP_EOF);
-     options.socket.end();
      callback();
 }
 
