@@ -12,6 +12,7 @@ let defaults = {
     NET_TCP_PORT:6370,
     NET_TCP_HOST:'127.0.0.1',
     NET_TCP_DEBUG:true,
+    NET_TCP_PROMPT:'> ',
 
     // limit number of simultaneously connected clients, for basic security reasons
     NET_TCP_MAX_CLIENTS:1,

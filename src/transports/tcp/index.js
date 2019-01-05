@@ -31,14 +31,15 @@ function commandHandler(socket, line) {
     command(line, socket, (err, result) => {
         if (err) {
             socket.write('ERR '+err.message+"\r\n");
-            log.error(err.message);
+            socket.write(ENV.NET_TCP_PROMPT);
+            log.error("%s %s", socket.src, err.message);
         }
     });
 }
 
 function socketHandler(socket) {
 
-    let src = `${socket.remoteAddress}:${socket.remotePort}`;
+    socket.src = `${socket.remoteAddress}:${socket.remotePort}`;
 
     if (socketsCount()>ENV.NET_TCP_MAX_CLIENTS) {
         log.error("%s => Max Clients reached (%s)", src, ENV.NET_TCP_MAX_CLIENTS);
@@ -47,26 +48,27 @@ function socketHandler(socket) {
         return;
     }
 
-    ENV.NET_TCP_DEBUG && log.info("%s => connection opened", src);
+    ENV.NET_TCP_DEBUG && log.info("%s => connection opened", socket.src);
 
-    sockets[src] = socket;
+    sockets[socket.src] = socket;
 
     function socketOnData(data) {
         let line = data.toString().trim();
         if (!line) return;
-        log.info("%s => received %s", src, line);
+        log.info("%s => received %s", socket.src, line);
         commandHandler(socket, line);
     }
 
     function socketOnClose() {
-        ENV.NET_TCP_DEBUG && log.info("%s <= connection closed normaly", src);
-        delete sockets[src];
+        ENV.NET_TCP_DEBUG && log.info("%s <= connection closed normaly", socket.src);
+        delete sockets[socket.src];
     }
 
     function socketOnError(err) {
         log.error(err);
     }
 
+    socket.write(ENV.NET_TCP_PROMPT);
     socket.on("error", socketOnError);
     socket.on("close", socketOnClose);
     socket.on("data", socketOnData);
