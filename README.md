@@ -17,7 +17,7 @@ Its purpose is to store javascript objects as documents in a nosql fashion and r
 Runs in node (including cordova/phonegap and node-webkit),  [nativescript](http://www.nativescript.org) and the browser.
 LokiJS is ideal for the following scenarios:
 
-LokyJS-Server is a transport adapter. It should support TCP (kind of redis-cli equivalent) and/or a HTTP based JSON API.  
+LokyJS-Server is a transport adapter. It should support TCP (kind of mongo shell) and/or a HTTP based JSON API.  
 
 
 ## Installation
