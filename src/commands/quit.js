@@ -2,8 +2,8 @@
  * Client ask for disconnect
  *
  * @example
- * client> quit
- * server> bye
+ * > quit
+ * bye
  *
  * @param {object} options - options.command, options.params. options.socket
  * @param {function} callback - callback
