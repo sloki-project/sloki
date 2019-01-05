@@ -1,3 +1,5 @@
+const ENV = require('../env');
+
 /**
  * Client ask for disconnect
  *
@@ -10,7 +12,7 @@
  * @memberof Commands
  */
  function quit(options, callback) {
-     options.socket.write("bye\n");
+     options.socket.write("bye"+ENV.NET_TCP_EOF);
      options.socket.end();
      callback();
 }

@@ -1,3 +1,4 @@
+const ENV = require('../env');
 const databases = require('../databases');
 
 /**
@@ -14,7 +15,7 @@ const databases = require('../databases');
  function show(options, callback) {
      if (options.params === 'dbs') {
          let dbs = databases.listSync();
-         options.socket.write(JSON.stringify({result:dbs})+"\r\n");
+         options.socket.write(JSON.stringify({result:dbs})+ENV.NET_TCP_EOF);
          return;
      }
      callback(new Error('missing or bad parameters (dbs)'));

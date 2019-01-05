@@ -2,12 +2,13 @@ const log = require('evillogger')({ns:'transports:tcp'});
 const ENV = require('../../env');
 const net = require('net');
 const command = require('../../commands');
+const version = require('../../../package.json').version;
 
 let server;
 let sockets = {};
 
-let RESPONSE_SOCKET_CLOSED = "CLOSED\r\n"
-let RESPONSE_SOCKET_MAX_CLIENT_REACHED = "EMAX_CLIENT_REACHED\r\n";
+const RESPONSE_SOCKET_CLOSED = "CLOSED";
+const RESPONSE_SOCKET_MAX_CLIENT_REACHED = "EMAX_CLIENT_REACHED";
 
 function onServerListen(err) {
     if (err) {
@@ -43,7 +44,7 @@ function socketHandler(socket) {
 
     if (socketsCount()>ENV.NET_TCP_MAX_CLIENTS) {
         log.error("%s => Max Clients reached (%s)", src, ENV.NET_TCP_MAX_CLIENTS);
-        socket.write(RESPONSE_SOCKET_MAX_CLIENT_REACHED);
+        socket.write(RESPONSE_SOCKET_MAX_CLIENT_REACHED+ENV.NET_TCP_EOF);
         socket.end();
         return;
     }
@@ -68,7 +69,14 @@ function socketHandler(socket) {
         log.error(err);
     }
 
+    socket.loky = {
+        currentDatabase:'test'
+    };
+
+    socket.write('LockJS-Server shell version: '+version+ENV.NET_TCP_EOF);
+    socket.write('Current database: test'+ENV.NET_TCP_EOF);
     socket.write(ENV.NET_TCP_PROMPT);
+
     socket.on("error", socketOnError);
     socket.on("close", socketOnClose);
     socket.on("data", socketOnData);
@@ -94,7 +102,7 @@ function stop(callback) {
     log.warn("shutdown in progress");
     for (src in sockets) {
         log.warn("%s <= closing connection", src);
-        sockets[src].end(RESPONSE_SOCKET_CLOSED);
+        sockets[src].end(RESPONSE_SOCKET_CLOSED+ENV.NET_TCP_EOF);
         delete sockets[src];
     }
     server.close();
