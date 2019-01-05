@@ -7,7 +7,7 @@ const version = require('../../../package.json').version;
 let server;
 let sockets = {};
 
-const RESPONSE_SOCKET_CLOSED = "CLOSED";
+const RESPONSE_SOCKET_SERVER_SHUTDOWN = "ESERVER_SHUTDOWN";
 const RESPONSE_SOCKET_MAX_CLIENT_REACHED = "EMAX_CLIENT_REACHED";
 
 function onServerListen(err) {
@@ -55,7 +55,10 @@ function socketHandler(socket) {
 
     function socketOnData(data) {
         let line = data.toString().trim();
-        if (!line) return;
+        if (!line) {
+            socket.write(ENV.NET_TCP_PROMPT);
+            return;
+        }
         log.info("%s => received %s", socket.src, line);
         commandHandler(socket, line);
     }
@@ -102,7 +105,7 @@ function stop(callback) {
     log.warn("shutdown in progress");
     for (src in sockets) {
         log.warn("%s <= closing connection", src);
-        sockets[src].end(RESPONSE_SOCKET_CLOSED+ENV.NET_TCP_EOF);
+        sockets[src].end(RESPONSE_SOCKET_SERVER_SHUTDOWN+ENV.NET_TCP_EOF);
         delete sockets[src];
     }
     server.close();
