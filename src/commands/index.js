@@ -5,7 +5,7 @@ const path = require('path');
 let commands = {};
 let cmdName;
 
-for (file of klawSync(__dirname)) {
+for (file of klawSync(__dirname,{depthLimit:0})) {
 
     if (file.path.match(/\/index/)) {
         // ignore myself (index.js)
@@ -42,7 +42,7 @@ function exec(line, socket, callback) {
     }
 
     for (let i = 0; i<commandList.length; i++) {
-        log.info("exec %s %s", commandList[i].command, commandList[i].params);
+        log.info("%s exec %s %s", socket.src, commandList[i].command, commandList[i].params);
         commands[commandList[i].command](commandList[i], callback);
     }
 
