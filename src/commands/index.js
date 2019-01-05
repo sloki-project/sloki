@@ -6,7 +6,13 @@ let commands = {};
 let cmdName;
 
 for (file of klawSync(__dirname)) {
-    if (file.path.match(/commands\/index/)) continue;
+
+    if (file.path.match(/\/index/)) {
+        // ignore myself (index.js)
+        // or directories having /commands/mycommand/index.js
+        continue;
+    }
+
     cmdName = path.basename(file.path).replace(/\.js/,'');
     commands[cmdName] = require(file.path);
     log.info("Command %s registered", cmdName);
