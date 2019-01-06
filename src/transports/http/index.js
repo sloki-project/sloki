@@ -1,7 +1,7 @@
 const log = require('evillogger')({ns:'transports:tcp'});
 
-function start() {
-
+function start(callback) {
+    callback();
 }
 
 function stop(callback) {
