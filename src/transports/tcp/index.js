@@ -28,7 +28,7 @@ function socketHandler(socket) {
     socket.onClose(socketClose);
 
     if (!welcome) {
-        log.error(
+        log.warn(
             "%s Max Clients reached (%s)",
             `${socket.id}`,
             ENV.NET_TCP_MAX_CLIENTS
