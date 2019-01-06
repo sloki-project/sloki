@@ -17,6 +17,7 @@ function LokySocket(socket, pool) {
     };
 
     let id  = `${socket.remoteAddress}:${socket.remotePort}`;
+    log.info("%s client connected", id);
 
     _initSocketBehaviors();
 
@@ -43,7 +44,7 @@ function LokySocket(socket, pool) {
     }
 
     function _socketOnClose() {
-        !_quiet && ENV.NET_TCP_DEBUG && log.info("%s connection closed normaly", id);
+        !_quiet && ENV.NET_TCP_DEBUG && log.info("%s client quit", id);
         _onClose && _onClose(publics);
     }
 
