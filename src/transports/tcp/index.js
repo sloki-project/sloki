@@ -20,21 +20,24 @@ function socketClose(socket) {
 
 function socketHandler(socket) {
 
-    if (socketCount()>ENV.NET_TCP_MAX_CLIENTS) {
+    //log.info(socketCount(), ENV.NET_TCP_MAX_CLIENTS, socketCount()>ENV.NET_TCP_MAX_CLIENTS)
+
+    welcome = socketCount()<ENV.NET_TCP_MAX_CLIENTS
+
+    socket = new LokySocket(socket, sockets, welcome);
+    socket.onClose(socketClose);
+
+    if (!welcome) {
         log.error(
             "%s Max Clients reached (%s)",
             `${socket.remoteAddress}:${socket.remotePort}`,
             ENV.NET_TCP_MAX_CLIENTS
         );
-        socket.write(RESPONSE_SOCKET_MAX_CLIENT_REACHED, {end:true});
+        socket.write(RESPONSE_SOCKET_MAX_CLIENT_REACHED,{end:true});
         return;
     }
 
-    socket = new LokySocket(socket, sockets);
-    socket.onClose(socketClose);
-
     sockets[socket.id] = socket;
-
 }
 
 

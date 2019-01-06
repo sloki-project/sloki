@@ -3,7 +3,7 @@ const ENV = require('../../env');
 const commandExec = require('../../commands');
 const version = require('../../../package.json').version;
 
-function LokySocket(socket, pool) {
+function LokySocket(socket, pool, welcome) {
 
     let _eof = ENV.NET_TCP_EOF;
     let _outputFormat = ENV.NET_TCP_OUTPUT_FORMAT;
@@ -57,10 +57,14 @@ function LokySocket(socket, pool) {
         socket.on("close", _socketOnClose);
         socket.on("data", _socketOnData);
 
-        write('LockJS-Server shell version: '+version);
-        write('Client number '+(Object.keys(pool).length+1));
-        write('Current database: test');
-        prompt();
+        if (welcome) {
+            write('LockJS-Server shell version: '+version);
+            write('Client number '+(Object.keys(pool).length+1));
+            write('Current database: test');
+            prompt();
+        } else {
+            // max client reached !
+        }
     }
 
     function _checkWriteOptions(options) {
