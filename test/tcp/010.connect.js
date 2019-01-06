@@ -20,10 +20,12 @@ function run(callback) {
             client.connect(ENV.NET_TCP_PORT, ENV.NET_TCP_HOST, (err) => {
                 t.comment('connected');
                 t.same(err, null,'err should be null');
+                client.end();
+
                 setTimeout(() => {
-                    t.end();
-                    client.end();
                     lineReader.close();
+
+                    t.end();
                     callback();
                 },100);
 
