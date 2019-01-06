@@ -8,23 +8,6 @@ const loki = require('lokijs');
 let dbName;
 let dbs = {};
 
-/*
-function databaseInitialize() {
-    var entries = dbs[this].getCollection("entries");
-    if (entries === null) {
-        entries = dbs[this].addCollection("entries");
-    }
-
-    //entries.insert({name:'Sleipnir', legs: 8})
-
-    let rec = entries.get(1);
-    rec.name="franck4";
-    entries.update(rec);
-    //dbs[dbName].save();
-}
-*/
-
-
 if (!fs.pathExistsSync(ENV.DATABASES_DIRECTORY)) {
     fs.ensureDirSync(ENV.DATABASES_DIRECTORY);
     log.info('Directory %s created', ENV.DATABASES_DIRECTORY);
