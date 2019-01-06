@@ -10,6 +10,7 @@ function LokySocket(socket, pool) {
     let _prompt = ENV.NET_TCP_PROMPT;
     let _onClose;
     let _timestampSocketCreated = Date.now();
+    let _quiet = false;
 
     let loki = {
         currentDatabase:'test'
@@ -42,7 +43,7 @@ function LokySocket(socket, pool) {
     }
 
     function _socketOnClose() {
-        ENV.NET_TCP_DEBUG && log.info("%s connection closed normaly", id);
+        !_quiet && ENV.NET_TCP_DEBUG && log.info("%s connection closed normaly", id);
         _onClose && _onClose(publics);
     }
 
@@ -134,6 +135,10 @@ function LokySocket(socket, pool) {
         return Date.now()-_timestampSocketCreated;
     }
 
+    function setQuiet() {
+        _quiet = true;
+    }
+
     let publics = {
         loki:loki,
         id:id,
@@ -145,7 +150,8 @@ function LokySocket(socket, pool) {
         pool:pool,
         setOutputFormat:setOutputFormat,
         getOutputFormat:getOutputFormat,
-        getUptime:getUptime
+        getUptime:getUptime,
+        setQuiet:setQuiet
     }
 
     return publics;

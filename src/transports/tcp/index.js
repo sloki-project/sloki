@@ -10,20 +10,6 @@ let sockets = {};
 const RESPONSE_SOCKET_SERVER_SHUTDOWN = "ESERVER_SHUTDOWN";
 const RESPONSE_SOCKET_MAX_CLIENT_REACHED = "EMAX_CLIENT_REACHED";
 
-function onServerListen(err) {
-    if (err) {
-        log.error(err);
-        process.exit(1);
-    }
-
-    log.info(
-        "TCP Server listening at %s:%s",
-        ENV.NET_TCP_HOST,
-        ENV.NET_TCP_PORT
-    );
-}
-
-
 function socketCount() {
     return Object.keys(sockets).length;
 }
@@ -58,6 +44,25 @@ function start(callback) {
         return;
     }
 
+    function onServerListen(err) {
+        if (err) {
+            log.error(err);
+            if (!callback) {
+                process.exit(1);
+            } else {
+                callback(err);
+            }
+        }
+
+        log.info(
+            "TCP Server listening at %s:%s",
+            ENV.NET_TCP_HOST,
+            ENV.NET_TCP_PORT
+        );
+
+        callback && callback();
+    }
+
     server = net.createServer(socketHandler);
 
     server.listen(
@@ -68,18 +73,16 @@ function start(callback) {
 }
 
 function stop(callback) {
-    log.warn("shutdown in progress");
     for (id in sockets) {
-        log.warn("%s closing connection", id);
+        sockets[id].setQuiet(true);
         sockets[id].write(RESPONSE_SOCKET_SERVER_SHUTDOWN,{end:true});
+        log.warn("%s connection closed", id);
         delete sockets[id];
     }
-    log.warn("all clients gone");
+    server.close(() => {
+        callback && callback();
+    });
 
-    server.close();
-    log.warn("TCP Server closed");
-
-    callback && callback();
 }
 
 module.exports = {
