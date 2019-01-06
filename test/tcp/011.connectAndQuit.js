@@ -21,10 +21,8 @@ function run(callback) {
             client.connect(ENV.NET_TCP_PORT, ENV.NET_TCP_HOST, (err) => {
                 t.comment('connected');
                 t.same(err, null,'err should be null');
-                setTimeout(() => {
-                    t.comment('sending quit');
-                    client.write("quit");
-                },10);
+                t.comment('sending quit');
+                client.write("quit");
             });
 
             client.on('close', () => {
