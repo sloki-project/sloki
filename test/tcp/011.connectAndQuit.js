@@ -1,7 +1,9 @@
-const tap = require('tap');
 const net = require('net');
 const ENV = require('../../src/env');
 const rl = require('readline');
+
+const importFresh = require('import-fresh');
+const tap = importFresh('tap');
 
 function run(callback) {
 
@@ -10,6 +12,7 @@ function run(callback) {
 
     tap.test(
         "connect and quit",
+        {timeout:200},
         (t) => {
 
             lineReader.on('line', (line) => {
