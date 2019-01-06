@@ -24,7 +24,7 @@
   },
   "homepage": "https://github.com/franck34/LokiJS-Server#readme",
   "dependencies": {
-    "evillogger": "^1.2.1",
+    "evillogger": "^1.2.2",
     "fs-extra": "^7.0.1",
     "klaw-sync": "^6.0.0",
     "lokijs": "^1.5.6",
