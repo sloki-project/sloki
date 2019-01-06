@@ -36,19 +36,24 @@ function start(callback) {
     });
 }
 
-function stop() {
+function stop(callback) {
     log.warn("shutdown in progress");
     tcp.stop((err) => {
         http.stop((err) => {
             //setTimeout(() => {
                 log.info("exiting ...");
+                if (callback) {
+                    callback(err);
+                    return;
+                }
+
                 process.exit(err ? 1 : 0);
             //},2000);
         });
     });
 }
 
-if (path.resolve(process.mainModule.filename) === path.resolve(process.cwd()+'/index.js')) {
+if (module === require.main) {
     start();
 }
 
