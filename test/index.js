@@ -16,6 +16,11 @@ function prepareTests() {
             continue;
         }
 
+        if (!file.path.match(/\.js$/)) {
+            // ignore other than js files
+            continue;
+        }
+
         let testName = path.basename(file.path).replace(/\.js/,'');
         let dir = path.dirname(file.path).split('/');
         dir = dir[dir.length-1];
@@ -30,7 +35,7 @@ function runTests() {
         tests,
         (test, next) => {test.run(next)},
         () => {
-            setTimeout(server.stop, 1000);
+            setTimeout(server.stop, 200);
         }
     );
 }
