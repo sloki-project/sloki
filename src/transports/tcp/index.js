@@ -30,7 +30,7 @@ function socketHandler(socket) {
     if (!welcome) {
         log.error(
             "%s Max Clients reached (%s)",
-            `${socket.remoteAddress}:${socket.remotePort}`,
+            `${socket.id}`,
             ENV.NET_TCP_MAX_CLIENTS
         );
         socket.write(RESPONSE_SOCKET_MAX_CLIENT_REACHED,{end:true});
