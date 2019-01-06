@@ -14,6 +14,7 @@ let defaults = {
     NET_TCP_DEBUG:true,
     NET_TCP_PROMPT:'> ',
     NET_TCP_EOF:'\r\n',
+    NET_TCP_OUTPUT_FORMAT:'text',  // or json
 
     // limit number of simultaneously connected clients, for basic security reasons
     NET_TCP_MAX_CLIENTS:1,
