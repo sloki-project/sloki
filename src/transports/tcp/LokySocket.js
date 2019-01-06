@@ -58,6 +58,7 @@ function LokySocket(socket, pool) {
         socket.on("data", _socketOnData);
 
         write('LockJS-Server shell version: '+version);
+        write('Client number '+(Object.keys(pool).length+1));
         write('Current database: test');
         prompt();
     }
