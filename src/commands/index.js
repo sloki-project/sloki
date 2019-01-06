@@ -15,7 +15,7 @@ for (file of klawSync(__dirname,{depthLimit:0})) {
 
     cmdName = path.basename(file.path).replace(/\.js/,'');
     commands[cmdName] = require(file.path);
-    log.info("Command %s registered", cmdName);
+    log.info("Command '%s' registered", cmdName);
 }
 
 function exec(line, socket, callback) {
@@ -31,7 +31,7 @@ function exec(line, socket, callback) {
         cmd = cmds[i].trim();
         arr = cmd.split(" ");
         command = arr.shift();
-        params = arr.join(' ');
+        params = arr.join(" ");
 
         if (!commands[command]) {
             callback(new Error(`unknow command '${command}'`));
@@ -42,7 +42,7 @@ function exec(line, socket, callback) {
     }
 
     for (let i = 0; i<commandList.length; i++) {
-        log.info("%s exec %s %s", socket.src, commandList[i].command, commandList[i].params);
+        log.info("%s exec %s %s", socket.id, commandList[i].command, commandList[i].params);
         commands[commandList[i].command](commandList[i], callback);
     }
 

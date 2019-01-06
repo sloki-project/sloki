@@ -19,18 +19,30 @@ const sprintf = require('sprintf-js').sprintf;
 */
 function showMemoryUsage(options, callback) {
     let used = process.memoryUsage();
-    for (let key in used) {
-        options.socket.write(
-            sprintf(
-                "%-10s %10s %s",
-                key,
-                prettyBytes(used[key]),
-                ENV.NET_TCP_EOF
-            )
-        );
+
+    if (options.socket) {
+
+        if (options.socket.getOutputFormat() === "json") {
+            options.socket.write(used,{prompt:true});
+            callback && callback();
+            return;
+        }
+
+        if (options.socket.getOutputFormat() === "text") {
+            for (let key in used) {
+                options.socket.write(
+                    sprintf("%-10s %10s", key, prettyBytes(used[key])),
+                    {prompt:key==="external"}
+                );
+            }
+            callback && callback();
+            return;
+        }
+
     }
-    options.socket.write(ENV.NET_TCP_PROMPT);
+
     callback && callback();
+
 }
 
 module.exports = showMemoryUsage;

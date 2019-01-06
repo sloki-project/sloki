@@ -13,8 +13,7 @@ const ENV = require('../../env');
  * @memberof Commands
  */
  function db(options, callback) {
-     options.socket.write(options.socket.loky.currentDatabase+ENV.NET_TCP_EOF);
-     options.socket.write(ENV.NET_TCP_PROMPT);
+     options.socket.write(options.socket.loki.currentDatabase,{prompt:true});
      callback();
 }
 

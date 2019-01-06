@@ -1,24 +1,32 @@
-const log = require('evillogger')({ns:'commands:'+require('path').basename(__filename.replace(/\.js/,''))});
+const path = require('path');
+const log = require('evillogger')({ns:'commands:'+path.basename(__filename.replace(/\.js/,''))});
+const klawSync = require('klaw-sync');
 const ENV = require('../../env');
-const databases = require('../../databases');
+
+let subCommands = {};
+
+for (let file of klawSync(__dirname,{depthLimit:0})) {
+
+    if (file.path.match(/\/index/)) {
+        // ignore myself (index.js)
+        // or directories having /commands/mycommand/index.js
+        continue;
+    }
+
+    let attributeName = path.basename(file.path).replace(/\.js/,'');
+    subCommands[attributeName] = require(file.path);
+    log.info("Command 'show %s' registered", attributeName);
+}
 
 function show(options, callback) {
 
-    let fnc;
-    if (options.params === 'dbs' || options.params === 'databases') {
-        fnc = require('./databases');
+    if (subCommands[options.params]) {
+        subCommands[options.params](options, callback);
+        return;
     }
 
-    if (options.params === 'memory') {
-        fnc = require('./memory');
-    }
-
-    if (fnc) {
-        fnc(options, callback);
-    } else {
-        let error = 'missing or bad parameters (dbs|memory)';
-        callback && callback(new Error(error));
-    }
+    let error = 'missing or bad parameters ('+Object.keys(subCommands).join('|')+')';
+    callback && callback(new Error(error));
 }
 
 module.exports = show;

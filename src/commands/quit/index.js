@@ -13,8 +13,7 @@ const ENV = require('../../env');
  * @memberof Commands
  */
  function quit(options, callback) {
-     options.socket.write("bye"+ENV.NET_TCP_EOF);
-     options.socket.end();
+     options.socket.write("bye",{end:true});
      callback();
 }
 
