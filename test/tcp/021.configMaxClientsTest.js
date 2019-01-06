@@ -1,9 +1,8 @@
 const net = require('net');
 const ENV = require('../../src/env');
 const rl = require('readline');
+const tap = require('tap');
 
-const importFresh = require('import-fresh');
-const tap = importFresh('tap');
 
 let maxClients = 1;
 

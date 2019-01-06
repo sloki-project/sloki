@@ -1,9 +1,7 @@
 const net = require('net');
 const ENV = require('../../src/env');
 const rl = require('readline');
-
-const importFresh = require('import-fresh');
-const tap = importFresh('tap');
+const tap = require('tap');
 
 function run(callback) {
 
