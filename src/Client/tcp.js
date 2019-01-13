@@ -3,9 +3,10 @@ const JSONStream = require('JSONStream');
 const EventEmitter = require('events');
 const uuid = require('uuid/v4');
 const log = require('evillogger')({ns:'clientTcp'});
+const use = require('abrequire')
 
-const ENV = require('@ENV');
-const commands = require('@commands');
+const ENV = use('src/env');
+const commands = use('src/commands');
 
 class ClientTCP extends EventEmitter {
 

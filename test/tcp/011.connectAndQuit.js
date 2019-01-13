@@ -1,6 +1,7 @@
-const Client = require('@Client');
-const ENV = require('@ENV');
 const tap = require('../tap');
+const use = require('abrequire');
+const Client = use('src/Client');
+const ENV = use('src/env');
 
 
 let endpoint = 'tcp://'+ENV.NET_TCP_HOST+':'+ENV.NET_TCP_PORT;

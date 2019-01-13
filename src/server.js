@@ -2,11 +2,12 @@ const log = require('evillogger')({ns:'server'});
 const path = require('path');
 const async = require('async');
 const jayson = require('jayson');
+const use = require('abrequire');
 
-const databases = require('@databases');
 const tcp = require('./transports/tcp');
 const http = require('./transports/http');
-const ENV = require('@ENV');
+const databases = use('src/databases');
+const ENV = use('src/env');
 
 let closing = false;
 let running = false;
