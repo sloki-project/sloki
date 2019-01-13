@@ -3,7 +3,7 @@ const server = require('../src/server');
 const klawSync = require('klaw-sync');
 const path = require('path');
 const async = require('async');
-const spawnSync = require('child_process').spawnSync;
+const spawn = require('child_process').spawn;
 
 const USE_TEST_SERVER = true;
 
@@ -54,7 +54,7 @@ function runTests() {
     async.mapSeries(
         tests,
         (test, next) => {
-            let s = spawnSync(
+            let s = spawn(
                 'node',
                 [
                     'node_modules/tap/bin/run.js',
@@ -63,12 +63,11 @@ function runTests() {
                 ],
                 {stdio:'inherit'}
             );
-
-            if (s.status != 0) {
-                testFailed = true;
-            }
-
-            next();
+            
+            s.on('close', (code) => {
+                if (code != 0) testFailed = true;
+                next();
+            })
         },
         () => {
             if (USE_TEST_SERVER) {
