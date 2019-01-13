@@ -15,7 +15,9 @@ A TCP/TLS/HTTP/HTTPS Server for [LokiJS](http://lokijs.org/) using [JSONRPC](htt
 [LokiJS](http://lokijs.org/) is a document oriented database written in javascript, published under MIT License.
 Its purpose is to store javascript objects as documents in a nosql fashion and retrieve them with a similar mechanism.
 
-LokiJS-Server is a transport adapter using [JSONRPC](https://www.jsonrpc.org/) protocol. It *will* support TCP/TLS/HTTP/HTTPS
+LokiJS-Server is a transport adapter using [JSONRPC](https://www.jsonrpc.org/) protocol. It *will* support TCP/TLS/HTTP/HTTPS.
+
+It address to the lack of by-design **scalability** of LokyJS.
 
 ```
                                   JSONRPC (jayson)
