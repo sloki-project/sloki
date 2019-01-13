@@ -15,21 +15,21 @@ A TCP/TLS/HTTP/HTTPS Server for [LokiJS](http://lokijs.org/) using [JSONRPC](htt
 [LokiJS](http://lokijs.org/) is a document oriented database written in javascript, published under MIT License.
 Its purpose is to store javascript objects as documents in a nosql fashion and retrieve them with a similar mechanism.
 
-LokyJS-Server is a transport adapter using JSONRPC protocol. It *will* support TCP/TLS/HTTP/HTTPS
+LokiJS-Server is a transport adapter using [JSONRPC](https://www.jsonrpc.org/) protocol. It *will* support TCP/TLS/HTTP/HTTPS
 
 ```
                                   JSONRPC (jayson)
                                  TCP|TLS|HTTP|HTTPS
 
 +----------------------------+                         +----------------------------------+
-|                            |                         |          LokyJS-Server           |
+|                            |                         |          LokiJS-Server           |
 |       NodeJS Daemon        |<----------------------->|        (Local or Remote)         |
 |                            |                         |                                  |
 +----------------------------+                         |    +------------------------+    |
                                                        |    |                        |    |
 +----------------------------+                         |    |                        |    |
 |                            |                         |    |                        |    |
-|       NodeJS Daemon        |<----------------------->|    |         LokyJS         |    |
+|       NodeJS Daemon        |<----------------------->|    |         LokiJS         |    |
 |                            |                         |    |       (database)       |    |
 +----------------------------+                         |    |                        |    |
                                                        |    |                        |    |
@@ -44,8 +44,8 @@ LokyJS-Server is a transport adapter using JSONRPC protocol. It *will* support T
 
 Copy paste line you want)
 
-* locally: ```npm install LokyJS-Server``` or ```yarn add LokyJS-Server```
-* globaly: ```npm install -g LokyJS-Server``` or ```yarn add -g LokyJS-Server```
+* locally: ```npm install LokiJS-Server``` or ```yarn add LokiJS-Server```
+* globaly: ```npm install -g LokiJS-Server``` or ```yarn add -g LokiJS-Server```
 
 
 ## Variables
@@ -54,14 +54,14 @@ Copy paste line you want)
 
 | Name   | Default Value  | Possible values | Implemented since version
 |---|---|---|---|
-| LOKY_DIR  | ~/.lokyjs/dbs  | | 0.0.1 |
-| LOKY_TRANSPORT  | TCP | TCP\|HTTP\|TCP-HTTP | 0.0.1 |
+| LOKI_DIR  | ~/.lokijs/dbs  | | 0.0.1 |
+| LOKI_TRANSPORT  | TCP | TCP\|HTTP\|TCP-HTTP | 0.0.1 |
 
 * Command line options
 
 | Option   | Default Value  | Possible values | Implemented since version
 |---|---|---|---|
-| dir  | ~/.lokyjs/dbs  | | 0.0.1 |
+| dir  | ~/.lokijs/dbs  | | 0.0.1 |
 | transport  | TCP | TCP\|HTTP\|TCP-HTTP | 0.0.1 |
 
 

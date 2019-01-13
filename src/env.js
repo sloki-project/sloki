@@ -6,7 +6,7 @@ const homedir = require('os').homedir();
 let defaults = {
 
     // default database dir is in the home of the user
-    DATABASES_DIRECTORY:path.resolve(homedir+'/.lokyjs/dbs'),
+    DATABASES_DIRECTORY:path.resolve(homedir+'/.lokijs/dbs'),
 
     // TCP API enabled by default
     NET_TCP_PORT:6370,
@@ -36,7 +36,7 @@ if (argv.help) {
     console.log('                       LokiJS-Server                           ');
     console.log('===============================================================');
     console.log('   Environnement variable          Default')
-    console.log('       LOKY_TCP_PORT               '+env.NET_TCP_PORT);
+    console.log('       LOKI_TCP_PORT               '+env.NET_TCP_PORT);
     console.log('---------------------------------------------------------------');
     console.log('   Command Line Options            Default')
     console.log('       --dir                       '+env.DATABASES_DIRECTORY);
@@ -48,7 +48,7 @@ if (argv.help) {
     console.log('       --http-host                 '+env.NET_HTTP_HOST);
     console.log('---------------------------------------------------------------');
     console.log('Example');
-    console.log('LokyJS-Server --tcp-port=6370 --tcp-host=127.0.0.1');
+    console.log('LokiJS-Server --tcp-port=6370 --tcp-host=127.0.0.1');
     console.log();
     process.exit();
 }
@@ -60,24 +60,24 @@ if (argv.help) {
      env.DATABASES_DIRECTORY = path.resolve(process.env.LOCK_DIR);
  }
 
- if (process.env.LOKY_TCP_PORT) {
-     env.NET_TCP_PORT = parseInt(process.env.LOKY_TCP_PORT);
+ if (process.env.LOKI_TCP_PORT) {
+     env.NET_TCP_PORT = parseInt(process.env.LOKI_TCP_PORT);
  }
 
- if (process.env.LOKY_TCP_IP) {
-     env.NET_TCP_IP = process.env.LOKY_TCP_IP;
+ if (process.env.LOKI_TCP_IP) {
+     env.NET_TCP_IP = process.env.LOKI_TCP_IP;
  }
 
- if (process.env.LOKY_TCP_DEBUG) {
-     if (process.env.LOKY_TCP_DEBUG === "true") {
+ if (process.env.LOKI_TCP_DEBUG) {
+     if (process.env.LOKI_TCP_DEBUG === "true") {
          env.NET_TCP_DEBUG = true;
      } else {
          env.NET_TCP_DEBUG = false;
      }
  }
 
- if (process.env.LOKY_TCP_MAX_CLIENTS) {
-     env.NET_TCP_MAX_CLIENTS = parseInt(process.env.LOKY_TCP_MAX_CLIENTS);
+ if (process.env.LOKI_TCP_MAX_CLIENTS) {
+     env.NET_TCP_MAX_CLIENTS = parseInt(process.env.LOKI_TCP_MAX_CLIENTS);
  }
 
 
@@ -120,7 +120,7 @@ if (env.NET_TCP_PORT) {
     }
 
     if (!env.NET_TCP_MAX_CLIENTS) {
-        throw new Error("LOKY_TCP_MAX_CLIENTS must be an integer");
+        throw new Error("LOKI_TCP_MAX_CLIENTS must be an integer");
         process.exit(ERROR_EXIT_CODE);
     }
 
