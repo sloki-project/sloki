@@ -1,24 +1,25 @@
-const log = require('evillogger')({ns:'commands:'+require('path').basename(__filename.replace(/\.js/,''))});
+const log = require('evillogger')({ns:'commands'});
 const ENV = require('../../env');
-const databases = require('../../databases');
 
-function maxClients(options, callback) {
+function maxClients(params, callback) {
+    let errorBadMaxClient = {
+        code: -32602, // http://jsonrpc.org/spec.html#error_object
+        message:"setMaxClients <number> where number is >= 1"
+    }
 
-    if (!options.params) {
-        callback(new Error("set maxClients <number>"));
+    if (!params) {
+        callback(errorBadMaxClient);
         return;
     }
 
-    let maxClients = parseInt(options.params);
+    let maxClients = parseInt(params[0]);
     if (!maxClients) {
-        callback(new Error("set maxClients <number>"));
+        callback(errorBadMaxClient);
         return;
     }
 
     ENV.NET_TCP_MAX_CLIENTS = maxClients;
-
-    options.socket.write("NET_TCP_MAX_CLIENTS is now '"+ENV.NET_TCP_MAX_CLIENTS+"'",{prompt:true});
-    callback();
+    callback(null, maxClients);
 }
 
 module.exports = maxClients;

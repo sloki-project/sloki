@@ -1,23 +1,24 @@
-const log = require('evillogger')({ns:'commands:'+require('path').basename(__filename.replace(/\.js/,''))});
+const log = require('evillogger')({ns:'commands'});
 const ENV = require('../../env');
-const databases = require('../../databases');
+
+let databases;
 
 /**
  * Client ask for databases list
  *
  * @example
- * client> show dbs
+ * client> showDatabases
  * server> BYE
  *
- * @param {object} options - options.command, options.params. options.socket
+ * @param {object} params - null
  * @param {function} callback - callback
  * @memberof Commands
  */
-function showDatabases(options, callback) {
-    let dbs = databases.listSync();
-    options.socket.write(dbs,{prompt:true})
-    callback();
-    return;
+function showDatabases(params, callback) {
+    if (!databases) {
+        databases = require('../../databases');
+    }
+    callback(null, databases.listSync());
 }
 
 module.exports = showDatabases;

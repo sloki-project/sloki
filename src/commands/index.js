@@ -4,8 +4,15 @@ const path = require('path');
 
 let commands = {};
 let cmdName;
+let cmdBase;
+let reDirname = new RegExp(__dirname+'/');
+let tmp;
 
-for (file of klawSync(__dirname,{depthLimit:0})) {
+function ucFirst(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+for (file of klawSync(__dirname,{depthLimit:1, nodir:true})) {
 
     if (file.path.match(/\/index/)) {
         // ignore myself (index.js)
@@ -14,39 +21,25 @@ for (file of klawSync(__dirname,{depthLimit:0})) {
     }
 
     cmdName = path.basename(file.path).replace(/\.js/,'');
+    cmdBase = file.path.replace(reDirname,'').replace(/\.js/,'');
+    if (cmdBase.match(/\//)) {
+        tmp = cmdBase.split('/');
+        cmdName = tmp[0]+ucFirst(tmp[1]);
+    }
+    log.info("Command registered (%s)", cmdName);
     commands[cmdName] = require(file.path);
-    log.info("Command '%s' registered", cmdName);
 }
 
-function exec(line, socket, callback) {
-
-    let cmds = line.split(";");
-    let cmd;
-    let commandList = [];
-    let arr;
-    let command;
-    let params;
-
-    for (let i = 0; i<cmds.length; i++) {
-        cmd = cmds[i].trim();
-        arr = cmd.split(" ");
-        command = arr.shift();
-        params = arr.join(" ");
-
-        if (!commands[command]) {
-            callback(new Error(`unknow command '${command}'`));
-            return;
-        } else {
-            commandList.push({command:command, params:params, socket:socket});
-        }
-    }
-
-    for (let i = 0; i<commandList.length; i++) {
-        log.info("%s exec %s %s", socket.id, commandList[i].command, commandList[i].params);
-        commands[commandList[i].command](commandList[i], callback);
-    }
-
+function exec(command, params, callback) {
+    if (!commands[command]) return callback();
+    commands[command](params, callback);
 }
 
+function lookup(command) {
+    return commands[command];
+}
 
-module.exports = exec;
+module.exports = {
+    list:commands,
+    exec:exec
+}

@@ -1,6 +1,5 @@
-const log = require('evillogger')({ns:'commands:'+require('path').basename(__filename.replace(/\.js/,''))});
+const log = require('evillogger')({ns:'commands'});
 const ENV = require('../../env');
-const databases = require('../../databases');
 const prettyBytes = require('pretty-bytes');
 const sprintf = require('sprintf-js').sprintf;
 
@@ -8,41 +7,22 @@ const sprintf = require('sprintf-js').sprintf;
 * Client ask for memory usage
 *
 * @example
-* > show memory
+* > showMemory
 * rss           24.7 MB
 * heapTotal     12.8 MB
 * heapUsed      7.36 MB
 * external       292 kB*
-* @param {object} options - options.command, options.params. options.socket
+* @param {object} params - null
 * @param {function} callback - callback
 * @memberof Commands
 */
-function showMemoryUsage(options, callback) {
+function memory(params, callback) {
     let used = process.memoryUsage();
-
-    if (options.socket) {
-
-        if (options.socket.getOutputFormat() === "json") {
-            options.socket.write(used,{prompt:true});
-            callback && callback();
-            return;
-        }
-
-        if (options.socket.getOutputFormat() === "text") {
-            for (let key in used) {
-                options.socket.write(
-                    sprintf("%-10s %10s", key, prettyBytes(used[key])),
-                    {prompt:key==="external"}
-                );
-            }
-            callback && callback();
-            return;
-        }
-
+    for (let key in used) {
+        used[key] = prettyBytes(used[key]);
     }
 
-    callback && callback();
-
+    callback(null, used);
 }
 
-module.exports = showMemoryUsage;
+module.exports = memory;

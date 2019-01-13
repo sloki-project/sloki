@@ -1,4 +1,4 @@
-const log = require('evillogger')({ns:'commands:'+require('path').basename(__filename.replace(/\.js/,''))});
+const log = require('evillogger')({ns:'commands'});
 const ENV = require('../../env');
 const sprintf = require('sprintf-js').sprintf;
 const moment = require('moment');

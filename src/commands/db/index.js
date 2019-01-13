@@ -1,4 +1,4 @@
-const log = require('evillogger')({ns:'commands:'+require('path').basename(__filename.replace(/\.js/,''))});
+const log = require('evillogger')({ns:'commands'});
 const ENV = require('../../env');
 
 /**
@@ -8,13 +8,12 @@ const ENV = require('../../env');
  * > db
  * test
  *
- * @param {object} options - options.command, options.params. options.socket
+ * @param {object} params - database name
  * @param {function} callback - callback
  * @memberof Commands
  */
- function db(options, callback) {
+ function db(params, callback) {
      options.socket.write(options.socket.loki.currentDatabase,{prompt:true});
-     callback();
 }
 
 module.exports = db;
