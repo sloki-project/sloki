@@ -69,6 +69,10 @@ Copy paste line you want)
 
 ## Current state
 
+**WORK IN PROGRESS**
+
+**NOT USABLE YET**
+
 See [CHANGELOG.md](/CHANGELOG.md)
 
 
