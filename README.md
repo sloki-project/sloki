@@ -1,5 +1,5 @@
 # LokiJS-Server
-A TCP/TLS/HTTP/HTTPS Server for [LokiJS](http://lokijs.org/) using JSONRPC ([Jayson](https://github.com/tedeh/jayson))
+A TCP/TLS/HTTP/HTTPS Server for [LokiJS](http://lokijs.org/) using [JSONRPC](https://www.jsonrpc.org/) ([Jayson](https://github.com/tedeh/jayson))
 
 [![Join the chat at https://gitter.im/techfort/LokiJS](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/LokiJS-Server/community)
 [![alt CI-badge](https://travis-ci.org/franck34/LokiJS-Server.svg?branch=master)](https://travis-ci.org/franck34/LokiJS-Server)
@@ -14,8 +14,6 @@ A TCP/TLS/HTTP/HTTPS Server for [LokiJS](http://lokijs.org/) using JSONRPC ([Jay
 
 [LokiJS](http://lokijs.org/) is a document oriented database written in javascript, published under MIT License.
 Its purpose is to store javascript objects as documents in a nosql fashion and retrieve them with a similar mechanism.
-Runs in node (including cordova/phonegap and node-webkit),  [nativescript](http://www.nativescript.org) and the browser.
-LokiJS is ideal for the following scenarios:
 
 LokyJS-Server is a transport adapter using JSONRPC protocol. It *will* support TCP/TLS/HTTP/HTTPS
 
