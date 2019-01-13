@@ -5,7 +5,7 @@ const path = require('path');
 const async = require('async');
 const spawnSync = require('child_process').spawnSync;
 
-const USE_LOCAL_SERVER = true;
+const USE_TEST_SERVER = true;
 
 let tests = {};
 let testName;
@@ -71,7 +71,7 @@ function runTests() {
             next();
         },
         () => {
-            if (USE_LOCAL_SERVER) {
+            if (USE_TEST_SERVER) {
                 server.stop(endTests);
             } else {
                 endTests();
@@ -81,7 +81,7 @@ function runTests() {
 }
 
 
-if (USE_LOCAL_SERVER) {
+if (USE_TEST_SERVER) {
     server.start((err) => {
         if (err) {
             throw new Error(err);
