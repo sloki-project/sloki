@@ -17,7 +17,7 @@ let defaults = {
     NET_TCP_OUTPUT_FORMAT:'text',  // or json
 
     // limit number of simultaneously connected clients, for basic security reasons
-    NET_TCP_MAX_CLIENTS:64,
+    NET_TCP_MAX_CLIENTS:1,
 
     // HTTP API is disabled by default for moment (not implemented yet)
     NET_HTTP_PORT:null,
