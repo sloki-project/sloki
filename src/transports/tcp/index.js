@@ -1,88 +1,121 @@
 const log = require('evillogger')({ns:'transports:tcp'});
 const ENV = require('../../env');
-const net = require('net');
-
-const LokySocket = require('./LokySocket');
-
-let server;
-let sockets = {};
+const jayson = require('jayson');
+const commandsList = require('../../commands').list;
 
 const RESPONSE_SOCKET_SERVER_SHUTDOWN = "ESERVER_SHUTDOWN";
 const RESPONSE_SOCKET_MAX_CLIENT_REACHED = "EMAX_CLIENT_REACHED";
 
-function socketCount() {
-    return Object.keys(sockets).length;
+const errors = {
+    MAX_CLIENT_REACHED:{
+        code: -32000,
+        message:"Max Clients Reached"
+    },
+    SERVER_SHUTDOWN:{
+        code: -32001,
+        message:"Server shutdown"
+    }
 }
 
-function socketClose(socket) {
-    delete sockets[socket.id];
+let jaysonServer;
+let tcpServer;
+let sockets = {};
+
+function _onServerListen(err) {
+    if (err) {
+        console.log(err);
+        throw new Error(err);
+        process.exit(1);
+    }
+
+    log.info(
+        "TCP Server listening at %s:%s (maxClients %s)",
+        ENV.NET_TCP_HOST,
+        ENV.NET_TCP_PORT,
+        ENV.NET_TCP_MAX_CLIENTS
+    );
 }
 
-function socketHandler(socket) {
+function _handleMaxClients(socket) {
 
-    //log.info(socketCount(), ENV.NET_TCP_MAX_CLIENTS, socketCount()>ENV.NET_TCP_MAX_CLIENTS)
+    this.options.router = (method, params) => {
+        return this.options.routerTcp(method, params, socket);
+    }
 
-    welcome = socketCount()<ENV.NET_TCP_MAX_CLIENTS
+    socket.id = `${socket.remoteAddress}:${socket.remotePort}`;
 
-    socket = new LokySocket(socket, sockets, welcome);
-    socket.onClose(socketClose);
-
-    if (!welcome) {
+    if (_maxClientsReached()) {
         log.warn(
-            "%s Max Clients reached (%s)",
-            `${socket.id}`,
+            '%s: refusing connection, number of connection: %s, allowed: %s',
+            socket.id,
+            tcpServer._connections-1,
             ENV.NET_TCP_MAX_CLIENTS
         );
-        socket.write(RESPONSE_SOCKET_MAX_CLIENT_REACHED,{end:true});
+
+        // if client is just a tcp connect (prevent kind of slowLoris attack)
+        setTimeout(() => {
+            socket.end();
+        },200);
         return;
     }
+
+    socket.on('end', () => {
+        log.info("%s: client disconnected", socket.id);
+        delete sockets[socket.id];
+    });
 
     sockets[socket.id] = socket;
+    log.info("%s: client connected", socket.id);
+
 }
 
+function _maxClientsReached() {
+    return tcpServer._connections>ENV.NET_TCP_MAX_CLIENTS;
+
+}
+
+function _maxClientsReachedResponse(params, callback) {
+    callback(errors.MAX_CLIENT_REACHED);
+}
 
 function start(callback) {
+
     if (!ENV.NET_TCP_PORT) {
-        callback();
+        callback(new Error('ENV.NET_TCP_PORT unavailable'));
         return;
     }
 
-    function onServerListen(err) {
-        if (err) {
-            log.error(err);
-            if (!callback) {
-                process.exit(1);
-            } else {
-                callback(err);
+    jaysonServer = jayson.server(
+        null, // no handlers, because we are using a router (below)
+        {
+            routerTcp: (method, params, socket) => {
+                if (_maxClientsReached()) {
+                    return _maxClientsReachedResponse;
+                }
+                if (commandsList[method]) {
+                    log.info('%s: exec %s', socket.id, method);
+                    return commandsList[method].bind(socket);
+                }
             }
         }
-
-        log.info(
-            "TCP Server listening at %s:%s",
-            ENV.NET_TCP_HOST,
-            ENV.NET_TCP_PORT
-        );
-
-        callback && callback();
-    }
-
-    server = net.createServer(socketHandler);
-
-    server.listen(
-        ENV.NET_TCP_PORT,
-        ENV.NET_TCP_HOST,
-        onServerListen
     );
+
+    tcpServer = jaysonServer.tcp();
+    tcpServer.on('connection', _handleMaxClients);
+    tcpServer.on('listening', _onServerListen);
+    tcpServer.listen(ENV.NET_TCP_PORT, ENV.NET_TCP_HOST);
+    callback && callback();
 }
 
 function stop(callback) {
     for (id in sockets) {
-        sockets[id].setQuiet(true);
-        sockets[id].write(RESPONSE_SOCKET_SERVER_SHUTDOWN,{end:true});
-        log.warn("%s connection closed", id);
+        sockets[id].write(JSON.stringify({error:errors.SERVER_SHUTDOWN}));
+        sockets[id].end();
+        log.warn("%s: force disconnection", id);
         delete sockets[id];
     }
-    server.close(() => {
+
+    tcpServer.close(() => {
         callback && callback();
     });
 
