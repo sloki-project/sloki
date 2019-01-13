@@ -10,6 +10,7 @@ const USE_LOCAL_SERVER = true;
 let tests = {};
 let testName;
 let dir;
+let testFailed = false;
 
 function prepareTests() {
     for (let file of klawSync(__dirname,{depthLimit:1, nodir:true})) {
@@ -32,6 +33,11 @@ function prepareTests() {
         tests[testName] = file.path;
         log.info("Test registered (%s)", testName);
     }
+}
+
+function endTests() {
+    if (testFailed) process.exit(-1);
+    process.exit(0);
 }
 
 function runTests() {
@@ -58,13 +64,17 @@ function runTests() {
                 {stdio:'inherit'}
             );
 
+            if (s.status != 0) {
+                testFailed = true;
+            }
+
             next();
         },
         () => {
             if (USE_LOCAL_SERVER) {
-                server.stop(process.exit);
+                server.stop(endTests);
             } else {
-                process.exit();
+                endTests();
             }
         }
     );
