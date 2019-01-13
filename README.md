@@ -72,4 +72,10 @@ Copy paste line you want)
 See [CHANGELOG.md](/CHANGELOG.md)
 
 
-## Roadmap (TODO)
+## Roadmap
+
+- [ ] TCP Client
+- [ ] TLS Client
+- [ ] HTTP Client
+- [ ] HTTPS Client
+- [ ] CLI
