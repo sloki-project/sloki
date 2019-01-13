@@ -1,5 +1,5 @@
 # LokiJS-Server
-A TCP/HTTP Server for [LokiJS](http://lokijs.org/)
+A TCP/TLS/HTTP/HTTPS Server for [LokiJS](http://lokijs.org/) using JSONRPC ([Jayson](https://github.com/tedeh/jayson))
 
 [![Join the chat at https://gitter.im/techfort/LokiJS](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/LokiJS-Server/community)
 [![alt CI-badge](https://travis-ci.org/franck34/LokiJS-Server.svg?branch=master)](https://travis-ci.org/franck34/LokiJS-Server)
