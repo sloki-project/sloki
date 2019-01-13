@@ -79,3 +79,7 @@ See [CHANGELOG.md](/CHANGELOG.md)
 - [ ] HTTP Client
 - [ ] HTTPS Client
 - [ ] CLI
+- [ ] TCP Benchmark
+- [ ] TLS Benchmark
+- [ ] HTTP Benchmark
+- [ ] HTTPS Benchmark
