@@ -76,7 +76,7 @@ See [CHANGELOG.md](/CHANGELOG.md)
 
 | Status             | Transport            | Notes               
 |--------------------|----------------------|--------------------------------
-| :white_check_mark:  | TCP                 |
+| :white_check_mark: | TCP                  | Persistant connection
 | :red_circle:       | TLS                  |
 | :red_circle:       | HTTP                 |
 | :red_circle:       | HTTPS                |
@@ -86,7 +86,7 @@ See [CHANGELOG.md](/CHANGELOG.md)
 
 | Status             | Transport            | Notes               
 |--------------------|----------------------|--------------------------------
-| :red_circle:       | TCP                  | With persistant connection
+| :red_circle:       | TCP                  | Persistant connection
 | :red_circle:       | TLS                  |
 | :red_circle:       | HTTP                 |
 | :red_circle:       | HTTPS                |
@@ -94,7 +94,7 @@ See [CHANGELOG.md](/CHANGELOG.md)
 
 #### Extra Tools
 
-| Status               | Tool               | Notes               
+| Status             | Tool                 | Notes               
 |--------------------|----------------------|--------------------------------
 | :red_circle:       | CLI                  | CLI using TCP transport
 
