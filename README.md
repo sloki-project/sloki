@@ -50,7 +50,46 @@ Copy paste line you want)
 * globaly: ```npm install -g LokiJS-Server``` or ```yarn add -g LokiJS-Server```
 
 
-## Variables
+## Current state
+
+**WORK IN PROGRESS**
+
+**NOT USABLE YET**
+
+See [CHANGELOG.md](/CHANGELOG.md)
+
+
+### API Roadmap
+- [x] quit (for TCP clients only)
+- [x] shutdown (shutdown LokiJS-Server)
+- [x] showMemory (return memory usage)
+- [x] showClients (return TCP connected clients list)
+- [x] showCommands (return available commands)
+- [x] showDatabases (return available databases)
+
+### Transports Roadmap
+
+- [ ] TCP Client
+- [ ] TLS Client
+- [ ] HTTP Client
+- [ ] HTTPS Client
+
+### Benchmarks
+
+- [ ] TCP Benchmark
+- [ ] TLS Benchmark
+- [ ] HTTP Benchmark
+- [ ] HTTPS Benchmark
+
+### Tools
+- [ ] CLI (will use TCP client)
+
+### Improvements on top of LokiJS
+- [ ] Authentication
+
+
+
+## Boot options
 
 * Environnement variables
 
@@ -65,41 +104,3 @@ Copy paste line you want)
 |---|---|---|---|
 | dir  | ~/.lokijs/dbs  | | 0.0.1 |
 | transport  | TCP | TCP\|HTTP\|TCP-HTTP | 0.0.1 |
-
-
-## Current state
-
-**WORK IN PROGRESS**
-
-**NOT USABLE YET**
-
-See [CHANGELOG.md](/CHANGELOG.md)
-
-
-## API Roadmap
-- [x] quit (for TCP clients only)
-- [x] shutdown (shutdown LokiJS-Server)
-- [x] showMemory (return memory usage)
-- [x] showClients (return TCP connected clients list)
-- [x] showCommands (return available commands)
-- [x] showDatabases (return available databases)
-
-## Transport Roadmap
-
-- [ ] TCP Client
-- [ ] TLS Client
-- [ ] HTTP Client
-- [ ] HTTPS Client
-
-## Benchmarks
-
-- [ ] TCP Benchmark
-- [ ] TLS Benchmark
-- [ ] HTTP Benchmark
-- [ ] HTTPS Benchmark
-
-## Tools
-- [ ] CLI (will use TCP client)
-
-## Improvements on top of LokiJS
-- [ ] Authentication
