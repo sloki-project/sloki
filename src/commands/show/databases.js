@@ -1,7 +1,6 @@
 const log = require('evillogger')({ns:'commands'});
 const ENV = require('../../env');
-
-let databases;
+const databases = require('../../databases');
 
 /**
  * Client ask for databases list
@@ -15,9 +14,6 @@ let databases;
  * @memberof Commands
  */
 function showDatabases(params, callback) {
-    if (!databases) {
-        databases = require('../../databases');
-    }
     callback(null, databases.listSync());
 }
 
