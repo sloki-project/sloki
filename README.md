@@ -59,7 +59,7 @@ Copy paste line you want)
 See [CHANGELOG.md](/CHANGELOG.md)
 
 
-* Commands
+* Commands implementation
 
     - [x] quit (for TCP clients only)
     - [x] shutdown (shutdown LokiJS-Server)
@@ -69,7 +69,7 @@ See [CHANGELOG.md](/CHANGELOG.md)
     - [x] showDatabases (return available databases)
 
 
-* Transports
+* Transports implementation
 
     - [x] TCP Client
     - [ ] TLS Client
