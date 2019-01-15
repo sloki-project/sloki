@@ -66,34 +66,40 @@ class ClientTCP extends EventEmitter {
                 return resolve();
             });
 
-            this.private.conn.pipe(this.private.jsonstream);
-
             //his.conn.setTimeout(this.defaults.timeout);
 
             this.private.conn.on('timeout', () => {
-                log.debug('onTimeout');
+                this.emit('timeout');
+                log.info('onTimeout');
                 this._close();
             });
 
             this.private.conn.on('error', (err) => {
+                this.emit('error', err);
                 log.error('onError', err.message);
                 this.private.conn.destroy();
             });
 
             this.private.conn.on('close', () => {
+                this.emit('close');
                 log.debug('onClose');
                 this.private.isConnected = false;
             });
 
             this.private.conn.on('end', () => {
+                this.emit('end');
                 log.debug('onEnd');
                 this.private.isConnected = false;
+
             });
 
             this.private.conn.on('destroy', () => {
-                log.debug('_onDestroy');
+                this.emit('destroy');
+                log.info('_onDestroy');
                 this.private.isConnected = false;
             });
+
+            this.private.conn.pipe(this.private.jsonstream);
 
         });
     }
@@ -112,7 +118,11 @@ class ClientTCP extends EventEmitter {
         }
 
         if (params != null && params != undefined) {
-            req.params = params;
+            if (typeof params === "number" || typeof params === "string") {
+                req.params = [params];
+            } else {
+                req.params = params;
+            }
         }
 
         this.private.conn.write(JSON.stringify(req));
