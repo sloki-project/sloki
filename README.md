@@ -59,7 +59,7 @@ Copy paste line you want)
 See [CHANGELOG.md](/CHANGELOG.md)
 
 
-* Commands implementation
+#### Commands implementation
 
 | Status             | Command           | Parameter | Description                
 |--------------------|-------------------|-----------|----------------------------
@@ -72,8 +72,7 @@ See [CHANGELOG.md](/CHANGELOG.md)
 | :white_check_mark:  | db               |           | mongodb like, return current selected databases
 | :red_circle:        | use              | database  | mongodb like, select a database
 
-
-* Transports implementation
+#### Transports implementation
 
 | Status             | Transport            | Notes               
 |--------------------|----------------------|--------------------------------
@@ -83,7 +82,7 @@ See [CHANGELOG.md](/CHANGELOG.md)
 | :red_circle:       | HTTPS                |
 
 
-* Benchmarks
+#### Benchmarks
 
 | Status             | Transport            | Notes               
 |--------------------|----------------------|--------------------------------
@@ -93,14 +92,14 @@ See [CHANGELOG.md](/CHANGELOG.md)
 | :red_circle:       | HTTPS                |
 
 
-* Extra Tools
+#### Extra Tools
 
 | Status               | Tool               | Notes               
 |--------------------|----------------------|--------------------------------
 | :red_circle:       | CLI                  | CLI using TCP transport
 
 
-* Improvements on top of LokiJS
+#### Improvements on top of LokiJS
 
 | Status             | Improvement          | Notes               
 |--------------------|----------------------|--------------------------------
