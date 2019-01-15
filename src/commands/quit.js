@@ -13,7 +13,7 @@ const ENV = require('../env');
  * @memberof Commands
  */
  function quit(params, callback) {
-     callback(null,"bye");
+     callback(null, "bye");
      this.end();
 }
 
