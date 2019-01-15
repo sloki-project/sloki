@@ -1,22 +1,19 @@
 const tap = require('../tap');
 const use = require('abrequire');
 const Client = use('src/Client');
-const ENV = use('src/env');
+const endpoint = require('../endpoints').tcp;
 
-
-let endpoint = 'tcp://'+ENV.NET_TCP_HOST+':'+ENV.NET_TCP_PORT;
+let tcpClient = new Client(endpoint);
 
 tap.test(
     __filename,
     {timeout:200},
     (t) => {
-        let myClient = new Client(endpoint);
-
-        myClient
+        tcpClient
             .connect()
             .then(() => {
-                t.pass("connected");
-                myClient.close();
+                t.pass("should be connected");
+                tcpClient.close();
                 t.end();
                 process.exit(0);
             });

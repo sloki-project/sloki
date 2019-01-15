@@ -15,7 +15,7 @@ let testFailed = false;
 function prepareTests() {
     for (let file of klawSync(__dirname,{depthLimit:1, nodir:true})) {
 
-        if (file.path.match(/\/index|\/tap/)) {
+        if (file.path.match(/\/index|\/tap|\/endpoint/)) {
             // ignore myself (index.js)
             // or directories having /commands/mycommand/index.js
             continue;
@@ -63,7 +63,7 @@ function runTests() {
                 ],
                 {stdio:'inherit'}
             );
-            
+
             s.on('close', (code) => {
                 if (code != 0) testFailed = true;
                 next();
