@@ -78,8 +78,11 @@ See [CHANGELOG.md](/CHANGELOG.md)
 
 ## API Roadmap
 - [x] quit (for TCP clients only)
-- [x] shutdown (will shutdown LokiJS-Server)
-- [x] showMemory (return LokyJS-Server memory usage)
+- [x] shutdown (shutdown LokiJS-Server)
+- [x] showMemory (return memory usage)
+- [x] showClients (return TCP connected clients list)
+- [x] showCommands (return available commands)
+- [x] showDatabases (return available databases)
 
 ## Transport Roadmap
 
@@ -97,3 +100,6 @@ See [CHANGELOG.md](/CHANGELOG.md)
 
 ## Tools
 - [ ] CLI (will use TCP client)
+
+## Improvements on top of LokiJS
+- [ ] Authentication
