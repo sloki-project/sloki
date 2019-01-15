@@ -14,11 +14,14 @@ tap.test(
     (t) => {
         tcpClient
             .connect()
-            .then(() => {
+            .then((err) => {
+                t.deepEqual(err, undefined, 'connect should not return an error');
+
                 t.test(
                     "showMemory",
                     (tShowMemory)  => {
                         tcpClient.showMemory((err, result) => {
+                            tShowMemory.deepEqual(err, undefined, 'command should not return an error');
 
                             // example
                             // { rss: '34.7 MB', heapTotal: '18.2 MB', heapUsed: '13.3 MB', external: '2.39 MB' }

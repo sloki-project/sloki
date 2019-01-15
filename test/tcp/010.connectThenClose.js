@@ -11,7 +11,8 @@ tap.test(
     (t) => {
         tcpClient
             .connect()
-            .then(() => {
+            .then((err) => {
+                t.deepEqual(err, undefined, 'connect should not return an error');
                 t.pass("should be connected");
                 tcpClient.close();
                 t.end();

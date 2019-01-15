@@ -11,10 +11,12 @@ tap.test(
     (t) => {
         tcpClient
             .connect()
-            .then(() => {
+            .then((err) => {
+                t.deepEqual(err, undefined, 'connect should not return an error');
                 t.pass("should be connected");
                 try {
                     tcpClient.quit((err) => {
+                        t.deepEqual(err, undefined, 'command should not return an error');
                         t.pass("should be disconnected by the server");
                         t.end();
                         process.exit(0);

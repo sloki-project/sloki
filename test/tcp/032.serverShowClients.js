@@ -12,18 +12,22 @@ tap.test(
     (t) => {
         tcpClient
             .connect()
-            .then(() => {
+            .then((err) => {
+                t.deepEqual(err, undefined, 'connect should not return an error');
+
                 t.test(
                     "showClients",
                     (tShowClients)  => {
                         tcpClient.showClients((err, result) => {
+                            tShowClients.deepEqual(err, undefined, 'command should not return an error');
+
                             // example
                             // [ '127.0.0.1:1619' ]
-                            t.equal(
+                            tShowClients.equal(
                                 result.length,
                                 1,
-                                "should return only one connected client
-                            ");
+                                "should return only one connected client"
+                            );
                             tShowClients.end();
                             t.end();
                             process.exit(0);
