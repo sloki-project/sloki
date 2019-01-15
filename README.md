@@ -61,16 +61,16 @@ See [CHANGELOG.md](/CHANGELOG.md)
 
 * Commands implementation
 
-| Status   | Command          | Parameter | Description                
-|----------|------------------|-----------|----------------------------
-| &#9745;  | quit             |           | TCP only: client disconnect
-| &#9745;  | shutdown         |           | shutdown LokiJS-Server
-| &#9745;  | showMemory       |           | return LokiJS-Server memory usage
-| &#9745;  | showClients      |           | return tcp server connected clients
-| &#9745;  | showCommands     |           | return available commands
-| &#9745;  | showDatabases    |           | return available databases
-| &#9745;  | db               |           | mongodb like, return current selected databases
-| &#9744;  | use              | database  | mongodb like, select a database
+| Status             | Command          | Parameter | Description                
+|--------------------|------------------|-----------|----------------------------
+| :white_check_mark: | quit             |           | TCP only: client disconnect
+| :white_check_mark:  | shutdown         |           | shutdown LokiJS-Server
+| :white_check_mark:  | showMemory       |           | return LokiJS-Server memory usage
+| :white_check_mark:  | showClients      |           | return tcp server connected clients
+| :white_check_mark:  | showCommands     |           | return available commands
+| :white_check_mark:  | showDatabases    |           | return available databases
+| :white_check_mark:  | db               |           | mongodb like, return current selected databases
+| :red_circle:        | use              | database  | mongodb like, select a database
 
 
 * Transports implementation
