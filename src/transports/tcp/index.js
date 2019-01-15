@@ -3,9 +3,6 @@ const ENV = require('../../env');
 const jayson = require('jayson');
 const commandsList = require('../../commands').list;
 
-const RESPONSE_SOCKET_SERVER_SHUTDOWN = "ESERVER_SHUTDOWN";
-const RESPONSE_SOCKET_MAX_CLIENT_REACHED = "EMAX_CLIENT_REACHED";
-
 const errors = {
     MAX_CLIENT_REACHED:{
         code: -32000,
