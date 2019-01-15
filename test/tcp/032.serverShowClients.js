@@ -1,7 +1,6 @@
 const tap = require('../tap');
 const use = require('abrequire');
 const endpoint = require('../endpoints').tcp;
-
 const Client = use('src/Client');
 
 let tcpClient = new Client(endpoint);

@@ -1,12 +1,9 @@
 const tap = require('../tap');
 const use = require('abrequire');
 const endpoint = require('../endpoints').tcp;
-
 const Client = use('src/Client');
-const ENV = use('src/env');
 
 let tcpClient = new Client(endpoint);
-let maxClients = ENV.NET_TCP_MAX_CLIENTS;
 
 tap.test(
     __filename,
