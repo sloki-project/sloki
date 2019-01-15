@@ -32,10 +32,10 @@ function _onServerListen(err) {
     );
 }
 
-function _handleMaxClients(socket) {
+function _handleMaxClients(server, socket) {
 
-    this.options.router = (method, params) => {
-        return this.options.routerTcp(method, params, socket);
+    server.options.router = (method, params) => {
+        return server.options.routerTcp(method, params, socket);
     }
 
     socket.id = `${socket.remoteAddress}:${socket.remotePort}`;
@@ -52,7 +52,7 @@ function _handleMaxClients(socket) {
         setTimeout(() => {
             socket.end();
         },200);
-        return;
+        return false;
     }
 
     socket.on('end', () => {
@@ -62,7 +62,15 @@ function _handleMaxClients(socket) {
 
     tcpServer.clients[socket.id] = socket;
     log.info("%s: client connected", socket.id);
+    return true;
+}
 
+function _onConnect(socket) {
+    if (_handleMaxClients(this, socket)) {
+        socket.loki = {
+            currentDatabase:'test'
+        };
+    }
 }
 
 function _maxClientsReached() {
@@ -98,7 +106,7 @@ function start(callback) {
 
     tcpServer = jaysonServer.tcp();
     tcpServer.clients = {};
-    tcpServer.on('connection', _handleMaxClients);
+    tcpServer.on('connection', _onConnect);
     tcpServer.on('listening', _onServerListen);
     tcpServer.listen(ENV.NET_TCP_PORT, ENV.NET_TCP_HOST);
     callback && callback();

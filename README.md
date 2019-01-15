@@ -67,6 +67,7 @@ See [CHANGELOG.md](/CHANGELOG.md)
     - [x] showClients (return TCP connected clients list)
     - [x] showCommands (return available commands)
     - [x] showDatabases (return available databases)
+    - [x] db (return current selected database)
 
 
 * Transports implementation
