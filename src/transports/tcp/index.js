@@ -16,7 +16,6 @@ const errors = {
 
 let jaysonServer;
 let tcpServer;
-let sockets = {};
 
 function _onServerListen(err) {
     if (err) {
@@ -58,10 +57,10 @@ function _handleMaxClients(socket) {
 
     socket.on('end', () => {
         log.info("%s: client disconnected", socket.id);
-        delete sockets[socket.id];
+        delete tcpServer.clients[socket.id];
     });
 
-    sockets[socket.id] = socket;
+    tcpServer.clients[socket.id] = socket;
     log.info("%s: client connected", socket.id);
 
 }
@@ -98,6 +97,7 @@ function start(callback) {
     );
 
     tcpServer = jaysonServer.tcp();
+    tcpServer.clients = {};
     tcpServer.on('connection', _handleMaxClients);
     tcpServer.on('listening', _onServerListen);
     tcpServer.listen(ENV.NET_TCP_PORT, ENV.NET_TCP_HOST);
@@ -105,11 +105,11 @@ function start(callback) {
 }
 
 function stop(callback) {
-    for (id in sockets) {
-        sockets[id].write(JSON.stringify({error:errors.SERVER_SHUTDOWN}));
-        sockets[id].end();
+    for (id in tcpServer.clients) {
+        tcpServer.clients[id].write(JSON.stringify({error:errors.SERVER_SHUTDOWN}));
+        tcpServer.clients[id].end();
         log.warn("%s: force disconnection", id);
-        delete sockets[id];
+        delete tcpServer.clients[id];
     }
 
     tcpServer.close(() => {
