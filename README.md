@@ -63,7 +63,7 @@ See [CHANGELOG.md](/CHANGELOG.md)
 
 | Status   | Command  | Parameter | Description                 |
 |----------|----------|-----------|-----------------------------|
-| - [x]    | quit     |           | TCP only: client disconnect |
+| <ul><li>- [x]</li></ul>    | quit     |           | TCP only: client disconnect |
     - [x] quit (for TCP clients only)
     - [x] shutdown (shutdown LokiJS-Server)
     - [x] showMemory (return memory usage)
