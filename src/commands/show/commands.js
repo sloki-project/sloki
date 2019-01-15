@@ -10,7 +10,7 @@ const ENV = require('../../env');
 * command2
 * ...
 *
-* @param {object} params - null
+* @param {object} params - not used
 * @param {function} callback - callback
 * @memberof Commands
 */

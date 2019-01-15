@@ -8,8 +8,8 @@ require('moment-duration-format');
  * Client ask for clients list
  *
  * @example
- * > show clients
- * ...
+ * > showClients
+ * ['127.0.0.1:1379']
  *
  * @param {object} params - not used
  * @param {function} callback - callback

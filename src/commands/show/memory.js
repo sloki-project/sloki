@@ -8,11 +8,8 @@ const sprintf = require('sprintf-js').sprintf;
 *
 * @example
 * > showMemory
-* rss           24.7 MB
-* heapTotal     12.8 MB
-* heapUsed      7.36 MB
-* external       292 kB*
-* @param {object} params - null
+* {"rss":"24.7 MB", "heapTotal":"12.8 MB", "heapUsed":"7.36 MB", "external":"292 kB*}
+* @param {object} params - not used
 * @param {function} callback - callback
 * @memberof Commands
 */

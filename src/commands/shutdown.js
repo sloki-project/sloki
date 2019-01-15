@@ -10,9 +10,8 @@ let server;
  *
  * @example
  * > shutdown
- * bye
  *
- * @param {object} params
+ * @param {object} params - not used
  * @param {function} callback - callback
  * @memberof Commands
  */

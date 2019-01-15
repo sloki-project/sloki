@@ -8,7 +8,7 @@ const ENV = require('../env');
  * > quit
  * bye
  *
- * @param {object} params - params
+ * @param {object} params - not used
  * @param {function} callback - callback
  * @memberof Commands
  */

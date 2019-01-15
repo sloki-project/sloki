@@ -10,7 +10,7 @@ let databases;
  * client> showDatabases
  * server> BYE
  *
- * @param {object} params - null
+ * @param {object} params - not used
  * @param {function} callback - callback
  * @memberof Commands
  */
