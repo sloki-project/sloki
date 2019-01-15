@@ -59,33 +59,40 @@ Copy paste line you want)
 See [CHANGELOG.md](/CHANGELOG.md)
 
 
-### API Roadmap
-- [x] quit (for TCP clients only)
-- [x] shutdown (shutdown LokiJS-Server)
-- [x] showMemory (return memory usage)
-- [x] showClients (return TCP connected clients list)
-- [x] showCommands (return available commands)
-- [x] showDatabases (return available databases)
+* Commands
 
-### Transports Roadmap
+    - [x] quit (for TCP clients only)
+    - [x] shutdown (shutdown LokiJS-Server)
+    - [x] showMemory (return memory usage)
+    - [x] showClients (return TCP connected clients list)
+    - [x] showCommands (return available commands)
+    - [x] showDatabases (return available databases)
 
-- [ ] TCP Client
-- [ ] TLS Client
-- [ ] HTTP Client
-- [ ] HTTPS Client
 
-### Benchmarks
+* Transports
 
-- [ ] TCP Benchmark
-- [ ] TLS Benchmark
-- [ ] HTTP Benchmark
-- [ ] HTTPS Benchmark
+    - [x] TCP Client
+    - [ ] TLS Client
+    - [ ] HTTP Client
+    - [ ] HTTPS Client
 
-### Tools
-- [ ] CLI (will use TCP client)
 
-### Improvements on top of LokiJS
-- [ ] Authentication
+* Benchmarks
+
+    - [ ] TCP Benchmark
+    - [ ] TLS Benchmark
+    - [ ] HTTP Benchmark
+    - [ ] HTTPS Benchmark
+
+
+* Extra Tools
+
+    - [ ] CLI (will use TCP client)
+
+
+* Improvements on top of LokiJS
+
+    - [ ] Authentication
 
 
 
@@ -95,12 +102,12 @@ See [CHANGELOG.md](/CHANGELOG.md)
 
 | Name   | Default Value  | Possible values | Implemented since version
 |---|---|---|---|
-| LOKI_DIR  | ~/.lokijs/dbs  | | 0.0.1 |
-| LOKI_TRANSPORT  | TCP | TCP\|HTTP\|TCP-HTTP | 0.0.1 |
+| LOKI_DIR  | ~/.lokijs/dbs  | | 0.0.0 |
+| LOKI_TRANSPORT  | TCP | TCP\|HTTP\|TCP-HTTP | 0.0.0 |
 
 * Command line options
 
 | Option   | Default Value  | Possible values | Implemented since version
 |---|---|---|---|
-| dir  | ~/.lokijs/dbs  | | 0.0.1 |
-| transport  | TCP | TCP\|HTTP\|TCP-HTTP | 0.0.1 |
+| dir  | ~/.lokijs/dbs  | | 0.0.0 |
+| transport  | TCP | TCP\|HTTP\|TCP-HTTP | 0.0.0 |
