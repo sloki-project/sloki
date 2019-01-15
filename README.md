@@ -76,14 +76,24 @@ Copy paste line you want)
 See [CHANGELOG.md](/CHANGELOG.md)
 
 
-## Roadmap
+## API Roadmap
+- [x] quit (for TCP clients only)
+- [x] shutdown (will shutdown LokiJS-Server)
+- [x] showMemory (return LokyJS-Server memory usage)
+
+## Transport Roadmap
 
 - [ ] TCP Client
 - [ ] TLS Client
 - [ ] HTTP Client
 - [ ] HTTPS Client
-- [ ] CLI
+
+## Benchmarks
+
 - [ ] TCP Benchmark
 - [ ] TLS Benchmark
 - [ ] HTTP Benchmark
 - [ ] HTTPS Benchmark
+
+## Tools
+- [ ] CLI (will use TCP client)
