@@ -61,9 +61,9 @@ See [CHANGELOG.md](/CHANGELOG.md)
 
 * Commands implementation
 
-| Status             | Command          | Parameter | Description                
-|--------------------|------------------|-----------|----------------------------
-| :white_check_mark: | quit             |           | TCP only: client disconnect
+| Status             | Command           | Parameter | Description                
+|--------------------|-------------------|-----------|----------------------------
+| :white_check_mark: | quit              |           | TCP only: client disconnect
 | :white_check_mark:  | shutdown         |           | shutdown LokiJS-Server
 | :white_check_mark:  | showMemory       |           | return LokiJS-Server memory usage
 | :white_check_mark:  | showClients      |           | return tcp server connected clients
@@ -75,28 +75,36 @@ See [CHANGELOG.md](/CHANGELOG.md)
 
 * Transports implementation
 
-    - [x] TCP Client
-    - [ ] TLS Client
-    - [ ] HTTP Client
-    - [ ] HTTPS Client
+| Status             | Transport            | Notes               
+|--------------------|----------------------|--------------------------------
+| :white_check_mark:  | TCP                 |
+| :red_circle:       | TLS                  |
+| :red_circle:       | HTTP                 |
+| :red_circle:       | HTTPS                |
 
 
 * Benchmarks
 
-    - [ ] TCP Benchmark
-    - [ ] TLS Benchmark
-    - [ ] HTTP Benchmark
-    - [ ] HTTPS Benchmark
+| Status             | Transport            | Notes               
+|--------------------|----------------------|--------------------------------
+| :red_circle:       | TCP                  | With persistant connection
+| :red_circle:       | TLS                  |
+| :red_circle:       | HTTP                 |
+| :red_circle:       | HTTPS                |
 
 
 * Extra Tools
 
-    - [ ] CLI (will use TCP client)
+| Status               | Tool               | Notes               
+|--------------------|----------------------|--------------------------------
+| :red_circle:       | CLI                  | CLI using TCP transport
 
 
 * Improvements on top of LokiJS
 
-    - [ ] Authentication
+| Status             | Improvement          | Notes               
+|--------------------|----------------------|--------------------------------
+| :red_circle:       | Authentication       | Optional authentication layer (all transports)
 
 
 
