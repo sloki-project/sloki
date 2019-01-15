@@ -17,7 +17,7 @@ Its purpose is to store javascript objects as documents in a nosql fashion and r
 
 LokiJS-Server is a transport adapter using [JSONRPC](https://www.jsonrpc.org/) protocol. It *will* support TCP/TLS/HTTP/HTTPS.
 
-It address to the lack of by-design **scalability** of LokyJS.
+It address the **scalability** lack of our favorite LokiJS.
 
 ```
                                   JSONRPC (jayson)
