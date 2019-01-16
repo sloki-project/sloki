@@ -93,6 +93,8 @@ function runTests() {
 }
 
 
+cleanTestDatabases();
+
 if (USE_TEST_SERVER) {
     server.start((err) => {
         if (err) {
