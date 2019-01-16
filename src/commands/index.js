@@ -14,7 +14,7 @@ function ucFirst(string) {
 
 for (file of klawSync(__dirname,{depthLimit:1, nodir:true})) {
 
-    if (file.path.match(/\/index/)) {
+    if (file.path.match(/\/index|README/)) {
         // ignore myself (index.js)
         // or directories having /commands/mycommand/index.js
         continue;

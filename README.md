@@ -70,7 +70,7 @@ See [CHANGELOG.md](/CHANGELOG.md)
 | :white_check_mark:  | showCommands     |           | return available commands
 | :white_check_mark:  | showDatabases    |           | return available databases
 | :white_check_mark:  | db               |           | mongodb like, return current selected databases
-| :red_circle:        | use              | database  | mongodb like, select a database
+| :white_check_mark:  | use              | database  | mongodb like, select a database
 
 #### Transports implementation
 
