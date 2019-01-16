@@ -4,8 +4,12 @@ const klawSync = require('klaw-sync');
 const path = require('path');
 const async = require('async');
 const spawn = require('child_process').spawn;
+const fs = require('fs-extra');
+const ENV = require('../src/env');
 
-const USE_TEST_SERVER = true;
+// @FIXME: deal with local server vs test server
+// working on local computer or travis.ci tests ?
+const USE_TEST_SERVER = process.env.LOGNAME!="franck";
 
 let tests = {};
 let testName;
@@ -35,7 +39,16 @@ function prepareTests() {
     }
 }
 
+function cleanTestDatabases() {
+    for (let file of klawSync(ENV.DATABASES_DIRECTORY,{depthLimit:0})) {
+        if (path.basename(file.path).match(/\_\_/)) {
+            fs.removeSync(file.path);
+        }
+    }
+}
+
 function endTests() {
+    cleanTestDatabases();
     if (testFailed) process.exit(-1);
     process.exit(0);
 }
