@@ -14,8 +14,7 @@ LokiJS-Server make LokiJS ***scalable***.
 * It embed [LokiJS](http://lokijs.org/)
 * It **WILL** support TCP/TLS clients
 * It **MAY** support HTTP/HTTPS clients
-* It expose a [JSONRPC](https://www.jsonrpc.org/) API [JSONRPC](https://www.jsonrpc.org/), thanks to [Jayson](https://github.com/tedeh/jayson)
-
+* It expose a [JSONRPC](https://www.jsonrpc.org/) API, thanks to [Jayson](https://github.com/tedeh/jayson)
 
 ```
                                           JSONRPC (jayson)
