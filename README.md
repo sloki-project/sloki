@@ -85,8 +85,6 @@ Copy paste line you want)
 
 [Loki Class documentation](https://rawgit.com/techfort/LokiJS/master/jsdoc/Loki.html)
 
-![Progress](http://progressed.io/bar/50)
-
 | Status            | Command                       | Parameter(s)      | Description  
 |:-----------------:|-------------------------------|-------------------|----------------              
 | :heavy_check_mark:| use                           | databaseName      | select (and load if needed) a database (LokiJS-Server specific)
@@ -112,17 +110,17 @@ Copy paste line you want)
 ------
 | Status            | Command                       | Parameter(s)      | Description  
 |:-----------------:|-------------------------------|-------------------|----------------              
-| :red_circle:      | deserializeCollection         |                   | see LokiJS documentation
-| :red_circle:      | deserializeDestructured       |                   | see LokiJS documentation
-| :red_circle:      | generateChangesNotification   |                   | see LokiJS documentation
+| :red_circle:      | deserializeCollection         |                   | see LokiJS Class documentation
+| :red_circle:      | deserializeDestructured       |                   | see LokiJS Class documentation
+| :red_circle:      | generateChangesNotification   |                   | see LokiJS Class documentation
 | :red_circle:      | loadDatabase                  |                   | see "use" command
-| :red_circle:      | loadJSON                      |                   | see LokiJS documentation
-| :red_circle:      | loadJSONObject                |                   | see LokiJS documentation
-| :red_circle:      | serialize                     |                   | see LokiJS documentation
-| :red_circle:      | serializeChanges              |                   | see LokiJS documentation
-| :red_circle:      | serializeCollection           | options           | see LokiJS documentation
-| :red_circle:      | serializeDestructured         | options           | see LokiJS documentation
-| :red_circle:      | throttledSaveDrain            |                   | see LokiJS documentation
+| :red_circle:      | loadJSON                      |                   | see LokiJS Class documentation
+| :red_circle:      | loadJSONObject                |                   | see LokiJS Class documentation
+| :red_circle:      | serialize                     |                   | see LokiJS Class documentation
+| :red_circle:      | serializeChanges              |                   | see LokiJS Class documentation
+| :red_circle:      | serializeCollection           | options           | see LokiJS Class documentation
+| :red_circle:      | serializeDestructured         | options           | see LokiJS Class documentation
+| :red_circle:      | throttledSaveDrain            |                   | see LokiJS Class documentation
 
 </p>
 </details>
@@ -130,13 +128,11 @@ Copy paste line you want)
 
 <details>
 <summary>
-<b><img src="http://progressed.io/bar/50"/> Commands: collections related</b>
+<b><img src="http://progressed.io/bar/0"/> Commands: collections related</b>
 </summary>
 <p>
 
 [Loki Class documentation](https://rawgit.com/techfort/LokiJS/master/jsdoc/Collection.html)
-
-![Progress](http://progressed.io/bar/0)
 
 | Status            | Command                       | Parameter(s)      | Description  
 |:-----------------:|-------------------------------|-------------------|----------------              
