@@ -3,7 +3,7 @@ const ENV = require('../env');
 
 let errorBadMaxClient = {
     code: -32602, // http://jsonrpc.org/spec.html#error_object
-    message:"setMaxClients <number> where number is >= 1"
+    message:"maxClients <number> where number is >= 1"
 }
 
 function maxClients(params, callback) {
