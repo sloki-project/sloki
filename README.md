@@ -7,8 +7,9 @@ A TCP/TLS/HTTP/HTTPS Server for [LokiJS](http://lokijs.org/) using [JSONRPC](htt
 [![alt packagequality](http://npm.packagequality.com/shield/lokijs-server.svg)](http://packagequality.com/#?package=lokijs-server)
 [![Known Vulnerabilities](https://snyk.io/test/github/franck34/LokiJS-Server/badge.svg?targetFile=package.json)](https://snyk.io/test/github/franck34/LokiJS-Server?targetFile=package.json)
 
-**WORK IN PROGRESS**
-
+**WORK IN PROGRESS, NOT USABLE YET**
+**WORK IN PROGRESS, NOT USABLE YET**
+**WORK IN PROGRESS, NOT USABLE YET**
 
 ## Overview
 
@@ -49,8 +50,6 @@ Copy paste line you want)
 
 
 ## Current state
-
-**WORK IN PROGRESS, NOT USABLE YET**
 
 ## Legends
 
@@ -124,6 +123,23 @@ Copy paste line you want)
 | :red_circle:      | serializeCollection           | options           | see LokiJS documentation
 | :red_circle:      | serializeDestructured         | options           | see LokiJS documentation
 | :red_circle:      | throttledSaveDrain            |                   | see LokiJS documentation
+
+</p>
+</details>
+
+
+<details>
+<summary>
+<b><img src="http://progressed.io/bar/50"/> Commands: collections related</b>
+</summary>
+<p>
+
+[Loki Class documentation](https://rawgit.com/techfort/LokiJS/master/jsdoc/Collection.html)
+
+![Progress](http://progressed.io/bar/0)
+
+| Status            | Command                       | Parameter(s)      | Description  
+|:-----------------:|-------------------------------|-------------------|----------------              
 
 </p>
 </details>
