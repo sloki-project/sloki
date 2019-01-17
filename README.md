@@ -63,10 +63,10 @@ See [CHANGELOG.md](/CHANGELOG.md)
 
 | Status            | Category | Command           | Parameter | Description                
 |-------------------|----------|-------------------|-----------|----------------
-| :white_check_mark:| Client   | quit              |           | TCP only: client disconnect
+| :white_check_mark:| Client   | quit              |           | disconnect (TCP/TLS clients only)
 | :white_check_mark:| Server   | shutdown          |           | shutdown LokiJS-Server
 | :white_check_mark:| Server   | showMemory        |           | return LokiJS-Server memory usage
-| :white_check_mark:| Server   | showClients       |           | return tcp server connected clients
+| :white_check_mark:| Server   | showClients       |           | return TCP/TLS connected clients
 | :white_check_mark:| Server   | showCommands      |           | return available commands
 | :white_check_mark:| Loki     | db                |           | mongodb like, return current database name
 | :white_check_mark:| Loki     | use               | dbName    | mongodb like, select a database
