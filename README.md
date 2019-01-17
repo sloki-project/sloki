@@ -119,25 +119,16 @@ Not usable yet.
 | :heavy_check_mark:| db                            |                   | return current database name (LokiJS-Server specific)
 | :heavy_check_mark:| listDatabases                 |                   | return available databases
 | :heavy_check_mark:| listCollections               |                   | return available collections in selected database
-
-| Status            | Command                       | Parameter(s)      | Description  
-|:-----------------:|-------------------------------|-------------------|----------------              
 | :heavy_plus_sign: | addCollection                 | options           | add a collection in selected database
 | :heavy_plus_sign: | removeCollection              | collectionName    | removes a collection from the selected database
 | :heavy_plus_sign: | renameCollection              | oldName, newName  | renames an existing collection in the selected database
 | :heavy_plus_sign: | saveDatabase                  |                   | manually save selected database
-
-| Status            | Command                       | Parameter(s)      | Description  
-|:-----------------:|-------------------------------|-------------------|----------------              
 | :question:        | clearChanges                  |                   | clears all the changes in all collections of selected database
 | :question:        | close                         |                   | close selected database
 | :question:        | configureOptions              | options           | reconfigure selected database options
 | :question:        | copy                          | options           | copy selected database into a new Loky instance
 | :question:        | deleteDatabase                |                   | delete selected database
 | :question:        | getCollection                 | collectionName    | Retrieves reference to a collection by name
-
-| Status            | Command                       | Parameter(s)      | Description  
-|:-----------------:|-------------------------------|-------------------|----------------              
 | :red_circle:      | deserializeCollection         |                   | see LokiJS Class documentation
 | :red_circle:      | deserializeDestructured       |                   | see LokiJS Class documentation
 | :red_circle:      | generateChangesNotification   |                   | see LokiJS Class documentation
