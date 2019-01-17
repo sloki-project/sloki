@@ -1,15 +1,11 @@
-# LokiJS-Server
-A TCP/TLS/HTTP/HTTPS Server for [LokiJS](http://lokijs.org/) using [JSONRPC](https://www.jsonrpc.org/) ([Jayson](https://github.com/tedeh/jayson))
+# LokiJS-Server (WORK IN PROGRESS)
+A TCP/TLS (HTTP/HTTPS?) Server for [LokiJS](http://lokijs.org/) using [JSONRPC](https://www.jsonrpc.org/) ([Jayson](https://github.com/tedeh/jayson))
 
 [![Join the chat at https://gitter.im/techfort/LokiJS](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/LokiJS-Server/community)
 [![alt CI-badge](https://travis-ci.org/franck34/LokiJS-Server.svg?branch=master)](https://travis-ci.org/franck34/LokiJS-Server)
 [![npm version](https://badge.fury.io/js/lokijs-server.svg)](http://badge.fury.io/js/lokijs-server)
 [![alt packagequality](http://npm.packagequality.com/shield/lokijs-server.svg)](http://packagequality.com/#?package=lokijs-server)
 [![Known Vulnerabilities](https://snyk.io/test/github/franck34/LokiJS-Server/badge.svg?targetFile=package.json)](https://snyk.io/test/github/franck34/LokiJS-Server?targetFile=package.json)
-
-**WORK IN PROGRESS, NOT USABLE YET**
-**WORK IN PROGRESS, NOT USABLE YET**
-**WORK IN PROGRESS, NOT USABLE YET**
 
 ## Overview
 
@@ -48,14 +44,20 @@ Copy paste line you want :)
 * locally:
   * ```npm install LokiJS-Server```
   * ```yarn add LokiJS-Server```
-  
+
 * globally:
   * ```npm install -g LokiJS-Server```
   * ```yarn add -g LokiJS-Server```
 
 -----
 
-## Current state
+## Usage
+
+Not usable yet.
+
+----
+
+## Development status
 
 #### Legends
 
