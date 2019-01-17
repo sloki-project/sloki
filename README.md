@@ -89,9 +89,11 @@ Copy paste line you want)
 
 <details>
 <summary>
-<b>Commands: <a href="https://rawgit.com/techfort/LokiJS/master/jsdoc/Loki.html">Database related</a>
+<b>Commands: database related</a>
 </summary>
 <p>
+
+[Loki Class documentation](https://rawgit.com/techfort/LokiJS/master/jsdoc/Loki.html)
 
 ![Progress](http://progressed.io/bar/50)
 
