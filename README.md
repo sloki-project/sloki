@@ -54,6 +54,12 @@ Copy paste line you want)
 
 **WORK IN PROGRESS, NOT USABLE YET**
 
+<details>
+<summary>
+<b>Legends</b>
+</summary>
+<p>
+
 #### Legends
 
 | Icon              | Description                
@@ -64,8 +70,16 @@ Copy paste line you want)
 | :question:        | MAY be implemented
 
 ------
+</p>
+</details>
 
-#### Commands: specific LokiJS-Server Client or Server related
+<details>
+<summary>
+<b>Commands: specific LokiJS-Server Client or Server related</b>
+</summary>
+<p>
+
+#### Commands:
 
 | Status            | Command           | Parameter | Description                
 |:-----------------:|-------------------|-----------|----------------
@@ -76,6 +90,10 @@ Copy paste line you want)
 | :heavy_check_mark:| commands          |           | return available commands
 
 ------
+
+</p>
+</details>
+
 
 <details>
 <summary>
