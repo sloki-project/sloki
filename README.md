@@ -59,9 +59,9 @@ Copy paste line you want)
 | Icon              | Description                
 |-------------------|----------------------------------------------------------------------
 | :heavy_check_mark:| implemented
-| :heavy_plus_sign: | in progress/must be implemented
-| :red_circle:      | will NOT be implemented
-| :question:        | not implemented / will be implemented if needed (please open a ticket)
+| :heavy_plus_sign: | in progress/MUST be implemented
+| :red_circle:      | does NOT make sens in LokiJS-Server, will NOT be implemented
+| :question:        | MAY be implemented
 
 #### Commands: Client or Server related
 
@@ -80,28 +80,37 @@ Copy paste line you want)
 |-------------------|-------------------------------|-------------------|----------------              
 | :heavy_check_mark:| use                           | databaseName      | select (and load if needed) a database (LokiJS-Server specific)
 | :heavy_check_mark:| db                            |                   | return current database name (LokiJS-Server specific)
+| :heavy_check_mark:| listDatabases                 |                   | return available databases
+| :heavy_check_mark:| listCollections               |                   | return available collections in selected database
+
+| Status            | Command                       | Parameter(s)      | Description  
+|-------------------|-------------------------------|-------------------|----------------
 | :heavy_plus_sign: | addCollection                 | options           | add a collection in selected database
+| :heavy_plus_sign: | removeCollection              | collectionName    | removes a collection from the selected database
+| :heavy_plus_sign: | renameCollection              | oldName, newName  | renames an existing collection in the selected database
+| :heavy_plus_sign: | saveDatabase                  |                   | manually save selected database
+
+| Status            | Command                       | Parameter(s)      | Description  
+|-------------------|-------------------------------|-------------------|----------------
 | :question:        | clearChanges                  |                   | clears all the changes in all collections of selected database
 | :question:        | close                         |                   | close selected database
 | :question:        | configureOptions              | options           | reconfigure selected database options
 | :question:        | copy                          | options           | copy selected database into a new Loky instance
 | :question:        | deleteDatabase                |                   | delete selected database
+| :question:        | getCollection                 | collectionName    | Retrieves reference to a collection by name
+
+| Status            | Command                       | Parameter(s)      | Description  
+|-------------------|-------------------------------|-------------------|----------------
 | :red_circle:      | deserializeCollection         |                   | see LokiJS documentation
 | :red_circle:      | deserializeDestructured       |                   | see LokiJS documentation
-| :question:        | getCollection                 | collectionName    | Retrieves reference to a collection by name
 | :red_circle:      | generateChangesNotification   |                   | see LokiJS documentation
-| :heavy_check_mark:| listDatabases                 |                   | return available databases
-| :heavy_check_mark:| listCollections               |                   | return available collections in selected database
 | :red_circle:      | loadDatabase                  |                   | see "use" command
 | :red_circle:      | loadJSON                      |                   | see LokiJS documentation
 | :red_circle:      | loadJSONObject                |                   | see LokiJS documentation
-| :heavy_plus_sign: | removeCollection              | collectionName    | removes a collection from the selected database
-| :heavy_plus_sign: | renameCollection              | oldName, newName  | renames an existing collection in the selected database
-| :heavy_plus_sign: | saveDatabase                  |                   | manually save selected database
-| :question:        | serialize                     |                   | see LokiJS documentation
-| :question:        | serializeChanges              |                   | see LokiJS documentation
-| :question:        | serializeCollection           | options           | see LokiJS documentation
-| :question:        | serializeDestructured         | options           | see LokiJS documentation
+| :red_circle:      | serialize                     |                   | see LokiJS documentation
+| :red_circle:      | serializeChanges              |                   | see LokiJS documentation
+| :red_circle:      | serializeCollection           | options           | see LokiJS documentation
+| :red_circle:      | serializeDestructured         | options           | see LokiJS documentation
 | :red_circle:      | throttledSaveDrain            |                   | see LokiJS documentation
 
 
