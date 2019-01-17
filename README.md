@@ -12,9 +12,9 @@ A NodeJS TCP/TLS (HTTP/HTTPS?) Server for [LokiJS](http://lokijs.org/)
 LokiJS-Server make LokiJS ***scalable***.
 
 * It embed [LokiJS](http://lokijs.org/)
-* It **WILL** support TCP/TLS clients
-* It **MAY** support HTTP/HTTPS clients
 * It expose a [JSONRPC](https://www.jsonrpc.org/) API, thanks to [Jayson](https://github.com/tedeh/jayson)
+* It **WILL** support TCP/TLS
+* It **MAY** support HTTP/HTTPS
 
 ```
                                           JSONRPC (jayson)
