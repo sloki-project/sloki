@@ -67,7 +67,7 @@ See [CHANGELOG.md](/CHANGELOG.md)
 | :white_check_mark:| Server   | shutdown          |           | shutdown LokiJS-Server
 | :white_check_mark:| Server   | memory            |           | return LokiJS-Server memory usage
 | :white_check_mark:| Server   | clients           |           | return TCP/TLS connected clients
-| :white_check_mark:| Server   | showCommands      |           | return available commands
+| :white_check_mark:| Server   | commands      |           | return available commands
 | :white_check_mark:| Loki     | db                |           | mongodb like, return current database name
 | :white_check_mark:| Loki     | use               | dbName    | mongodb like, select a database
 | :white_check_mark:| Loki     | listDatabases     |           | return available databases
