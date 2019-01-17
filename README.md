@@ -57,60 +57,87 @@ Copy paste line you want)
 #### Legends
 
 | Icon              | Description                
-|-------------------|----------
-| :white_check_mark:| implemented
-| :white_circle:    | in progress/will be implemented
+|-------------------|----------------------------------------------------------------------
+| :heavy_check_mark:| implemented
+| :heavy_plus_sign: | in progress/must be implemented
 | :red_circle:      | will NOT be implemented
+| :question:        | not implemented / will be implemented if needed (please open a ticket)
+
+#### Commands: Client or Server related
+
+| Status            | Command           | Parameter | Description                
+|-------------------|-------------------|-----------|----------------
+| :heavy_check_mark:| quit              |           | disconnect (TCP/TLS clients only)
+| :heavy_check_mark:| shutdown          |           | shutdown LokiJS-Server
+| :heavy_check_mark:| memory            |           | return LokiJS-Server memory usage
+| :heavy_check_mark:| clients           |           | return TCP/TLS connected clients
+| :heavy_check_mark:| commands          |           | return available commands
+
+#### Commands: [Database related](https://rawgit.com/techfort/LokiJS/master/jsdoc/Loki.html) ![Progress](http://progressed.io/bar/50?title=progress)   
 
 
-#### Commands
+| Status            | Command                       | Parameter(s)      | Description  
+|-------------------|-------------------------------|-------------------|----------------              
+| :heavy_check_mark:| use                           | databaseName      | select (and load if needed) a database (LokiJS-Server specific)
+| :heavy_check_mark:| db                            |                   | return current database name (LokiJS-Server specific)
+| :heavy_plus_sign: | addCollection                 | options           | add a collection in selected database
+| :question:        | clearChanges                  |                   | clears all the changes in all collections of selected database
+| :question:        | close                         |                   | close selected database
+| :question:        | configureOptions              | options           | reconfigure selected database options
+| :question:        | copy                          | options           | copy selected database into a new Loky instance
+| :question:        | deleteDatabase                |                   | delete selected database
+| :red_circle:      | deserializeCollection         |                   | see LokiJS documentation
+| :red_circle:      | deserializeDestructured       |                   | see LokiJS documentation
+| :question:        | getCollection                 | collectionName    | Retrieves reference to a collection by name
+| :red_circle:      | generateChangesNotification   |                   | see LokiJS documentation
+| :heavy_check_mark:| listDatabases                 |                   | return available databases
+| :heavy_check_mark:| listCollections               |                   | return available collections in selected database
+| :red_circle:      | loadDatabase                  |                   | see "use" command
+| :red_circle:      | loadJSON                      |                   | see LokiJS documentation
+| :red_circle:      | loadJSONObject                |                   | see LokiJS documentation
+| :heavy_plus_sign: | removeCollection              | collectionName    | removes a collection from the selected database
+| :heavy_plus_sign: | renameCollection              | oldName, newName  | renames an existing collection in the selected database
+| :heavy_plus_sign: | saveDatabase                  |                   | manually save selected database
+| :question:        | serialize                     |                   | see LokiJS documentation
+| :question:        | serializeChanges              |                   | see LokiJS documentation
+| :question:        | serializeCollection           | options           | see LokiJS documentation
+| :question:        | serializeDestructured         | options           | see LokiJS documentation
+| :red_circle:      | throttledSaveDrain            |                   | see LokiJS documentation
 
-| Status            | Category | Command           | Parameter | Description                
-|-------------------|----------|-------------------|-----------|----------------
-| :white_check_mark:| Server   | quit              |           | disconnect (TCP/TLS clients only)
-| :white_check_mark:| Server   | shutdown          |           | shutdown LokiJS-Server
-| :white_check_mark:| Server   | memory            |           | return LokiJS-Server memory usage
-| :white_check_mark:| Server   | clients           |           | return TCP/TLS connected clients
-| :white_check_mark:| Server   | commands          |           | return available commands
-| :white_check_mark:| Loki     | db                |           | mongodb like, return current database name
-| :white_check_mark:| Loki     | use               | dbName    | mongodb like, select (and load if needed) a database
-| :white_check_mark:| Loki     | listDatabases     |           | return available databases
-| :white_check_mark:| Loki     | listCollections   |           | return available collections in selected database
-| :white_circle:    | Loki     | addCollection     | options   | add a collection in selected database
 
 
 #### Transports
 
-| Status             | Transport            | Notes               
-|--------------------|----------------------|--------------------------------
-| :white_check_mark: | TCP                  | Persistant connection
-| :white_circle:     | TLS                  |
-| :white_circle:       | HTTP                 |
-| :white_circle:       | HTTPS                |
+| Status            | Transport            | Notes               
+|-------------------|----------------------|--------------------------------
+| :heavy_check_mark:| TCP                  | Persistant connection
+| :heavy_plus_sign: | TLS                  |
+| :question:        | HTTP                 |
+| :question:        | HTTPS                |
 
 
 #### Benchmarks
 
-| Status             | Transport            | Notes               
-|--------------------|----------------------|--------------------------------
-| :white_circle:       | TCP                  | Persistant connection
-| :white_circle:       | TLS                  |
-| :white_circle:       | HTTP                 |
-| :white_circle:       | HTTPS                |
+| Status            | Transport            | Notes               
+|-------------------|----------------------|--------------------------------
+| :heavy_plus_sign: | TCP                  | Persistant connection
+| :heavy_plus_sign: | TLS                  |
+| :question:        | HTTP                 |
+| :question:        | HTTPS                |
 
 
 #### Extra Tools
 
 | Status             | Tool                 | Notes               
 |--------------------|----------------------|--------------------------------
-| :white_circle:       | CLI                  | CLI using TCP transport
+| :heavy_plus_sign:       | CLI                  | CLI using TCP transport
 
 
 #### Improvements on top of LokiJS
 
 | Status             | Improvement          | Notes               
 |--------------------|----------------------|--------------------------------
-| :white_circle:       | Authentication       | Optional authentication layer (all transports)
+| :heavy_plus_sign:  | Authentication       | Optional authentication layer (all transports)
 
 
 
