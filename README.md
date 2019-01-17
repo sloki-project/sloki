@@ -63,7 +63,7 @@ See [CHANGELOG.md](/CHANGELOG.md)
 
 | Status            | Category | Command           | Parameter | Description                
 |-------------------|----------|-------------------|-----------|----------------
-| :white_check_mark:| Client   | quit              |           | disconnect (TCP/TLS clients only)
+| :white_check_mark:| Server   | quit              |           | disconnect (TCP/TLS clients only)
 | :white_check_mark:| Server   | shutdown          |           | shutdown LokiJS-Server
 | :white_check_mark:| Server   | memory            |           | return LokiJS-Server memory usage
 | :white_check_mark:| Server   | showClients       |           | return TCP/TLS connected clients
