@@ -87,7 +87,7 @@ Copy paste line you want)
 
 <details>
 <summary>
-<b>Commands: database related</a>
+<b>Commands: database related</b>
 </summary>
 <p>
 
