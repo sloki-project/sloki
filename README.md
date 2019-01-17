@@ -40,6 +40,8 @@ LokiJS-Server make LokiJS ***scalable***.
         +----------------------------+                         +----------------------------------+
 ```
 
+-----
+
 ## Installation
 
 Copy paste line you want :)
