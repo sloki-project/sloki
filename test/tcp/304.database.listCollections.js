@@ -4,6 +4,7 @@ const endpoint = require('../endpoints').tcp;
 const Client = use('src/Client');
 
 let tcpClient = new Client(endpoint);
+let dbName = "__testListCollection";
 
 tap.test(
     __filename,
@@ -15,16 +16,22 @@ tap.test(
                 t.deepEqual(err, undefined, 'connect should not return an error');
 
                 t.test(
+                    "use",
+                    (subtest)  => {
+                        tcpClient.use(dbName, (err, result) => {
+                            subtest.deepEqual(err, undefined, 'command should not return an error');
+                            subtest.deepEqual(result, dbName, "current database should be '"+dbName+"'");
+                            subtest.end();
+                        });
+                    }
+                )
+
+                t.test(
                     "listCollections",
                     (subtest)  => {
                         tcpClient.listCollections((err, result) => {
                             subtest.deepEqual(err, undefined, 'command should not return an error');
-                            subtest.deepEqual(
-                                result,
-                                [],
-                                "should return empty array"
-                            );
-
+                            subtest.deepEqual(result, [], "should return empty array");
                             subtest.end();
                             t.end();
                             process.exit(0);
