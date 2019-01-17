@@ -109,7 +109,7 @@ Not usable yet.
 
 <details>
 <summary>
-<b><img src="http://progressed.io/bar/50"/> Commands: database related</b>
+<b><img src="http://progressed.io/bar/62"/> Commands: database related</b>
 </summary>
 <p>
 
@@ -121,7 +121,7 @@ Not usable yet.
 | :heavy_check_mark:| db                            |                   | return current database name (LokiJS-Server specific)
 | :heavy_check_mark:| listDatabases                 |                   | return available databases
 | :heavy_check_mark:| listCollections               |                   | return available collections in selected database
-| :heavy_plus_sign: | addCollection                 | options           | add a collection in selected database
+| :heavy_check_mark:| addCollection                 | options           | add a collection in selected database
 | :heavy_plus_sign: | removeCollection              | collectionName    | removes a collection from the selected database
 | :heavy_plus_sign: | renameCollection              | oldName, newName  | renames an existing collection in the selected database
 | :heavy_plus_sign: | saveDatabase                  |                   | manually save selected database

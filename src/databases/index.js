@@ -65,8 +65,14 @@ function listCollections(db) {
     return dbs[db].listCollections();
 }
 
+function addCollection(db, collectionName, options) {
+    if (!dbs[db]) return;
+    return dbs[db].addCollection(collectionName, options).name;
+}
+
 module.exports = {
     list,
     use,
-    listCollections
+    listCollections,
+    addCollection
 }
