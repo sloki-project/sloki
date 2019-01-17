@@ -77,7 +77,10 @@ Copy paste line you want)
 
 ------
 
-<details><summary>#### Commands: [Database related](https://rawgit.com/techfort/LokiJS/master/jsdoc/Loki.html) ![Progress](http://progressed.io/bar/50)</summary>
+<details>
+<summary>
+#### Commands: [Database related](https://rawgit.com/techfort/LokiJS/master/jsdoc/Loki.html) ![Progress](http://progressed.io/bar/50)
+</summary>
 <p>
 
 | Status            | Command                       | Parameter(s)      | Description  
