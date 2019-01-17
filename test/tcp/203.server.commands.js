@@ -16,19 +16,19 @@ tap.test(
                 t.deepEqual(err, undefined, 'connect should not return an error');
 
                 t.test(
-                    "showCommands",
-                    (tShowCommands)  => {
-                        tcpClient.showCommands((err, result) => {
-                            tShowCommands.deepEqual(err, undefined, 'command should not return an error');
+                    "commands",
+                    (subtest)  => {
+                        tcpClient.commands((err, result) => {
+                            subtest.deepEqual(err, undefined, 'command should not return an error');
 
                             // example
                             // [ 'getMaxClients', 'quit', 'setMaxClients', ... ]
-                            tShowCommands.deepEqual(
+                            subtest.deepEqual(
                                 result,
                                 Object.keys(commandsList),
                                 "should return all available commands"
                             );
-                            tShowCommands.end();
+                            subtest.end();
                             t.end();
                             process.exit(0);
                         });
