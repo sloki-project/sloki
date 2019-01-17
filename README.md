@@ -69,7 +69,7 @@ See [CHANGELOG.md](/CHANGELOG.md)
 | :white_check_mark:| Server   | clients           |           | return TCP/TLS connected clients
 | :white_check_mark:| Server   | commands          |           | return available commands
 | :white_check_mark:| Loki     | db                |           | mongodb like, return current database name
-| :white_check_mark:| Loki     | use               | dbName    | mongodb like, select a database
+| :white_check_mark:| Loki     | use               | dbName    | mongodb like, select (and load if needed) a database
 | :white_check_mark:| Loki     | listDatabases     |           | return available databases
 | :white_check_mark:| Loki     | listCollections   |           | return available collections in selected database
 | :red_circle:      | Loki     | addCollection     | options   | add a collection in selected database
