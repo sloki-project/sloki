@@ -58,13 +58,12 @@ Copy paste line you want)
 
 See [CHANGELOG.md](/CHANGELOG.md)
 
+Legend:
+* :white_check_mark: : implemented
+* :white_circle: : in progress/must be implemented
+* :red_circle: : will NOT be implemented
 
 #### Commands implementation
-
-Legend:
-* Implemented :white_check_mark:
-* In progress/must be implemented: :white_circle:
-* Will NOT be implemented: :red_circle:
 
 | Status            | Category | Command           | Parameter | Description                
 |-------------------|----------|-------------------|-----------|----------------
