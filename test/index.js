@@ -19,14 +19,7 @@ let testFailed = false;
 function prepareTests() {
     for (let file of klawSync(__dirname,{depthLimit:1, nodir:true})) {
 
-        if (file.path.match(/\/index|\/tap|\/endpoint/)) {
-            // ignore myself (index.js)
-            // or directories having /commands/mycommand/index.js
-            continue;
-        }
-
-        if (!file.path.match(/\.js$/)) {
-            // ignore other than js files
+        if (!file.path.match(/[0-9]{3}/)) {
             continue;
         }
 

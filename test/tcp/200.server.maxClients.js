@@ -1,110 +1,64 @@
-const tap = require('../tap');
 const use = require('abrequire');
-const endpoint = require('../endpoints').tcp;
 const Client = use('src/Client');
+const endpoint = require('../endpoints').tcp;
 const ENV = use('src/env');
 
-let tcpClient = new Client(endpoint);
 let maxClients = ENV.NET_TCP_MAX_CLIENTS;
 
-tap.test(
-    __filename,
-    {timeout:500},
-    (t) => {
-        tcpClient
+require('./client')(__filename, (test, client) => {
+    test.test("client1: getMaxClients", (subtest)  => {
+        client.maxClients((err, result) => {
+            subtest.deepEqual(err, undefined, 'command should not return an error');
+            subtest.equal(result, maxClients, "client1: maxClients should be "+maxClients);
+            subtest.end();
+        });
+    });
+
+    test.test("client1: setMaxClients", (subtest)  => {
+        maxClients=1;
+        client.maxClients(maxClients, (err, result) => {
+            subtest.deepEqual(err, undefined, 'command should not return an error');
+            subtest.equal(result, maxClients, "client1: maxClients should be set to "+maxClients);
+            subtest.end();
+        });
+    });
+
+    test.test("client1: getMaxClients", (subtest)  => {
+        client.maxClients((err, result) => {
+            subtest.deepEqual(err, undefined, 'command should not return an error');
+            subtest.equal(result, maxClients, "client1: maxClients should be "+maxClients);
+            subtest.end();
+        });
+    })
+
+    test.test("client2: hit maxClients", (subtest) => {
+        let client2 = new Client(endpoint);
+        client2
             .connect()
             .then((err) => {
-                t.deepEqual(err, undefined, 'connect should not return an error');
-                t.test(
-                    "client1: getMaxClients",
-                    (tGetMaxClient)  => {
-                        tcpClient.maxClients((err, result) => {
-                            tGetMaxClient.deepEqual(err, undefined, 'command should not return an error');
-                            tGetMaxClient.equal(
-                                result,
-                                maxClients,
-                                "client1: maxClients should be "+maxClients
-                            );
-                            tGetMaxClient.end();
-                        });
-                    }
-                )
+                subtest.deepEqual(err, undefined, 'should be connected');
 
-                t.test(
-                    "client1: setMaxClients",
-                    (tSetMaxClient)  => {
-                        maxClients=1;
-                        tcpClient.maxClients(maxClients, (err, result) => {
-                            tSetMaxClient.deepEqual(err, undefined, 'command should not return an error');
-                            tSetMaxClient.equal(
-                                result,
-                                maxClients,
-                                "client1: maxClients should be set to "+maxClients
-                            );
-                            tSetMaxClient.end();
-                        });
-                    }
-                )
+                let expectedErr = { code: -32000, message: 'Max Clients Reached' };
 
-                t.test(
-                    "client1: getMaxClients",
-                    (tGetMaxClient)  => {
-                        tcpClient.maxClients((err, result) => {
-                            tGetMaxClient.deepEqual(err, undefined, 'command should not return an error');
-                            tGetMaxClient.equal(
-                                result,
-                                maxClients,
-                                "client1: maxClients should be "+maxClients
-                            );
-                            tGetMaxClient.end();
-                        });
-                    }
-                )
-
-                t.test(
-                    "client2: hit maxClients",
-                    (tHitMaxClient) => {
-                        let tcpClient1 = new Client(endpoint);
-                        tcpClient1
-                            .connect()
-                            .then((err) => {
-                                t.deepEqual(err, undefined, 'connect should not return an error');
-
-                                let expectedErr = { code: -32000, message: 'Max Clients Reached' };
-
-                                tcpClient1.maxClients((err, result) => {
-                                    tHitMaxClient.deepEqual(
-                                        err,
-                                        expectedErr,
-                                        "client2: should return "+JSON.stringify(expectedErr)
-                                    );
-                                    // @FIXME: understand why calling directly tHitMaxClient.end() ake the next text fail
-                                    setTimeout(tHitMaxClient.end,200);
-                                });
-                            })
-                    }
-                )
-
-                t.test(
-                    "client1: restore maxClients",
-                    (tSetMaxClient)  => {
-                        tcpClient.maxClients(ENV.NET_TCP_MAX_CLIENTS, (err, result) => {
-                            tSetMaxClient.deepEqual(err, undefined, 'command should not return an error');
-
-                            // @FIXME: see previous test
-                            // in the previous test, if no setTimeout,
-                            // err match with Max Clients Reached, result is undefined ...
-                            tSetMaxClient.equal(
-                                result,
-                                ENV.NET_TCP_MAX_CLIENTS,
-                                "client1: maxClients should be set to "+ENV.NET_TCP_MAX_CLIENTS
-                            );
-                            tSetMaxClient.end();
-                            t.end();
-                            process.exit(0);
-                        });
-                    }
-                )
+                // call any command should return max client reached
+                client2.maxClients((err, result) => {
+                    subtest.deepEqual(err, expectedErr, "client2: should return "+JSON.stringify(expectedErr));
+                    // @FIXME: understand why calling directly tHitMaxClient.end() ake the next text fail
+                    setTimeout(subtest.end,200);
+                });
             })
-    }
-);
+    });
+
+    test.test("client1: restore maxClients", (subtest)  => {
+        client.maxClients(ENV.NET_TCP_MAX_CLIENTS, (err, result) => {
+            subtest.deepEqual(err, undefined, 'command should not return an error');
+
+            // @FIXME: see previous test
+            // in the previous test, if no setTimeout,
+            // err match with Max Clients Reached, result is undefined ...
+            subtest.equal(result, ENV.NET_TCP_MAX_CLIENTS, "client1: maxClients should be set to "+ENV.NET_TCP_MAX_CLIENTS);
+            subtest.end();
+        });
+    });
+
+});
