@@ -57,41 +57,44 @@ Copy paste line you want)
 #### Legends
 
 | Icon              | Description                
-|-------------------|----------------------------------------------------------------------
+|:-----------------:|----------------------------------------------------------------------
 | :heavy_check_mark:| implemented
 | :heavy_plus_sign: | in progress/MUST be implemented
 | :red_circle:      | does NOT make sens in LokiJS-Server, will NOT be implemented
 | :question:        | MAY be implemented
 
-#### Commands: Client or Server related
+------
+
+#### Commands: specific LokiJS-Server Client or Server related
 
 | Status            | Command           | Parameter | Description                
-|-------------------|-------------------|-----------|----------------
+|:-----------------:|-------------------|-----------|----------------
 | :heavy_check_mark:| quit              |           | disconnect (TCP/TLS clients only)
 | :heavy_check_mark:| shutdown          |           | shutdown LokiJS-Server
 | :heavy_check_mark:| memory            |           | return LokiJS-Server memory usage
 | :heavy_check_mark:| clients           |           | return TCP/TLS connected clients
 | :heavy_check_mark:| commands          |           | return available commands
 
+------
+
 #### Commands: [Database related](https://rawgit.com/techfort/LokiJS/master/jsdoc/Loki.html) ![Progress](http://progressed.io/bar/50)   
 
-
 | Status            | Command                       | Parameter(s)      | Description  
-|-------------------|-------------------------------|-------------------|----------------              
+|:-----------------:|-------------------------------|-------------------|----------------              
 | :heavy_check_mark:| use                           | databaseName      | select (and load if needed) a database (LokiJS-Server specific)
 | :heavy_check_mark:| db                            |                   | return current database name (LokiJS-Server specific)
 | :heavy_check_mark:| listDatabases                 |                   | return available databases
 | :heavy_check_mark:| listCollections               |                   | return available collections in selected database
 
 | Status            | Command                       | Parameter(s)      | Description  
-|-------------------|-------------------------------|-------------------|----------------
+|:-----------------:|-------------------------------|-------------------|----------------              
 | :heavy_plus_sign: | addCollection                 | options           | add a collection in selected database
 | :heavy_plus_sign: | removeCollection              | collectionName    | removes a collection from the selected database
 | :heavy_plus_sign: | renameCollection              | oldName, newName  | renames an existing collection in the selected database
 | :heavy_plus_sign: | saveDatabase                  |                   | manually save selected database
 
 | Status            | Command                       | Parameter(s)      | Description  
-|-------------------|-------------------------------|-------------------|----------------
+|:-----------------:|-------------------------------|-------------------|----------------              
 | :question:        | clearChanges                  |                   | clears all the changes in all collections of selected database
 | :question:        | close                         |                   | close selected database
 | :question:        | configureOptions              | options           | reconfigure selected database options
@@ -100,7 +103,7 @@ Copy paste line you want)
 | :question:        | getCollection                 | collectionName    | Retrieves reference to a collection by name
 
 | Status            | Command                       | Parameter(s)      | Description  
-|-------------------|-------------------------------|-------------------|----------------
+|:-----------------:|-------------------------------|-------------------|----------------              
 | :red_circle:      | deserializeCollection         |                   | see LokiJS documentation
 | :red_circle:      | deserializeDestructured       |                   | see LokiJS documentation
 | :red_circle:      | generateChangesNotification   |                   | see LokiJS documentation
@@ -114,54 +117,58 @@ Copy paste line you want)
 | :red_circle:      | throttledSaveDrain            |                   | see LokiJS documentation
 
 
+------
 
-#### Transports
+## Transports
 
 | Status            | Transport            | Notes               
-|-------------------|----------------------|--------------------------------
+|:-----------------:|----------------------|--------------------------------
 | :heavy_check_mark:| TCP                  | Persistant connection
 | :heavy_plus_sign: | TLS                  |
 | :question:        | HTTP                 |
 | :question:        | HTTPS                |
 
+------
 
-#### Benchmarks
+## Benchmarks
 
 | Status            | Transport            | Notes               
-|-------------------|----------------------|--------------------------------
+|:-----------------:|----------------------|--------------------------------
 | :heavy_plus_sign: | TCP                  | Persistant connection
 | :heavy_plus_sign: | TLS                  |
 | :question:        | HTTP                 |
 | :question:        | HTTPS                |
 
+------
 
-#### Extra Tools
+## Extra Tools
 
 | Status             | Tool                 | Notes               
-|--------------------|----------------------|--------------------------------
+|:------------------:|----------------------|--------------------------------
 | :heavy_plus_sign:       | CLI                  | CLI using TCP transport
 
+------
 
-#### Improvements on top of LokiJS
+## Improvements on top of LokiJS
 
 | Status             | Improvement          | Notes               
-|--------------------|----------------------|--------------------------------
+|:------------------:|----------------------|--------------------------------
 | :heavy_plus_sign:  | Authentication       | Optional authentication layer (all transports)
 
-
+------
 
 ## Boot options
 
-* Environnement variables
+### Environnement variables
 
-| Name   | Default Value  | Possible values | Implemented since version
-|---|---|---|---|
-| LOKI_DIR  | ~/.lokijs/dbs  | | 0.0.0 |
-| LOKI_TRANSPORT  | TCP | TCP\|HTTP\|TCP-HTTP | 0.0.0 |
+| Name              | Default Value     | Possible values       | Implemented since version
+|-------------------|-------------------|-----------------------|----------------------------
+| LOKI_DIR          | ~/.lokijs/dbs     |                       | 0.0.0
+| LOKI_TRANSPORT    | TCP               | TCP\|HTTP\|TCP-HTTP   | 0.0.0
 
-* Command line options
+### Command line options
 
-| Option   | Default Value  | Possible values | Implemented since version
-|---|---|---|---|
-| dir  | ~/.lokijs/dbs  | | 0.0.0 |
-| transport  | TCP | TCP\|HTTP\|TCP-HTTP | 0.0.0 |
+| Option            | Default Value     | Possible values       | Implemented since version
+|-------------------|-------------------|-----------------------|--------
+| dir               | ~/.lokijs/dbs     |                       | 0.0.0
+| transport         | TCP               | TCP\|HTTP\|TCP-HTTP   | 0.0.0
