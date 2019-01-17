@@ -16,19 +16,19 @@ tap.test(
 
                 t.test(
                     "listCollections",
-                    (tListCollections)  => {
+                    (subtest)  => {
                         tcpClient.listCollections((err, result) => {
-                            tListCollections.deepEqual(err, undefined, 'command should not return an error');
+                            subtest.deepEqual(err, undefined, 'command should not return an error');
 
                             // example
                             // [ 'test' ]
-                            tListCollections.deepEqual(
+                            subtest.deepEqual(
                                 result,
                                 [],
                                 "should return empty array"
                             );
 
-                            tListCollections.end();
+                            subtest.end();
                             t.end();
                             process.exit(0);
                         });
