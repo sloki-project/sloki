@@ -62,7 +62,7 @@ See [CHANGELOG.md](/CHANGELOG.md)
 #### Commands implementation
 
 | Status            | Category | Command           | Parameter | Description                
-|-------------------|----------|-------------------|----------------------------
+|-------------------|----------|-------------------|-----------|----------------
 | :white_check_mark:| Client   | quit              |           | TCP only: client disconnect
 | :white_check_mark:| Server   | shutdown          |           | shutdown LokiJS-Server
 | :white_check_mark:| Server   | showMemory        |           | return LokiJS-Server memory usage
