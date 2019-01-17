@@ -9,10 +9,13 @@ A TCP/TLS (HTTP/HTTPS?) Server for [LokiJS](http://lokijs.org/) using [JSONRPC](
 
 ## Overview
 
-[LokiJS](http://lokijs.org/) is a document oriented database written in javascript.
+LokiJS-Server make LokiJS ***scalable***.
 
-LokiJS-Server is a transport adapter using [JSONRPC](https://www.jsonrpc.org/) protocol. It *will* support TCP/TLS/(HTTP/HTTPS ?).
-It address the **scalability** lack of our favorite LokiJS.
+* It embed [LokiJS](http://lokijs.org/)
+* It **WILL** support TCP/TLS clients
+* It **MAY** support HTTP/HTTPS clients
+* It expose a [JSONRPC](https://www.jsonrpc.org/) API
+
 
 ```
                                           JSONRPC (jayson)
