@@ -59,8 +59,8 @@ Copy paste line you want)
 | Icon              | Description                
 |-------------------|----------
 | :white_check_mark:| implemented
-| :white_circle:    | implemented
-| :red_circle:      | implemented
+| :white_circle:    | in progress/will be implemented
+| :red_circle:      | will NOT be implemented
 
 
 #### Commands implementation
