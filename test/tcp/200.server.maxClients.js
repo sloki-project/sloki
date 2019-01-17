@@ -18,7 +18,7 @@ tap.test(
                 t.test(
                     "client1: getMaxClients",
                     (tGetMaxClient)  => {
-                        tcpClient.getMaxClients((err, result) => {
+                        tcpClient.maxClients((err, result) => {
                             tGetMaxClient.deepEqual(err, undefined, 'command should not return an error');
                             tGetMaxClient.equal(
                                 result,
@@ -34,7 +34,7 @@ tap.test(
                     "client1: setMaxClients",
                     (tSetMaxClient)  => {
                         maxClients=1;
-                        tcpClient.setMaxClients(maxClients, (err, result) => {
+                        tcpClient.maxClients(maxClients, (err, result) => {
                             tSetMaxClient.deepEqual(err, undefined, 'command should not return an error');
                             tSetMaxClient.equal(
                                 result,
@@ -49,7 +49,7 @@ tap.test(
                 t.test(
                     "client1: getMaxClients",
                     (tGetMaxClient)  => {
-                        tcpClient.getMaxClients((err, result) => {
+                        tcpClient.maxClients((err, result) => {
                             tGetMaxClient.deepEqual(err, undefined, 'command should not return an error');
                             tGetMaxClient.equal(
                                 result,
@@ -72,7 +72,7 @@ tap.test(
 
                                 let expectedErr = { code: -32000, message: 'Max Clients Reached' };
 
-                                tcpClient1.getMaxClients((err, result) => {
+                                tcpClient1.maxClients((err, result) => {
                                     tHitMaxClient.deepEqual(
                                         err,
                                         expectedErr,
@@ -88,7 +88,7 @@ tap.test(
                 t.test(
                     "client1: restore maxClients",
                     (tSetMaxClient)  => {
-                        tcpClient.setMaxClients(ENV.NET_TCP_MAX_CLIENTS, (err, result) => {
+                        tcpClient.maxClients(ENV.NET_TCP_MAX_CLIENTS, (err, result) => {
                             tSetMaxClient.deepEqual(err, undefined, 'command should not return an error');
 
                             // @FIXME: see previous test

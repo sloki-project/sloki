@@ -1,14 +1,14 @@
 const log = require('evillogger')({ns:'commands'});
-const ENV = require('../../env');
+const ENV = require('../env');
+
+let errorBadMaxClient = {
+    code: -32602, // http://jsonrpc.org/spec.html#error_object
+    message:"setMaxClients <number> where number is >= 1"
+}
 
 function maxClients(params, callback) {
-    let errorBadMaxClient = {
-        code: -32602, // http://jsonrpc.org/spec.html#error_object
-        message:"setMaxClients <number> where number is >= 1"
-    }
-
     if (!params) {
-        callback(errorBadMaxClient);
+        callback(null, ENV.NET_TCP_MAX_CLIENTS);
         return;
     }
 

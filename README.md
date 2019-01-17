@@ -94,13 +94,15 @@ Not usable yet.
 </summary>
 <p>
 
-| Status            | Command           | Parameter | Description                
-|:-----------------:|-------------------|-----------|----------------
-| :heavy_check_mark:| quit              |           | disconnect (TCP/TLS clients only)
-| :heavy_check_mark:| shutdown          |           | shutdown LokiJS-Server
-| :heavy_check_mark:| memory            |           | return LokiJS-Server memory usage
-| :heavy_check_mark:| clients           |           | return TCP/TLS connected clients
-| :heavy_check_mark:| commands          |           | return available commands
+| Status            | Command           | Parameter     | Description                
+|:-----------------:|-------------------|---------------|----------------
+| :heavy_check_mark:| quit              |               | disconnect (TCP/TLS clients only)
+| :heavy_check_mark:| shutdown          |               | shutdown LokiJS-Server
+| :heavy_check_mark:| memory            |               | return LokiJS-Server memory usage
+| :heavy_check_mark:| clients           |               | return TCP/TLS connected clients
+| :heavy_check_mark:| maxClients        |               | return TCP/TLS maxClients
+| :heavy_check_mark:| maxClients        | maxClients    | set TCP/TLS maxClients
+| :heavy_check_mark:| commands          |               | return available commands
 
 </p>
 </details>
