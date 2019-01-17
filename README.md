@@ -143,7 +143,7 @@ Copy paste line you want)
 
 <details>
 <summary>
-<b><img src="http://progressed.io/bar/50"/> Transports</b>
+<b><img src="http://progressed.io/bar/25"/> Transports</b>
 </summary>
 <p>
 
