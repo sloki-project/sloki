@@ -16,19 +16,19 @@ tap.test(
 
                 t.test(
                     "showDatabases",
-                    (tListDatabases)  => {
+                    (subtest)  => {
                         tcpClient.listDatabases((err, result) => {
-                            tListDatabases.deepEqual(err, undefined, 'command should not return an error');
+                            subtest.deepEqual(err, undefined, 'command should not return an error');
 
                             // example
                             // [ 'test' ]
-                            tListDatabases.deepEqual(
+                            subtest.deepEqual(
                                 result,
                                 ['test'],
                                 "should return only one database (named 'test')"
                             );
 
-                            tListDatabases.end();
+                            subtest.end();
                             t.end();
                             process.exit(0);
                         });

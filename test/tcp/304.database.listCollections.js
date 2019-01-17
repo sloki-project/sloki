@@ -19,9 +19,6 @@ tap.test(
                     (subtest)  => {
                         tcpClient.listCollections((err, result) => {
                             subtest.deepEqual(err, undefined, 'command should not return an error');
-
-                            // example
-                            // [ 'test' ]
                             subtest.deepEqual(
                                 result,
                                 [],
