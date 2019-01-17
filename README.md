@@ -60,6 +60,22 @@ Copy paste line you want)
 | :red_circle:      | does NOT make sens in LokiJS-Server, will NOT be implemented
 | :question:        | MAY be implemented
 
+
+<details>
+<summary>
+<b><img src="http://progressed.io/bar/25"/> Transports</b>
+</summary>
+<p>
+
+| Status            | Transport            | Notes               
+|:-----------------:|----------------------|--------------------------------
+| :heavy_check_mark:| TCP                  | Persistant connection
+| :heavy_plus_sign: | TLS                  |
+| :question:        | HTTP                 |
+| :question:        | HTTPS                |
+</p>
+</details>
+
 <details>
 <summary>
 <b><img src="http://progressed.io/bar/100"/> Commands: client and server related</b>
@@ -137,22 +153,6 @@ Copy paste line you want)
 | Status            | Command                       | Parameter(s)      | Description  
 |:-----------------:|-------------------------------|-------------------|----------------              
 
-</p>
-</details>
-
-
-<details>
-<summary>
-<b><img src="http://progressed.io/bar/25"/> Transports</b>
-</summary>
-<p>
-
-| Status            | Transport            | Notes               
-|:-----------------:|----------------------|--------------------------------
-| :heavy_check_mark:| TCP                  | Persistant connection
-| :heavy_plus_sign: | TLS                  |
-| :question:        | HTTP                 |
-| :question:        | HTTPS                |
 </p>
 </details>
 
