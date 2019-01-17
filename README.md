@@ -70,7 +70,7 @@ Copy paste line you want)
 
 <details>
 <summary>
-<b>Commands: client and server related</b>
+<b><img src="http://progressed.io/bar/100"/> Commands: client and server related</b>
 </summary>
 <p>
 
@@ -87,7 +87,7 @@ Copy paste line you want)
 
 <details>
 <summary>
-<b>Commands: database related <img src="http://progressed.io/bar/50"/></b>
+<b><img src="http://progressed.io/bar/50"/> Commands: database related</b>
 </summary>
 <p>
 
@@ -138,7 +138,7 @@ Copy paste line you want)
 
 <details>
 <summary>
-<b>Transports</b>
+<b><img src="http://progressed.io/bar/50"/> Transports</b>
 </summary>
 <p>
 
@@ -153,7 +153,7 @@ Copy paste line you want)
 
 <details>
 <summary>
-<b>Benchmarks</b>
+<b><img src="http://progressed.io/bar/0"/> Benchmarks</b>
 </summary>
 <p>
 
@@ -169,7 +169,7 @@ Copy paste line you want)
 
 <details>
 <summary>
-<b>Tools</b>
+<b><img src="http://progressed.io/bar/0"/> Tools</b>
 </summary>
 <p>
 
@@ -182,7 +182,7 @@ Copy paste line you want)
 
 <details>
 <summary>
-<b>Improvements on top of LokiJS</b>
+<b><img src="http://progressed.io/bar/0"/> Improvements on top of LokiJS</b>
 </summary>
 <p>
 
