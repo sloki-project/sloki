@@ -60,7 +60,13 @@ function use(databaseName, callback) {
     dbs[databaseName].save();
 }
 
+function listCollections(db) {
+    if (!dbs[db]) return;
+    return dbs[db].listCollections();
+}
+
 module.exports = {
-    listSync:listSync,
-    use:use
+    listSync,
+    use,
+    listCollections
 }
