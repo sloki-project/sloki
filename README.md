@@ -43,15 +43,21 @@ It address the **scalability** lack of our favorite LokiJS.
 
 ## Installation
 
-Copy paste line you want)
+Copy paste line you want :)
 
-* locally: ```npm install LokiJS-Server``` or ```yarn add LokiJS-Server```
-* globaly: ```npm install -g LokiJS-Server``` or ```yarn add -g LokiJS-Server```
+* locally:
+  * ```npm install LokiJS-Server```
+  * ```yarn add LokiJS-Server```
+  
+* globally:
+  * ```npm install -g LokiJS-Server```
+  * ```yarn add -g LokiJS-Server```
 
+-----
 
 ## Current state
 
-## Legends
+#### Legends
 
 | Icon              | Description                
 |:-----------------:|----------------------------------------------------------------------
