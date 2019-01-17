@@ -52,16 +52,16 @@ Copy paste line you want)
 
 ## Current state
 
-**WORK IN PROGRESS**
+**WORK IN PROGRESS, NOT USABLE YET**
 
-**NOT USABLE YET**
+#### Legends
 
-See [CHANGELOG.md](/CHANGELOG.md)
+| Icon              | Description                
+|-------------------|----------
+| :white_check_mark:| implemented
+| :white_circle:    | implemented
+| :red_circle:      | implemented
 
-Legend:
-* :white_check_mark: : implemented
-* :white_circle: : in progress/must be implemented
-* :red_circle: : will NOT be implemented
 
 #### Commands implementation
 
