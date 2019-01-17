@@ -111,7 +111,7 @@ Not usable yet.
 </summary>
 <p>
 
-[Loki Class documentation](https://rawgit.com/techfort/LokiJS/master/jsdoc/Loki.html)
+[Loki Class (Database) documentation](https://rawgit.com/techfort/LokiJS/master/jsdoc/Loki.html)
 
 | Status            | Command                       | Parameter(s)      | Description  
 |:-----------------:|-------------------------------|-------------------|----------------              
@@ -160,7 +160,7 @@ Not usable yet.
 </summary>
 <p>
 
-[Loki Class documentation](https://rawgit.com/techfort/LokiJS/master/jsdoc/Collection.html)
+[Loki Collection documentation](https://rawgit.com/techfort/LokiJS/master/jsdoc/Collection.html)
 
 | Status            | Command                       | Parameter(s)      | Description  
 |:-----------------:|-------------------------------|-------------------|----------------              
