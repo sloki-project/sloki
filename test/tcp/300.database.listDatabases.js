@@ -15,20 +15,20 @@ tap.test(
                 t.deepEqual(err, undefined, 'connect should not return an error');
 
                 t.test(
-                    "showCollections",
-                    (tShowCollections)  => {
-                        tcpClient.showCollections((err, result) => {
-                            tShowCollections.deepEqual(err, undefined, 'command should not return an error');
+                    "showDatabases",
+                    (tListDatabases)  => {
+                        tcpClient.listDatabases((err, result) => {
+                            tListDatabases.deepEqual(err, undefined, 'command should not return an error');
 
                             // example
                             // [ 'test' ]
-                            tShowCollections.deepEqual(
+                            tListDatabases.deepEqual(
                                 result,
-                                [],
-                                "should return empty array"
+                                ['test'],
+                                "should return only one database (named 'test')"
                             );
 
-                            tShowCollections.end();
+                            tListDatabases.end();
                             t.end();
                             process.exit(0);
                         });

@@ -3,18 +3,18 @@ const ENV = require('../../env');
 const databases = require('../../databases');
 
 /**
- * Client ask for databases list
+ * return collections of current selected database
  *
  * @example
- * client> showDatabases
- * server> BYE
+ * client> listCollections
+ * []
  *
  * @param {object} params - not used
  * @param {function} callback - callback
  * @memberof Commands
  */
-function showCollections(params, callback) {
+function listCollections(params, callback) {
     callback(null, databases.listCollections(this.loki.currentDatabase));
 }
 
-module.exports = showCollections;
+module.exports = listCollections;

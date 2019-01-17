@@ -32,7 +32,7 @@ if (!dbs['test']) {
     dbs['test'].save();
 }
 
-function listSync() {
+function list() {
     let tmp = [];
     for (db of Object.keys(dbs)) {
         tmp.push(db);
@@ -66,7 +66,7 @@ function listCollections(db) {
 }
 
 module.exports = {
-    listSync,
+    list,
     use,
     listCollections
 }

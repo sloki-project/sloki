@@ -3,18 +3,18 @@ const ENV = require('../../env');
 const databases = require('../../databases');
 
 /**
- * Client ask for databases list
+ * return databases list
  *
  * @example
- * client> showDatabases
- * server> BYE
+ * client> listDatabases
+ * ['test']
  *
  * @param {object} params - not used
  * @param {function} callback - callback
  * @memberof Commands
  */
-function showDatabases(params, callback) {
-    callback(null, databases.listSync());
+function listDatabases(params, callback) {
+    callback(null, databases.list());
 }
 
-module.exports = showDatabases;
+module.exports = listDatabases;
