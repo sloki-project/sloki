@@ -66,7 +66,7 @@ Copy paste line you want)
 | :heavy_plus_sign: | in progress/MUST be implemented
 | :red_circle:      | does NOT make sens in LokiJS-Server, will NOT be implemented
 | :question:        | MAY be implemented
-------
+
 </p>
 </details>
 
@@ -75,6 +75,7 @@ Copy paste line you want)
 <b>Commands: specific LokiJS-Server Client or Server related</b>
 </summary>
 <p>
+
 | Status            | Command           | Parameter | Description                
 |:-----------------:|-------------------|-----------|----------------
 | :heavy_check_mark:| quit              |           | disconnect (TCP/TLS clients only)
@@ -82,7 +83,7 @@ Copy paste line you want)
 | :heavy_check_mark:| memory            |           | return LokiJS-Server memory usage
 | :heavy_check_mark:| clients           |           | return TCP/TLS connected clients
 | :heavy_check_mark:| commands          |           | return available commands
-------
+
 </p>
 </details>
 
@@ -91,6 +92,7 @@ Copy paste line you want)
 <b>Commands: <a href="https://rawgit.com/techfort/LokiJS/master/jsdoc/Loki.html">Database related</a>
 </summary>
 <p>
+
 ![Progress](http://progressed.io/bar/50)
 
 | Status            | Command                       | Parameter(s)      | Description  
@@ -129,7 +131,7 @@ Copy paste line you want)
 | :red_circle:      | serializeCollection           | options           | see LokiJS documentation
 | :red_circle:      | serializeDestructured         | options           | see LokiJS documentation
 | :red_circle:      | throttledSaveDrain            |                   | see LokiJS documentation
-------
+
 </p>
 </details>
 
@@ -139,13 +141,13 @@ Copy paste line you want)
 <b>Transports</b>
 </summary>
 <p>
+
 | Status            | Transport            | Notes               
 |:-----------------:|----------------------|--------------------------------
 | :heavy_check_mark:| TCP                  | Persistant connection
 | :heavy_plus_sign: | TLS                  |
 | :question:        | HTTP                 |
 | :question:        | HTTPS                |
-------
 </p>
 </details>
 
@@ -154,13 +156,14 @@ Copy paste line you want)
 <b>Benchmarks</b>
 </summary>
 <p>
+
 | Status            | Transport            | Notes               
 |:-----------------:|----------------------|--------------------------------
 | :heavy_plus_sign: | TCP                  | Persistant connection
 | :heavy_plus_sign: | TLS                  |
 | :question:        | HTTP                 |
 | :question:        | HTTPS                |
-------
+
 </p>
 </details>
 
@@ -169,10 +172,11 @@ Copy paste line you want)
 <b>Tools</b>
 </summary>
 <p>
+
 | Status             | Tool                 | Notes               
 |:------------------:|----------------------|--------------------------------
 | :heavy_plus_sign:       | CLI                  | CLI using TCP transport
-------
+
 </p>
 </details>
 
@@ -181,10 +185,11 @@ Copy paste line you want)
 <b>Improvements on top of LokiJS</b>
 </summary>
 <p>
+
 | Status             | Improvement          | Notes               
 |:------------------:|----------------------|--------------------------------
 | :heavy_plus_sign:  | Authentication       | Optional authentication layer (all transports)
-------
+
 </p>
 </details>
 
@@ -193,6 +198,7 @@ Copy paste line you want)
 <b>LokiJS-Server options</b>
 </summary>
 <p>
+
 ### Environnement variables
 
 | Name              | Default Value     | Possible values       | Implemented since version
@@ -200,14 +206,12 @@ Copy paste line you want)
 | LOKI_DIR          | ~/.lokijs/dbs     |                       | 0.0.0
 | LOKI_TRANSPORT    | TCP               | TCP\|HTTP\|TCP-HTTP   | 0.0.0
 
-----
-
 ### Command line options
 
 | Option            | Default Value     | Possible values       | Implemented since version
 |-------------------|-------------------|-----------------------|--------
 | dir               | ~/.lokijs/dbs     |                       | 0.0.0
 | transport         | TCP               | TCP\|HTTP\|TCP-HTTP   | 0.0.0
-------
+
 </p>
 </details>
