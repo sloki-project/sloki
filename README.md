@@ -61,17 +61,19 @@ See [CHANGELOG.md](/CHANGELOG.md)
 
 #### Commands implementation
 
-| Status             | Command           | Parameter | Description                
-|--------------------|-------------------|-----------|----------------------------
-| :white_check_mark: | quit              |           | TCP only: client disconnect
-| :white_check_mark: | shutdown          |           | shutdown LokiJS-Server
-| :white_check_mark: | showMemory        |           | return LokiJS-Server memory usage
-| :white_check_mark: | showClients       |           | return tcp server connected clients
-| :white_check_mark: | showCommands      |           | return available commands
-| :white_check_mark: | listDatabases     |           | return available databases
-| :white_check_mark: | listCollections   |           | return available collections in selected database
-| :white_check_mark: | db                |           | mongodb like, return current database name
-| :white_check_mark: | use               | dbName    | mongodb like, select a database
+| Status            | Category | Command           | Parameter | Description                
+|-------------------|----------|-------------------|----------------------------
+| :white_check_mark:| Client   | quit              |           | TCP only: client disconnect
+| :white_check_mark:| Server   | shutdown          |           | shutdown LokiJS-Server
+| :white_check_mark:| Server   | showMemory        |           | return LokiJS-Server memory usage
+| :white_check_mark:| Server   | showClients       |           | return tcp server connected clients
+| :white_check_mark:| Server   | showCommands      |           | return available commands
+| :white_check_mark:| Loki     | db                |           | mongodb like, return current database name
+| :white_check_mark:| Loki     | use               | dbName    | mongodb like, select a database
+| :white_check_mark:| Loki     | listDatabases     |           | return available databases
+| :white_check_mark:| Loki     | listCollections   |           | return available collections in selected database
+| :red_circle:      | Loki     | addCollection     | options   | add a collection in selected database
+
 
 #### Transports implementation
 
