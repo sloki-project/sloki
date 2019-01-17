@@ -77,7 +77,8 @@ Copy paste line you want)
 
 ------
 
-#### Commands: [Database related](https://rawgit.com/techfort/LokiJS/master/jsdoc/Loki.html) ![Progress](http://progressed.io/bar/50)   
+<details><summary>#### Commands: [Database related](https://rawgit.com/techfort/LokiJS/master/jsdoc/Loki.html) ![Progress](http://progressed.io/bar/50)</summary>
+<p>
 
 | Status            | Command                       | Parameter(s)      | Description  
 |:-----------------:|-------------------------------|-------------------|----------------              
@@ -116,8 +117,11 @@ Copy paste line you want)
 | :red_circle:      | serializeDestructured         | options           | see LokiJS documentation
 | :red_circle:      | throttledSaveDrain            |                   | see LokiJS documentation
 
-
 ------
+
+</p>
+</details>
+
 
 ## Transports
 
