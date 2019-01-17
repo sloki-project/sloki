@@ -20,26 +20,26 @@ LokiJS-Server is a transport adapter using [JSONRPC](https://www.jsonrpc.org/) p
 It address the **scalability** lack of our favorite LokiJS.
 
 ```
-                                  JSONRPC (jayson)
-                                 TCP|TLS|HTTP|HTTPS
+                                          JSONRPC (jayson)
+                                         TCP|TLS|HTTP|HTTPS
 
-+----------------------------+                         +----------------------------------+
-|                            |                         |          LokiJS-Server           |
-|       NodeJS Daemon        |<----------------------->|        (Local or Remote)         |
-|                            |                         |                                  |
-+----------------------------+                         |    +------------------------+    |
-                                                       |    |                        |    |
-+----------------------------+                         |    |                        |    |
-|                            |                         |    |                        |    |
-|       NodeJS Daemon        |<----------------------->|    |         LokiJS         |    |
-|                            |                         |    |       (database)       |    |
-+----------------------------+                         |    |                        |    |
-                                                       |    |                        |    |
-+----------------------------+                         |    +------------------------+    |
-|                            |                         |                                  |
-|           CLI              |<----------------------->|                                  |
-|                            |                         |                                  |
-+----------------------------+                         +----------------------------------+
+        +----------------------------+                         +----------------------------------+
+        |                            |                         |          LokiJS-Server           |
+        |       NodeJS Daemon        |<----------------------->|        (Local or Remote)         |
+        |                            |                         |                                  |
+        +----------------------------+                         |    +------------------------+    |
+                                                               |    |                        |    |
+        +----------------------------+                         |    |                        |    |
+        |                            |                         |    |                        |    |
+        |       NodeJS Daemon        |<----------------------->|    |         LokiJS         |    |
+        |                            |                         |    |       (database)       |    |
+        +----------------------------+                         |    |                        |    |
+                                                               |    |                        |    |
+        +----------------------------+                         |    +------------------------+    |
+        |                            |                         |                                  |
+        |           CLI              |<----------------------->|                                  |
+        |                            |                         |                                  |
+        +----------------------------+                         +----------------------------------+
 ```
 
 ## Installation
@@ -72,7 +72,7 @@ Copy paste line you want)
 
 <details>
 <summary>
-<b>Commands: specific LokiJS-Server Client or Server related</b>
+<b>Commands: client and server related</b>
 </summary>
 <p>
 
@@ -197,7 +197,7 @@ Copy paste line you want)
 
 <details>
 <summary>
-<b>LokiJS-Server options</b>
+<b>Server options</b>
 </summary>
 <p>
 
