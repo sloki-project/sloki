@@ -109,7 +109,7 @@ Not usable yet.
 <summary>
 <b><img src="http://progressed.io/bar/50"/> Commands: database related</b>
 </summary>
-<p>
+<p style="font-size:10px">
 
 [Loki Class (Database) documentation](https://rawgit.com/techfort/LokiJS/master/jsdoc/Loki.html)
 
