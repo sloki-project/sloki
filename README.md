@@ -144,7 +144,7 @@ Copy paste line you want)
 
 <details>
 <summary>
-<b><img src="http://progressed.io/bar/0"/> Commands: collections related</b>
+<b><img src="http://progressed.io/bar/0"/> Commands: collection related</b>
 </summary>
 <p>
 
