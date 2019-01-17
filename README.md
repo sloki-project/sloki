@@ -63,7 +63,7 @@ Copy paste line you want)
 | :red_circle:      | will NOT be implemented
 
 
-#### Commands implementation
+#### Commands
 
 | Status            | Category | Command           | Parameter | Description                
 |-------------------|----------|-------------------|-----------|----------------
@@ -79,7 +79,7 @@ Copy paste line you want)
 | :white_circle:    | Loki     | addCollection     | options   | add a collection in selected database
 
 
-#### Transports implementation
+#### Transports
 
 | Status             | Transport            | Notes               
 |--------------------|----------------------|--------------------------------
