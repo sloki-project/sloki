@@ -59,6 +59,7 @@ Copy paste line you want)
 <b>Legends</b>
 </summary>
 <p>
+
 | Icon              | Description                
 |:-----------------:|----------------------------------------------------------------------
 | :heavy_check_mark:| implemented
