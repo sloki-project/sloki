@@ -61,6 +61,11 @@ See [CHANGELOG.md](/CHANGELOG.md)
 
 #### Commands implementation
 
+Legend:
+* Implemented :white_check_mark:
+* In progress/must be implemented: :white_circle:
+* Will NOT be implemented: :red_circle:
+
 | Status            | Category | Command           | Parameter | Description                
 |-------------------|----------|-------------------|-----------|----------------
 | :white_check_mark:| Server   | quit              |           | disconnect (TCP/TLS clients only)
@@ -72,7 +77,7 @@ See [CHANGELOG.md](/CHANGELOG.md)
 | :white_check_mark:| Loki     | use               | dbName    | mongodb like, select (and load if needed) a database
 | :white_check_mark:| Loki     | listDatabases     |           | return available databases
 | :white_check_mark:| Loki     | listCollections   |           | return available collections in selected database
-| :red_circle:      | Loki     | addCollection     | options   | add a collection in selected database
+| :white_circle:    | Loki     | addCollection     | options   | add a collection in selected database
 
 
 #### Transports implementation
@@ -80,33 +85,33 @@ See [CHANGELOG.md](/CHANGELOG.md)
 | Status             | Transport            | Notes               
 |--------------------|----------------------|--------------------------------
 | :white_check_mark: | TCP                  | Persistant connection
-| :red_circle:       | TLS                  |
-| :red_circle:       | HTTP                 |
-| :red_circle:       | HTTPS                |
+| :white_circle:     | TLS                  |
+| :white_circle:       | HTTP                 |
+| :white_circle:       | HTTPS                |
 
 
 #### Benchmarks
 
 | Status             | Transport            | Notes               
 |--------------------|----------------------|--------------------------------
-| :red_circle:       | TCP                  | Persistant connection
-| :red_circle:       | TLS                  |
-| :red_circle:       | HTTP                 |
-| :red_circle:       | HTTPS                |
+| :white_circle:       | TCP                  | Persistant connection
+| :white_circle:       | TLS                  |
+| :white_circle:       | HTTP                 |
+| :white_circle:       | HTTPS                |
 
 
 #### Extra Tools
 
 | Status             | Tool                 | Notes               
 |--------------------|----------------------|--------------------------------
-| :red_circle:       | CLI                  | CLI using TCP transport
+| :white_circle:       | CLI                  | CLI using TCP transport
 
 
 #### Improvements on top of LokiJS
 
 | Status             | Improvement          | Notes               
 |--------------------|----------------------|--------------------------------
-| :red_circle:       | Authentication       | Optional authentication layer (all transports)
+| :white_circle:       | Authentication       | Optional authentication layer (all transports)
 
 
 
