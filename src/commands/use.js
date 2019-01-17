@@ -2,28 +2,28 @@ const log = require('evillogger')({ns:'commands'});
 const ENV = require('../env');
 const databases = require('../databases');
 
+let errorDatabaseNameMandatory = {
+    code: -32602, // invalid param http://jsonrpc.org/spec.html#error_object
+    message:"databaseName is mandatory"
+}
+
+let errorDatabaseNameMatchForbiddenChars = {
+    code: -32602, // invalid param http://jsonrpc.org/spec.html#error_object
+    message:"databaseName should only contains alphanumeric chars"
+}
+
 /**
- * Client ask for currently selected database
+ * return selected database name
  *
  * @example
- * > db
+ * > use test
  * test
  *
- * @param {object} params - not used
+ * @param {object} params - ['databaseName']
  * @param {function} callback - callback
  * @memberof Commands
  */
- function db(params, callback) {
-
-     let errorDatabaseNameMandatory = {
-         code: -32602, // invalid param http://jsonrpc.org/spec.html#error_object
-         message:"databaseName is mandatory"
-     }
-
-     let errorDatabaseNameMatchForbiddenChars = {
-         code: -32602, // invalid param http://jsonrpc.org/spec.html#error_object
-         message:"databaseName should only contains alphanumeric chars"
-     }
+ function use(params, callback) {
 
      if (!params) {
          callback(errorDatabaseNameMandatory);
@@ -47,4 +47,4 @@ const databases = require('../databases');
      })
 }
 
-module.exports = db;
+module.exports = use;
