@@ -73,7 +73,7 @@ Copy paste line you want)
 | :heavy_check_mark:| clients           |           | return TCP/TLS connected clients
 | :heavy_check_mark:| commands          |           | return available commands
 
-#### Commands: [Database related](https://rawgit.com/techfort/LokiJS/master/jsdoc/Loki.html) ![Progress](http://progressed.io/bar/50?title=progress)   
+#### Commands: [Database related](https://rawgit.com/techfort/LokiJS/master/jsdoc/Loki.html) ![Progress](http://progressed.io/bar/50)   
 
 
 | Status            | Command                       | Parameter(s)      | Description  
