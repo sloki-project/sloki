@@ -52,11 +52,7 @@ Copy paste line you want)
 
 **WORK IN PROGRESS, NOT USABLE YET**
 
-<details>
-<summary>
-<b>Legends</b>
-</summary>
-<p>
+## Legends
 
 | Icon              | Description                
 |:-----------------:|----------------------------------------------------------------------
@@ -64,9 +60,6 @@ Copy paste line you want)
 | :heavy_plus_sign: | in progress/MUST be implemented
 | :red_circle:      | does NOT make sens in LokiJS-Server, will NOT be implemented
 | :question:        | MAY be implemented
-
-</p>
-</details>
 
 <details>
 <summary>
@@ -193,11 +186,9 @@ Copy paste line you want)
 </p>
 </details>
 
-<details>
-<summary>
-<b>Server options</b>
-</summary>
-<p>
+-----
+
+## Server options</b>
 
 ### Environnement variables
 
@@ -212,6 +203,3 @@ Copy paste line you want)
 |-------------------|-------------------|-----------------------|--------
 | dir               | ~/.lokijs/dbs     |                       | 0.0.0
 | transport         | TCP               | TCP\|HTTP\|TCP-HTTP   | 0.0.0
-
-</p>
-</details>
