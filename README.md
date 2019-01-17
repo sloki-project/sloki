@@ -107,9 +107,9 @@ Not usable yet.
 
 <details>
 <summary>
-<b><img src="http://progressed.io/bar/50"/> Commands: database related</b><font size="10">
+<b><img src="http://progressed.io/bar/50"/> Commands: database related</b>
 </summary>
-<p>
+<p><font size="10">
 
 [Loki Class (Database) documentation](https://rawgit.com/techfort/LokiJS/master/jsdoc/Loki.html)
 
