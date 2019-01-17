@@ -16,41 +16,23 @@ tap.test(
                 t.deepEqual(err, undefined, 'connect should not return an error');
 
                 t.test(
-                    "db",
-                    (tDb)  => {
+                    "use",
+                    (subtest)  => {
                         tcpClient.use(dbName, (err, result) => {
-                            tDb.deepEqual(err, undefined, 'command should not return an error');
-
-                            // example
-                            // test
-                            tDb.deepEqual(
-                                result,
-                                dbName,
-                                "current database should be '"+dbName+"'"
-                            );
-
-                            tDb.end();
-                            t.end();
-                            process.exit(0);
+                            subtest.deepEqual(err, undefined, 'command should not return an error');
+                            subtest.deepEqual(result, dbName, "current database should be '"+dbName+"'");
+                            subtest.end();
                         });
                     }
                 )
 
                 t.test(
                     "db",
-                    (tDb)  => {
+                    (subtest)  => {
                         tcpClient.db((err, result) => {
-                            tDb.deepEqual(err, undefined, 'command should not return an error');
-
-                            // example
-                            // test
-                            tDb.deepEqual(
-                                result,
-                                dbName,
-                                "current database should be '"+dbName+"'"
-                            );
-
-                            tDb.end();
+                            subtest.deepEqual(err, undefined, 'command should not return an error');
+                            subtest.deepEqual(result, dbName, "current database should be '"+dbName+"'");
+                            subtest.end();
                             t.end();
                             process.exit(0);
                         });
