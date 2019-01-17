@@ -97,7 +97,11 @@ function start(callback) {
                     return _maxClientsReachedResponse;
                 }
                 if (commandsList[method]) {
-                    log.info('%s: exec %s', socket.id, method);
+                    if (params) {
+                        log.info('%s: exec %s', socket.id, method, JSON.stringify(params));
+                    } else {
+                        log.info('%s: exec %s', socket.id, method);
+                    }
                     return commandsList[method].bind(socket);
                 }
             }
