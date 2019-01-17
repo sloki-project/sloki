@@ -1,5 +1,5 @@
 # LokiJS-Server (WORK IN PROGRESS)
-A TCP/TLS (HTTP/HTTPS?) Server for [LokiJS](http://lokijs.org/)
+A NodeJS TCP/TLS (HTTP/HTTPS?) Server for [LokiJS](http://lokijs.org/)
 
 [![Join the chat at https://gitter.im/techfort/LokiJS](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/LokiJS-Server/community)
 [![alt CI-badge](https://travis-ci.org/franck34/LokiJS-Server.svg?branch=master)](https://travis-ci.org/franck34/LokiJS-Server)
@@ -14,7 +14,7 @@ LokiJS-Server make LokiJS ***scalable***.
 * It embed [LokiJS](http://lokijs.org/)
 * It **WILL** support TCP/TLS clients
 * It **MAY** support HTTP/HTTPS clients
-* It expose a [JSONRPC](https://www.jsonrpc.org/) API ([JSONRPC](https://www.jsonrpc.org/)), thanks to ([Jayson](https://github.com/tedeh/jayson))
+* It expose a [JSONRPC](https://www.jsonrpc.org/) API [JSONRPC](https://www.jsonrpc.org/), thanks to [Jayson](https://github.com/tedeh/jayson)
 
 
 ```
