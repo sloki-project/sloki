@@ -87,7 +87,7 @@ Copy paste line you want)
 
 <details>
 <summary>
-<b>Commands: database related</b>
+<b>Commands: database related <img src="http://progressed.io/bar/50"/></b>
 </summary>
 <p>
 
