@@ -16,19 +16,11 @@ tap.test(
 
                 t.test(
                     "db",
-                    (tDb)  => {
+                    (subtest)  => {
                         tcpClient.db((err, result) => {
-                            tDb.deepEqual(err, undefined, 'command should not return an error');
-
-                            // example
-                            // test
-                            tDb.deepEqual(
-                                result,
-                                "test",
-                                "current database should be 'test'"
-                            );
-
-                            tDb.end();
+                            subtest.deepEqual(err, undefined, 'command should not return an error');
+                            subtest.deepEqual(result, "test", "current database should be 'test'");
+                            subtest.end();
                             t.end();
                             process.exit(0);
                         });
