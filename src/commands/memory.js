@@ -1,5 +1,5 @@
 const log = require('evillogger')({ns:'commands'});
-const ENV = require('../../env');
+const ENV = require('../env');
 const prettyBytes = require('pretty-bytes');
 const sprintf = require('sprintf-js').sprintf;
 
@@ -7,7 +7,7 @@ const sprintf = require('sprintf-js').sprintf;
 * Client ask for memory usage
 *
 * @example
-* > showMemory
+* > memory
 * {"rss":"24.7 MB", "heapTotal":"12.8 MB", "heapUsed":"7.36 MB", "external":"292 kB*}
 * @param {object} params - not used
 * @param {function} callback - callback

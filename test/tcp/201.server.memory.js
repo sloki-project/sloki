@@ -15,19 +15,19 @@ tap.test(
                 t.deepEqual(err, undefined, 'connect should not return an error');
 
                 t.test(
-                    "showMemory",
-                    (tShowMemory)  => {
-                        tcpClient.showMemory((err, result) => {
-                            tShowMemory.deepEqual(err, undefined, 'command should not return an error');
+                    "memory",
+                    (subtest)  => {
+                        tcpClient.memory((err, result) => {
+                            subtest.deepEqual(err, undefined, 'command should not return an error');
 
                             // example
                             // { rss: '34.7 MB', heapTotal: '18.2 MB', heapUsed: '13.3 MB', external: '2.39 MB' }
 
-                            tShowMemory.equal(typeof result.rss, "string", "rss should be a string");
-                            tShowMemory.equal(typeof result.heapTotal, "string", "heapTotal should be a string");
-                            tShowMemory.equal(typeof result.heapUsed, "string", "heapUsed should be a string");
-                            tShowMemory.equal(typeof result.external, "string", "external should be a string");
-                            tShowMemory.end();
+                            subtest.equal(typeof result.rss, "string", "rss should be a string");
+                            subtest.equal(typeof result.heapTotal, "string", "heapTotal should be a string");
+                            subtest.equal(typeof result.heapUsed, "string", "heapUsed should be a string");
+                            subtest.equal(typeof result.external, "string", "external should be a string");
+                            subtest.end();
                             t.end();
                             process.exit(0);
                         });
