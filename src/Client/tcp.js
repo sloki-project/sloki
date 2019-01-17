@@ -23,7 +23,24 @@ class ClientTCP extends EventEmitter {
 
         // load all commands
         for (let command in commands.list) {
-            this[command] = (params, cb) => {
+            this[command] = (param, option, cb) => {
+                let params = [];
+                if (typeof param === "function") {
+                    cb = param;
+                    params = undefined;
+                } else if (typeof option === "function") {
+                    cb = option;
+                    option = undefined;
+                    params.push(param);
+                } else {
+                    params.push(param);
+                    if (option) params.push(option);
+                }
+
+                if (params && params.length === 0) {
+                    params = undefined;
+                }
+                
                 this._request(command, params, cb);
                 return this;
             }
