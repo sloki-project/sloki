@@ -10,6 +10,7 @@ let dbs = {};
 let autosaveInterval = 1000;
 let autoload = true;
 let autosave = true;
+let serializationMethod = "pretty";
 
 if (!fs.pathExistsSync(ENV.DATABASES_DIRECTORY)) {
     fs.ensureDirSync(ENV.DATABASES_DIRECTORY);
@@ -27,7 +28,7 @@ for (file of klawSync(ENV.DATABASES_DIRECTORY)) {
 let dbTestFile = path.resolve(ENV.DATABASES_DIRECTORY+'/test.json');
 
 if (!dbs['test']) {
-    dbs['test'] = new loki(dbTestFile, {autoload, autosave, autosaveInterval});
+    dbs['test'] = new loki(dbTestFile, {serializationMethod, autoload, autosave, autosaveInterval});
     dbs['test'].save();
 }
 
@@ -48,6 +49,7 @@ function use(databaseName, callback) {
 
     let dbPath = path.resolve(ENV.DATABASES_DIRECTORY+'/'+databaseName+'.json');
     dbs[databaseName] = new loki(dbPath, {
+        serializationMethod,
     	autoload,
     	autosave,
     	autosaveInterval,
