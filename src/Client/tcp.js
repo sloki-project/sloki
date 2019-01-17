@@ -66,7 +66,7 @@ class ClientTCP extends EventEmitter {
                 return resolve();
             });
 
-            //his.conn.setTimeout(this.defaults.timeout);
+            //this.conn.setTimeout(this.defaults.timeout);
 
             this.private.conn.on('timeout', () => {
                 this.emit('timeout');
