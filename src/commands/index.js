@@ -23,10 +23,9 @@ for (file of klawSync(__dirname,{depthLimit:1, nodir:true})) {
     cmdName = path.basename(file.path).replace(/\.js/,'');
     cmdBase = file.path.replace(reDirname,'').replace(/\.js/,'');
     if (cmdBase.match(/\//)) {
-        tmp = cmdBase.split('/');
-        cmdName = tmp[0]+ucFirst(tmp[1]);
+        cmdBase = cmdBase.split('/')[0];
     }
-    log.info("Command registered (%s)", cmdName);
+    log.info("%s Command registered (%s)", cmdBase, cmdName);
     commands[cmdName] = require(file.path);
 }
 

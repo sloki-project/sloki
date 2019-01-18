@@ -1,6 +1,6 @@
 const log = require('evillogger')({ns:'commands'});
-const ENV = require('../env');
-const databases = require('../databases');
+const ENV = require('../../env');
+const databases = require('../../databases');
 
 /**
  * return collections of current selected database

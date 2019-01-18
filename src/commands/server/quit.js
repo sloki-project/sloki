@@ -1,8 +1,7 @@
 const log = require('evillogger')({ns:'commands'});
-const ENV = require('../env');
 
 /**
- * Client ask want to quit
+ * client disconnect
  *
  * @example
  * > quit

@@ -1,8 +1,5 @@
 const log = require('evillogger')({ns:'commands'});
-const ENV = require('../env');
-const sprintf = require('sprintf-js').sprintf;
-const moment = require('moment');
-require('moment-duration-format');
+const ENV = require('../../env');
 
 /**
  * return TCP/TLS connected clients

@@ -1,10 +1,9 @@
 const log = require('evillogger')({ns:'commands'});
-const ENV = require('../env');
+const ENV = require('../../env');
 const prettyBytes = require('pretty-bytes');
-const sprintf = require('sprintf-js').sprintf;
 
 /**
-* Client ask for memory usage
+* return memory usage
 *
 * @example
 * > memory

@@ -14,7 +14,7 @@ const log = require('evillogger')({ns:'commands'});
 * @memberof Commands
 */
 function commands(params, callback) {
-    callback(null, Object.keys(require('./').list));
+    callback(null, Object.keys(require('../').list));
 }
 
 module.exports = commands;

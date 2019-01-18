@@ -1,6 +1,6 @@
 const log = require('evillogger')({ns:'commands'});
-const ENV = require('../env');
-const databases = require('../databases');
+const ENV = require('../../env');
+const databases = require('../../databases');
 
 let errorCollectionNameMandatory = {
     code: -32602, // invalid param http://jsonrpc.org/spec.html#error_object

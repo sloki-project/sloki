@@ -1,5 +1,5 @@
 const log = require('evillogger')({ns:'commands'});
-const ENV = require('../env');
+const ENV = require('../../env');
 
 // story of circular reference so we can't require server at this step,
 // need to require it inside shutdown function
@@ -17,7 +17,7 @@ let server;
  */
  function shutdown(params, callback) {
      if (!server) {
-         server = require('../server');
+         server = require('../../server');
      }
      server.stop();
      callback();

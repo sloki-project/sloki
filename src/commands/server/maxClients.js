@@ -1,5 +1,5 @@
 const log = require('evillogger')({ns:'commands'});
-const ENV = require('../env');
+const ENV = require('../../env');
 
 let errorBadMaxClient = {
     code: -32602, // http://jsonrpc.org/spec.html#error_object
