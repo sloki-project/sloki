@@ -42,7 +42,7 @@ function handleStartError(err, callback, next) {
 function start(callback) {
 
     databases.initialize();
-    
+
     if (running) {
         callback && callback('ERUNNING');
         return;
