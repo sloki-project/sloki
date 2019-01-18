@@ -7,10 +7,6 @@ const spawn = require('child_process').spawn;
 const fs = require('fs-extra');
 const ENV = require('../src/env');
 
-// @FIXME: deal with local server vs test server
-// working on local computer or travis.ci tests ?
-const USE_TEST_SERVER = process.env.LOGNAME!="franck";
-
 let tests = {};
 let testName;
 let dir;
@@ -89,10 +85,7 @@ function runTests() {
     );
 }
 
-
-cleanTestDatabases();
-
-if (USE_TEST_SERVER) {
+if (process.env.CI) {
     server.start((err) => {
         if (err) {
             throw new Error(err);
@@ -101,5 +94,6 @@ if (USE_TEST_SERVER) {
         setTimeout(runTests,1000);
     });
 } else {
+    cleanTestDatabases();
     runTests();
 }
