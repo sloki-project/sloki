@@ -33,6 +33,10 @@ function prepareTests() {
 }
 
 function cleanTestDatabases() {
+    if (!fs.pathExistsSync(ENV.DATABASES_DIRECTORY)) {
+        return
+    }
+
     for (let file of klawSync(ENV.DATABASES_DIRECTORY,{depthLimit:0})) {
         if (path.basename(file.path).match(/\_\_/)) {
             fs.removeSync(file.path);
