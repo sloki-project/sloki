@@ -5,8 +5,7 @@ const log = require('evillogger')({ns:'commands'});
 *
 * @example
 * > commands
-* command1
-* command2
+* ['command1','command2', ...]
 * ...
 *
 * @param {object} params - not used
