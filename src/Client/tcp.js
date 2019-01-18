@@ -40,7 +40,7 @@ class ClientTCP extends EventEmitter {
                 if (params && params.length === 0) {
                     params = undefined;
                 }
-                
+
                 this._request(command, params, cb);
                 return this;
             }
@@ -93,7 +93,7 @@ class ClientTCP extends EventEmitter {
 
             this.private.conn.on('error', (err) => {
                 this.emit('error', err);
-                log.error('onError', err.message);
+                //log.error('onError', err.message);
                 this.private.conn.destroy();
             });
 
