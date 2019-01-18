@@ -70,9 +70,15 @@ function addCollection(db, collectionName, options) {
     return dbs[db].addCollection(collectionName, options).name;
 }
 
+function getCollection(db, collectionName) {
+    if (!dbs[db]) return;
+    return dbs[db].getCollection(collectionName);
+}
+
 module.exports = {
     list,
     use,
     listCollections,
-    addCollection
+    addCollection,
+    getCollection
 }
