@@ -75,10 +75,19 @@ function getCollection(db, collectionName) {
     return dbs[db].getCollection(collectionName);
 }
 
+function saveDatabase(db, callback) {
+    if (!dbs[db]) {
+        callback('E_NO_DATABASE_SELECTED');
+        return;
+    }
+    dbs[db].saveDatabase(callback);
+}
+
 module.exports = {
     list,
     use,
     listCollections,
     addCollection,
-    getCollection
+    getCollection,
+    saveDatabase
 }
