@@ -14,7 +14,7 @@ let errorCollectionNameMandatory = {
  * client> addCollection myCollection
  * myCollection
  *
- * @param {object} params - not used
+ * @param {object} params - array['collectionName', options]
  * @param {function} callback - callback
  * @memberof Commands
  */
