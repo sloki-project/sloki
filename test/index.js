@@ -76,7 +76,7 @@ function runTests() {
             })
         },
         () => {
-            if (USE_TEST_SERVER) {
+            if (process.env.CI) {
                 server.stop(endTests);
             } else {
                 endTests();
