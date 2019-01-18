@@ -1,3 +1,5 @@
+const ENV = require('../env');
+
 let proto;
 let host;
 let port;
@@ -26,17 +28,19 @@ function Client(url) {
         process.exit(-1);
     }
 
-    if (proto === "tcp") {
+    if (proto === "tcp" || proto === "tls") {
         url = url.replace(/(tcp|tls):\/\//,'').split(':');
         host = url[0];
         port = url[1];
 
         if (proto === "tcp") {
-            return new require('./tcp')(port, host);
+            const ClientTCP = require('./tcp');
+            return new ClientTCP(port, host);
         }
 
         /*
         if (proto === "tls") {
+            const ClientTLS = require('./tls');
             return new require('./tls')(port, host);
         }
         */
