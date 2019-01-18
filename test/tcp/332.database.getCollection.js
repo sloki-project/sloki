@@ -3,7 +3,7 @@ let collectionName = "myCollection";
 
 
 let expectedCollectionProperties = {
-    "name":"myCollection",
+    "name":collectionName,
     "data":[],
     "idIndex":[],
     "binaryIndices":{},
@@ -19,8 +19,8 @@ let expectedCollectionProperties = {
     },
     "uniqueNames":["uid"],
     "transforms":{},
-    "objType":"myCollection",
-    "dirty":false,   // collection has just been created, considered as dirty
+    "objType":collectionName,
+    "dirty":false,   // collection has just been created, so it's considered as dirty
     "cachedIndex":null,
     "cachedBinaryIndex":null,
     "cachedData":null,
