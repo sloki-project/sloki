@@ -7,16 +7,16 @@ let cmdName;
 let cmdBase;
 let reDirname = new RegExp(__dirname+'/');
 let tmp;
+let showLog = !process.mainModule.filename.match(/\/cli/);
 
 function ucFirst(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
+
 for (file of klawSync(__dirname,{depthLimit:1, nodir:true})) {
 
     if (file.path.match(/\/index|README/)) {
-        // ignore myself (index.js)
-        // or directories having /commands/mycommand/index.js
         continue;
     }
 
@@ -25,7 +25,7 @@ for (file of klawSync(__dirname,{depthLimit:1, nodir:true})) {
     if (cmdBase.match(/\//)) {
         cmdBase = cmdBase.split('/')[0];
     }
-    log.info("%s Command registered (%s)", cmdBase, cmdName);
+    showLog && log.info("%s Command registered (%s)", cmdBase, cmdName);
     commands[cmdName] = require(file.path);
 }
 
