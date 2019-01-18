@@ -13,11 +13,11 @@ let autosave = true;
 let serializationMethod = "pretty";
 
 function initialize() {
+    
     if (!fs.pathExistsSync(ENV.DATABASES_DIRECTORY)) {
         fs.ensureDirSync(ENV.DATABASES_DIRECTORY);
         log.info('Directory %s created', ENV.DATABASES_DIRECTORY);
     }
-
 
     for (file of klawSync(ENV.DATABASES_DIRECTORY)) {
         dbName = path.basename(file.path).replace(/\.json/,'');
