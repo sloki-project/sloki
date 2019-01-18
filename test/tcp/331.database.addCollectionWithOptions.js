@@ -1,3 +1,6 @@
+const use = require('abrequire');
+const ENV = use('src/env');
+
 let dbName = "__testAddCollectionWithOptions";
 let collectionName = "myCollection";
 let collectionOptions = {unique:['uid']};
@@ -85,7 +88,11 @@ require('./client')(__filename, (test, client) => {
         client.getCollection(collectionName, (err, result) => {
             subtest.deepEqual(err, undefined, 'command should not return an error');
             subtest.deepEqual(result, expectedCollectionProperties, "should return "+collectionName+" properties");
-            subtest.end();
+
+            // next test will get the same collection, dirty will be false, need to save autosaveInterval
+            setTimeout(() => {
+                subtest.end();
+            },ENV.DATABASES_AUTOSAVE_INTERVAL*2);
         });
     });
 });
