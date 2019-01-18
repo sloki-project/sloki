@@ -1,7 +1,3 @@
-const ENV = require('../env');
-const ClientTCP = require('./tcp');
-const ClientHTTP = require('./http');
-
 let proto;
 let host;
 let port;
@@ -36,12 +32,14 @@ function Client(url) {
         port = url[1];
 
         if (proto === "tcp") {
-            return new ClientTCP(port, host);
+            return new require('./tcp')(port, host);
         }
 
+        /*
         if (proto === "tls") {
-            return new ClientTLS(port, host);
+            return new require('./tls')(port, host);
         }
+        */
     }
 }
 
