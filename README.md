@@ -1,7 +1,7 @@
 # Sloki (WORK IN PROGRESS)
 A NodeJS Server for [LokiJS](http://lokijs.org/)
 
-[![Join the chat at https://gitter.im/techfort/LokiJS](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sloki/community)
+[![Join the chat at https://gitter.im/sloki-server/community](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sloki-server/community)
 [![alt CI-badge](https://travis-ci.org/franck34/sloki.svg?branch=master)](https://travis-ci.org/franck34/sloki)
 [![npm version](https://badge.fury.io/js/sloki.svg)](http://badge.fury.io/js/sloki)
 [![alt packagequality](http://npm.packagequality.com/shield/sloki.svg)](http://packagequality.com/#?package=sloki)
