@@ -34,7 +34,7 @@ let env = JSON.parse(JSON.stringify(defaults));
 if (argv.help) {
     console.log();
     console.log('===============================================================');
-    console.log('                Sloki - a NodeJS Serv for LokyJS               ');
+    console.log('              Sloki - a NodeJS Server for LokyJS               ');
     console.log('===============================================================');
     console.log('   Environnement variable          Default')
     console.log('       SLOKI_TCP_PORT              '+env.NET_TCP_PORT);
