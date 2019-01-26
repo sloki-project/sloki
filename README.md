@@ -1,15 +1,15 @@
-# LokiJS-Server (WORK IN PROGRESS)
-A NodeJS TCP/TLS (HTTP/HTTPS?) Server for [LokiJS](http://lokijs.org/)
+# Sloki (WORK IN PROGRESS)
+A NodeJS Server for [LokiJS](http://lokijs.org/)
 
-[![Join the chat at https://gitter.im/techfort/LokiJS](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/LokiJS-Server/community)
-[![alt CI-badge](https://travis-ci.org/franck34/LokiJS-Server.svg?branch=master)](https://travis-ci.org/franck34/LokiJS-Server)
-[![npm version](https://badge.fury.io/js/lokijs-server.svg)](http://badge.fury.io/js/lokijs-server)
-[![alt packagequality](http://npm.packagequality.com/shield/lokijs-server.svg)](http://packagequality.com/#?package=lokijs-server)
-[![Known Vulnerabilities](https://snyk.io/test/github/franck34/LokiJS-Server/badge.svg?targetFile=package.json)](https://snyk.io/test/github/franck34/LokiJS-Server?targetFile=package.json)
+[![Join the chat at https://gitter.im/techfort/LokiJS](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sloki/community)
+[![alt CI-badge](https://travis-ci.org/franck34/sloki.svg?branch=master)](https://travis-ci.org/franck34/sloki)
+[![npm version](https://badge.fury.io/js/sloki.svg)](http://badge.fury.io/js/sloki)
+[![alt packagequality](http://npm.packagequality.com/shield/sloki.svg)](http://packagequality.com/#?package=sloki)
+[![Known Vulnerabilities](https://snyk.io/test/github/franck34/sloki/badge.svg?targetFile=package.json)](https://snyk.io/test/github/franck34/sloki?targetFile=package.json)
 
 ## Overview
 
-LokiJS-Server make LokiJS ***scalable***.
+Sloki make LokiJS ***scalable***.
 
 * It embed [LokiJS](http://lokijs.org/)
 * It expose a [JSONRPC](https://www.jsonrpc.org/) API, thanks to [Jayson](https://github.com/tedeh/jayson)
@@ -21,7 +21,7 @@ LokiJS-Server make LokiJS ***scalable***.
                                          TCP|TLS|HTTP|HTTPS
 
         +----------------------------+                         +----------------------------------+
-        |                            |                         |          LokiJS-Server           |
+        |                            |                         |          sloki           |
         |       NodeJS Daemon        |<----------------------->|        (Local or Remote)         |
         |                            |                         |                                  |
         +----------------------------+                         |    +------------------------+    |
@@ -46,12 +46,12 @@ LokiJS-Server make LokiJS ***scalable***.
 Copy paste line you want :)
 
 * locally:
-  * ```npm install LokiJS-Server```
-  * ```yarn add LokiJS-Server```
+  * ```npm install sloki```
+  * ```yarn add sloki```
 
 * globally:
-  * ```npm install -g LokiJS-Server```
-  * ```yarn add -g LokiJS-Server```
+  * ```npm install -g sloki```
+  * ```yarn add -g sloki```
 
 -----
 
@@ -69,7 +69,7 @@ Not usable yet.
 |:-----------------:|----------------------------------------------------------------------
 | :heavy_check_mark:| implemented
 | :heavy_plus_sign: | in progress/MUST be implemented
-| :red_circle:      | does NOT make sens in LokiJS-Server, will NOT be implemented
+| :red_circle:      | does NOT make sens in sloki, will NOT be implemented
 | :question:        | MAY be implemented
 
 
@@ -97,8 +97,8 @@ Not usable yet.
 | Status            | Command           | Parameter     | Description                
 |:-----------------:|-------------------|---------------|----------------
 | :heavy_check_mark:| quit              |               | disconnect (TCP/TLS clients only)
-| :heavy_check_mark:| shutdown          |               | shutdown LokiJS-Server
-| :heavy_check_mark:| memory            |               | return LokiJS-Server memory usage
+| :heavy_check_mark:| shutdown          |               | shutdown sloki
+| :heavy_check_mark:| memory            |               | return sloki memory usage
 | :heavy_check_mark:| clients           |               | return TCP/TLS connected clients
 | :heavy_check_mark:| maxClients        |               | return TCP/TLS maxClients
 | :heavy_check_mark:| maxClients        | maxClients    | set TCP/TLS maxClients
@@ -117,8 +117,8 @@ Not usable yet.
 
 | Status            | Command                       | Parameter(s)      | Description  
 |:-----------------:|-------------------------------|-------------------|----------------              
-| :heavy_check_mark:| use                           | databaseName      | select (and load if needed) a database (LokiJS-Server specific)
-| :heavy_check_mark:| db                            |                   | return current database name (LokiJS-Server specific)
+| :heavy_check_mark:| use                           | databaseName      | select (and load if needed) a database (sloki specific)
+| :heavy_check_mark:| db                            |                   | return current database name (sloki specific)
 | :heavy_check_mark:| listDatabases                 |                   | return available databases
 | :heavy_check_mark:| saveDatabase                  |                   | trigger manual saving of the selected database
 | :heavy_check_mark:| listCollections               |                   | return available collections in selected database
@@ -206,18 +206,6 @@ Not usable yet.
 
 -----
 
-## Server options</b>
+## Server options
 
-### Environnement variables
-
-| Name              | Default Value     | Possible values       | Implemented since version
-|-------------------|-------------------|-----------------------|----------------------------
-| LOKI_DIR          | ~/.lokijs/dbs     |                       | 0.0.0
-| LOKI_TRANSPORT    | TCP               | TCP\|HTTP\|TCP-HTTP   | 0.0.0
-
-### Command line options
-
-| Option            | Default Value     | Possible values       | Implemented since version
-|-------------------|-------------------|-----------------------|--------
-| dir               | ~/.lokijs/dbs     |                       | 0.0.0
-| transport         | TCP               | TCP\|HTTP\|TCP-HTTP   | 0.0.0
+TODO

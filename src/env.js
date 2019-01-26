@@ -6,7 +6,7 @@ const homedir = require('os').homedir();
 let defaults = {
 
     // default database dir is in the home of the user
-    DATABASES_DIRECTORY:path.resolve(homedir+'/.lokijs/dbs'),
+    DATABASES_DIRECTORY:path.resolve(homedir+'/.sloki/dbs'),
     DATABASES_AUTOSAVE_INTERVAL:1000,
 
     // TCP API enabled by default
@@ -49,7 +49,7 @@ if (argv.help) {
     console.log('       --http-host                 '+env.NET_HTTP_HOST);
     console.log('---------------------------------------------------------------');
     console.log('Example');
-    console.log('LokiJS-Server --tcp-port=6370 --tcp-host=127.0.0.1');
+    console.log('sloki --tcp-port=6370 --tcp-host=127.0.0.1');
     console.log();
     process.exit();
 }
