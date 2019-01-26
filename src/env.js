@@ -37,7 +37,10 @@ if (argv.help) {
     console.log('                       LokiJS-Server                           ');
     console.log('===============================================================');
     console.log('   Environnement variable          Default')
-    console.log('       LOKI_TCP_PORT               '+env.NET_TCP_PORT);
+    console.log('       SLOKI_TCP_PORT              '+env.NET_TCP_PORT);
+    console.log('       SLOKI_TCP_IP                '+env.NET_TCP_IP);
+    console.log('       SLOKI_TCP_MAX_CLIENTS       '+env.NET_TCP_MAX_CLIENTS);
+    console.log('       SLOKI_TCP_DEBUG             '+env.NET_TCP_DEBUG);
     console.log('---------------------------------------------------------------');
     console.log('   Command Line Options            Default')
     console.log('       --dir                       '+env.DATABASES_DIRECTORY);
@@ -45,8 +48,6 @@ if (argv.help) {
     console.log('       --tcp-host                  '+env.NET_TCP_HOST);
     console.log('       --tcp-max-clients           '+env.NET_TCP_MAX_CLIENTS);
     console.log('       --tcp-debug                 '+env.NET_TCP_DEBUG);
-    console.log('       --http-port                 '+env.NET_HTTP_PORT);
-    console.log('       --http-host                 '+env.NET_HTTP_HOST);
     console.log('---------------------------------------------------------------');
     console.log('Example');
     console.log('sloki --tcp-port=6370 --tcp-host=127.0.0.1');
@@ -57,28 +58,28 @@ if (argv.help) {
 /***********************************
  * environnement variable override
  ***********************************/
- if (process.env.LOCK_DIR) {
-     env.DATABASES_DIRECTORY = path.resolve(process.env.LOCK_DIR);
+ if (process.env.SLOKI_DIR) {
+     env.DATABASES_DIRECTORY = path.resolve(process.env.SLOKI_DIR);
  }
 
- if (process.env.LOKI_TCP_PORT) {
-     env.NET_TCP_PORT = parseInt(process.env.LOKI_TCP_PORT);
+ if (process.env.SLOKI_TCP_PORT) {
+     env.NET_TCP_PORT = parseInt(process.env.SLOKI_TCP_PORT);
  }
 
- if (process.env.LOKI_TCP_IP) {
-     env.NET_TCP_IP = process.env.LOKI_TCP_IP;
+ if (process.env.SLOKI_TCP_IP) {
+     env.NET_TCP_IP = process.env.SLOKI_TCP_IP;
  }
 
- if (process.env.LOKI_TCP_DEBUG) {
-     if (process.env.LOKI_TCP_DEBUG === "true") {
+ if (process.env.SLOKI_TCP_DEBUG) {
+     if (process.env.SLOKI_TCP_DEBUG === "true") {
          env.NET_TCP_DEBUG = true;
      } else {
          env.NET_TCP_DEBUG = false;
      }
  }
 
- if (process.env.LOKI_TCP_MAX_CLIENTS) {
-     env.NET_TCP_MAX_CLIENTS = parseInt(process.env.LOKI_TCP_MAX_CLIENTS);
+ if (process.env.SLOKI_TCP_MAX_CLIENTS) {
+     env.NET_TCP_MAX_CLIENTS = parseInt(process.env.SLOKI_TCP_MAX_CLIENTS);
  }
 
 
