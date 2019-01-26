@@ -9,11 +9,6 @@ let reDirname = new RegExp(__dirname+'/');
 let tmp;
 let showLog = !process.mainModule.filename.match(/\/cli/);
 
-function ucFirst(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-
 for (file of klawSync(__dirname,{depthLimit:1, nodir:true})) {
 
     if (file.path.match(/\/index|README/)) {
@@ -32,10 +27,6 @@ for (file of klawSync(__dirname,{depthLimit:1, nodir:true})) {
 function exec(command, params, callback) {
     if (!commands[command]) return callback();
     commands[command](params, callback);
-}
-
-function lookup(command) {
-    return commands[command];
 }
 
 module.exports = {
