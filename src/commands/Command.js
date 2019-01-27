@@ -1,5 +1,12 @@
+const log = require('evillogger')({ns:'Command'});
+
 // http://jsonrpc.org/spec.html#error_object
 const ERROR_CODE_PARAMETER = -32602;
+
+function triggerError(msg, callback) {
+    callback({code:ERROR_CODE_PARAMETER, message:msg});
+    log.warn(msg);
+}
 
 function Command(descriptor, handler) {
 
@@ -11,35 +18,27 @@ function Command(descriptor, handler) {
         // Sanity Checks
         //
 
+        let errorMessage;
+
         if (!params || !params.length) {
             if (mandatoryParametersCount) {
-                callback({
-                    code:ERROR_CODE_PARAMETER,
-                    message:`Number of parameters for method ${descriptor.name} should be at least ${mandatoryParametersCount}`
-                });
+                triggerError(`${descriptor.name}: number of parameters should be at least ${mandatoryParametersCount}`, callback);
                 return;
             }
 
             // "this" is the socket socket if client is TCP/TLS
-
             handler(params, callback, this);
             return;
         }
 
         if (params.length<mandatoryParametersCount) {
-            callback({
-                code:ERROR_CODE_PARAMETER,
-                message:`Number of parameters for method ${descriptor.name} should be at least ${mandatoryParametersCount}`
-            });
+            triggerError(`${descriptor.name}: number of parameters should be at least ${mandatoryParametersCount}`, callback);
             return;
         }
 
 
         if (params.length>descriptor.parameters.length) {
-            callback({
-                code:ERROR_CODE_PARAMETER,
-                message:`Number of parameters for method ${descriptor.name} should be lower or equal than ${descriptor.parameters.length}`
-            });
+            triggerError(`${descriptor.name}: number of parameters should be lower or equal than ${descriptor.parameters.length}`, callback);
             return;
         }
 
@@ -54,18 +53,12 @@ function Command(descriptor, handler) {
             }
 
             if (params[i] != null && params[i] != undefined && typeof params[i] != parameter.sanityCheck.type) {
-                callback({
-                    code:ERROR_CODE_PARAMETER,
-                    message:`Wrong type for parameter '${parameter.name}' : found '${typeof params[i]}', expected '${parameter.sanityCheck.type}'`
-                });
+                triggerError(`${descriptor.name}: wrong type for parameter '${parameter.name}' : found '${typeof params[i]}', expected '${parameter.sanityCheck.type}'`, callback);
                 return;
             }
 
             if (params[i] === null || params[i] === undefined && parameter.mandatory) {
-                callback({
-                    code:ERROR_CODE_PARAMETER,
-                    message:`Parameter '${parameter.name}' is mandatory`
-                });
+                triggerError(`${descriptor.name}: parameter '${parameter.name}' is mandatory`, callback);
                 return;
             }
 
@@ -73,17 +66,11 @@ function Command(descriptor, handler) {
                 // re is a compiled regexp (see _compileDescriptorParametersRegexp)
                 if (!parameter.sanityCheck.re.test(params[i])) {
                     if (parameter.sanityCheck.reError) {
-                        callback({
-                            code:ERROR_CODE_PARAMETER,
-                            message:parameter.sanityCheck.reError
-                        });
+                        triggerError(`${descriptor.name}: ${parameter.sanityCheck.reError}`, callback);
                         return;
                     }
 
-                    callback({
-                        code:ERROR_CODE_PARAMETER,
-                        message:`Parameter '${parameter.name}' does not match regular expression ${parameter.sanityCheck.reString}`
-                    });
+                    triggerError(`${descriptor.name}: parameter '${parameter.name}' does not match regular expression ${parameter.sanityCheck.reString}`, callback);
                     return;
                 }
             }
