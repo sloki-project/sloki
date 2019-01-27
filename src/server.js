@@ -1,11 +1,9 @@
 const log = require('evillogger')({ns:'server'});
 const path = require('path');
-const async = require('async');
 const jayson = require('jayson');
 const use = require('abrequire');
 
 const tcp = require('./transports/tcp');
-const http = require('./transports/http');
 const databases = use('src/databases');
 const ENV = use('src/env');
 
@@ -30,15 +28,6 @@ function handleSignalSIGINT() {
 }
 
 
-function handleStartError(err, callback, next) {
-    if (!err) {
-        return next();
-    }
-
-    log.error(err);
-    callback && callback(err);
-}
-
 function start(callback) {
 
     databases.initialize();
@@ -54,25 +43,16 @@ function start(callback) {
         ENV.NET_TCP_PORT
     );
 
-    async.series(
-        [
-            next => {
-                tcp.start((err) => {
-                    handleStartError(err, callback, next);
-                });
-            },
-            next => {
-                http.start((err) => {
-                    handleStartError(err, callback, next);
-                })
-            }
-        ],
-        () => {
-            running = true;
-            handleSignals();
-            callback && callback();
+    tcp.start((err) => {
+        if (err) {
+            log.error(err);
+            return;
         }
-    )
+        running = true;
+        handleSignals();
+        callback && callback();
+    });
+
 }
 
 function stop(callback) {
@@ -83,20 +63,14 @@ function stop(callback) {
 
     log.warn("shutdown in progress");
 
-    async.series(
-        [
-            tcp.stop,
-            http.stop
-        ],
-        (err) => {
-            log.info("server stopped, exiting");
-            if (callback) {
-                callback(err);
-                return;
-            }
-            process.exit(err ? 1 : 0);
+    tcp.stop((err) => {
+        log.info("server stopped, exiting");
+        if (callback) {
+            callback(err);
+            return;
         }
-    )
+        process.exit(err ? 1 : 0);
+    })
 }
 
 
