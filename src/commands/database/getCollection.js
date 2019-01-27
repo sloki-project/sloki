@@ -14,7 +14,7 @@ let descriptor = {
             description:"Collection name",
             sanityCheck:{
                 type:"string",
-                reString:"^[a-z0-9\-\.]{1,50}$",
+                reString:"^[a-z0-9\-\.\_]{1,50}$",
                 reFlag:"i"
             }
         }
