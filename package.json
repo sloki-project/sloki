@@ -36,6 +36,7 @@
     "sloki-node-client": "0.0.3"
   },
   "devDependencies": {
+    "async": "^2.6.1",
     "tap": "^12.1.1",
     "tap-spec": "^5.0.0",
     "tape": "^4.9.2"
