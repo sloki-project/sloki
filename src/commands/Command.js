@@ -22,7 +22,6 @@ function Command(descriptor, handler) {
 
             // "this" is the socket socket if client is TCP/TLS
 
-            console.log(descriptor.name,'good1');
             handler(params, callback, this);
             return;
         }
@@ -94,7 +93,6 @@ function Command(descriptor, handler) {
         // Sanity Check passed successfully
         //
         // "this" is the socket socket if client is TCP/TLS
-        console.log(descriptor.name,'good2');
         handler(params, callback, this);
 
     }
