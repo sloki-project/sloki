@@ -1,5 +1,5 @@
 const use = require('abrequire');
-const Client = use('src/Client');
+const Client = require('sloki-node-client');
 const endpoint = require('../endpoints').tcp;
 const ENV = use('src/env');
 
