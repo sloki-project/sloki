@@ -21,7 +21,7 @@ for (file of klawSync(__dirname,{depthLimit:1, nodir:true})) {
     if (cmdBase.match(/\//)) {
         cmdBase = cmdBase.split('/')[0];
     }
-    showLog && log.info("%s command registered (%s)", cmdBase, cmdName);
+    showLog && log.debug("Command registered (%s/%s)", cmdBase, cmdName);
     commands[cmdName] = require(file.path);
     commandsDescriptor[cmdName] = commands[cmdName].getDescriptor();
 }
