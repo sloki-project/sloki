@@ -1,10 +1,32 @@
-const log = require('evillogger')({ns:'commands'});
-const ENV = require('../../env');
+const Command = require('../Command');
 const databases = require('../../databases');
 
-let errorCollectionNameMandatory = {
-    code: -32602, // invalid param http://jsonrpc.org/spec.html#error_object
-    message:"collectionName is mandatory"
+let descriptor = {
+    name:"addCollection",
+    categories:["database"],
+    description:{
+        short:"Add a collection into currently selected database"
+    },
+    parameters:[
+        {
+            name:"Collection name",
+            mandatory:true,
+            description:"Collection name",
+            sanityCheck:{
+                type:"string",
+                reString:"^[a-z0-9\-\.]{1,50}$",
+                reFlag:"i"
+            }
+        },
+        {
+            name:"Options",
+            mandatory:false,
+            description:"Collection options",
+            sanityCheck:{
+                type:"object"
+            }
+        }
+    ]
 }
 
 /**
@@ -18,19 +40,8 @@ let errorCollectionNameMandatory = {
  * @param {function} callback - callback
  * @memberof Commands
  */
-function addCollection(params, callback) {
-    if (!params) {
-        callback(errorCollectionNameMandatory);
-        return;
-    }
-
-    let collectionName = params[0];
-    if (!collectionName) {
-        callback(errorCollectionNameMandatory);
-        return;
-    }
-
-    callback(null, databases.addCollection(this.loki.currentDatabase, params[0], params[1]));
+function handler(params, callback, socket) {
+    callback(null, databases.addCollection(socket.loki.currentDatabase, params[0], params[1]));
 }
 
-module.exports = addCollection;
+module.exports = new Command(descriptor, handler);

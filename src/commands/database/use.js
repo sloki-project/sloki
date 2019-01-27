@@ -1,15 +1,25 @@
-const log = require('evillogger')({ns:'commands'});
-const ENV = require('../../env');
+const Command = require('../Command');
 const databases = require('../../databases');
 
-let errorDatabaseNameMandatory = {
-    code: -32602, // invalid param http://jsonrpc.org/spec.html#error_object
-    message:"databaseName is mandatory"
-}
-
-let errorDatabaseNameMatchForbiddenChars = {
-    code: -32602, // invalid param http://jsonrpc.org/spec.html#error_object
-    message:"databaseName should only contains alphanumeric chars"
+let descriptor = {
+    name:"use",
+    categories:["database"],
+    description:{
+        short:"Select a database (if not exist, a new db will be created)"
+    },
+    parameters:[
+        {
+            name:"database name",
+            mandatory:true,
+            mandatoryError:"Database name is mandatory",
+            description:"Database name",
+            sanityCheck:{
+                type:"string",
+                reString:"^[a-z0-9\-\.\_]{1,50}$",
+                reFlag:"i",
+            }
+        }
+    ]
 }
 
 /**
@@ -23,28 +33,14 @@ let errorDatabaseNameMatchForbiddenChars = {
  * @param {function} callback - callback
  * @memberof Commands
  */
- function use(params, callback) {
-
-     if (!params) {
-         callback(errorDatabaseNameMandatory);
-         return;
-     }
+ function handler(params, callback, socket) {
 
      let databaseName = params[0];
-     if (!databaseName) {
-         callback(errorDatabaseNameMandatory);
-         return;
-     }
-
-     if (!databaseName.match(/^[\_\-a-z0-9]{1,100}$/i)) {
-         callback(errorDatabaseNameMatchForbiddenChars);
-         return;
-     }
 
      databases.use(databaseName, (err) => {
-         this.loki.currentDatabase = databaseName;
-         callback(null, this.loki.currentDatabase);
+         socket.loki.currentDatabase = databaseName;
+         callback(null, socket.loki.currentDatabase);
      })
 }
 
-module.exports = use;
+module.exports = new Command(descriptor, handler);

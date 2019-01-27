@@ -1,8 +1,17 @@
-const log = require('evillogger')({ns:'commands'});
-const ENV = require('../../env');
+const Command = require('../Command');
+
+
+let descriptor = {
+    name:"db",
+    categories:["database"],
+    description:{
+        short:"Return currently selected database name",
+    },
+    parameters:[]
+}
 
 /**
- * Client ask for currently selected database
+ * return currently selected database
  *
  * @example
  * > db
@@ -12,8 +21,9 @@ const ENV = require('../../env');
  * @param {function} callback - callback
  * @memberof Commands
  */
- function db(params, callback) {
-     callback(null, this.loki.currentDatabase);
+ function handler(params, callback, socket) {
+     callback(null, socket.loki.currentDatabase);
 }
 
-module.exports = db;
+
+module.exports = new Command(descriptor, handler);

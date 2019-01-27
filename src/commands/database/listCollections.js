@@ -1,6 +1,14 @@
-const log = require('evillogger')({ns:'commands'});
-const ENV = require('../../env');
+const Command = require('../Command');
 const databases = require('../../databases');
+
+let descriptor = {
+    name:"listCollections",
+    categories:["database"],
+    description:{
+        short:"Return collections in currently selected database",
+    },
+    parameters:[]
+}
 
 /**
  * return collections of current selected database
@@ -13,8 +21,8 @@ const databases = require('../../databases');
  * @param {function} callback - callback
  * @memberof Commands
  */
-function listCollections(params, callback) {
-    callback(null, databases.listCollections(this.loki.currentDatabase));
+function handler(params, callback, socket) {
+    callback(null, databases.listCollections(socket.loki.currentDatabase));
 }
 
-module.exports = listCollections;
+module.exports = new Command(descriptor, handler);

@@ -12,7 +12,7 @@ const client = new Client(argv._[0]);
 
 function onConnected() {
     console.log('connected');
-    const completions = 'quit truc bidule bla bli blo'.split(' ');
+    const completions = client.commandsName();
 
     function autoComplete(line) {
       const hits = completions.filter((c) => c.startsWith(line));
@@ -44,4 +44,7 @@ function onError(err) {
 }
 
 client.connect().then(onConnected);
+client.on('close',() => {
+    console.log('close');
+})
 client.on('error',onError);

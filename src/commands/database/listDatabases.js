@@ -1,6 +1,14 @@
-const log = require('evillogger')({ns:'commands'});
-const ENV = require('../../env');
+const Command = require('../Command');
 const databases = require('../../databases');
+
+let descriptor = {
+    name:"listDatabases",
+    categories:["database"],
+    description:{
+        short:"Return available databases",
+    },
+    parameters:[]
+}
 
 /**
  * return databases list
@@ -13,8 +21,8 @@ const databases = require('../../databases');
  * @param {function} callback - callback
  * @memberof Commands
  */
-function listDatabases(params, callback) {
+function handler(params, callback) {
     callback(null, databases.list());
 }
 
-module.exports = listDatabases;
+module.exports = new Command(descriptor, handler);

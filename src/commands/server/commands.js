@@ -1,4 +1,14 @@
-const log = require('evillogger')({ns:'commands'});
+const Command = require('../Command');
+
+
+let descriptor = {
+    name:"commands",
+    categories:["server"],
+    description:{
+        short:"Return commands list",
+    },
+    parameters:[]
+}
 
 /**
 * return available commands
@@ -12,8 +22,8 @@ const log = require('evillogger')({ns:'commands'});
 * @param {function} callback - callback
 * @memberof Commands
 */
-function commands(params, callback) {
-    callback(null, Object.keys(require('../').list));
+function handler(params, callback) {
+    callback(null, require('../').listWithDescriptor());
 }
 
-module.exports = commands;
+module.exports = new Command(descriptor, handler);

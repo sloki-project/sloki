@@ -1,9 +1,14 @@
-const log = require('evillogger')({ns:'commands'});
-const ENV = require('../../env');
+const Command = require('../Command');
 
-// story of circular reference so we can't require server at this step,
-// need to require it inside shutdown function
-let server;
+
+let descriptor = {
+    name:"shutdown",
+    categories:["server"],
+    description:{
+        short:"Shutdown sloki server",
+    },
+    parameters:[]
+}
 
 /**
  * Client ask for server shutdown
@@ -15,12 +20,9 @@ let server;
  * @param {function} callback - callback
  * @memberof Commands
  */
- function shutdown(params, callback) {
-     if (!server) {
-         server = require('../../server');
-     }
-     server.stop();
+ function handler(params, callback) {
+     require('../../server').stop();
      callback();
 }
 
-module.exports = shutdown;
+module.exports = new Command(descriptor, handler);

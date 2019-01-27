@@ -1,6 +1,15 @@
-const log = require('evillogger')({ns:'commands'});
-const ENV = require('../../env');
+const Command = require('../Command');
 const databases = require('../../databases');
+
+let descriptor = {
+    name:"saveDatabase",
+    categories:["database"],
+    description:{
+        short:"Force save of currently selected database",
+    },
+    parameters:[]
+}
+
 
 /**
  * save selected database
@@ -13,10 +22,10 @@ const databases = require('../../databases');
  * @param {function} callback - callback
  * @memberof Commands
  */
- function saveDatabase(params, callback) {
-     databases.saveDatabase(this.loki.currentDatabase, (err) => {
-         callback(err, this.loki.currentDatabase);
+ function handler(params, callback, socket) {
+     databases.saveDatabase(socket.loki.currentDatabase, (err) => {
+         callback(err, socket.loki.currentDatabase);
      })
 }
 
-module.exports = saveDatabase;
+module.exports = new Command(descriptor, handler);

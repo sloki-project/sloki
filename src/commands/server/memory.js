@@ -1,6 +1,15 @@
-const log = require('evillogger')({ns:'commands'});
-const ENV = require('../../env');
+const Command = require('../Command');
 const prettyBytes = require('pretty-bytes');
+
+let descriptor = {
+    name:"memory",
+    categories:["server"],
+    description:{
+        short:"Return sloki process memory usage",
+    },
+    parameters:[]
+}
+
 
 /**
 * return memory usage
@@ -12,7 +21,7 @@ const prettyBytes = require('pretty-bytes');
 * @param {function} callback - callback
 * @memberof Commands
 */
-function memory(params, callback) {
+function handler(params, callback) {
     let used = process.memoryUsage();
     for (let key in used) {
         used[key] = prettyBytes(used[key]);
@@ -21,4 +30,4 @@ function memory(params, callback) {
     callback(null, used);
 }
 
-module.exports = memory;
+module.exports = new Command(descriptor, handler);

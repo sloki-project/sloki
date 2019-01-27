@@ -1,25 +1,35 @@
-const log = require('evillogger')({ns:'commands'});
+const Command = require('../Command');
 const ENV = require('../../env');
 
-let errorBadMaxClient = {
-    code: -32602, // http://jsonrpc.org/spec.html#error_object
-    message:"maxClients <number> where number is >= 1"
+let descriptor = {
+    name:"maxClients",
+    categories:["server"],
+    description:{
+        short:"Return or set maximum number of allowed simultaneous connected clients (TCP/TLS)",
+    },
+    parameters:[
+        {
+            name:"value",
+            sanityCheck:{
+                type:"number",
+                reString:"^([1-9][0-9]{0,2}|1000)$",
+                reFlag:"",
+                reError:"maxClients should be a number between 1 and 1000"
+            },
+            mandatory:false,
+            description:"Maximum number of allowed simultaneous connected clients (between 1 and 1000)"
+        }
+    ]
 }
 
-function maxClients(params, callback) {
+function handler(params, callback) {
     if (!params) {
         callback(null, ENV.NET_TCP_MAX_CLIENTS);
         return;
     }
 
-    let maxClients = parseInt(params[0]);
-    if (!maxClients) {
-        callback(errorBadMaxClient);
-        return;
-    }
-
-    ENV.NET_TCP_MAX_CLIENTS = maxClients;
-    callback(null, maxClients);
+    ENV.NET_TCP_MAX_CLIENTS = parseInt(params[0]);
+    callback(null, ENV.NET_TCP_MAX_CLIENTS);
 }
 
-module.exports = maxClients;
+module.exports = new Command(descriptor, handler);

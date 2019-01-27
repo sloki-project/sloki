@@ -1,4 +1,14 @@
-const log = require('evillogger')({ns:'commands'});
+const Command = require('../Command');
+
+
+let descriptor = {
+    name:"quit",
+    categories:["client"],
+    description:{
+        short:"Disconnect",
+    },
+    parameters:[]
+}
 
 /**
  * client disconnect
@@ -11,9 +21,9 @@ const log = require('evillogger')({ns:'commands'});
  * @param {function} callback - callback
  * @memberof Commands
  */
- function quit(params, callback) {
+ function handler(params, callback, socket) {
      callback(null, "bye");
-     this.end();
+     socket.end();
 }
 
-module.exports = quit;
+module.exports = new Command(descriptor, handler);

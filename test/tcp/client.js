@@ -9,17 +9,29 @@ module.exports = (title, callback) => {
 
     let tcpClient = new Client(endpoint);
 
-    tap.test(path.basename(title), {timeout:ENV.DATABASES_AUTOSAVE_INTERVAL*3}, (t) => {
-        tcpClient
-            .connect()
-            .then((err) => {
-                t.deepEqual(err, undefined, "should be connected");
-                callback(t, tcpClient);
-            });
-    });
+    tap.test(
+        path.basename(title),
+        {
+            timeout:ENV.DATABASES_AUTOSAVE_INTERVAL*3
+        },
+        (t) => {
 
-    tap.test('exit', (t) => {
+            tcpClient.on('error', (err) => {
+                t.fail("socket error", err);
+                t.end();
+            });
+
+            tcpClient
+                .connect()
+                .then((err) => {
+                    t.deepEqual(err, undefined, "should be connected");
+                    callback(t, tcpClient);
+                })
+        }
+    );
+
+    tap.test('exit normaly', (t) => {
         t.end();
-        process.exit();
+        process.exit(0);
     });
 }

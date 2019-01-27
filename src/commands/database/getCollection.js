@@ -1,14 +1,28 @@
-const log = require('evillogger')({ns:'commands'});
-const ENV = require('../../env');
+const Command = require('../Command');
 const databases = require('../../databases');
 
-let errorCollectionNameMandatory = {
-    code: -32602, // invalid param http://jsonrpc.org/spec.html#error_object
-    message:"collectionName is mandatory"
+let descriptor = {
+    name:"getCollection",
+    categories:["database"],
+    description:{
+        short:"Return collection properties",
+    },
+    parameters:[
+        {
+            name:"Collection name",
+            mandatory:true,
+            description:"Collection name",
+            sanityCheck:{
+                type:"string",
+                reString:"^[a-z0-9\-\.]{1,50}$",
+                reFlag:"i"
+            }
+        }
+    ]
 }
 
 /**
- * get a collection in selected database
+ * return collection properties
  *
  * @example
  * client> get myCollection
@@ -18,19 +32,9 @@ let errorCollectionNameMandatory = {
  * @param {function} callback - callback
  * @memberof Commands
  */
-function getCollection(params, callback) {
-    if (!params) {
-        callback(errorCollectionNameMandatory);
-        return;
-    }
-
-    let collectionName = params[0];
-    if (!collectionName) {
-        callback(errorCollectionNameMandatory);
-        return;
-    }
-
-    callback(null, databases.getCollection(this.loki.currentDatabase, params[0]));
+function handler(params, callback, socket) {
+    callback(null, databases.getCollection(socket.loki.currentDatabase, params[0]));
 }
 
-module.exports = getCollection;
+
+module.exports = new Command(descriptor, handler);

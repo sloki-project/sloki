@@ -1,7 +1,7 @@
 const log = require('evillogger')({ns:'transports:tcp'});
 const ENV = require('../../env');
 const jayson = require('jayson');
-const commandsList = require('../../commands').list;
+const commands = require('../../commands');
 
 const errors = {
     MAX_CLIENT_REACHED:{
@@ -92,17 +92,21 @@ function start(callback) {
     jaysonServer = jayson.server(
         null, // no handlers, because we are using a router (below)
         {
-            routerTcp: (method, params, socket) => {
+            routerTcp: (command, params, socket) => {
+
                 if (_maxClientsReached()) {
                     return _maxClientsReachedResponse;
                 }
-                if (commandsList[method]) {
+
+                if (commands.exists(command)) {
                     if (params) {
-                        log.info('%s: exec %s', socket.id, method, JSON.stringify(params));
+                        log.info('%s: exec %s', socket.id, command, JSON.stringify(params));
                     } else {
-                        log.info('%s: exec %s', socket.id, method);
+                        log.info('%s: exec %s', socket.id, command);
                     }
-                    return commandsList[method].bind(socket);
+                    return commands.getHandler(command, params, socket);
+                } else {
+                    log.warn('%s: could not find comand %s', socket.id, command);
                 }
             }
         }

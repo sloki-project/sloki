@@ -6,7 +6,8 @@ const log = require('evillogger')({ns:'clientTcp'});
 const use = require('abrequire')
 
 const ENV = use('src/env');
-const commands = use('src/commands');
+
+let commands = {};
 
 class ClientTCP extends EventEmitter {
 
@@ -16,36 +17,49 @@ class ClientTCP extends EventEmitter {
         this.private.isConnected = false;
         this.private.requests = {};
         this.options = {host, port};
-        this.cmd = {};
+        this.commandsList = [];
         this.defaults = {
             timeout:1000
         }
+    }
 
-        // load all commands
-        for (let command in commands.list) {
-            this[command] = (param, option, cb) => {
-                let params = [];
-                if (typeof param === "function") {
-                    cb = param;
-                    params = undefined;
-                } else if (typeof option === "function") {
-                    cb = option;
-                    option = undefined;
-                    params.push(param);
-                } else {
-                    params.push(param);
-                    if (option) params.push(option);
-                }
+    getCommands(reject, resolve) {
+        this._request('commands', null, (err, commands) => {
 
-                if (params && params.length === 0) {
-                    params = undefined;
-                }
-
-                this._request(command, params, cb);
-                return this;
+            if (err) {
+                return reject(err);
             }
-        }
 
+            this.commandsList = commands;
+            for (let command in commands) {
+                this[command] = (param, option, cb) => {
+                    let params = [];
+                    if (typeof param === "function") {
+                        cb = param;
+                        params = undefined;
+                    } else if (typeof option === "function") {
+                        cb = option;
+                        option = undefined;
+                        params.push(param);
+                    } else {
+                        params.push(param);
+                        if (option) params.push(option);
+                    }
+
+                    if (params && params.length === 0) {
+                        params = undefined;
+                    }
+
+                    this._request(command, params, cb);
+                    return this;
+                }
+            }
+            return resolve();
+        });
+    }
+
+    commandsName() {
+        return Object.keys(this.commandsList);
     }
 
     connect() {
@@ -58,7 +72,11 @@ class ClientTCP extends EventEmitter {
                 this.emit("response", data);
 
                 if(!this.private.requests[data.id]) {
-                    log.warn(JSON.stringify(data.error));
+                    if (data.error) {
+                        log.warn(JSON.stringify(data.error));
+                    } else {
+                        log.warn(JSON.stringify(data));
+                    }
                     //this.emit("error", data.error);
                     return;
                 }
@@ -80,7 +98,7 @@ class ClientTCP extends EventEmitter {
                     return reject(err);
                 }
                 this.private.isConnected = true;
-                return resolve();
+                this.getCommands(reject, resolve);
             });
 
             //this.conn.setTimeout(this.defaults.timeout);
@@ -142,6 +160,7 @@ class ClientTCP extends EventEmitter {
             }
         }
 
+        //@TODO: take a look at fastify to speed up stringify()
         this.private.conn.write(JSON.stringify(req));
     }
 

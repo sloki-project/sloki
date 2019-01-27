@@ -3,6 +3,7 @@ const klawSync = require('klaw-sync');
 const path = require('path');
 
 let commands = {};
+let commandsDescriptor = {};
 let cmdName;
 let cmdBase;
 let reDirname = new RegExp(__dirname+'/');
@@ -11,7 +12,7 @@ let showLog = !process.mainModule.filename.match(/\/cli/);
 
 for (file of klawSync(__dirname,{depthLimit:1, nodir:true})) {
 
-    if (file.path.match(/\/index|README/)) {
+    if (file.path.match(/\/index|README|Command/)) {
         continue;
     }
 
@@ -20,16 +21,43 @@ for (file of klawSync(__dirname,{depthLimit:1, nodir:true})) {
     if (cmdBase.match(/\//)) {
         cmdBase = cmdBase.split('/')[0];
     }
-    showLog && log.info("%s Command registered (%s)", cmdBase, cmdName);
+    showLog && log.info("%s command registered (%s)", cmdBase, cmdName);
     commands[cmdName] = require(file.path);
+    commandsDescriptor[cmdName] = commands[cmdName].getDescriptor();
 }
 
-function exec(command, params, callback) {
-    if (!commands[command]) return callback();
-    commands[command](params, callback);
+function getHandler(command, params, scope) {
+    if (!commands[command]) {
+        return;
+    }
+
+    // @TODO: optimize scope ?
+    if (scope) {
+        return commands[command].handle.bind(scope);
+    } else {
+        return commands[command].handle;
+    }
+}
+
+function list() {
+    return commands;
+}
+
+function listWithDescriptor() {
+    return commandsDescriptor;
+}
+
+
+function exists(command) {
+    if (commands[command]) {
+        return true;
+    }
+    return false;
 }
 
 module.exports = {
-    list:commands,
-    exec:exec
+    list,
+    listWithDescriptor,
+    exists,
+    getHandler
 }

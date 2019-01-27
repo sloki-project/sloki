@@ -30,11 +30,12 @@ function prepareTests() {
 
 function cleanTestDatabases() {
     if (!fs.pathExistsSync(ENV.DATABASES_DIRECTORY)) {
-        return
+        return;
     }
 
     for (let file of klawSync(ENV.DATABASES_DIRECTORY,{depthLimit:0})) {
         if (path.basename(file.path).match(/\_\_/)) {
+            console.log('removing ',file.path);
             fs.removeSync(file.path);
         }
     }
@@ -57,21 +58,34 @@ function runTests() {
 
     let reporter = "spec";
 
+    let optionTap = [
+        'node_modules/tap/bin/run.js',
+        '--reporter='+reporter
+    ];
+
+    let optionTape = [
+        'node_modules/tape/bin/tape'
+    ];
+
+    let tester = 'tape'; // or tap
+
     async.mapSeries(
         tests,
         (test, next) => {
-            let s = spawn(
-                'node',
-                [
-                    'node_modules/tap/bin/run.js',
-                    '--reporter='+reporter,
-                    test
-                ],
-                {stdio:'inherit'}
-            );
+            let options;
+            if (tester === 'tape') {
+                options = JSON.parse(JSON.stringify(optionTape));
+            } else {
+                options = JSON.parse(JSON.stringify(optionTap));
+            }
+            options.push(test);
+
+            let s = spawn('node', options, {stdio:'inherit'});
 
             s.on('close', (code) => {
-                if (code != 0) testFailed = true;
+                if (code != 0) {
+                    process.exit(255);
+                }
                 next();
             })
         },

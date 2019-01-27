@@ -1,5 +1,14 @@
-const log = require('evillogger')({ns:'commands'});
-const ENV = require('../../env');
+const Command = require('../Command');
+
+
+let descriptor = {
+    name:"clients",
+    categories:["server"],
+    description:{
+        short:"Return connected clients list"
+    },
+    parameters:[]
+}
 
 /**
  * return TCP/TLS connected clients
@@ -12,8 +21,8 @@ const ENV = require('../../env');
  * @param {function} callback - callback
  * @memberof Commands
  */
-function clients(params, callback) {
-    callback(null, Object.keys(this.server.clients));
+function handler(params, callback, socket) {
+    callback(null, Object.keys(socket.server.clients));
 }
 
-module.exports = clients;
+module.exports = new Command(descriptor, handler);

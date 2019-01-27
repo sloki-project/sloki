@@ -6,8 +6,8 @@
   "scripts": {
     "test": "node test/index.js"
   },
-  "bin":{
-      "loki-cli":"bin/cli.js"
+  "bin": {
+    "loki-cli": "bin/cli.js"
   },
   "repository": {
     "type": "git",
@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "tap": "^12.1.1",
+    "tap-spec": "^5.0.0",
     "tape": "^4.9.2"
   }
 }
