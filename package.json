@@ -26,20 +26,13 @@
   },
   "homepage": "https://github.com/franck34/sloki#readme",
   "dependencies": {
-    "JSONStream": "^1.3.5",
-    "abrequire": "^0.0.4",
-    "async": "^2.6.1",
+    "abrequire": "0.0.4",
     "evillogger": "^1.2.2",
     "fs-extra": "^7.0.1",
     "jayson": "^2.1.1",
     "klaw-sync": "^6.0.0",
     "lokijs": "^1.5.6",
-    "minimist": "^1.2.0",
-    "moment": "^2.23.0",
-    "moment-duration-format": "^2.2.2",
-    "pretty-bytes": "^5.1.0",
-    "sprintf-js": "^1.1.2",
-    "uuid": "^3.3.2"
+    "pretty-bytes": "^5.1.0"
   },
   "devDependencies": {
     "tap": "^12.1.1",
