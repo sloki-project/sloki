@@ -5,19 +5,22 @@ const klawSync = require('klaw-sync');
 const path = require('path');
 const loki = require('lokijs');
 
-let dbName;
 let dbs = {};
+let collections = {};
+
 let autosaveInterval = 1000;
 let autoload = true;
 let autosave = true;
 let serializationMethod = "pretty";
 
 function initialize() {
-    
+
     if (!fs.pathExistsSync(ENV.DATABASES_DIRECTORY)) {
         fs.ensureDirSync(ENV.DATABASES_DIRECTORY);
         log.info('Directory %s created', ENV.DATABASES_DIRECTORY);
     }
+
+    let dbName;
 
     for (file of klawSync(ENV.DATABASES_DIRECTORY)) {
         dbName = path.basename(file.path).replace(/\.json/,'');
@@ -62,27 +65,53 @@ function use(databaseName, callback) {
     dbs[databaseName].save();
 }
 
-function listCollections(db) {
-    if (!dbs[db]) return;
-    return dbs[db].listCollections();
+function listCollections(databaseName) {
+    if (!dbs[databaseName]) return;
+    return dbs[databaseName].listCollections();
 }
 
-function addCollection(db, collectionName, options) {
-    if (!dbs[db]) return;
-    return dbs[db].addCollection(collectionName, options).name;
+function addCollection(databaseName, collectionName, options) {
+    if (!dbs[databaseName]) return;
+    let collectionReference = `${databaseName}.${collectionName}`;
+    collections[collectionReference] = dbs[databaseName].addCollection(collectionName, options);
+    return collections[collectionReference].name;;
 }
 
-function getCollection(db, collectionName) {
-    if (!dbs[db]) return;
-    return dbs[db].getCollection(collectionName);
+function getCollection(databaseName, collectionName) {
+    if (!dbs[databaseName]) return;
+    return dbs[databaseName].getCollection(collectionName);
 }
 
-function saveDatabase(db, callback) {
-    if (!dbs[db]) {
+function saveDatabase(databaseName, callback) {
+    if (!dbs[databaseName]) {
         callback('E_NO_DATABASE_SELECTED');
         return;
     }
-    dbs[db].saveDatabase(callback);
+    dbs[databaseName].saveDatabase(callback);
+}
+
+function insert(databaseName, collectionName, doc, callback) {
+    if (!dbs[databaseName]) {
+        callback('E_NO_DATABASE_SELECTED');
+        return;
+    }
+
+    let collectionReference = `${databaseName}.${collectionName}`;
+    let collection = collections[collectionReference];
+
+    if (!collection) {
+        // collection reference does not exist, let's create reference
+        collections[collectionReference] = dbs[databaseName].getCollection(collectionName);
+        collection = collections[collectionReference];
+        if (!collection) {
+            // collection does not exist, let's create a collection without options
+            collections[collectionReference] = dbs[databaseName].addCollection(collectionName);
+            collection = collections[collectionReference];
+        }
+    }
+
+    // return $loki autoincrement id
+    callback(null, collection.insert(doc).$loki);
 }
 
 module.exports = {
@@ -92,5 +121,6 @@ module.exports = {
     listCollections,
     addCollection,
     getCollection,
-    saveDatabase
+    saveDatabase,
+    insert
 }
