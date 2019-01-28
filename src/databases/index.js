@@ -10,10 +10,12 @@ const ERROR_CODE_PARAMETER = -32602;
 let dbs = {};
 let collections = {};
 
-let autosaveInterval = ENV.DATABASES_AUTOSAVE_INTERVAL;
-let autoload = true;
-let autosave = false;
-let serializationMethod = "pretty";
+let defaultDatabaseOptions =  {
+    serializationMethod:"pretty",
+    autoload:true,
+    autosave:true,
+    autosaveInterval:ENV.DATABASES_AUTOSAVE_INTERVAL
+}
 
 function initialize() {
 
@@ -28,7 +30,7 @@ function initialize() {
         dbName = path.basename(file.path).replace(/\.json/,'');
         log.info("Loading database '%s'", dbName, file.path);
 
-        dbs[dbName] = new loki(file.path, {autoload, autosave, autosaveInterval});
+        dbs[dbName] = new loki(file.path, defaultDatabaseOptions);
     }
 
     let dbTestFile = path.resolve(ENV.DATABASES_DIRECTORY+'/test.json');
@@ -47,24 +49,29 @@ function list() {
     return tmp;
 }
 
-function use(databaseName, callback) {
+function loadDatabase(databaseName, databaseOptions, callback) {
 
     if (dbs[databaseName]) {
         callback(null, dbs[databaseName]);
         return;
     }
 
-    let dbPath = path.resolve(ENV.DATABASES_DIRECTORY+'/'+databaseName+'.json');
-    dbs[databaseName] = new loki(dbPath, {
-        serializationMethod,
-    	autoload,
-    	autosave,
-    	autosaveInterval,
-        autoloadCallback: () => {
-            callback(null, dbs[databaseName]);
-        }
-    });
-    dbs[databaseName].save();
+    if (typeof databaseOptions === "function") {
+        callback = databaseOptions;
+        databaseOptions = {};
+    }
+
+    let dbPath = path.resolve(ENV.DATABASES_DIRECTORY+`/${databaseName}.json`);
+    let options = Object.assign(defaultDatabaseOptions, databaseOptions||{});
+
+    options.autoloadCallback = () => {
+        callback(null, dbs[databaseName]);
+    }
+
+    dbs[databaseName] = new loki(dbPath, options);
+
+    // immediate save (force flush) after creating bu default
+    ENV.DATABASES_FORCE_SAVE_ON_CREATE && dbs[databaseName].save();
 }
 
 function listCollections(databaseName) {
@@ -135,7 +142,7 @@ function get(databaseName, collectionName, lokiId, callback) {
 module.exports = {
     initialize,
     list,
-    use,
+    loadDatabase,
     listCollections,
     addCollection,
     getCollection,

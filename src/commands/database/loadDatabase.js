@@ -18,6 +18,14 @@ let descriptor = {
                 reString:"^[a-z0-9\-\.\_]{1,50}$",
                 reFlag:"i",
             }
+        },
+        {
+            name:"Options",
+            mandatory:false,
+            description:"Database options",
+            sanityCheck:{
+                type:"object"
+            }
         }
     ]
 }
@@ -36,10 +44,11 @@ let descriptor = {
  function handler(params, callback, socket) {
 
      let databaseName = params[0];
+     let databaseOptions = params[1];
 
-     databases.use(databaseName, (err) => {
+     databases.loadDatabase(databaseName, databaseOptions, (err, database) => {
          socket.loki.currentDatabase = databaseName;
-         callback(null, socket.loki.currentDatabase);
+         callback(null, database);
      })
 }
 
