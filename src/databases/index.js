@@ -10,9 +10,9 @@ const ERROR_CODE_PARAMETER = -32602;
 let dbs = {};
 let collections = {};
 
-let autosaveInterval = 1000;
+let autosaveInterval = ENV.DATABASES_AUTOSAVE_INTERVAL;
 let autoload = true;
-let autosave = true;
+let autosave = false;
 let serializationMethod = "pretty";
 
 function initialize() {
