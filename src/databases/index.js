@@ -125,7 +125,7 @@ function get(databaseName, collectionName, lokiId, callback) {
     let collectionReference = `${databaseName}.${collectionName}`;
     let collection = collections[collectionReference];
     if (!collection) {
-        callback({ code: ERROR_CODE_PARAMETER, message: "collection ${collectionName} does not exist" });
+        callback({ code: ERROR_CODE_PARAMETER, message: `collection ${collectionName} does not exist` });
         return;
     }
 
