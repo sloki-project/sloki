@@ -1,6 +1,6 @@
-let dbName = "__testInsert";
-let collectionName = "testInsert_"+Date.now();
-let collectionNameFake = "testInsert_"+(Date.now()+1000);
+let dbName = "__testBasic";
+let collectionName = "insert";
+let collectionNameNotExists = "insertNotExist";
 
 const ERROR_CODE_PARAMETER = -32602;
 
@@ -37,8 +37,8 @@ require('./client')(__filename, (test, client) => {
         });
     });
 
-    test.test("insert should create the collection if the collection does not exist", (subtest)  => {
-        client.insert(collectionNameFake, {}, (err, result) => {
+    test.test("insert should create the collection if it does not exist, then insert", (subtest)  => {
+        client.insert(collectionNameNotExists, {}, (err, result) => {
             subtest.deepEqual(err, undefined, 'command should not return an error');
             subtest.deepEqual(result, 1, `should return 1`);
             subtest.end();
