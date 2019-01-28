@@ -5,6 +5,8 @@ const klawSync = require('klaw-sync');
 const path = require('path');
 const loki = require('lokijs');
 
+const ERROR_CODE_PARAMETER = -32602;
+
 let dbs = {};
 let collections = {};
 
@@ -114,6 +116,22 @@ function insert(databaseName, collectionName, doc, callback) {
     callback(null, collection.insert(doc).$loki);
 }
 
+function get(databaseName, collectionName, lokiId, callback) {
+    if (!dbs[databaseName]) {
+        callback('E_NO_DATABASE_SELECTED');
+        return;
+    }
+
+    let collectionReference = `${databaseName}.${collectionName}`;
+    let collection = collections[collectionReference];
+    if (!collection) {
+        callback({ code: ERROR_CODE_PARAMETER, message: "collection ${collectionName} does not exist" });
+        return;
+    }
+
+    callback(null, collection.get(lokiId));
+}
+
 module.exports = {
     initialize,
     list,
@@ -122,5 +140,6 @@ module.exports = {
     addCollection,
     getCollection,
     saveDatabase,
-    insert
+    insert,
+    get
 }
