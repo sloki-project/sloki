@@ -82,7 +82,7 @@ Not usable yet.
 | Status            | Transport            | Notes               
 |:-----------------:|----------------------|--------------------------------
 | :heavy_check_mark:| TCP                  | Persistant connection
-| :heavy_plus_sign: | TLS                  |
+| :heavy_plus_sign: | TLS                  | Persistant connection
 | :question:        | HTTP                 |
 | :question:        | HTTPS                |
 </p>
@@ -150,14 +150,16 @@ Not usable yet.
 
 <details>
 <summary>
-<b><img src="http://progressed.io/bar/0"/> Commands: collection related</b>
+<b><img src="http://progressed.io/bar/5"/> Commands: collection related</b>
 </summary>
 <p>
 
 [Loki Collection documentation](https://rawgit.com/techfort/LokiJS/master/jsdoc/Collection.html)
 
-| Status            | Command                       | Parameter(s)      | Description  
-|:-----------------:|-------------------------------|-------------------|----------------              
+| Status            | Command                       | Parameter(s)                  | Description  
+|:-----------------:|-------------------------------|-------------------------------|----------------              
+| :heavy_check_mark:| insert                        | collectionName, document      | insert a document
+| :heavy_check_mark:| get                           | collectionName, lokiId        | return a document by his id
 
 </p>
 </details>
@@ -171,7 +173,7 @@ Not usable yet.
 | Status            | Transport            | Notes               
 |:-----------------:|----------------------|--------------------------------
 | :heavy_plus_sign: | TCP                  | Persistant connection
-| :heavy_plus_sign: | TLS                  |
+| :heavy_plus_sign: | TLS                  | Persistant connection
 | :question:        | HTTP                 |
 | :question:        | HTTPS                |
 
@@ -180,13 +182,13 @@ Not usable yet.
 
 <details>
 <summary>
-<b><img src="http://progressed.io/bar/0"/> Tools</b>
+<b><img src="http://progressed.io/bar/10"/> Tools</b>
 </summary>
 <p>
 
 | Status             | Tool                 | Notes               
 |:------------------:|----------------------|--------------------------------
-| :heavy_plus_sign:       | CLI                  | CLI using TCP transport
+| :heavy_plus_sign:  | CLI                  | CLI using TCP transport
 
 </p>
 </details>
