@@ -4,10 +4,10 @@ let collectionName = "myCollection";
 const ERROR_CODE_PARAMETER = -32602;
 
 require('./client')(__filename, (test, client) => {
-    test.test("use", (subtest)  => {
-        client.use(dbName, (err, result) => {
+    test.test("loadDatabase", (subtest)  => {
+        client.loadDatabase(dbName, (err, result) => {
             subtest.deepEqual(err, undefined, 'command should not return an error');
-            subtest.deepEqual(result, dbName, "current database should be '"+dbName+"'");
+            subtest.ok(typeof result, "object", "should return database properties");
             subtest.end();
         });
     });

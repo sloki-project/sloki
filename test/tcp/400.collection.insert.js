@@ -1,14 +1,14 @@
-let dbName = "__testBasic";
+let dbName = "__testInsert400_"+Date.now();
 let collectionName = "insert";
 let collectionNameNotExists = "insertNotExist";
 
 const ERROR_CODE_PARAMETER = -32602;
 
 require('./client')(__filename, (test, client) => {
-    test.test("use", (subtest)  => {
-        client.use(dbName, (err, result) => {
+    test.test("loadDatabase", (subtest)  => {
+        client.loadDatabase(dbName, (err, result) => {
             subtest.deepEqual(err, undefined, 'command should not return an error');
-            subtest.deepEqual(result, dbName, `current database should be ${dbName}`);
+            subtest.ok(typeof result, "object", "should return database properties");
             subtest.end();
         });
     });
@@ -38,20 +38,24 @@ require('./client')(__filename, (test, client) => {
     });
 
     test.test("insert should create the collection if it does not exist, then insert", (subtest)  => {
-        client.insert(collectionNameNotExists, {}, (err, result) => {
+        client.insert(collectionNameNotExists, {"foo":"bar"}, (err, result) => {
             subtest.deepEqual(err, undefined, 'command should not return an error');
             subtest.deepEqual(result, 1, `should return 1`);
             subtest.end();
         });
     });
 
-    test.test("insert should return $loki (loki id)", (subtest)  => {
-        client.insert(collectionName, {}, (err, result) => {
+    test.test("insert should return $loki (loki id) 1", (subtest)  => {
+        client.insert(collectionName, {"foo":"bar"}, (err, result) => {
             subtest.deepEqual(err, undefined, 'command should not return an error');
             subtest.deepEqual(result, 1, `should return 1`);
             subtest.end();
         });
     });
 
+    test.test("insert without callback", (subtest)  => {
+        client.insert(collectionName, {"foo":"bar"});
+        subtest.end();
+    });
 
 });

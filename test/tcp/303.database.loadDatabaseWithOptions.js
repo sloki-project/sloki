@@ -1,4 +1,4 @@
-let dbName = "__testUseWithOptions"+Date.now();
+let dbName = "__testUseWithOptions";
 
 require('./client')(__filename, (test, client) => {
     test.test("loadDatabase", (subtest)  => {
