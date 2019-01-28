@@ -99,11 +99,13 @@ function start(callback) {
                 }
 
                 if (commands.exists(command)) {
+                    /*
                     if (params) {
                         log.info('%s: exec %s', socket.id, command, JSON.stringify(params));
                     } else {
                         log.info('%s: exec %s', socket.id, command);
                     }
+                    */
                     return commands.getHandler(command, params, socket);
                 } else {
                     log.warn('%s: could not find comand %s', socket.id, command);
