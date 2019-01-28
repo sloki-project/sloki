@@ -1,7 +1,6 @@
 let dbName = "__testAddCollectionWithOptions";
 let collectionName = "myCollection";
 
-
 let expectedCollectionProperties = {
     "name":collectionName,
     "data":[],

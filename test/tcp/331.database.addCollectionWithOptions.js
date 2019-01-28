@@ -6,7 +6,7 @@ let collectionName = "myCollection";
 let collectionOptions = {unique:['uid']};
 
 let expectedCollectionProperties = {
-    "name":"myCollection",
+    "name":collectionName,
     "data":[],
     "idIndex":[],
     "binaryIndices":{},
@@ -22,7 +22,7 @@ let expectedCollectionProperties = {
     },
     "uniqueNames":["uid"],
     "transforms":{},
-    "objType":"myCollection",
+    "objType":collectionName,
     "dirty":true,   // collection has just been created, considered as dirty
     "cachedIndex":null,
     "cachedBinaryIndex":null,
@@ -76,7 +76,7 @@ require('./client')(__filename, (test, client) => {
     });
 
     test.test("listCollections", (subtest)  => {
-        let expected = [{ name: 'myCollection', type: 'myCollection', count: 0 }];
+        let expected = [{ name: collectionName, type: collectionName, count: 0 }];
         client.listCollections((err, result) => {
             subtest.deepEqual(err, undefined, 'command should not return an error');
             subtest.deepEqual(result, expected, "should return "+JSON.stringify(expected));
