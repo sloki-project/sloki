@@ -12,7 +12,7 @@ let showLog = !process.mainModule.filename.match(/\/cli/);
 
 for (file of klawSync(__dirname,{depthLimit:1, nodir:true})) {
 
-    if (file.path.match(/\/index|README|Command/)) {
+    if (file.path.match(/\/index|README|Command|regexps/)) {
         continue;
     }
 
