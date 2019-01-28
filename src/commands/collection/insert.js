@@ -43,8 +43,8 @@ let descriptor = {
 function handler(params, callback, socket) {
     databases.insert(
         socket.loki.currentDatabase,
-        params[0],
-        params[1],
+        params[0], // collection name
+        params[1], // record
         (err, id) => {
             callback(err, id);
         }
