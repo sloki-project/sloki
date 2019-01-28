@@ -115,34 +115,34 @@ Not usable yet.
 
 [Loki Class (Database) documentation](https://rawgit.com/techfort/LokiJS/master/jsdoc/Loki.html)
 
-| Status            | Command                       | Parameter(s)      | Description  
-|:-----------------:|-------------------------------|-------------------|----------------              
-| :heavy_check_mark:| use                           | databaseName      | select (and load if needed) a database (sloki specific)
-| :heavy_check_mark:| db                            |                   | return current database name (sloki specific)
-| :heavy_check_mark:| listDatabases                 |                   | return available databases
-| :heavy_check_mark:| saveDatabase                  |                   | trigger manual saving of the selected database
-| :heavy_check_mark:| listCollections               |                   | return available collections in selected database
-| :heavy_check_mark:| addCollection                 | options           | add a collection in selected database
-| :heavy_check_mark:| getCollection                 | collectionName    | return collection properties in selected database
-| :heavy_plus_sign: | removeCollection              | collectionName    | removes a collection from the selected database
-| :heavy_plus_sign: | renameCollection              | oldName, newName  | renames an existing collection in the selected database
-| :question:        | clearChanges                  |                   | clears all the changes in all collections of selected database
-| :question:        | close                         |                   | close selected database
-| :question:        | configureOptions              | options           | reconfigure selected database options
-| :question:        | copy                          | options           | copy selected database into a new Loky instance
-| :question:        | deleteDatabase                |                   | delete selected database
-| :question:        | getCollection                 | collectionName    | Retrieves reference to a collection by name
-| :red_circle:      | deserializeCollection         |                   | see LokiJS Class documentation
-| :red_circle:      | deserializeDestructured       |                   | see LokiJS Class documentation
-| :red_circle:      | generateChangesNotification   |                   | see LokiJS Class documentation
-| :red_circle:      | loadDatabase                  |                   | see "use" command
-| :red_circle:      | loadJSON                      |                   | see LokiJS Class documentation
-| :red_circle:      | loadJSONObject                |                   | see LokiJS Class documentation
-| :red_circle:      | serialize                     |                   | see LokiJS Class documentation
-| :red_circle:      | serializeChanges              |                   | see LokiJS Class documentation
-| :red_circle:      | serializeCollection           | options           | see LokiJS Class documentation
-| :red_circle:      | serializeDestructured         | options           | see LokiJS Class documentation
-| :red_circle:      | throttledSaveDrain            |                   | see LokiJS Class documentation
+| Status            | Command                       | Parameter(s)                  | Description  
+|:-----------------:|-------------------------------|-------------------------------|----------------              
+| :heavy_check_mark:| loadDatabase                  | databaseName,[options]        | select (and load if needed) a database
+| :heavy_check_mark:| db                            |                               | return current database name (sloki specific)
+| :heavy_check_mark:| listDatabases                 |                               | return available databases
+| :heavy_check_mark:| saveDatabase                  |                               | trigger manual saving of the selected database
+| :heavy_check_mark:| listCollections               |                               | return available collections in selected database
+| :heavy_check_mark:| addCollection                 | options                       | add a collection in selected database
+| :heavy_check_mark:| getCollection                 | collectionName                | return collection properties in selected database
+| :heavy_plus_sign: | removeCollection              | collectionName                | removes a collection from the selected database
+| :heavy_plus_sign: | renameCollection              | oldName, newName              | renames an existing collection in the selected database
+| :question:        | clearChanges                  |                               | clears all the changes in all collections of selected database
+| :question:        | close                         |                               | close selected database
+| :question:        | configureOptions              | options                       | reconfigure selected database options
+| :question:        | copy                          | options                       | copy selected database into a new Loky instance
+| :question:        | deleteDatabase                |                               | delete selected database
+| :question:        | getCollection                 | collectionName                | Retrieves reference to a collection by name
+| :red_circle:      | deserializeCollection         |                               | see LokiJS Class documentation
+| :red_circle:      | deserializeDestructured       |                               | see LokiJS Class documentation
+| :red_circle:      | generateChangesNotification   |                               | see LokiJS Class documentation
+| :red_circle:      | loadDatabase                  |                               | see "use" command
+| :red_circle:      | loadJSON                      |                               | see LokiJS Class documentation
+| :red_circle:      | loadJSONObject                |                               | see LokiJS Class documentation
+| :red_circle:      | serialize                     |                               | see LokiJS Class documentation
+| :red_circle:      | serializeChanges              |                               | see LokiJS Class documentation
+| :red_circle:      | serializeCollection           | options                       | see LokiJS Class documentation
+| :red_circle:      | serializeDestructured         | options                       | see LokiJS Class documentation
+| :red_circle:      | throttledSaveDrain            |                               | see LokiJS Class documentation
 
 </p>
 </details>
