@@ -21,6 +21,14 @@ require('./client')(__filename, (test, client) => {
         });
     });
 
+    test.test("get should return error when collection does not exist", (subtest)  => {
+        client.get("unexistingCollection", 1, (err, result) => {
+            let expectedErr = { code: ERROR_CODE_PARAMETER, message: "collection unexistingCollection does not exist" }
+            subtest.deepEqual(err, expectedErr, 'command should not return an error');
+            subtest.end();
+        });
+    });
+
     test.test("get should return document", (subtest)  => {
         client.get(collectionName, 1, (err, result) => {
             let expectedDoc = { foo: 'bar', meta: { revision: 0, created: 1548660734652, version: 0 }, $loki: 1 };
