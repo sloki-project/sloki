@@ -8,6 +8,7 @@ let defaults = {
     // default database dir is in the home of the user
     DATABASES_DIRECTORY:path.resolve(homedir+'/.sloki/dbs'),
     DATABASES_AUTOSAVE_INTERVAL:1000*60,
+    DATABASES_FORCE_SAVE_ON_CREATE:true,
 
     // TCP API enabled by default
     NET_TCP_PORT:6370,
