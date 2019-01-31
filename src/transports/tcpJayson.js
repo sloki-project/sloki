@@ -1,7 +1,7 @@
-const log = require('evillogger')({ns:'transports:tcp'});
-const ENV = require('../../env');
+const log = require('evillogger')({ns:'transports:tcpJayson'});
+const ENV = require('../env');
 const jayson = require('jayson');
-const commands = require('../../commands');
+const commands = require('../commands');
 
 const errors = {
     MAX_CLIENT_REACHED:{
@@ -16,6 +16,8 @@ const errors = {
 
 let jaysonServer;
 let tcpServer;
+let operationsCount = 0;
+let timerShowOperationsCount;
 
 function _onServerListen(err) {
     if (err) {
@@ -75,7 +77,6 @@ function _onConnect(socket) {
 
 function _maxClientsReached() {
     return tcpServer._connections>ENV.NET_TCP_MAX_CLIENTS;
-
 }
 
 function _maxClientsReachedResponse(params, callback) {
@@ -90,7 +91,7 @@ function start(callback) {
     }
 
     jaysonServer = jayson.server(
-        null, // no handlers, because we are using a router (below)
+        null, // no handlers, because we are using a router (see below)
         {
             routerTcp: (command, params, socket) => {
 
@@ -98,18 +99,21 @@ function start(callback) {
                     return _maxClientsReachedResponse;
                 }
 
-                if (commands.exists(command)) {
-                    /*
-                    if (params) {
-                        log.info('%s: exec %s', socket.id, command, JSON.stringify(params));
-                    } else {
-                        log.info('%s: exec %s', socket.id, command);
-                    }
-                    */
-                    return commands.getHandler(command, params, socket);
-                } else {
+                if (!commands.exists(command)) {
                     log.warn('%s: could not find comand %s', socket.id, command);
+                    return;
                 }
+
+                /*
+                if (params) {
+                    log.info('%s: exec %s', socket.id, command, JSON.stringify(params));
+                } else {
+                    log.info('%s: exec %s', socket.id, command);
+                }
+                */
+
+                ENV.SHOW_OPS_INTERVAL && operationsCount++;
+                return commands.getHandler(command, params, socket);
             }
         }
     );
@@ -119,7 +123,17 @@ function start(callback) {
     tcpServer.on('connection', _onConnect);
     tcpServer.on('listening', _onServerListen);
     tcpServer.listen(ENV.NET_TCP_PORT, ENV.NET_TCP_HOST);
+
+    if (ENV.SHOW_OPS_INTERVAL) {
+        timerShowOperationsCount = setInterval(showOperationsCount, ENV.SHOW_OPS_INTERVAL);
+    }
+
     callback && callback();
+}
+
+function showOperationsCount() {
+    log.info("%s ops/sec", Math.round((operationsCount*1000)/ENV.SHOW_OPS_INTERVAL));
+    operationsCount = 0;
 }
 
 function stop(callback) {
@@ -131,6 +145,7 @@ function stop(callback) {
     }
 
     tcpServer.close(() => {
+        ENV.SHOW_OPS_INTERVAL && clearInterval(timerShowOperationsCount);
         callback && callback();
     });
 
