@@ -83,6 +83,30 @@ function _maxClientsReachedResponse(params, callback) {
     callback(errors.MAX_CLIENT_REACHED);
 }
 
+function router(command, params, socket) {
+
+    if (_maxClientsReached()) {
+        return _maxClientsReachedResponse;
+    }
+
+    if (!commands.exists(command)) {
+        log.warn('%s: could not find comand %s', socket.id, command);
+        return;
+    }
+
+    /*
+    if (params) {
+        log.info('%s: exec %s', socket.id, command, JSON.stringify(params));
+    } else {
+        log.info('%s: exec %s', socket.id, command);
+    }
+    */
+
+    ENV.SHOW_OPS_INTERVAL && operationsCount++;
+    return commands.getHandler(command, params, socket);
+}
+
+
 function start(callback) {
 
     if (!ENV.NET_TCP_PORT) {
@@ -90,33 +114,7 @@ function start(callback) {
         return;
     }
 
-    jaysonServer = jayson.server(
-        null, // no handlers, because we are using a router (see below)
-        {
-            routerTcp: (command, params, socket) => {
-
-                if (_maxClientsReached()) {
-                    return _maxClientsReachedResponse;
-                }
-
-                if (!commands.exists(command)) {
-                    log.warn('%s: could not find comand %s', socket.id, command);
-                    return;
-                }
-
-                /*
-                if (params) {
-                    log.info('%s: exec %s', socket.id, command, JSON.stringify(params));
-                } else {
-                    log.info('%s: exec %s', socket.id, command);
-                }
-                */
-
-                ENV.SHOW_OPS_INTERVAL && operationsCount++;
-                return commands.getHandler(command, params, socket);
-            }
-        }
-    );
+    jaysonServer = jayson.server(null, {routerTcp:router});
 
     tcpServer = jaysonServer.tcp();
     tcpServer.clients = {};
