@@ -23,7 +23,11 @@ let defaults = {
 
     // HTTP API is disabled by default for moment (not implemented yet)
     NET_HTTP_PORT:null,
-    NET_HTTP_HOST:'127.0.0.1'
+    NET_HTTP_HOST:'127.0.0.1',
+
+    // Below some variable to benchs and tests
+    // Show number of operation per interval
+    SHOW_OPS_INTERVAL:0
 }
 
 let env = JSON.parse(JSON.stringify(defaults));
@@ -42,6 +46,7 @@ if (argv.help) {
     console.log('       SLOKI_TCP_IP                '+env.NET_TCP_IP);
     console.log('       SLOKI_TCP_MAX_CLIENTS       '+env.NET_TCP_MAX_CLIENTS);
     console.log('       SLOKI_TCP_DEBUG             '+env.NET_TCP_DEBUG);
+    console.log('       SLOKI_SHOW_OPS_INTERVAL     '+env.SHOW_OPS_INTERVAL);
     console.log('---------------------------------------------------------------');
     console.log('   Command Line Options            Default')
     console.log('       --dir                       '+env.DATABASES_DIRECTORY);
@@ -49,6 +54,7 @@ if (argv.help) {
     console.log('       --tcp-host                  '+env.NET_TCP_HOST);
     console.log('       --tcp-max-clients           '+env.NET_TCP_MAX_CLIENTS);
     console.log('       --tcp-debug                 '+env.NET_TCP_DEBUG);
+    console.log('       --show-ops-interval         '+env.SHOW_OPS_INTERVAL);
     console.log('---------------------------------------------------------------');
     console.log('Example');
     console.log('sloki --tcp-port=6370 --tcp-host=127.0.0.1');
@@ -83,6 +89,10 @@ if (argv.help) {
      env.NET_TCP_MAX_CLIENTS = parseInt(process.env.SLOKI_TCP_MAX_CLIENTS);
  }
 
+ if (process.env.SLOKI_SHOW_OPS_INTERVAL) {
+     env.SHOW_OPS_INTERVAL = parseInt(process.env.SLOKI_SHOW_OPS_INTERVAL);
+ }
+
 
 /********************************
  * command line options override
@@ -106,6 +116,10 @@ if (argv['http-port']) {
 
 if (argv['http-host']) {
     env.NET_HTTP_HOST = parseInt(argv['http-host']);
+}
+
+if (argv['show-ops-interval']) {
+    env.SHOW_OPS_INTERVAL = parseInt(argv['show-ops-interval']);
 }
 
 /********************************
@@ -134,7 +148,7 @@ if (env.NET_TCP_PORT) {
 }
 
 if (env.NET_HTTP_PORT) {
-
+    // TODO
 }
 
 module.exports = env;
