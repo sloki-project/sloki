@@ -7,7 +7,7 @@ const path = require('path');
 
 module.exports = (title, callback) => {
 
-    let tcpClient = new Client(endpoint);
+    let tcpClient = new Client(endpoint,{applicationLayer:'jayson'});
 
     tap.test(
         path.basename(title),
@@ -31,6 +31,7 @@ module.exports = (title, callback) => {
     );
 
     tap.test('exit normaly', (t) => {
+        tcpClient.close();
         t.end();
         process.exit(0);
     });
