@@ -28,8 +28,7 @@ function initialize() {
 
     for (file of klawSync(ENV.DATABASES_DIRECTORY)) {
         dbName = path.basename(file.path).replace(/\.json/,'');
-        log.info("Loading database '%s'", dbName, file.path);
-
+        log.info("Loading database %s", file.path);
         dbs[dbName] = new loki(file.path, defaultDatabaseOptions);
     }
 
