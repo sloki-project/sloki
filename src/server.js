@@ -3,7 +3,7 @@ const path = require('path');
 const jayson = require('jayson');
 const use = require('abrequire');
 
-const tcp = require('./transports/tcp');
+const tcp = require('./transports/tcpJayson');
 const databases = use('src/databases');
 const ENV = use('src/env');
 
