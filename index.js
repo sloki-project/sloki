@@ -8,8 +8,6 @@ if (module === require.main) {
     });
 }
 
-/*
 module.exports = {
-    //client:require('./src/client')
+    version:require('./package.json').version
 }
-*/
