@@ -9,5 +9,6 @@ if (module === require.main) {
 }
 
 module.exports = {
-    version:require('./package.json').version
+    version:require('./package.json').version,
+    server:server
 }
