@@ -3,7 +3,7 @@ const databases = require('../../databases');
 
 let descriptor = {
     name:"insert",
-    categories:["database","collection"],
+    categories:["collection"],
     description:{
         short:"Add a document"
     },

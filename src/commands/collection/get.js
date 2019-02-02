@@ -3,7 +3,7 @@ const databases = require('../../databases');
 
 let descriptor = {
     name:"get",
-    categories:["database","collection"],
+    categories:["collection"],
     description:{
         short:"Get a document by id"
     },
