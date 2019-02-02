@@ -7,15 +7,15 @@ const loki = require('lokijs');
 
 const ERROR_CODE_PARAMETER = -32602;
 
-let dbs = {};
-let collections = {};
-
 const DEFAULT_DATABASE_OPTIONS =  {
     serializationMethod:"pretty",
     autoload:true,
     autosave:true,
     autosaveInterval:ENV.DATABASES_AUTOSAVE_INTERVAL
 }
+
+let dbs = {};
+let collections = {};
 
 function initialize() {
 
