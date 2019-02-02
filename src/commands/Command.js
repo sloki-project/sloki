@@ -52,7 +52,13 @@ function Command(descriptor, handler) {
                 continue;
             }
 
-            if (params[i] != null && params[i] != undefined && typeof params[i] != parameter.sanityCheck.type) {
+            if (
+                params[i] != null && params[i] != undefined &&
+                (
+                    (typeof parameter.sanityCheck.type === "object" && parameter.sanityCheck.type.indexOf(typeof params[i])<0) ||
+                    (typeof parameter.sanityCheck.type === "string" && typeof params[i] != parameter.sanityCheck.type)
+                )
+            ) {
                 triggerError(`${descriptor.name}: wrong type for parameter '${parameter.name}' : found '${typeof params[i]}', expected '${parameter.sanityCheck.type}'`, callback);
                 return;
             }
