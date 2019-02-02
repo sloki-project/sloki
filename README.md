@@ -52,6 +52,15 @@ Sloki make LokiJS ***scalable***.
 
 -----
 
+## Client
+
+See https://github.com/sloki-project/sloki-node-client
+
+## Benchmarks
+
+See https://github.com/sloki-project/sloki-benchs
+
+
 ## Development status
 
 #### Legends
@@ -157,7 +166,7 @@ Sloki make LokiJS ***scalable***.
 
 <details>
 <summary>
-<b><img src="http://progressed.io/bar/0"/> Benchmarks</b>
+<b><img src="http://progressed.io/bar/2"/> Benchmarks</b>
 </summary>
 <p>
 
