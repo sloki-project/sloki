@@ -48,6 +48,22 @@ function list() {
     return tmp;
 }
 
+function _collectionExists(databaseName, collectionName, callback) {
+    if (collections[`${databaseName}.${collectionName}`]) {
+        return true;
+    }
+    callback({ code: ERROR_CODE_PARAMETER, message: `collection ${databaseName}.${collectionName} does not exist` });
+    return false;
+}
+
+function _databaseSelected(databaseName, callback) {
+    if (dbs[databaseName]) {
+        return true;
+    }
+    callback('E_NO_DATABASE_SELECTED');
+    return false;
+}
+
 function loadDatabase(databaseName, databaseOptions, callback) {
 
     if (dbs[databaseName]) {
@@ -128,14 +144,21 @@ function get(databaseName, collectionName, lokiId, callback) {
         return;
     }
 
-    let collectionReference = `${databaseName}.${collectionName}`;
-    let collection = collections[collectionReference];
-    if (!collection) {
+    if (!collections[`${databaseName}.${collectionName}`]) {
         callback({ code: ERROR_CODE_PARAMETER, message: `collection ${collectionName} does not exist` });
         return;
     }
 
-    callback(null, collection.get(lokiId));
+    callback(null, collections[`${databaseName}.${collectionName}`].get(lokiId));
+}
+
+function remove(databaseName, collectionName, lokiId, callback) {
+    if (
+        _databaseSelected(databaseName, callback) &&
+        _collectionExists(databaseName, collectionName, callback)
+    ) {
+        callback(null, collections[`${databaseName}.${collectionName}`].remove(lokiId));
+    }
 }
 
 module.exports = {
@@ -147,5 +170,6 @@ module.exports = {
     getCollection,
     saveDatabase,
     insert,
-    get
+    get,
+    remove
 }
