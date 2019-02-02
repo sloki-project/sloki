@@ -43,8 +43,8 @@ let descriptor = {
 function handler(params, callback, socket) {
     databases.get(
         socket.loki.currentDatabase,
-        params[0],
-        params[1],
+        params[0],  // collection name
+        params[1],  // loki id
         (err, id) => {
             callback(err, id);
         }
