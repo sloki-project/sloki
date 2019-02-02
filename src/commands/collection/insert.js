@@ -30,13 +30,13 @@ let descriptor = {
 }
 
 /**
- * insert a record in a collection
+ * insert a record in a collection, return the document
  *
  * @example
  * client> insert myCollection {"foo":"bar"}
- * 2
+ * {"foo":"bar"}
  *
- * @param {object} params - array[collectionName, record]
+ * @param {object} params - array[collectionName, document]
  * @param {function} callback - callback
  * @memberof Commands
  */
@@ -44,9 +44,9 @@ function handler(params, callback, socket) {
     databases.insert(
         socket.loki.currentDatabase,
         params[0], // collection name
-        params[1], // record
-        (err, id) => {
-            callback(err, id);
+        params[1], // document
+        (err, doc) => {
+            callback(err, doc);
         }
     )
 }
