@@ -30,8 +30,9 @@ module.exports = (title, callback) => {
         }
     );
 
-    tap.test('', (t) => {
+    tap.test('close client', (t) => {
         tcpClient.close();
+        t.pass("client closed");
         t.end();
         process.exit(0);
     });

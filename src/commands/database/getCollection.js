@@ -33,7 +33,11 @@ let descriptor = {
  * @memberof Commands
  */
 function handler(params, callback, socket) {
-    callback(null, databases.getCollection(socket.loki.currentDatabase, params[0]));
+    databases.getCollection(
+        socket.loki.currentDatabase,
+        params[0], // collection name
+        callback
+    );
 }
 
 

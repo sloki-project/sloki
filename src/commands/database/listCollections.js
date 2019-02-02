@@ -22,7 +22,7 @@ let descriptor = {
  * @memberof Commands
  */
 function handler(params, callback, socket) {
-    callback(null, databases.listCollections(socket.loki.currentDatabase));
+    databases.listCollections(socket.loki.currentDatabase, callback);
 }
 
 module.exports = new Command(descriptor, handler);

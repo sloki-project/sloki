@@ -41,7 +41,12 @@ let descriptor = {
  * @memberof Commands
  */
 function handler(params, callback, socket) {
-    callback(null, databases.addCollection(socket.loki.currentDatabase, params[0], params[1]));
+    databases.addCollection(
+        socket.loki.currentDatabase,
+        params[0], // collection name
+        params[1], // collection options
+        callback
+    )
 }
 
 module.exports = new Command(descriptor, handler);

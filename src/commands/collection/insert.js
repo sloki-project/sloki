@@ -45,9 +45,7 @@ function handler(params, callback, socket) {
         socket.loki.currentDatabase,
         params[0], // collection name
         params[1], // document
-        (err, doc) => {
-            callback(err, doc);
-        }
+        callback
     )
 }
 

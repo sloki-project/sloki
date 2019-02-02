@@ -42,14 +42,14 @@ let descriptor = {
  * @memberof Commands
  */
  function handler(params, callback, socket) {
-
-     let databaseName = params[0];
-     let databaseOptions = params[1];
-
-     databases.loadDatabase(databaseName, databaseOptions, (err, database) => {
-         socket.loki.currentDatabase = databaseName;
-         callback(null, database);
-     })
+     databases.loadDatabase(
+         params[0], // database name
+         params[1], // database options
+         (err, database) => {
+             socket.loki.currentDatabase = params[0];
+             callback(null, database);
+         }
+     )
 }
 
 module.exports = new Command(descriptor, handler);

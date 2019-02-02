@@ -19,11 +19,11 @@ let descriptor = {
             }
         },
         {
-            name:"document",
+            name:"document or document id",
             mandatory:true,
-            description:"Document",
+            description:"Document or document ID",
             sanityCheck:{
-                type:"object"
+                type:["number","object"]
             }
         }
     ]
@@ -45,9 +45,7 @@ function handler(params, callback, socket) {
         socket.loki.currentDatabase,
         params[0], // collection name
         params[1], // document
-        (err, id) => {
-            callback(err, id);
-        }
+        callback
     )
 }
 
