@@ -10,7 +10,7 @@ const ERROR_CODE_PARAMETER = -32602;
 let dbs = {};
 let collections = {};
 
-let defaultDatabaseOptions =  {
+const DEFAULT_DATABASE_OPTIONS =  {
     serializationMethod:"pretty",
     autoload:true,
     autosave:true,
@@ -29,13 +29,13 @@ function initialize() {
     for (file of klawSync(ENV.DATABASES_DIRECTORY)) {
         dbName = path.basename(file.path).replace(/\.json/,'');
         log.info("Loading database %s", file.path);
-        dbs[dbName] = new loki(file.path, defaultDatabaseOptions);
+        dbs[dbName] = new loki(file.path, DEFAULT_DATABASE_OPTIONS);
     }
 
     let dbTestFile = path.resolve(ENV.DATABASES_DIRECTORY+'/test.json');
 
     if (!dbs['test']) {
-        dbs['test'] = new loki(dbTestFile, {serializationMethod, autoload, autosave, autosaveInterval});
+        dbs['test'] = new loki(dbTestFile, DEFAULT_DATABASE_OPTIONS);
         dbs['test'].save();
     }
 }
@@ -61,7 +61,7 @@ function loadDatabase(databaseName, databaseOptions, callback) {
     }
 
     let dbPath = path.resolve(ENV.DATABASES_DIRECTORY+`/${databaseName}.json`);
-    let options = Object.assign(defaultDatabaseOptions, databaseOptions||{});
+    let options = Object.assign(DEFAULT_DATABASE_OPTIONS, databaseOptions||{});
 
     options.autoloadCallback = () => {
         callback(null, dbs[databaseName]);
