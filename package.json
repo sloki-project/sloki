@@ -8,7 +8,7 @@
   },
   "bin": {
     "sloki-cli": "bin/cli.js",
-    "sloki":"bin/server.js"
+    "sloki": "bin/server.js"
   },
   "repository": {
     "type": "git",
