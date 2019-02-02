@@ -43,23 +43,14 @@ Sloki make LokiJS ***scalable***.
 
 ## Installation
 
-Copy paste line you want :)
-
-* locally:
-  * ```npm install sloki```
-  * ```yarn add sloki```
-
-* globally:
-  * ```npm install -g sloki```
-  * ```yarn add -g sloki```
-
------
+* ```npm install -g sloki```
 
 ## Usage
 
-Not usable yet.
+* `sloki`
+* `sloki --help`
 
-----
+-----
 
 ## Development status
 

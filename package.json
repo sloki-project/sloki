@@ -7,7 +7,8 @@
     "test": "node test/index.js"
   },
   "bin": {
-    "loki-cli": "bin/cli.js"
+    "sloki-cli": "bin/cli.js",
+    "sloki":"bin/server.js"
   },
   "repository": {
     "type": "git",
