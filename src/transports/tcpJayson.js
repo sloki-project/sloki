@@ -94,13 +94,11 @@ function router(command, params, socket) {
         return;
     }
 
-    /*
     if (params) {
-        log.info('%s: exec %s', socket.id, command, JSON.stringify(params));
+        log.debug('%s: exec %s', socket.id, command, JSON.stringify(params));
     } else {
-        log.info('%s: exec %s', socket.id, command);
+        log.debug('%s: exec %s', socket.id, command);
     }
-    */
 
     ENV.SHOW_OPS_INTERVAL && operationsCount++;
     return commands.getHandler(command, params, socket);
