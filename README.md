@@ -2,10 +2,10 @@
 A NodeJS Server for [LokiJS](http://lokijs.org/)
 
 [![Join the chat at https://gitter.im/sloki-server/community](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sloki-server/community)
-[![alt CI-badge](https://travis-ci.org/franck34/sloki.svg?branch=master)](https://travis-ci.org/franck34/sloki)
+[![alt CI-badge](https://travis-ci.org/sloki-project/sloki.svg?branch=master)](https://travis-ci.org/sloki-project/sloki)
 [![npm version](https://badge.fury.io/js/sloki.svg)](http://badge.fury.io/js/sloki)
 [![alt packagequality](http://npm.packagequality.com/shield/sloki.svg)](http://packagequality.com/#?package=sloki)
-[![Known Vulnerabilities](https://snyk.io/test/github/franck34/sloki/badge.svg?targetFile=package.json)](https://snyk.io/test/github/franck34/sloki?targetFile=package.json)
+[![Known Vulnerabilities](https://snyk.io/test/github/sloki-project/sloki/badge.svg?targetFile=package.json)](https://snyk.io/test/github/sloki-project/sloki?targetFile=package.json)
 
 ## Overview
 
