@@ -7,7 +7,7 @@ A NodeJS Server for [LokiJS](http://lokijs.org/)
 [![alt packagequality](http://npm.packagequality.com/shield/sloki.svg)](http://packagequality.com/#?package=sloki)
 [![Known Vulnerabilities](https://snyk.io/test/github/sloki-project/sloki/badge.svg?targetFile=package.json)](https://snyk.io/test/github/sloki-project/sloki?targetFile=package.json)
 [![Dependencies](https://david-dm.org/sloki-project/sloki.svg)](https://david-dm.org/sloki-project/sloki)
-[![Dev Dependencies](https://david-dm.org/sloki-project/sloki.svg?type=dev)](https://david-dm.org/sloki-project/sloki?type=dev)
+[![Dev Dependencies](https://david-dm.org/sloki-project/sloki/dev-status.svg)](https://david-dm.org/sloki-project/sloki?type=dev)
 
 
 ## Overview
