@@ -1,14 +1,14 @@
 const Command = require('../Command');
 
 
-let descriptor = {
-    name:"shutdown",
-    categories:["server"],
+const descriptor = {
+    name:'shutdown',
+    categories:['server'],
     description:{
-        short:"Shutdown sloki server",
+        short:'Shutdown sloki server',
     },
     parameters:[]
-}
+};
 
 /**
  * Client ask for server shutdown
@@ -20,9 +20,9 @@ let descriptor = {
  * @param {function} callback - callback
  * @memberof Commands
  */
- function handler(params, callback) {
-     require('../../server').stop();
-     callback();
+function handler(params, callback) {
+    require('../../server').stop();
+    callback();
 }
 
 module.exports = new Command(descriptor, handler);

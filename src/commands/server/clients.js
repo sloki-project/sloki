@@ -1,14 +1,14 @@
 const Command = require('../Command');
 
 
-let descriptor = {
-    name:"clients",
-    categories:["server"],
+const descriptor = {
+    name:'clients',
+    categories:['server'],
     description:{
-        short:"Return connected clients list"
+        short:'Return connected clients list'
     },
     parameters:[]
-}
+};
 
 /**
  * return TCP/TLS connected clients

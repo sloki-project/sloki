@@ -1,4 +1,4 @@
-const log = require('evillogger')({ns:'transports:tcpJayson'});
+const log = require('evillogger')({ ns:'transports:tcpJayson' });
 const ENV = require('../env');
 const jayson = require('jayson');
 const commands = require('../commands');
@@ -6,13 +6,13 @@ const commands = require('../commands');
 const errors = {
     MAX_CLIENT_REACHED:{
         code: -32000,
-        message:"Max Clients Reached"
+        message:'Max Clients Reached'
     },
     SERVER_SHUTDOWN:{
         code: -32001,
-        message:"Server shutdown"
+        message:'Server shutdown'
     }
-}
+};
 
 let jaysonServer;
 let tcpServer;
@@ -23,47 +23,36 @@ function _onServerListen(err) {
     if (err) {
         console.log(err);
         throw new Error(err);
-        process.exit(1);
     }
 
-    log.info(
-        "TCP Server listening at %s:%s (maxClients %s)",
-        ENV.NET_TCP_HOST,
-        ENV.NET_TCP_PORT,
-        ENV.NET_TCP_MAX_CLIENTS
-    );
+    log.info(`TCP Server listening at ${ENV.NET_TCP_HOST}:${ENV.NET_TCP_PORT} (maxClients ${ENV.NET_TCP_MAX_CLIENTS})`);
 }
 
 function _handleMaxClients(server, socket) {
 
     server.options.router = (method, params) => {
         return server.options.routerTcp(method, params, socket);
-    }
+    };
 
     socket.id = `${socket.remoteAddress}:${socket.remotePort}`;
 
     if (_maxClientsReached()) {
-        log.warn(
-            '%s: refusing connection, number of connection: %s, allowed: %s',
-            socket.id,
-            tcpServer._connections-1,
-            ENV.NET_TCP_MAX_CLIENTS
-        );
+        log.warn(`${socket.id}: refusing connection, number of connection: ${tcpServer._connections-1}, allowed: ${ENV.NET_TCP_MAX_CLIENTS}`);
 
         // if client is just a tcp connect (prevent kind of slowLoris attack)
         setTimeout(() => {
             socket.end();
-        },200);
+        }, 200);
         return false;
     }
 
     socket.on('end', () => {
-        log.info("%s: client disconnected", socket.id);
+        log.info(`${socket.id}: client disconnected`);
         delete tcpServer.clients[socket.id];
     });
 
     tcpServer.clients[socket.id] = socket;
-    log.info("%s: client connected", socket.id);
+    log.info(`${socket.id}: client connected`);
     return true;
 }
 
@@ -112,7 +101,7 @@ function start(callback) {
         return;
     }
 
-    jaysonServer = jayson.server(null, {routerTcp:router});
+    jaysonServer = jayson.server(null, { routerTcp:router });
 
     tcpServer = jaysonServer.tcp();
     tcpServer.clients = {};
@@ -128,15 +117,16 @@ function start(callback) {
 }
 
 function showOperationsCount() {
-    log.info("%s ops/sec", Math.round((operationsCount*1000)/ENV.SHOW_OPS_INTERVAL));
+    log.info('%s ops/sec', Math.round((operationsCount*1000)/ENV.SHOW_OPS_INTERVAL));
     operationsCount = 0;
 }
 
 function stop(callback) {
+    let id;
     for (id in tcpServer.clients) {
-        tcpServer.clients[id].write(JSON.stringify({error:errors.SERVER_SHUTDOWN}));
+        tcpServer.clients[id].write(JSON.stringify({ error:errors.SERVER_SHUTDOWN }));
         tcpServer.clients[id].end();
-        log.warn("%s: force disconnection", id);
+        log.warn(`${id}: force disconnection`);
         delete tcpServer.clients[id];
     }
 
@@ -148,6 +138,6 @@ function stop(callback) {
 }
 
 module.exports = {
-    start:start,
-    stop:stop
-}
+    start,
+    stop
+};

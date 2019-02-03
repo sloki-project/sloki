@@ -11,17 +11,17 @@ function loadDatabase(databaseName, databaseOptions, callback) {
         return;
     }
 
-    if (typeof databaseOptions === "function") {
+    if (typeof databaseOptions === 'function') {
         callback = databaseOptions;
         databaseOptions = {};
     }
 
-    let dbPath = path.resolve(ENV.DATABASES_DIRECTORY+`/${databaseName}.json`);
-    let options = Object.assign(constants.DEFAULT_DATABASE_OPTIONS, databaseOptions||{});
+    const dbPath = path.resolve(ENV.DATABASES_DIRECTORY+`/${databaseName}.json`);
+    const options = Object.assign(constants.DEFAULT_DATABASE_OPTIONS, databaseOptions||{});
 
     options.autoloadCallback = () => {
         callback(null, shared.dbs[databaseName]);
-    }
+    };
 
     shared.dbs[databaseName] = new loki(dbPath, options);
 

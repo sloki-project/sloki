@@ -15,20 +15,20 @@ function onConnected() {
     const completions = client.commandsName();
 
     function autoComplete(line) {
-      const hits = completions.filter((c) => c.startsWith(line));
-      return [hits.length ? hits : completions, line];
+        const hits = completions.filter((c) => c.startsWith(line));
+        return [hits.length ? hits : completions, line];
     }
 
     const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-      completer:autoComplete
+        input: process.stdin,
+        output: process.stdout,
+        completer:autoComplete
     });
 
     rl.setPrompt('> ');
     rl.prompt();
     rl.on('line', (data) => {
-        if (data === "quit") {
+        if (data === 'quit') {
             rl.close();
             client.quit();
             return;
@@ -44,7 +44,7 @@ function onError(err) {
 }
 
 client.connect().then(onConnected);
-client.on('close',() => {
+client.on('close', () => {
     console.log('close');
-})
-client.on('error',onError);
+});
+client.on('error', onError);

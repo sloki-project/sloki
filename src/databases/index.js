@@ -9,4 +9,4 @@ module.exports = {
     insert:             require('./collection/insert'),
     get:                require('./collection/get'),
     remove:             require('./collection/remove')
-}
+};

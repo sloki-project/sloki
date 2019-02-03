@@ -1,27 +1,28 @@
-const log = require('evillogger')({ns:'commands'});
+const log = require('evillogger')({ ns:'commands' });
 const klawSync = require('klaw-sync');
 const path = require('path');
 
-let commands = {};
-let commandsDescriptor = {};
+const commands = {};
+const commandsDescriptor = {};
+const reDirname = new RegExp(__dirname+'/');
+const showLog = !process.mainModule.filename.match(/\/cli/);
+
 let cmdName;
 let cmdBase;
-let reDirname = new RegExp(__dirname+'/');
-let tmp;
-let showLog = !process.mainModule.filename.match(/\/cli/);
 
-for (file of klawSync(__dirname,{depthLimit:1, nodir:true})) {
+let file;
+for (file of klawSync(__dirname, { depthLimit:1, nodir:true })) {
 
     if (file.path.match(/\/index|README|Command|regexps/)) {
         continue;
     }
 
-    cmdName = path.basename(file.path).replace(/\.js/,'');
-    cmdBase = file.path.replace(reDirname,'').replace(/\.js/,'');
+    cmdName = path.basename(file.path).replace(/\.js/, '');
+    cmdBase = file.path.replace(reDirname, '').replace(/\.js/, '');
     if (cmdBase.match(/\//)) {
         cmdBase = cmdBase.split('/')[0];
     }
-    showLog && log.debug("Command registered (%s/%s)", cmdBase, cmdName);
+    showLog && log.debug(`Command registered ${cmdBase}/${cmdName}`);
     commands[cmdName] = require(file.path);
     commandsDescriptor[cmdName] = commands[cmdName].getDescriptor();
 }
@@ -60,4 +61,4 @@ module.exports = {
     listWithDescriptor,
     exists,
     getHandler
-}
+};

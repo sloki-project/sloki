@@ -1,7 +1,8 @@
 const shared = require('../shared');
 
 function list() {
-    let tmp = [];
+    const tmp = [];
+    let db;
     for (db of Object.keys(shared.dbs)) {
         tmp.push(db);
     }

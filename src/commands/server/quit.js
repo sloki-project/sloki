@@ -1,14 +1,14 @@
 const Command = require('../Command');
 
 
-let descriptor = {
-    name:"quit",
-    categories:["client"],
+const descriptor = {
+    name:'quit',
+    categories:['client'],
     description:{
-        short:"Disconnect",
+        short:'Disconnect',
     },
     parameters:[]
-}
+};
 
 /**
  * client disconnect
@@ -21,9 +21,9 @@ let descriptor = {
  * @param {function} callback - callback
  * @memberof Commands
  */
- function handler(params, callback, socket) {
-     callback(null, "bye");
-     socket.end();
+function handler(params, callback, socket) {
+    callback(null, 'bye');
+    socket.end();
 }
 
 module.exports = new Command(descriptor, handler);

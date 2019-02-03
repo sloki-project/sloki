@@ -1,4 +1,4 @@
-const log = require('evillogger')({ns:'initialize'});
+const log = require('evillogger')({ ns:'initialize' });
 const path = require('path');
 const fs = require('fs-extra');
 const klawSync = require('klaw-sync');
@@ -16,14 +16,15 @@ function initialize() {
     }
 
     let dbName;
+    let file;
 
     for (file of klawSync(ENV.DATABASES_DIRECTORY)) {
-        dbName = path.basename(file.path).replace(/\.json/,'');
-        log.info("Loading database %s", file.path);
+        dbName = path.basename(file.path).replace(/\.json/, '');
+        log.info(`Loading database ${file.path}`);
         shared.dbs[dbName] = new loki(file.path, constants.DEFAULT_DATABASE_OPTIONS);
     }
 
-    let dbTestFile = path.resolve(ENV.DATABASES_DIRECTORY+'/test.json');
+    const dbTestFile = path.resolve(ENV.DATABASES_DIRECTORY+'/test.json');
 
     if (!shared.dbs['test']) {
         shared.dbs['test'] = new loki(dbTestFile, constants.DEFAULT_DATABASE_OPTIONS);

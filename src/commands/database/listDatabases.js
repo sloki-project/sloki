@@ -1,14 +1,14 @@
 const Command = require('../Command');
 const databases = require('../../databases');
 
-let descriptor = {
-    name:"listDatabases",
-    categories:["database"],
+const descriptor = {
+    name:'listDatabases',
+    categories:['database'],
     description:{
-        short:"Return available databases",
+        short:'Return available databases',
     },
     parameters:[]
-}
+};
 
 /**
  * return databases list

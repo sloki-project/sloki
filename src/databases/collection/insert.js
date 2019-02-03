@@ -1,4 +1,4 @@
-const log = require('evillogger')({ns:'loki/insert'});
+const log = require('evillogger')({ ns:'loki/insert' });
 const shared = require('../shared');
 
 function insert(databaseName, collectionName, doc, options, callback) {
@@ -7,7 +7,7 @@ function insert(databaseName, collectionName, doc, options, callback) {
         return;
     }
 
-    let collectionReference = `${databaseName}.${collectionName}`;
+    const collectionReference = `${databaseName}.${collectionName}`;
     let collection = shared.collections[collectionReference];
 
     if (!collection) {
@@ -24,7 +24,7 @@ function insert(databaseName, collectionName, doc, options, callback) {
 
     if (!collection) {
         // Jayson will make a nice error for us, we don't care about err value
-        callback("internalerror");
+        callback('internalerror');
         return;
     }
 
@@ -58,7 +58,7 @@ function insert(databaseName, collectionName, doc, options, callback) {
         return;
     }
 
-    if (options.sret === "id") {
+    if (options.sret === 'id') {
         callback(null, collection.insert(doc).$loki);
     }
 }

@@ -1,25 +1,25 @@
 const Command = require('../Command');
 const databases = require('../../databases');
 
-let descriptor = {
-    name:"getCollection",
-    categories:["database"],
+const descriptor = {
+    name:'getCollection',
+    categories:['database'],
     description:{
-        short:"Return collection properties",
+        short:'Return collection properties',
     },
     parameters:[
         {
-            name:"Collection name",
+            name:'Collection name',
             mandatory:true,
-            description:"Collection name",
+            description:'Collection name',
             sanityCheck:{
-                type:"string",
+                type:'string',
                 reString:require('../regexps').collectionName,
-                reFlag:"i"
+                reFlag:'i'
             }
         }
     ]
-}
+};
 
 /**
  * return collection properties

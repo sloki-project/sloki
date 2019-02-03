@@ -1,33 +1,33 @@
 const Command = require('../Command');
 const databases = require('../../databases');
 
-let descriptor = {
-    name:"addCollection",
-    categories:["database"],
+const descriptor = {
+    name:'addCollection',
+    categories:['database'],
     description:{
-        short:"Add a collection into currently selected database"
+        short:'Add a collection into currently selected database'
     },
     parameters:[
         {
-            name:"Collection name",
+            name:'Collection name',
             mandatory:true,
-            description:"Collection name",
+            description:'Collection name',
             sanityCheck:{
-                type:"string",
+                type:'string',
                 reString:require('../regexps').collectionName,
-                reFlag:"i"
+                reFlag:'i'
             }
         },
         {
-            name:"Options",
+            name:'Options',
             mandatory:false,
-            description:"Collection options",
+            description:'Collection options',
             sanityCheck:{
-                type:"object"
+                type:'object'
             }
         }
     ]
-}
+};
 
 /**
  * add a collection in selected database
@@ -46,7 +46,7 @@ function handler(params, callback, socket) {
         params[0], // collection name
         params[1], // collection options
         callback
-    )
+    );
 }
 
 module.exports = new Command(descriptor, handler);

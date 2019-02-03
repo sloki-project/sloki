@@ -1,14 +1,14 @@
 const Command = require('../Command');
 
 
-let descriptor = {
-    name:"commands",
-    categories:["server"],
+const descriptor = {
+    name:'commands',
+    categories:['server'],
     description:{
-        short:"Return commands list",
+        short:'Return commands list',
     },
     parameters:[]
-}
+};
 
 /**
 * return available commands

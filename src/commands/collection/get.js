@@ -1,33 +1,33 @@
 const Command = require('../Command');
 const databases = require('../../databases');
 
-let descriptor = {
-    name:"get",
-    categories:["collection"],
+const descriptor = {
+    name:'get',
+    categories:['collection'],
     description:{
-        short:"Get a document by id"
+        short:'Get a document by id'
     },
     parameters:[
         {
-            name:"Collection name",
+            name:'Collection name',
             mandatory:true,
-            description:"Collection name",
+            description:'Collection name',
             sanityCheck:{
-                type:"string",
+                type:'string',
                 reString:require('../regexps').collectionName,
-                reFlag:"i"
+                reFlag:'i'
             }
         },
         {
-            name:"Unique ID",
+            name:'Unique ID',
             mandatory:true,
-            description:"Loki id",
+            description:'Loki id',
             sanityCheck:{
-                type:"number"
+                type:'number'
             }
         }
     ]
-}
+};
 
 /**
  * get a document by his loki id
@@ -46,7 +46,7 @@ function handler(params, callback, socket) {
         params[0],  // collection name
         params[1],  // loki id
         callback
-    )
+    );
 }
 
 module.exports = new Command(descriptor, handler);

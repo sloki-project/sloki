@@ -1,4 +1,4 @@
-const log = require('evillogger')({ns:'loki/remove'});
+const log = require('evillogger')({ ns:'loki/remove' });
 const shared = require('../shared');
 const constants = require('../constants');
 
@@ -8,8 +8,7 @@ function remove(databaseName, collectionName, documentOrId, callback) {
     }
 
     try {
-        let result = shared.collections[`${databaseName}.${collectionName}`].remove(documentOrId);
-        callback(null, result);
+        callback(null, shared.collections[`${databaseName}.${collectionName}`].remove(documentOrId));
     } catch(e) {
         callback({
             code: constants.ERROR_CODE_INTERNAL,

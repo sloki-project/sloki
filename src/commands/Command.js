@@ -1,10 +1,10 @@
-const log = require('evillogger')({ns:'Command'});
+const log = require('evillogger')({ ns:'Command' });
 
 // http://jsonrpc.org/spec.html#error_object
 const ERROR_CODE_PARAMETER = -32602;
 
 function triggerError(msg, callback) {
-    callback({code:ERROR_CODE_PARAMETER, message:msg});
+    callback({ code:ERROR_CODE_PARAMETER, message:msg });
     log.warn(msg);
 }
 
@@ -17,8 +17,6 @@ function Command(descriptor, handler) {
         //
         // Sanity Checks
         //
-
-        let errorMessage;
 
         if (!params || !params.length) {
             if (mandatoryParametersCount) {
@@ -55,8 +53,8 @@ function Command(descriptor, handler) {
             if (
                 params[i] != null && params[i] != undefined &&
                 (
-                    (typeof parameter.sanityCheck.type === "object" && parameter.sanityCheck.type.indexOf(typeof params[i])<0) ||
-                    (typeof parameter.sanityCheck.type === "string" && typeof params[i] != parameter.sanityCheck.type)
+                    (typeof parameter.sanityCheck.type === 'object' && parameter.sanityCheck.type.indexOf(typeof params[i])<0) ||
+                    (typeof parameter.sanityCheck.type === 'string' && typeof params[i] != parameter.sanityCheck.type)
                 )
             ) {
                 triggerError(`${descriptor.name}: wrong type for parameter '${parameter.name}' : found '${typeof params[i]}', expected '${parameter.sanityCheck.type}'`, callback);
@@ -142,7 +140,7 @@ function Command(descriptor, handler) {
     return {
         handle,
         getDescriptor
-    }
+    };
 }
 
 module.exports = Command;

@@ -1,14 +1,14 @@
 const Command = require('../Command');
 
 
-let descriptor = {
-    name:"db",
-    categories:["database"],
+const descriptor = {
+    name:'db',
+    categories:['database'],
     description:{
-        short:"Return currently selected database name",
+        short:'Return currently selected database name',
     },
     parameters:[]
-}
+};
 
 /**
  * return currently selected database
@@ -21,8 +21,8 @@ let descriptor = {
  * @param {function} callback - callback
  * @memberof Commands
  */
- function handler(params, callback, socket) {
-     callback(null, socket.loki.currentDatabase);
+function handler(params, callback, socket) {
+    callback(null, socket.loki.currentDatabase);
 }
 
 

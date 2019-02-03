@@ -1,8 +1,8 @@
-const log = require('evillogger')({ns:'loki/shared'});
+const log = require('evillogger')({ ns:'loki/shared' });
 const constants = require('./constants');
 
-let dbs = {};
-let collections = {};
+const dbs = {};
+const collections = {};
 
 
 function databaseSelected(databaseName, callback) {
@@ -10,9 +10,11 @@ function databaseSelected(databaseName, callback) {
         return true;
     }
 
+    const msg = 'no database selected';
+
     callback({
         code: constants.ERROR_CODE_INTERNAL,
-        message: `no database selected`
+        message: msg
     });
 
     log.debug(msg);
@@ -31,7 +33,7 @@ function collectionExists(databaseName, collectionName, callback) {
         return false;
     }
 
-    let msg = `collection ${collectionName} does not exist in database ${databaseName}`;
+    const msg = `collection ${collectionName} does not exist in database ${databaseName}`;
 
     callback({
         code: constants.ERROR_CODE_PARAMETER,
@@ -49,4 +51,4 @@ module.exports = {
     collections,
     databaseSelected,
     collectionExists
-}
+};

@@ -1,6 +1,4 @@
-const log = require('evillogger')({ns:'server'});
-const path = require('path');
-const jayson = require('jayson');
+const log = require('evillogger')({ ns:'server' });
 const use = require('abrequire');
 
 const tcp = require('./transports/tcpJayson');
@@ -61,20 +59,20 @@ function stop(callback) {
         return;
     }
 
-    log.warn("shutdown in progress");
+    log.warn('shutdown in progress');
 
     tcp.stop((err) => {
-        log.info("server stopped, exiting");
+        log.info('server stopped, exiting');
         if (callback) {
             callback(err);
             return;
         }
         process.exit(err ? 1 : 0);
-    })
+    });
 }
 
 
 module.exports = {
-    start:start,
-    stop:stop
-}
+    start,
+    stop
+};

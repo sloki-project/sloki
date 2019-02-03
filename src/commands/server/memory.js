@@ -1,14 +1,14 @@
 const Command = require('../Command');
 const prettyBytes = require('pretty-bytes');
 
-let descriptor = {
-    name:"memory",
-    categories:["server"],
+const descriptor = {
+    name:'memory',
+    categories:['server'],
     description:{
-        short:"Return sloki process memory usage",
+        short:'Return sloki process memory usage',
     },
     parameters:[]
-}
+};
 
 
 /**
@@ -22,8 +22,8 @@ let descriptor = {
 * @memberof Commands
 */
 function handler(params, callback) {
-    let used = process.memoryUsage();
-    for (let key in used) {
+    const used = process.memoryUsage();
+    for (const key in used) {
         used[key] = prettyBytes(used[key]);
     }
 

@@ -1,34 +1,34 @@
 const Command = require('../Command');
 const databases = require('../../databases');
 
-let descriptor = {
-    name:"use",
-    categories:["database"],
+const descriptor = {
+    name:'use',
+    categories:['database'],
     description:{
-        short:"Select a database (if not exist, a new db will be created)"
+        short:'Select a database (if not exist, a new db will be created)'
     },
     parameters:[
         {
-            name:"database name",
+            name:'database name',
             mandatory:true,
-            mandatoryError:"Database name is mandatory",
-            description:"Database name",
+            mandatoryError:'Database name is mandatory',
+            description:'Database name',
             sanityCheck:{
-                type:"string",
-                reString:"^[a-z0-9\-\.\_]{1,50}$",
-                reFlag:"i",
+                type:'string',
+                reString:'^[a-z0-9\-\.\_]{1,50}$',
+                reFlag:'i',
             }
         },
         {
-            name:"Options",
+            name:'Options',
             mandatory:false,
-            description:"Database options",
+            description:'Database options',
             sanityCheck:{
-                type:"object"
+                type:'object'
             }
         }
     ]
-}
+};
 
 /**
  * return selected database name
@@ -41,15 +41,15 @@ let descriptor = {
  * @param {function} callback - callback
  * @memberof Commands
  */
- function handler(params, callback, socket) {
-     databases.loadDatabase(
-         params[0], // database name
-         params[1], // database options
-         (err, database) => {
-             socket.loki.currentDatabase = params[0];
-             callback(null, database);
-         }
-     )
+function handler(params, callback, socket) {
+    databases.loadDatabase(
+        params[0], // database name
+        params[1], // database options
+        (err, database) => {
+            socket.loki.currentDatabase = params[0];
+            callback(null, database);
+        }
+    );
 }
 
 module.exports = new Command(descriptor, handler);

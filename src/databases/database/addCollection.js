@@ -1,4 +1,4 @@
-const log = require('evillogger')({ns:'addCollection'});
+const log = require('evillogger')({ ns:'addCollection' });
 const shared = require('../shared');
 
 function addCollection(databaseName, collectionName, options, callback) {
