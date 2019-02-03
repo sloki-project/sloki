@@ -56,8 +56,9 @@ if (argv.help) {
     console.log(`   --tcp-debug                  ${env.NET_TCP_DEBUG}           `);
     console.log(`   --show-ops-interval          ${env.SHOW_OPS_INTERVAL}       `);
     console.log('---------------------------------------------------------------');
-    console.log('Example                                                        ');
-    console.log('sloki --tcp-port=6370 --tcp-host=127.0.0.1                     ');
+    console.log('Examples:                                                      ');
+    console.log('$ sloki                                                        ');
+    console.log('$ sloki --tcp-port=6370 --tcp-host=127.0.0.1                   ');
     console.log();
     process.exit();
 }
@@ -114,6 +115,7 @@ if (argv['tcp-max-clients']) {
     env.NET_TCP_MAX_CLIENTS = parseInt(argv['tcp-max-clients']);
 }
 
+/*
 if (argv['http-port']) {
     env.NET_HTTP_PORT = parseInt(argv['http-port']);
 }
@@ -121,6 +123,7 @@ if (argv['http-port']) {
 if (argv['http-host']) {
     env.NET_HTTP_HOST = parseInt(argv['http-host']);
 }
+*/
 
 if (argv['show-ops-interval']) {
     env.SHOW_OPS_INTERVAL = parseInt(argv['show-ops-interval']);
