@@ -30,7 +30,7 @@ function Command(descriptor, handler) {
         }
 
         console.log(params.length, mandatoryParametersCount, params.length<mandatoryParametersCount);
-        
+
         if (params.length<mandatoryParametersCount) {
             triggerError(`${descriptor.name}: number of parameters should be at least ${mandatoryParametersCount}`, callback);
             return;
@@ -121,6 +121,7 @@ function Command(descriptor, handler) {
             parameter = descriptor.parameters[i];
 
             if (parameter.mandatory) {
+                console.log('found mandatory parameter', parameter.name);
                 mandatoryParametersCount+=1;
             }
 
