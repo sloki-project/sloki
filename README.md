@@ -6,7 +6,8 @@ A NodeJS Server for [LokiJS](http://lokijs.org/)
 [![npm version](https://badge.fury.io/js/sloki.svg?v=0)](http://badge.fury.io/js/sloki)
 [![alt packagequality](http://npm.packagequality.com/shield/sloki.svg)](http://packagequality.com/#?package=sloki)
 [![Known Vulnerabilities](https://snyk.io/test/github/sloki-project/sloki/badge.svg?targetFile=package.json)](https://snyk.io/test/github/sloki-project/sloki?targetFile=package.json)
-
+[![Dependencies](https://david-dm.org/sloki-project/sloki)](https://david-dm.org/sloki-project/sloki.svg)
+[![Dependencies](https://david-dm.org/sloki-project/sloki?type=dev)](https://david-dm.org/sloki-project/sloki.svg?type=dev)
 ## Overview
 
 Sloki make LokiJS ***scalable***.
