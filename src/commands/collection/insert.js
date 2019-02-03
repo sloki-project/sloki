@@ -25,6 +25,14 @@ let descriptor = {
             sanityCheck:{
                 type:"object"
             }
+        },
+        {
+            name:"Options",
+            mandatory:false,
+            description:"Insert options",
+            sanityCheck:{
+                type:"object"
+            }
         }
     ]
 }
@@ -36,7 +44,7 @@ let descriptor = {
  * client> insert myCollection {"foo":"bar"}
  * {"foo":"bar"}
  *
- * @param {object} params - array[collectionName, document]
+ * @param {object} params - array[collectionName, document, options]
  * @param {function} callback - callback
  * @memberof Commands
  */
@@ -45,6 +53,7 @@ function handler(params, callback, socket) {
         socket.loki.currentDatabase,
         params[0], // collection name
         params[1], // document
+        params[2], // options
         callback
     )
 }

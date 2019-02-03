@@ -1,7 +1,7 @@
 const log = require('evillogger')({ns:'loki/insert'});
 const shared = require('../shared');
 
-function insert(databaseName, collectionName, doc, callback) {
+function insert(databaseName, collectionName, doc, options, callback) {
 
     if (!shared.databaseSelected(databaseName, callback)) {
         return;
@@ -28,7 +28,39 @@ function insert(databaseName, collectionName, doc, callback) {
         return;
     }
 
-    callback(null, collection.insert(doc));
+    if (!options) {
+        callback(null, collection.insert(doc));
+        return;
+    }
+
+    if (options.sret === null) {
+        // response sent before insert to win some time
+        callback();
+        collection.insert(doc);
+        return;
+    }
+
+    if (options.sret === '01') {
+        if (collection.insert(doc)) {
+            callback(null, 1);
+        } else {
+            callback(null, 0);
+        }
+        return;
+    }
+
+    if (options.sret === 'bool') {
+        if (collection.insert(doc)) {
+            callback(null, true);
+        } else {
+            callback(null, false);
+        }
+        return;
+    }
+
+    if (options.sret === "id") {
+        callback(null, collection.insert(doc).$loki);
+    }
 }
 
 module.exports = insert;

@@ -17,7 +17,7 @@ let expected = {
 
 let expectedErr = {
     code: ERROR_CODE_PARAMETER,
-    message: 'insert: number of parameters should be at least 2'
+    message: "insert: parameter 'Collection name' is mandatory"
 };
 
 require('./client')(__filename, (test, client) => {
