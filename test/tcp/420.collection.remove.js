@@ -1,4 +1,4 @@
-let dbName = "__testRemove_402_"+Date.now();
+let dbName = "__testRemove_420_"+Date.now();
 let collectionName = "myCollection_"+Date.now();
 
 let doc1 = {foo:'bar'};

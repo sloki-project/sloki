@@ -1,4 +1,4 @@
-let dbName = "__testInsert_401_"+Date.now();
+let dbName = "__testGet_410_"+Date.now();
 let collectionName = "insertAndGet_"+Date.now();
 let doc = {foo: "bar"};
 let expected = {
