@@ -10,7 +10,7 @@ module.exports = {
     "sourceType": "module"
   },
   "rules": {
-    "comma-dangle": ["error", "always-multiline"],
+    "comma-dangle": ["error", "only-multiline"],
     "comma-spacing": ["error", { "before": false, "after": true }],
     "eol-last": ["error", "always"],
     "indent": ["error", 4, { "MemberExpression": 1 }],
@@ -26,6 +26,7 @@ module.exports = {
     "semi": ["error", "always"],
     "space-in-parens": ["error", "never"],
     "strict": [2, "never"],
-    "no-console":"off"
+    "no-console":"off",
+    "no-useless-escape":"off"
   }
 }
