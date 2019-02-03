@@ -13,12 +13,6 @@ let expectedErr2 = {
     message: 'remove: number of parameters should be at least 2'
 }
 
-function chain(fn) {
-  if(fn) {
-    fn(() => chain(fns.shift()));
-  }
-}
-
 require('./client')(__filename, (test, client) => {
     client.loadDatabase(dbName, (err, result) => {
         client.insert(collectionName, doc1, (err, result) => {
