@@ -25,6 +25,7 @@ module.exports = {
     "quotes": ["error", "single"],
     "semi": ["error", "always"],
     "space-in-parens": ["error", "never"],
-    "strict": [2, "never"]
+    "strict": [2, "never"],
+    "no-console":"off"
   }
 }
