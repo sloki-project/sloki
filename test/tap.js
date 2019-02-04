@@ -11,7 +11,7 @@ if (tester === 'tape') {
 
     module.exports.onFailure(() => {
         process.exit(255);
-    })
+    });
 
 } else {
     module.exports = require('tap');
