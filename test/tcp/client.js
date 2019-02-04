@@ -7,7 +7,7 @@ const path = require('path');
 
 module.exports = (title, callback) => {
 
-    let tcpClient = new Client(endpoint,{applicationLayer:'jayson'});
+    const tcpClient = new Client(endpoint, { applicationLayer:'jayson' });
 
     tap.test(
         path.basename(title),
@@ -17,23 +17,23 @@ module.exports = (title, callback) => {
         (t) => {
 
             tcpClient.on('error', (err) => {
-                t.fail("socket error", err);
+                t.fail('socket error', err);
                 t.end();
             });
 
             tcpClient
                 .connect()
                 .then((err) => {
-                    t.deepEqual(err, undefined, "should be connected");
+                    t.deepEqual(err, undefined, 'should be connected');
                     callback(t, tcpClient);
-                })
+                });
         }
     );
 
     tap.test('close client', (t) => {
         tcpClient.close();
-        t.pass("client closed");
+        t.pass('client closed');
         t.end();
         process.exit(0);
     });
-}
+};
