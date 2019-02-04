@@ -1,11 +1,11 @@
 const ERROR_CODE_PARAMETER = -32602;
 
-let dbName = "__testInsert400_"+Date.now();
-let collectionName = "insert";
-let collectionNameNotExists = "insertNotExist";
-let doc = {"foo":"bar"};
+const dbName = '__testInsert400_'+Date.now();
+const collectionName = 'insert';
+const collectionNameNotExists = 'insertNotExist';
+const doc = { 'foo':'bar' };
 
-let expected = {
+const expected = {
     foo: 'bar',
     meta: {
         revision: 0,
@@ -15,29 +15,29 @@ let expected = {
     $loki: 1
 };
 
-let expectedErr = {
+const expectedErr = {
     code: ERROR_CODE_PARAMETER,
-    message: "insert: parameter 'Collection name' is mandatory"
+    message: 'insert: parameter \'Collection name\' is mandatory'
 };
 
 require('./client')(__filename, (test, client) => {
     client.loadDatabase(dbName, (err, result) => {
         client.addCollection(collectionName, (err, result) => {
-            test.test("insert should fail if collection name is null", (subtest)  => {
+            test.test('insert should fail if collection name is null', (subtest)  => {
                 client.insert(null, null, (err, result) => {
                     subtest.deepEqual(err, expectedErr, `should return error ${expectedErr.message}`);
                     subtest.end();
                 });
             });
 
-            test.test("insert should fail if collection name is undefined", (subtest)  => {
+            test.test('insert should fail if collection name is undefined', (subtest)  => {
                 client.insert(undefined, null, (err, result) => {
                     subtest.deepEqual(err, expectedErr, `should return error ${expectedErr.message}`);
                     subtest.end();
                 });
             });
 
-            test.test("insert should create the collection if it does not exist, then insert", (subtest)  => {
+            test.test('insert should create the collection if it does not exist, then insert', (subtest)  => {
                 client.insert(collectionNameNotExists, doc, (err, result) => {
                     subtest.deepEqual(err, undefined, 'command should not return an error');
                     result.meta.created = typeof result.meta.created === 'number';
@@ -46,7 +46,7 @@ require('./client')(__filename, (test, client) => {
                 });
             });
 
-            test.test("insert should return document", (subtest)  => {
+            test.test('insert should return document', (subtest)  => {
                 client.insert(collectionName, doc, (err, result) => {
                     subtest.deepEqual(err, undefined, 'command should not return an error');
                     result.meta.created = typeof result.meta.created === 'number';
@@ -55,7 +55,7 @@ require('./client')(__filename, (test, client) => {
                 });
             });
 
-            test.test("insert without callback", (subtest)  => {
+            test.test('insert without callback', (subtest)  => {
                 client.insert(collectionName, doc);
                 subtest.pass('pass');
                 subtest.end();

@@ -1,9 +1,9 @@
-let dbName = "__testAddCollection";
-let collectionName = "myCollection_"+Date.now();
+const dbName = '__testAddCollection';
+const collectionName = 'myCollection_'+Date.now();
 
 const ERROR_CODE_PARAMETER = -32602;
 
-let expected = {
+const expected = {
     name: collectionName,
     data: [],
     idIndex: [],
@@ -48,22 +48,22 @@ let expected = {
         warning: [ null ]
     },
     changes: []
-}
+};
 
 require('./client')(__filename, (test, client) => {
     client.loadDatabase(dbName, (err, result) => {
 
-        test.test("addCollection should failed if Collection name is null", (subtest)  => {
+        test.test('addCollection should failed if Collection name is null', (subtest)  => {
             client.addCollection(null, (err, result) => {
-                let expected = { code: ERROR_CODE_PARAMETER, message: "addCollection: parameter 'Collection name' is mandatory" };
+                const expected = { code: ERROR_CODE_PARAMETER, message: 'addCollection: parameter \'Collection name\' is mandatory' };
                 subtest.deepEqual(err, expected, `should return error ${expected.message}`);
                 subtest.end();
             });
         });
 
-        test.test("addCollection should failed if Collection name is undefined", (subtest)  => {
+        test.test('addCollection should failed if Collection name is undefined', (subtest)  => {
             client.addCollection(undefined, (err, result) => {
-                let expected = { code: ERROR_CODE_PARAMETER, message: "addCollection: parameter 'Collection name' is mandatory" };
+                const expected = { code: ERROR_CODE_PARAMETER, message: 'addCollection: parameter \'Collection name\' is mandatory' };
                 subtest.deepEqual(err, expected, `should return error ${expected.message}`);
                 subtest.end();
             });
@@ -72,7 +72,7 @@ require('./client')(__filename, (test, client) => {
         test.test(`addCollection should create collection '${collectionName}'`, (subtest)  => {
             client.addCollection(collectionName, (err, result) => {
                 subtest.deepEqual(err, undefined, 'command should not return an error');
-                subtest.deepEqual(result, expected, `should return collection properties`);
+                subtest.deepEqual(result, expected, 'should return collection properties');
                 subtest.end();
             });
         });
