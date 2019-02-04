@@ -14,6 +14,7 @@ function Command(descriptor, handler) {
 
     function handle(params, callback) {
 
+
         //
         // Sanity Checks
         //
