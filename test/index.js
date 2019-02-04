@@ -1,4 +1,4 @@
-const log = require('evillogger')({ns:'tests'});
+const log = require('evillogger')({ ns:'tests' });
 const server = require('../src/server');
 const klawSync = require('klaw-sync');
 const path = require('path');
@@ -7,24 +7,26 @@ const spawn = require('child_process').spawn;
 const fs = require('fs-extra');
 const ENV = require('../src/env');
 
-let tests = {};
+const tests = {};
+const testFailed = false;
+
 let testName;
 let dir;
-let testFailed = false;
 
 function prepareTests() {
-    for (let file of klawSync(__dirname,{depthLimit:1, nodir:true})) {
+    let file;
+    for (file of klawSync(__dirname, { depthLimit:1, nodir:true })) {
 
         if (!file.path.match(/[0-9]{3}/)) {
             continue;
         }
 
-        testName = path.basename(file.path).replace(/\.js/,'');
+        testName = path.basename(file.path).replace(/\.js/, '');
         dir = path.dirname(file.path).split('/');
         dir = dir[dir.length-1];
         testName = dir+'/'+testName;
         tests[testName] = file.path;
-        log.info("Test registered (%s)", testName);
+        log.info(`Test registered (${testName})`);
     }
 }
 
@@ -33,9 +35,10 @@ function cleanTestDatabases() {
         return;
     }
 
-    for (let file of klawSync(ENV.DATABASES_DIRECTORY,{depthLimit:0})) {
+    let file;
+    for (file of klawSync(ENV.DATABASES_DIRECTORY, { depthLimit:0 })) {
         if (path.basename(file.path).match(/\_\_/)) {
-            console.log('removing ',file.path);
+            console.log('removing', file.path);
             fs.removeSync(file.path);
         }
     }
@@ -56,18 +59,18 @@ function runTests() {
     // landing list markdown min nyan progress
     // silent spec tap xunit
 
-    let reporter = "spec";
+    const reporter = 'spec';
 
-    let optionTap = [
+    const optionTap = [
         'node_modules/tap/bin/run.js',
         '--reporter='+reporter
     ];
 
-    let optionTape = [
+    const optionTape = [
         'node_modules/tape/bin/tape'
     ];
 
-    let tester = 'tape'; // or tap
+    const tester = 'tape'; // or tap
 
     async.mapSeries(
         tests,
@@ -80,14 +83,14 @@ function runTests() {
             }
             options.push(test);
 
-            let s = spawn('node', options, {stdio:'inherit'});
+            const s = spawn('node', options, { stdio:'inherit' });
 
             s.on('close', (code) => {
                 if (code != 0) {
                     process.exit(255);
                 }
                 next();
-            })
+            });
         },
         () => {
             if (process.env.CI) {
@@ -99,13 +102,12 @@ function runTests() {
     );
 }
 
-if (process.env.CI) {
+if (!process.env.CI) {
     server.start((err) => {
         if (err) {
             throw new Error(err);
-            process.exit();
         }
-        setTimeout(runTests,1000);
+        setTimeout(runTests, 1000);
     });
 } else {
     cleanTestDatabases();
