@@ -14,7 +14,7 @@ const descriptor = {
             description:'Collection name',
             sanityCheck:{
                 type:'string',
-                reString:'^[a-z0-9\-\.\_]{1,50}$',
+                reString:require('../regexps').collectionName,
                 reFlag:'i'
             }
         },
