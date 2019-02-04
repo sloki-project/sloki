@@ -34,7 +34,7 @@
     "klaw-sync": "^6.0.0",
     "lokijs": "franck34/LokiJS",
     "pretty-bytes": "^5.1.0",
-    "sloki-node-client": "sloki-project/sloki-node-client@master"
+    "sloki-node-client": "sloki-project/sloki-node-client#master"
   },
   "devDependencies": {
     "async": "^2.6.1",
