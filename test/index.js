@@ -102,7 +102,7 @@ function runTests() {
     );
 }
 
-if (!process.env.CI) {
+if (process.env.CI) {
     server.start((err) => {
         if (err) {
             throw new Error(err);
