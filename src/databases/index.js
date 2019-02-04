@@ -8,5 +8,6 @@ module.exports = {
     saveDatabase:       require('./database/saveDatabase'),
     insert:             require('./collection/insert'),
     get:                require('./collection/get'),
-    remove:             require('./collection/remove')
+    remove:             require('./collection/remove'),
+    find:               require('./collection/find')
 };
