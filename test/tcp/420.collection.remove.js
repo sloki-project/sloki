@@ -15,7 +15,15 @@ const expectedErr2 = {
 
 require('./client')(__filename, (test, client) => {
     client.loadDatabase(dbName, (err, result) => {
+
+        test.deepEqual(err, undefined, 'loadDatabase should not return any error');
+        test.deepEqual(typeof result, 'object', 'database loaded');
+
         client.insert(collectionName, doc1, (err, result) => {
+
+            test.deepEqual(err, undefined, 'insert should not return any error');
+            test.deepEqual(typeof result, 'object', 'document inserted');
+
             test.test('remove a document by id should return removed document', (subtest)  => {
                 client.remove(collectionName, 1, (err, result) => {
                     subtest.deepEqual(err, undefined, 'command should not return an error');
@@ -27,6 +35,7 @@ require('./client')(__filename, (test, client) => {
             test.test('remove a non existing document by id should return an error', (subtest)  => {
                 client.remove(collectionName, 2, (err, result) => {
                     subtest.deepEqual(err, expectedErr1, `should return error ${JSON.stringify(expectedErr1)}`);
+                    subtest.deepEqual(result, undefined, 'result should be undefined');
                     subtest.end();
                 });
             });
@@ -34,6 +43,7 @@ require('./client')(__filename, (test, client) => {
             test.test('missing doc or id should return an error', (subtest)  => {
                 client.remove(collectionName, (err, result) => {
                     subtest.deepEqual(err, expectedErr2, `should return error ${JSON.stringify(expectedErr2)}`);
+                    subtest.deepEqual(result, undefined, 'result should be undefined');
                     subtest.end();
                 });
             });
@@ -41,6 +51,7 @@ require('./client')(__filename, (test, client) => {
             test.test('empty doc {} should return an error', (subtest)  => {
                 client.remove(collectionName, {}, (err, result) => {
                     subtest.deepEqual(err, expectedErr1, `should return error ${JSON.stringify(expectedErr1)}`);
+                    subtest.deepEqual(result, undefined, 'result should be undefined');
                     subtest.end();
                 });
             });

@@ -17,7 +17,15 @@ const expected = [
 
 require('./client')(__filename, (test, client) => {
     client.loadDatabase(dbName, (err, result) => {
+
+        test.deepEqual(err, undefined, 'loadDatabase should not return any error');
+        test.deepEqual(typeof result, 'object', 'database loaded');
+
         client.insert(collectionName, doc, (err, result) => {
+
+            test.deepEqual(err, undefined, 'insert should not return any error');
+            test.deepEqual(typeof result, 'object', 'document inserted');
+
             test.test('find should return array of doc', (subtest)  => {
                 client.find(collectionName, doc, (err, result) => {
                     subtest.deepEqual(err, undefined, 'command should not return an error');
@@ -28,7 +36,7 @@ require('./client')(__filename, (test, client) => {
             });
 
             test.test('find should return [] if no result', (subtest)  => {
-                client.find(collectionName, {foo:'bar2'}, (err, result) => {
+                client.find(collectionName, { foo:'bar2' }, (err, result) => {
                     subtest.deepEqual(err, undefined, 'command should not return an error');
                     subtest.deepEqual(result, [], `should return ${JSON.stringify([])}`);
                     subtest.end();
