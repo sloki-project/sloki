@@ -1,4 +1,4 @@
-const Command = require('../Command');
+const Method = require('../../Method');
 const prettyBytes = require('pretty-bytes');
 
 const descriptor = {
@@ -30,4 +30,4 @@ function handler(params, callback) {
     callback(null, used);
 }
 
-module.exports = new Command(descriptor, handler);
+module.exports = new Method(descriptor, handler);

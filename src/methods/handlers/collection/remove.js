@@ -1,5 +1,6 @@
-const Command = require('../Command');
-const databases = require('../../databases');
+const log = require('evillogger')({ ns:'collection/remove' });
+const shared = require('../../shared');
+const Method = require('../../Method');
 
 const descriptor = {
     name:'remove',
@@ -14,7 +15,7 @@ const descriptor = {
             description:'Collection name',
             sanityCheck:{
                 type:'string',
-                reString:require('../regexps').collectionName,
+                reString:shared.RE_COLLETION_NAME,
                 reFlag:'i'
             }
         },
@@ -36,17 +37,28 @@ const descriptor = {
  * client> remove myCollection 1
  * { ... }
  *
- * @param {object} params - array[collectionName, id]
+ * @param {object} params - array[collectionName, documentOrId]
  * @param {function} callback - callback
  * @memberof Commands
  */
 function handler(params, callback, socket) {
-    databases.remove(
-        socket.loki.currentDatabase,
-        params[0], // collection name
-        params[1], // document
-        callback
-    );
+    const databaseName = socket.loki.currentDatabase;
+    const collectionName = params[0];
+    const documentOrId = params[1];
+
+    if (!shared.collectionExists(databaseName, collectionName, callback)) {
+        return;
+    }
+
+    try {
+        callback(null, shared.collections[`${databaseName}.${collectionName}`].remove(documentOrId));
+    } catch(e) {
+        callback({
+            code: shared.ERROR_CODE_INTERNAL,
+            message: e.message
+        });
+        log.warn(e);
+    }
 }
 
-module.exports = new Command(descriptor, handler);
+module.exports = new Method(descriptor, handler);

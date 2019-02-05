@@ -1,4 +1,4 @@
-const Command = require('../Command');
+const Method = require('../../Method');
 
 
 const descriptor = {
@@ -21,8 +21,8 @@ const descriptor = {
  * @memberof Commands
  */
 function handler(params, callback) {
-    require('../../server').stop();
+    require('../../../server').stop();
     callback();
 }
 
-module.exports = new Command(descriptor, handler);
+module.exports = new Method(descriptor, handler);

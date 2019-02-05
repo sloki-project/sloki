@@ -2,7 +2,7 @@ const log = require('evillogger')({ ns:'server' });
 const use = require('abrequire');
 
 const tcp = require('./transports/tcpJayson');
-const databases = use('src/databases');
+const loki = require('./loki');
 const ENV = use('src/env');
 
 let closing = false;
@@ -28,7 +28,7 @@ function handleSignalSIGINT() {
 
 function start(callback) {
 
-    databases.initialize();
+    loki.initialize();
 
     if (running) {
         callback && callback('ERUNNING');

@@ -1,9 +1,18 @@
-const log = require('evillogger')({ ns:'loki/shared' });
-const constants = require('./constants');
+const log = require('evillogger')({ ns:'methods/shared' });
+const ENV = require('../env');
 
 const dbs = {};
 const collections = {};
 
+const ERROR_CODE_PARAMETER = -32602;
+const ERROR_CODE_INTERNAL = -32603;
+
+const DEFAULT_DATABASE_OPTIONS =  {
+    serializationMethod:'pretty',
+    autoload:true,
+    autosave:true,
+    autosaveInterval:ENV.DATABASES_AUTOSAVE_INTERVAL
+};
 
 function databaseSelected(databaseName, callback) {
     if (dbs[databaseName]) {
@@ -13,7 +22,7 @@ function databaseSelected(databaseName, callback) {
     const msg = 'no database selected';
 
     callback({
-        code: constants.ERROR_CODE_INTERNAL,
+        code: ERROR_CODE_INTERNAL,
         message: msg
     });
 
@@ -21,7 +30,6 @@ function databaseSelected(databaseName, callback) {
 
     return false;
 }
-
 
 function collectionExists(databaseName, collectionName, callback) {
 
@@ -36,7 +44,7 @@ function collectionExists(databaseName, collectionName, callback) {
     const msg = `collection ${collectionName} does not exist in database ${databaseName}`;
 
     callback({
-        code: constants.ERROR_CODE_PARAMETER,
+        code: ERROR_CODE_PARAMETER,
         message: msg
     });
 
@@ -45,10 +53,15 @@ function collectionExists(databaseName, collectionName, callback) {
     return false;
 }
 
-
 module.exports = {
     dbs,
     collections,
     databaseSelected,
-    collectionExists
+    collectionExists,
+    RE_COLLETION_NAME: '^[a-z0-9\-\.\_]{1,50}$',
+    RE_DATABASE_NAME: '^[a-z0-9\-\.\_]{1,50}$',
+    DEFAULT_DATABASE_OPTIONS,
+    ERROR_CODE_PARAMETER,
+    ERROR_CODE_INTERNAL,
+    ENV
 };

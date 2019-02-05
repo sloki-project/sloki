@@ -1,12 +1,12 @@
-const log = require('evillogger')({ ns:'initialize' });
+const log = require('evillogger')({ ns:'loki' });
 const path = require('path');
 const fs = require('fs-extra');
 const klawSync = require('klaw-sync');
 const loki = require('lokijs');
 
-const ENV = require('../../env');
-const shared = require('../shared');
-const constants = require('../constants');
+const ENV = require('./env');
+const shared = require('./methods/shared');
+const constants = require('./methods/constants');
 
 function initialize() {
 
@@ -32,4 +32,6 @@ function initialize() {
     }
 }
 
-module.exports = initialize;
+module.exports = {
+    initialize
+};

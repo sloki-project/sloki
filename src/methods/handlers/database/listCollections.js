@@ -1,5 +1,5 @@
-const Command = require('../Command');
-const databases = require('../../databases');
+const shared = require('../../shared');
+const Method = require('../../Method');
 
 const descriptor = {
     name:'listCollections',
@@ -22,7 +22,13 @@ const descriptor = {
  * @memberof Commands
  */
 function handler(params, callback, socket) {
-    databases.listCollections(socket.loki.currentDatabase, callback);
+    const databaseName = socket.loki.currentDatabase;
+
+    if (!shared.databaseSelected(databaseName, callback)) {
+        return;
+    }
+
+    callback(null, shared.dbs[databaseName].listCollections());
 }
 
-module.exports = new Command(descriptor, handler);
+module.exports = new Method(descriptor, handler);

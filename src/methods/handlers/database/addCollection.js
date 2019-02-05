@@ -1,5 +1,6 @@
-const Command = require('../Command');
-const databases = require('../../databases');
+const log = require('evillogger')({ ns:'database/addCollection' });
+const shared = require('../../shared');
+const Method = require('../../Method');
 
 const descriptor = {
     name:'addCollection',
@@ -14,7 +15,7 @@ const descriptor = {
             description:'Collection name',
             sanityCheck:{
                 type:'string',
-                reString:require('../regexps').collectionName,
+                reString:shared.RE_COLLETION_NAME,
                 reFlag:'i'
             }
         },
@@ -41,12 +42,17 @@ const descriptor = {
  * @memberof Commands
  */
 function handler(params, callback, socket) {
-    databases.addCollection(
-        socket.loki.currentDatabase,
-        params[0], // collection name
-        params[1], // collection options
-        callback
-    );
+    const databaseName = socket.loki.currentDatabase;
+    const collectionName = params[0];
+    const collectionOptions = params[1];
+
+    if (!shared.databaseSelected(databaseName, callback)) {
+        return;
+    }
+
+    shared.collections[`${databaseName}.${collectionName}`] = shared.dbs[databaseName].addCollection(collectionName, collectionOptions);
+    callback(null, shared.collections[`${databaseName}.${collectionName}`]);
+    log.debug(`collection ${databaseName}.${collectionName} created`);
 }
 
-module.exports = new Command(descriptor, handler);
+module.exports = new Method(descriptor, handler);

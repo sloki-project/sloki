@@ -1,7 +1,59 @@
-const log = require('evillogger')({ ns:'loki/insert' });
-const shared = require('../shared');
+const log = require('evillogger')({ ns:'collection/insert' });
+const shared = require('../../shared');
+const Method = require('../../Method');
 
-function insert(databaseName, collectionName, doc, options, callback) {
+const descriptor = {
+    name:'insert',
+    categories:['collection'],
+    description:{
+        short:'Add a document'
+    },
+    parameters:[
+        {
+            name:'Collection name',
+            mandatory:true,
+            description:'Collection name',
+            sanityCheck:{
+                type:'string',
+                reString:shared.RE_COLLETION_NAME,
+                reFlag:'i'
+            }
+        },
+        {
+            name:'Document',
+            mandatory:true,
+            description:'Document',
+            sanityCheck:{
+                type:'object'
+            }
+        },
+        {
+            name:'Options',
+            mandatory:false,
+            description:'Insert options',
+            sanityCheck:{
+                type:'object'
+            }
+        }
+    ]
+};
+
+/**
+ * insert a record in a collection, return the document
+ *
+ * @example
+ * client> insert myCollection {"foo":"bar"}
+ * {"foo":"bar"}
+ *
+ * @param {object} params - array[collectionName, document, options]
+ * @param {function} callback - callback
+ * @memberof Commands
+ */
+function handler(params, callback, socket) {
+    const databaseName = socket.loki.currentDatabase;
+    const collectionName = params[0];
+    const doc = params[1];
+    const options = params[2];
 
     if (!shared.databaseSelected(databaseName, callback)) {
         return;
@@ -63,4 +115,4 @@ function insert(databaseName, collectionName, doc, options, callback) {
     }
 }
 
-module.exports = insert;
+module.exports = new Method(descriptor, handler);

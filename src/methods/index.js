@@ -1,4 +1,4 @@
-const log = require('evillogger')({ ns:'commands' });
+const log = require('evillogger')({ ns:'methods' });
 const klawSync = require('klaw-sync');
 const path = require('path');
 
@@ -11,16 +11,16 @@ let cmdName;
 let cmdBase;
 
 let file;
-for (file of klawSync(__dirname, { depthLimit:1, nodir:true })) {
+for (file of klawSync(path.resolve(__dirname+'/handlers'), { depthLimit:1, nodir:true })) {
 
-    if (file.path.match(/\/index|README|Command|regexps/)) {
+    if (file.path.match(/README/)) {
         continue;
     }
 
     cmdName = path.basename(file.path).replace(/\.js/, '');
     cmdBase = file.path.replace(reDirname, '').replace(/\.js/, '');
     if (cmdBase.match(/\//)) {
-        cmdBase = cmdBase.split('/')[0];
+        cmdBase = cmdBase.split('/')[1];
     }
     showLog && log.debug(`Command registered ${cmdBase}/${cmdName}`);
     commands[cmdName] = require(file.path);

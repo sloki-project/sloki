@@ -1,5 +1,5 @@
-const Command = require('../Command');
-const ENV = require('../../env');
+const shared = require('../../shared');
+const Method = require('../../Method');
 
 const descriptor = {
     name:'maxClients',
@@ -24,12 +24,14 @@ const descriptor = {
 
 function handler(params, callback) {
     if (!params) {
-        callback(null, ENV.NET_TCP_MAX_CLIENTS);
+        callback(null, shared.ENV.NET_TCP_MAX_CLIENTS);
         return;
     }
 
-    ENV.NET_TCP_MAX_CLIENTS = parseInt(params[0]);
-    callback(null, ENV.NET_TCP_MAX_CLIENTS);
+    const maxClient = params[0];
+
+    shared.ENV.NET_TCP_MAX_CLIENTS = parseInt(maxClient);
+    callback(null, shared.ENV.NET_TCP_MAX_CLIENTS);
 }
 
-module.exports = new Command(descriptor, handler);
+module.exports = new Method(descriptor, handler);

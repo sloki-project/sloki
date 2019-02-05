@@ -1,5 +1,5 @@
-const Command = require('../Command');
-const databases = require('../../databases');
+const shared = require('../../shared');
+const Method = require('../../Method');
 
 const descriptor = {
     name:'getCollection',
@@ -14,7 +14,7 @@ const descriptor = {
             description:'Collection name',
             sanityCheck:{
                 type:'string',
-                reString:require('../regexps').collectionName,
+                reString:shared.RE_COLLETION_NAME,
                 reFlag:'i'
             }
         }
@@ -33,12 +33,15 @@ const descriptor = {
  * @memberof Commands
  */
 function handler(params, callback, socket) {
-    databases.getCollection(
-        socket.loki.currentDatabase,
-        params[0], // collection name
-        callback
-    );
+    const databaseName = socket.loki.currentDatabase;
+    const collectionName = params[0];
+
+    if (!shared.databaseSelected(databaseName, callback)) {
+        return;
+    }
+
+    callback(null, shared.dbs[databaseName].getCollection(collectionName));
 }
 
 
-module.exports = new Command(descriptor, handler);
+module.exports = new Method(descriptor, handler);

@@ -1,5 +1,5 @@
-const Command = require('../Command');
-const databases = require('../../databases');
+const shared = require('../../shared');
+const Method = require('../../Method');
 
 const descriptor = {
     name:'listDatabases',
@@ -22,7 +22,14 @@ const descriptor = {
  * @memberof Commands
  */
 function handler(params, callback) {
-    callback(null, databases.list());
+
+    const dbs = [];
+    let db;
+    for (db of Object.keys(shared.dbs)) {
+        dbs.push(db);
+    }
+
+    callback(null, dbs);
 }
 
-module.exports = new Command(descriptor, handler);
+module.exports = new Method(descriptor, handler);

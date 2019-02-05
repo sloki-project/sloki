@@ -1,5 +1,4 @@
-const Command = require('../Command');
-
+const Method = require('../../Method');
 
 const descriptor = {
     name:'clients',
@@ -25,4 +24,4 @@ function handler(params, callback, socket) {
     callback(null, Object.keys(socket.server.clients));
 }
 
-module.exports = new Command(descriptor, handler);
+module.exports = new Method(descriptor, handler);
