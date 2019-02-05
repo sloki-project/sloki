@@ -5,7 +5,7 @@ const path = require('path');
 const loki = require('lokijs');
 
 const descriptor = {
-    name:'use',
+    name:'loadDatabase',
     categories:['database'],
     description:{
         short:'Select a database (if not exist, a new db will be created)'
