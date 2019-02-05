@@ -6,7 +6,6 @@ const loki = require('lokijs');
 
 const ENV = require('./env');
 const shared = require('./methods/shared');
-const constants = require('./methods/constants');
 
 function initialize() {
 
@@ -21,13 +20,13 @@ function initialize() {
     for (file of klawSync(ENV.DATABASES_DIRECTORY)) {
         dbName = path.basename(file.path).replace(/\.json/, '');
         log.info(`Loading database ${file.path}`);
-        shared.dbs[dbName] = new loki(file.path, constants.DEFAULT_DATABASE_OPTIONS);
+        shared.dbs[dbName] = new loki(file.path, shared.DEFAULT_DATABASE_OPTIONS);
     }
 
     const dbTestFile = path.resolve(ENV.DATABASES_DIRECTORY+'/test.json');
 
     if (!shared.dbs['test']) {
-        shared.dbs['test'] = new loki(dbTestFile, constants.DEFAULT_DATABASE_OPTIONS);
+        shared.dbs['test'] = new loki(dbTestFile, shared.DEFAULT_DATABASE_OPTIONS);
         shared.dbs['test'].save();
     }
 }
