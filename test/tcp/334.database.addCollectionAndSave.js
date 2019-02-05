@@ -57,6 +57,10 @@ const expectedCollectionProperties = {
 
 require('./client')(__filename, (test, client) => {
     client.loadDatabase(dbName, (err, result) => {
+
+        test.deepEqual(err, undefined, 'loadDatabase should not return any error');
+        test.deepEqual(typeof result, 'object', 'database loaded');
+
         test.test('addCollection', (subtest)  => {
             client.addCollection(collectionName, collectionOptions, (err, result) => {
                 subtest.deepEqual(err, undefined, 'command should not return an error');
