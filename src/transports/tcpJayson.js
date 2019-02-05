@@ -21,11 +21,15 @@ let timerShowOperationsCount;
 
 function _onServerListen(err) {
     if (err) {
-        console.log(err);
+        log.error(err);
         throw new Error(err);
     }
 
     log.info(`TCP Server listening at ${ENV.NET_TCP_HOST}:${ENV.NET_TCP_PORT} (maxClients ${ENV.NET_TCP_MAX_CLIENTS})`);
+}
+
+function _onServerError(err) {
+    log.error(err);
 }
 
 function _handleMaxClients(server, socket) {
@@ -48,6 +52,7 @@ function _handleMaxClients(server, socket) {
 
     socket.on('end', () => {
         log.info(`${socket.id}: client disconnected`);
+        tcpServer.clients[socket.id].destroy();
         delete tcpServer.clients[socket.id];
     });
 
@@ -103,10 +108,13 @@ function start(callback) {
 
     jaysonServer = jayson.server(null, { routerTcp:router });
 
-    tcpServer = jaysonServer.tcp();
+    tcpServer = jaysonServer.tcp({ allowHalfOpen:true });
     tcpServer.clients = {};
+
     tcpServer.on('connection', _onConnect);
     tcpServer.on('listening', _onServerListen);
+    tcpServer.on('error', _onServerError);
+
     tcpServer.listen(ENV.NET_TCP_PORT, ENV.NET_TCP_HOST);
 
     if (ENV.SHOW_OPS_INTERVAL) {
@@ -123,14 +131,28 @@ function showOperationsCount() {
 
 function stop(callback) {
     let id;
+    let closed = 0;
     for (id in tcpServer.clients) {
-        tcpServer.clients[id].write(JSON.stringify({ error:errors.SERVER_SHUTDOWN }));
+        tcpServer.clients[id].write(JSON.stringify(errors.SERVER_SHUTDOWN));
         tcpServer.clients[id].end();
-        log.warn(`${id}: force disconnection`);
+        tcpServer.clients[id].destroy();
+        log.warn(`stop: ${id}: force disconnection`);
+        closed++;
         delete tcpServer.clients[id];
     }
 
-    tcpServer.close(() => {
+    if (closed) {
+        log.warn(`stop: ${closed} client(s) has been closed`);
+    } else {
+        log.warn('stop: no client was connected');
+    }
+
+    log.warn('stop: closing TCP server');
+
+    tcpServer.close((err) => {
+        if (err) {
+            log.error(err);
+        }
         ENV.SHOW_OPS_INTERVAL && clearInterval(timerShowOperationsCount);
         callback && callback();
     });
