@@ -1,12 +1,17 @@
-const ERROR_CODE_PARAMETER = -32602;
-
 const dbName = '__testInsert401_'+Date.now();
 const collectionName = 'insert';
 const doc = { 'foo':'bar' };
 
 require('./client')(__filename, (test, client) => {
     client.loadDatabase(dbName, (err, result) => {
+
+        test.deepEqual(err, undefined, 'loadDatabase should not return any error');
+        test.deepEqual(typeof result, 'object', 'database loaded');
+
         client.addCollection(collectionName, (err, result) => {
+
+            test.deepEqual(err, undefined, 'addCollection should not return any error');
+            test.deepEqual(typeof result, 'object', 'collection created');
 
             test.test('insert should return undefined', (subtest)  => {
                 client.insert(collectionName, doc, { sret:null }, (err, result) => {

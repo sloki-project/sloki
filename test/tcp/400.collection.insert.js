@@ -22,10 +22,19 @@ const expectedErr = {
 
 require('./client')(__filename, (test, client) => {
     client.loadDatabase(dbName, (err, result) => {
+
+        test.deepEqual(err, undefined, 'loadDatabase should not return any error');
+        test.deepEqual(typeof result, 'object', 'database loaded');
+
         client.addCollection(collectionName, (err, result) => {
+
+            test.deepEqual(err, undefined, 'addCollection should not return any error');
+            test.deepEqual(typeof result, 'object', 'collection created');
+
             test.test('insert should fail if collection name is null', (subtest)  => {
                 client.insert(null, null, (err, result) => {
                     subtest.deepEqual(err, expectedErr, `should return error ${expectedErr.message}`);
+                    subtest.deepEqual(result, undefined, 'result should be undefined');
                     subtest.end();
                 });
             });
@@ -33,6 +42,7 @@ require('./client')(__filename, (test, client) => {
             test.test('insert should fail if collection name is undefined', (subtest)  => {
                 client.insert(undefined, null, (err, result) => {
                     subtest.deepEqual(err, expectedErr, `should return error ${expectedErr.message}`);
+                    subtest.deepEqual(result, undefined, 'result should be undefined');
                     subtest.end();
                 });
             });

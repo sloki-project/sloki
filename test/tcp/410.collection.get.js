@@ -20,6 +20,10 @@ const ERROR_CODE_PARAMETER = -32602;
 
 require('./client')(__filename, (test, client) => {
     client.loadDatabase(dbName, (err, result) => {
+
+        test.deepEqual(err, undefined, 'loadDatabase should not return any error');
+        test.deepEqual(typeof result, 'object', 'database loaded');
+
         test.test('insert should return document', (subtest)  => {
             client.insert(collectionName, doc, (err, result) => {
                 subtest.deepEqual(err, undefined, 'command should not return an error');
@@ -31,11 +35,12 @@ require('./client')(__filename, (test, client) => {
 
         test.test('get should return error when collection does not exist', (subtest)  => {
             client.get('unexistingCollection', 1, (err, result) => {
-                let expectedErr = {
+                const expectedErr = {
                     code: ERROR_CODE_PARAMETER,
                     message: `collection unexistingCollection does not exist in database ${dbName}`
                 };
                 subtest.deepEqual(err, expectedErr, `should return error ${JSON.stringify(expectedErr)}`);
+                subtest.deepEqual(result, undefined, 'should return undefined');
                 subtest.end();
             });
         });
