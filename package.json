@@ -1,6 +1,6 @@
 {
   "name": "sloki",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A NodeJS server for LokiJS",
   "main": "index.js",
   "scripts": {
@@ -34,7 +34,7 @@
     "klaw-sync": "^6.0.0",
     "lokijs": "franck34/LokiJS",
     "pretty-bytes": "^5.1.0",
-    "sloki-node-client": "sloki-project/sloki-node-client"
+    "sloki-node-client": "0.0.5"
   },
   "devDependencies": {
     "async": "^2.6.1",
