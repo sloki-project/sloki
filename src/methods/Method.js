@@ -37,8 +37,11 @@ function Command(descriptor, handler) {
 
 
         if (params.length>descriptor.parameters.length) {
-            triggerError(`${descriptor.name}: number of parameters should be lower or equal than ${descriptor.parameters.length}`, callback);
-            return;
+            if (descriptor.parameters.length>0) {
+                triggerError(`${descriptor.name}: number of parameters should be lower or equal than ${descriptor.parameters.length}`, callback);
+                return;
+            }
+            triggerError(`${descriptor.name}: this method does not wait for parameters`, callback);
         }
 
         let parameter;
