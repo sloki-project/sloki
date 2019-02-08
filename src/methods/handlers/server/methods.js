@@ -1,10 +1,10 @@
 const Method = require('../../Method');
 
 const descriptor = {
-    name:'commands',
+    name:'methods',
     categories:['server'],
     description:{
-        short:'Return commands list',
+        short:'Return methods list',
     },
     parameters:[]
 };
@@ -13,8 +13,8 @@ const descriptor = {
 * return available commands
 *
 * @example
-* > commands
-* ['command1','command2', ...]
+* > methods
+* ['method1','method2', ...]
 * ...
 *
 * @param {object} params - not used
