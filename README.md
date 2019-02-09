@@ -92,7 +92,7 @@ See https://github.com/sloki-project/sloki-benchs
 
 <details>
 <summary>
-<b><img src="http://progressed.io/bar/100"/> Commands: client and server related</b>
+<b><img src="http://progressed.io/bar/100"/> Methods: client and server related</b>
 </summary>
 <p>
 
@@ -111,7 +111,7 @@ See https://github.com/sloki-project/sloki-benchs
 
 <details>
 <summary>
-<b><img src="http://progressed.io/bar/77"/> Commands: database related</b>
+<b><img src="http://progressed.io/bar/77"/> Methods: database related</b>
 </summary>
 <p>
 
@@ -152,16 +152,19 @@ See https://github.com/sloki-project/sloki-benchs
 
 <details>
 <summary>
-<b><img src="http://progressed.io/bar/5"/> Commands: collection related</b>
+<b><img src="http://progressed.io/bar/10"/> Methods: collection related</b>
 </summary>
 <p>
 
 [Loki Collection documentation](https://rawgit.com/techfort/LokiJS/master/jsdoc/Collection.html)
 
-| Status            | Command                       | Parameter(s)                  | Description  
-|:-----------------:|-------------------------------|-------------------------------|----------------              
-| :heavy_check_mark:| insert                        | collectionName, document      | insert a document
-| :heavy_check_mark:| get                           | collectionName, lokiId        | return a document by his id
+| Status            | Command                       | Parameter(s)                      | Description  
+|:-----------------:|-------------------------------|-----------------------------------|----------------
+| :heavy_check_mark:| get                           | collectionName, lokiId            | return a document by his id         
+| :heavy_check_mark:| insert                        | collectionName, document          | insert a document
+| :heavy_check_mark:| update                        | collectionName, document          | update a document
+| :heavy_check_mark:| remove                        | collectionName, document or id    | remove a document
+| :heavy_check_mark:| find                          | collectionName, filter            | find document(s)
 
 </p>
 </details>
