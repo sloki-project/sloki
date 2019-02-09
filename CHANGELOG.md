@@ -11,7 +11,7 @@
 ## 0.0.5 - 2019-02-08
 
 ### Added
-* add method collection/update (#5)
+* add method collection/update [#5]
 * add method collection/find (#3)
 * add method collection/remove (#4)
 * add method collection/get (#2)
