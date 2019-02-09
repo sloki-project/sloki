@@ -8,7 +8,7 @@
 
 
 
-## 0.0.6 - 2019-02-09
+## [0.0.6](https://github.com/sloki-project/sloki/milestone/4) - 2019-02-09
 
 ### Added
 * add method wait for testing purpuse [(one sec)](https://github.com/sloki-project/sloki/commit/80c51ac81d18e18794f1782486aec9d8b4166c55)
@@ -19,7 +19,7 @@
 
 
 
-## 0.0.5 - 2019-02-08
+## [0.0.5](https://github.com/sloki-project/sloki/milestone/3) - 2019-02-08
 
 ### Added
 * add method collection/update [#5](https://github.com/sloki-project/sloki/issues/5)
@@ -36,7 +36,7 @@
 
 
 
-## 0.0.4 - 2019-02-07
+## [0.0.4](https://github.com/sloki-project/sloki/milestone/2) - 2019-02-07
 
 ### Added
 * add JSONRPC over tcp layer (jayson)
