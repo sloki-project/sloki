@@ -49,6 +49,7 @@ function handler(params, callback, socket) {
     const databaseOptions = params[1]||{};
 
     if (shared.dbs[databaseName]) {
+        socket.loki.currentDatabase = databaseName;
         log.info(`${socket.id}: current database is now ${databaseName} (loaded)`);
         callback(null, shared.dbs[databaseName]);
         return;
