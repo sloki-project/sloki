@@ -21,7 +21,7 @@ const descriptor = {
         },
         {
             name:'Filters',
-            mandatory:true,
+            mandatory:false,
             description:'Filters',
             sanityCheck:{
                 type:'object'
