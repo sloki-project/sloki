@@ -4,9 +4,11 @@
 ## 0.0.6 - 2019-02-09
 
 ### Added
+* add method wait for testing purpuse [(one sec)](https://github.com/sloki-project/sloki/commit/80c51ac81d18e18794f1782486aec9d8b4166c55) 
 
 ### Changed
-
+* fix db is not sticked to tcp session if db already exists [#17](https://github.com/sloki-project/sloki/issues/17)
+* improve find filters [#18](https://github.com/sloki-project/sloki/issues/18)
 -----
 ## 0.0.5 - 2019-02-08
 
