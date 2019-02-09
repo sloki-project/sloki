@@ -13,8 +13,7 @@ const descriptor = {
  * just wait a sec
  *
  * @example
- * > clients
- * ['127.0.0.1:1379']
+ * > wait
  *
  * @param {object} params - not used
  * @param {function} callback - callback
