@@ -1,4 +1,3 @@
-const log = require('evillogger')({ ns:'database/addCollection' });
 const shared = require('../../shared');
 const Method = require('../../Method');
 
@@ -52,7 +51,6 @@ function handler(params, callback, socket) {
 
     shared.collections[`${databaseName}.${collectionName}`] = shared.dbs[databaseName].addCollection(collectionName, collectionOptions);
     callback(null, shared.collections[`${databaseName}.${collectionName}`]);
-    log.debug(`collection ${databaseName}.${collectionName} created`);
 }
 
 module.exports = new Method(descriptor, handler);
