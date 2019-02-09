@@ -30,7 +30,7 @@ require('./client')(__filename, (test, client) => {
                 myDoc.foo = 'bar2';
 
                 client.update(collectionName, myDoc, (err, newDoc) => {
-                    subtest.deepEqual(err, undefined, 'command should not return an error');
+                    subtest.deepEqual(err, undefined, 'method should not return an error');
                     newDoc.meta.created = typeof newDoc.meta.created === 'number';
                     newDoc.meta.updated = typeof newDoc.meta.updated === 'number';
                     subtest.deepEqual(newDoc, expected, `should return ${JSON.stringify(expected)}`);

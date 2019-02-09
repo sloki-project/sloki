@@ -28,7 +28,7 @@ require('./client')(__filename, (test, client) => {
 
             test.test('find should return array of doc', (subtest)  => {
                 client.find(collectionName, doc, (err, result) => {
-                    subtest.deepEqual(err, undefined, 'command should not return an error');
+                    subtest.deepEqual(err, undefined, 'method should not return an error');
                     result[0].meta.created = typeof result[0].meta.created === 'number';
                     subtest.deepEqual(result, expected, `should return ${JSON.stringify(expected)}`);
                     subtest.end();
@@ -37,7 +37,7 @@ require('./client')(__filename, (test, client) => {
 
             test.test('find should return [] if no result', (subtest)  => {
                 client.find(collectionName, { foo:'bar2' }, (err, result) => {
-                    subtest.deepEqual(err, undefined, 'command should not return an error');
+                    subtest.deepEqual(err, undefined, 'method should not return an error');
                     subtest.deepEqual(result, [], `should return ${JSON.stringify([])}`);
                     subtest.end();
                 });

@@ -49,7 +49,7 @@ require('./client')(__filename, (test, client) => {
 
             test.test('insert should create the collection if it does not exist, then insert', (subtest)  => {
                 client.insert(collectionNameNotExists, doc, (err, result) => {
-                    subtest.deepEqual(err, undefined, 'command should not return an error');
+                    subtest.deepEqual(err, undefined, 'method should not return an error');
                     result.meta.created = typeof result.meta.created === 'number';
                     subtest.deepEqual(result, expected, `should return ${JSON.stringify(expected)}`);
                     subtest.end();
@@ -58,7 +58,7 @@ require('./client')(__filename, (test, client) => {
 
             test.test('insert should return document', (subtest)  => {
                 client.insert(collectionName, doc, (err, result) => {
-                    subtest.deepEqual(err, undefined, 'command should not return an error');
+                    subtest.deepEqual(err, undefined, 'method should not return an error');
                     result.meta.created = typeof result.meta.created === 'number';
                     subtest.deepEqual(result, expected, `should return ${JSON.stringify(expected)}`);
                     subtest.end();

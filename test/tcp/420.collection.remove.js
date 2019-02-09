@@ -26,7 +26,7 @@ require('./client')(__filename, (test, client) => {
 
             test.test('remove a document by id should return removed document', (subtest)  => {
                 client.remove(collectionName, 1, (err, result) => {
-                    subtest.deepEqual(err, undefined, 'command should not return an error');
+                    subtest.deepEqual(err, undefined, 'method should not return an error');
                     subtest.deepEqual(result, doc1, `should return ${JSON.stringify(doc1)}`);
                     subtest.end();
                 });

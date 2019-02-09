@@ -75,7 +75,7 @@ require('./client')(__filename, (test, client) => {
 
         test.test(`addCollection should create collection '${collectionName}'`, (subtest)  => {
             client.addCollection(collectionName, (err, result) => {
-                subtest.deepEqual(err, undefined, 'command should not return an error');
+                subtest.deepEqual(err, undefined, 'method should not return an error');
                 subtest.deepEqual(result, expected, 'should return collection properties');
                 subtest.end();
             });
