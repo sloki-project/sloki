@@ -11,17 +11,17 @@
 ## 0.0.5 - 2019-02-08
 
 ### Added
-* add method collection/update [#5](/sloki-project/sloki/issues/5)
-* add method collection/find (#3)
-* add method collection/remove (#4)
-* add method collection/get (#2)
+* add method collection/update [#5](https://github.com/sloki-project/sloki/issues/5)
+* add method collection/find [#3](https://github.com/sloki-project/sloki/issues/3)
+* add method collection/remove [#4](https://github.com/sloki-project/sloki/issues/4)
+* add method collection/get [#2](https://github.com/sloki-project/sloki/issues/2)
 
 ### Changed
-* fix client destroy connexion when client end (#15)
-* fix insert return behavior (#9)
-* improve code: merge jsonrpc/lokijs layers (#14)
-* improve method collection/insert options (#11)
-* improve sanity check (#10)
+* fix client destroy connexion when client end [#15](https://github.com/sloki-project/sloki/issues/15)
+* fix insert return behavior [#9](https://github.com/sloki-project/sloki/issues/9)
+* improve code: merge jsonrpc/lokijs layers [#14](https://github.com/sloki-project/sloki/issues/14)
+* improve method collection/insert options [#11](https://github.com/sloki-project/sloki/issues/11)
+* improve sanity check [#10](https://github.com/sloki-project/sloki/issues/10)
 
 -----
 ## 0.0.4 - 2019-02-07
