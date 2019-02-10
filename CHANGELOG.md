@@ -3,7 +3,7 @@
 ## [0.0.7](https://github.com/sloki-project/sloki/milestone/5) - UNRELEASED
 
 ### Added
-* add method version [#19](https://github.com/sloki-project/sloki/issues/19)
+* add method `versions` [#19](https://github.com/sloki-project/sloki/issues/19)
 
 ### Changed
 
