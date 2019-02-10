@@ -1,6 +1,6 @@
 require('./client')(__filename, (test, client) => {
     test.test('version', (subtest)  => {
-        client.version((err, result) => {
+        client.versions((err, result) => {
             subtest.deepEqual(err, undefined, 'method should not return an error');
 
             // example
