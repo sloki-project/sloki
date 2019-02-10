@@ -51,7 +51,7 @@
 * add method database/`listDatabases`
 * add method database/`saveDatabase`
 * add method database/`addCollection`
-* add method database/`listCollections``
+* add method database/`listCollections`
 * add method collection/`get`
 * add method collection/`insert`
 * add tests
