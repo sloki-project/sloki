@@ -5,8 +5,7 @@ const descriptor = {
     categories:['server'],
     description:{
         short:'Return connected clients list'
-    },
-    parameters:[]
+    }
 };
 
 /**
