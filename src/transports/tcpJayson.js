@@ -2,6 +2,7 @@ const log = require('evillogger')({ ns:'transports:tcpJayson' });
 const ENV = require('../env');
 const jayson = require('jayson');
 const methods = require('../methods/');
+const async = require('async');
 
 const errors = {
     MAX_CLIENT_REACHED:{
@@ -13,6 +14,12 @@ const errors = {
         message:'Server shutdown'
     }
 };
+
+/*
+const queue = async.queue((task, callback) => {
+
+},10000);
+*/
 
 let jaysonServer;
 let tcpServer;
@@ -32,11 +39,7 @@ function _onServerError(err) {
     log.error(err);
 }
 
-function _handleMaxClients(server, socket) {
-
-    server.options.router = (method, params) => {
-        return server.options.routerTcp(method, params, socket);
-    };
+function _handleMaxClients(socket) {
 
     socket.id = `${socket.remoteAddress}:${socket.remotePort}`;
 
@@ -62,11 +65,16 @@ function _handleMaxClients(server, socket) {
 }
 
 function _onConnect(socket) {
-    if (_handleMaxClients(this, socket)) {
+    if (_handleMaxClients(socket)) {
         socket.loki = {
             currentDatabase:'test'
         };
     }
+
+    this.options.router = (method, params) => {
+        return this.options.routerTcp(method, params, socket);
+    };
+
 }
 
 function _maxClientsReached() {
