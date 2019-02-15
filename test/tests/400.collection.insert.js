@@ -17,7 +17,7 @@ const expected = {
 
 const expectedErr = {
     code: ERROR_CODE_PARAMETER,
-    message: 'method "insert": property collection is mandatory'
+    message: 'method "insert": property collection (alias col,c) is mandatory'
 };
 
 require('./client')(__filename, (test, client) => {
