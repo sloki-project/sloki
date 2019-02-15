@@ -9,6 +9,7 @@ const descriptor = {
     description:'Select a database (if not exist, a new db will be created)',
     properties:{
         'database':{
+            alias:['db', 'd'],
             description:'Database name',
             type:'string',
             pattern:shared.RE_DATABASE_NAME,

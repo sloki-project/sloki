@@ -8,12 +8,14 @@ const descriptor = {
     type: 'object',
     properties:{
         'collection':{
+            alias:['col', 'c'],
             description:'Collection name',
             type:'string',
             pattern:shared.RE_COLLETION_NAME,
             patternFlag:'i'
         },
         'filters':{
+            alias:['f'],
             description:'Filters',
             type:'object'
         }

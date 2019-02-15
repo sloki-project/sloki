@@ -6,6 +6,7 @@ const descriptor = {
     description:'Return collection properties',
     properties:{
         'collection':{
+            alias:['col', 'c'],
             description:'Collection name',
             type:'string',
             pattern:shared.RE_COLLETION_NAME,

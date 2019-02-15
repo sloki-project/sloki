@@ -58,8 +58,18 @@ function Command(descriptor, handler) {
             return;
         }
 
-
         let property;
+        for (const prop in descriptor.properties) {
+            property = descriptor.properties[prop];
+            if (property.alias && property.alias.length) {
+                for (const alias of property.alias) {
+                    if (params[alias] != undefined) {
+                        params[prop] = params[alias];
+                        delete params[alias];
+                    }
+                }
+            }
+        }
 
         for (const prop in descriptor.properties) {
 
@@ -67,7 +77,11 @@ function Command(descriptor, handler) {
 
             // a mandatory property is missing
             if (descriptor.required.indexOf(prop)>=0 && params[prop] === undefined) {
-                triggerError(`method "${descriptor.title}": property ${prop} is mandatory`, callback);
+                if (property.alias) {
+                    triggerError(`method "${descriptor.title}": property ${prop} (alias ${property.alias}) is mandatory`, callback);
+                } else {
+                    triggerError(`method "${descriptor.title}": property ${prop} is mandatory`, callback);
+                }
                 return;
             }
 
