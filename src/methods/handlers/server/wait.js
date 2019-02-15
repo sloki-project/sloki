@@ -1,12 +1,8 @@
 const Method = require('../../Method');
 
 const descriptor = {
-    name:'wait',
-    categories:['server'],
-    description:{
-        short:'Wait for one sec'
-    },
-    parameters:[]
+    title:'wait',
+    description:'Wait for one sec'
 };
 
 /**

@@ -56,13 +56,13 @@ const expectedCollectionProperties = {
 };
 
 require('./client')(__filename, (test, client) => {
-    client.loadDatabase(dbName, (err, result) => {
+    client.loadDatabase({ database: dbName }, (err, result) => {
 
         test.deepEqual(err, undefined, 'loadDatabase should not return any error');
         test.deepEqual(typeof result, 'object', 'database loaded');
 
         test.test('addCollection', (subtest)  => {
-            client.addCollection(collectionName, collectionOptions, (err, result) => {
+            client.addCollection({ collection:collectionName, options: collectionOptions }, (err, result) => {
                 subtest.deepEqual(err, undefined, 'method should not return an error');
                 subtest.deepEqual(result, expectedCollectionProperties, 'should return '+collectionName);
                 expectedCollectionProperties.dirty = false;
@@ -79,7 +79,7 @@ require('./client')(__filename, (test, client) => {
         });
 
         test.test('getCollection', (subtest)  => {
-            client.getCollection(collectionName, (err, result) => {
+            client.getCollection({ collection:collectionName }, (err, result) => {
                 subtest.deepEqual(err, undefined, 'method should not return an error');
                 subtest.deepEqual(result, expectedCollectionProperties, 'should return '+collectionName+' properties');
                 subtest.end();

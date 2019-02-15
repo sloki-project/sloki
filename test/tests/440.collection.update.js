@@ -15,12 +15,12 @@ const expected = {
 };
 
 require('./client')(__filename, (test, client) => {
-    client.loadDatabase(dbName, (err, result) => {
+    client.loadDatabase({ database:dbName }, (err, result) => {
 
         test.deepEqual(err, undefined, 'loadDatabase should not return any error');
         test.deepEqual(typeof result, 'object', 'database loaded');
 
-        client.insert(collectionName, doc, (err, myDoc) => {
+        client.insert({ collection:collectionName, document:doc }, (err, myDoc) => {
 
             test.deepEqual(err, undefined, 'insert should not return any error');
             test.deepEqual(typeof myDoc, 'object', 'document inserted');
@@ -29,7 +29,7 @@ require('./client')(__filename, (test, client) => {
 
                 myDoc.foo = 'bar2';
 
-                client.update(collectionName, myDoc, (err, newDoc) => {
+                client.update({ collection:collectionName, document:myDoc }, (err, newDoc) => {
                     subtest.deepEqual(err, undefined, 'method should not return an error');
                     newDoc.meta.created = typeof newDoc.meta.created === 'number';
                     newDoc.meta.updated = typeof newDoc.meta.updated === 'number';

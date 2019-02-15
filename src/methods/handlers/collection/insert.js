@@ -3,39 +3,26 @@ const shared = require('../../shared');
 const Method = require('../../Method');
 
 const descriptor = {
-    name:'insert',
-    categories:['collection'],
-    description:{
-        short:'Add a document'
-    },
-    parameters:[
-        {
-            name:'Collection name',
-            mandatory:true,
+    title:'insert',
+    description:'Insert a document',
+    type: 'object',
+    properties:{
+        'collection':{
             description:'Collection name',
-            sanityCheck:{
-                type:'string',
-                reString:shared.RE_COLLETION_NAME,
-                reFlag:'i'
-            }
+            type:'string',
+            pattern:shared.RE_COLLETION_NAME,
+            patternFlag:'i'
         },
-        {
-            name:'Document',
-            mandatory:true,
+        'document':{
             description:'Document',
-            sanityCheck:{
-                type:'object'
-            }
+            type:'object'
         },
-        {
-            name:'Options',
-            mandatory:false,
+        'options':{
             description:'Insert options',
-            sanityCheck:{
-                type:'object'
-            }
+            type:'object'
         }
-    ]
+    },
+    required:['collection', 'document']
 };
 
 /**
@@ -51,9 +38,9 @@ const descriptor = {
  */
 function handler(params, callback, socket) {
     const databaseName = socket.loki.currentDatabase;
-    const collectionName = params[0];
-    const doc = params[1];
-    const options = params[2];
+    const collectionName = params.collection;
+    const doc = params.document;
+    const options = params.options;
 
     if (!shared.databaseSelected(databaseName, callback)) {
         return;

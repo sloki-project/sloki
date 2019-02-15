@@ -2,12 +2,8 @@ const shared = require('../../shared');
 const Method = require('../../Method');
 
 const descriptor = {
-    name:'listCollections',
-    categories:['database'],
-    description:{
-        short:'Return collections in currently selected database',
-    },
-    parameters:[]
+    title:'listCollections',
+    description:'Return collections in currently selected database'
 };
 
 /**

@@ -2,12 +2,8 @@ const shared = require('../../shared');
 const Method = require('../../Method');
 
 const descriptor = {
-    name:'saveDatabase',
-    categories:['database'],
-    description:{
-        short:'Force save of currently selected database',
-    },
-    parameters:[]
+    title:'saveDatabase',
+    description:'Force save of currently selected database'
 };
 
 

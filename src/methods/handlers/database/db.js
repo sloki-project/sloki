@@ -1,12 +1,8 @@
 const Method = require('../../Method');
 
 const descriptor = {
-    name:'db',
-    categories:['database'],
-    description:{
-        short:'Return currently selected database name',
-    },
-    parameters:[]
+    title:'db',
+    description:'Return currently selected database name'
 };
 
 /**

@@ -1,12 +1,8 @@
 const Method = require('../../Method');
 
 const descriptor = {
-    name:'methods',
-    categories:['server'],
-    description:{
-        short:'Return methods list',
-    },
-    parameters:[]
+    title:'methods',
+    description:'Return methods list'
 };
 
 /**

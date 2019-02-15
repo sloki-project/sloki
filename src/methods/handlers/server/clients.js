@@ -1,11 +1,8 @@
 const Method = require('../../Method');
 
 const descriptor = {
-    name:'clients',
-    categories:['server'],
-    description:{
-        short:'Return connected clients list'
-    }
+    title:'clients',
+    description:'Return connected clients list'
 };
 
 /**

@@ -2,9 +2,9 @@ const dbName = '__testUse';
 
 require('./client')(__filename, (test, client) => {
     test.test('loadDatabase', (subtest)  => {
-        client.loadDatabase(dbName, (err, result) => {
+        client.loadDatabase({ database:dbName }, (err, result) => {
             subtest.deepEqual(err, undefined, 'method should not return an error');
-            subtest.ok(typeof result, 'object', 'should return database properties');
+            subtest.deepEqual(typeof result, 'object', 'should return database properties');
             subtest.end();
         });
     });

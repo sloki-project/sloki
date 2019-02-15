@@ -2,23 +2,17 @@ const shared = require('../../shared');
 const Method = require('../../Method');
 
 const descriptor = {
-    name:'getCollection',
-    categories:['database'],
-    description:{
-        short:'Return collection properties',
-    },
-    parameters:[
-        {
-            name:'Collection name',
-            mandatory:true,
+    title:'getCollection',
+    description:'Return collection properties',
+    properties:{
+        'collection':{
             description:'Collection name',
-            sanityCheck:{
-                type:'string',
-                reString:shared.RE_COLLETION_NAME,
-                reFlag:'i'
-            }
+            type:'string',
+            pattern:shared.RE_COLLETION_NAME,
+            patternFlag:'i'
         }
-    ]
+    },
+    required:['collection']
 };
 
 /**
@@ -34,7 +28,7 @@ const descriptor = {
  */
 function handler(params, callback, socket) {
     const databaseName = socket.loki.currentDatabase;
-    const collectionName = params[0];
+    const collectionName = params.collection;
 
     if (!shared.databaseSelected(databaseName, callback)) {
         return;

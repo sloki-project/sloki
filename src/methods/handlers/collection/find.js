@@ -3,31 +3,22 @@ const shared = require('../../shared');
 const Method = require('../../Method');
 
 const descriptor = {
-    name:'find',
-    categories:['collection'],
-    description:{
-        short:'Find a document'
-    },
-    parameters:[
-        {
-            name:'Collection name',
-            mandatory:true,
+    title:'find',
+    description:'Find a document',
+    type: 'object',
+    properties:{
+        'collection':{
             description:'Collection name',
-            sanityCheck:{
-                type:'string',
-                reString:shared.RE_COLLETION_NAME,
-                reFlag:'i'
-            }
+            type:'string',
+            pattern:shared.RE_COLLETION_NAME,
+            patternFlag:'i'
         },
-        {
-            name:'Filters',
-            mandatory:false,
+        'filters':{
             description:'Filters',
-            sanityCheck:{
-                type:'object'
-            }
+            type:'object'
         }
-    ]
+    },
+    required:['collection']
 };
 
 /**
@@ -43,8 +34,8 @@ const descriptor = {
  */
 function handler(params, callback, socket) {
     const databaseName = socket.loki.currentDatabase;
-    const collectionName = params[0];
-    const filters = params[1];
+    const collectionName = params.collection;
+    const filters = params.filters;
 
     if (!shared.collectionExists(databaseName, collectionName, callback)) {
         return;

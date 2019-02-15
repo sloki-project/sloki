@@ -5,32 +5,21 @@ const path = require('path');
 const loki = require('lokijs');
 
 const descriptor = {
-    name:'loadDatabase',
-    categories:['database'],
-    description:{
-        short:'Select a database (if not exist, a new db will be created)'
-    },
-    parameters:[
-        {
-            name:'database name',
-            mandatory:true,
-            mandatoryError:'Database name is mandatory',
+    title:'loadDatabase',
+    description:'Select a database (if not exist, a new db will be created)',
+    properties:{
+        'database':{
             description:'Database name',
-            sanityCheck:{
-                type:'string',
-                reString:shared.RE_DATABASE_NAME,
-                reFlag:'i',
-            }
+            type:'string',
+            pattern:shared.RE_DATABASE_NAME,
+            patternFlag:'i'
         },
-        {
-            name:'Options',
-            mandatory:false,
+        'options':{
             description:'Database options',
-            sanityCheck:{
-                type:'object'
-            }
+            type:'object'
         }
-    ]
+    },
+    required:['database']
 };
 
 /**
@@ -45,8 +34,8 @@ const descriptor = {
  * @memberof Commands
  */
 function handler(params, callback, socket) {
-    const databaseName = params[0];
-    const databaseOptions = params[1]||{};
+    const databaseName = params.database;
+    const databaseOptions = params.options;
 
     if (shared.dbs[databaseName]) {
         socket.loki.currentDatabase = databaseName;

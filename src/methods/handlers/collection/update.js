@@ -3,31 +3,22 @@ const shared = require('../../shared');
 const Method = require('../../Method');
 
 const descriptor = {
-    name:'update',
-    categories:['collection'],
-    description:{
-        short:'Update a document'
-    },
-    parameters:[
-        {
-            name:'Collection name',
-            mandatory:true,
+    title:'update',
+    description:'Update a document',
+    type: 'object',
+    properties:{
+        'collection':{
             description:'Collection name',
-            sanityCheck:{
-                type:'string',
-                reString:shared.RE_COLLETION_NAME,
-                reFlag:'i'
-            }
+            type:'string',
+            pattern:shared.RE_COLLETION_NAME,
+            patternFlag:'i'
         },
-        {
-            name:'document',
-            mandatory:true,
+        'document':{
             description:'Document',
-            sanityCheck:{
-                type:['object']
-            }
+            type:'object'
         }
-    ]
+    },
+    required:['collection', 'document']
 };
 
 /**
@@ -43,8 +34,8 @@ const descriptor = {
  */
 function handler(params, callback, socket) {
     const databaseName = socket.loki.currentDatabase;
-    const collectionName = params[0];
-    const doc = params[1];
+    const collectionName = params.collection;
+    const doc = params.document;
 
     if (!shared.collectionExists(databaseName, collectionName, callback)) {
         return;

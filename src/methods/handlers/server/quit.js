@@ -1,13 +1,8 @@
 const Method = require('../../Method');
 
-
 const descriptor = {
-    name:'quit',
-    categories:['server'],
-    description:{
-        short:'Disconnect',
-    },
-    parameters:[]
+    title:'quit',
+    description:'Disconnect'
 };
 
 /**

@@ -3,29 +3,31 @@ const shared = require('../../shared');
 const Method = require('../../Method');
 
 const descriptor = {
-    name:'remove',
-    categories:['collection'],
-    description:{
-        short:'Remove a document by id'
-    },
-    parameters:[
-        {
-            name:'Collection name',
-            mandatory:true,
+    title:'remove',
+    description:'Remove a document by id',
+    type: 'object',
+    properties:{
+        'collection':{
             description:'Collection name',
-            sanityCheck:{
-                type:'string',
-                reString:shared.RE_COLLETION_NAME,
-                reFlag:'i'
-            }
+            type:'string',
+            pattern:shared.RE_COLLETION_NAME,
+            patternFlag:'i'
+        },
+        'document':{
+            description:'Document',
+            type:'object'
+        },
+        'id':{
+            description:'Document ID',
+            type:'number'
+        }
+    },
+    oneOf:[
+        {
+            required:['collection', 'document']
         },
         {
-            name:'document or document id',
-            mandatory:true,
-            description:'Document or document ID',
-            sanityCheck:{
-                type:['number', 'object']
-            }
+            required:['collection', 'id']
         }
     ]
 };
@@ -43,8 +45,8 @@ const descriptor = {
  */
 function handler(params, callback, socket) {
     const databaseName = socket.loki.currentDatabase;
-    const collectionName = params[0];
-    const documentOrId = params[1];
+    const collectionName = params.collection;
+    const documentOrId = params.document || params.id;
 
     if (!shared.collectionExists(databaseName, collectionName, callback)) {
         return;

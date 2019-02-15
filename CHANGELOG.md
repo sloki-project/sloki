@@ -6,13 +6,13 @@
 * add method `versions` [#19](https://github.com/sloki-project/sloki/issues/19)
 
 ### Changed
-
+* switch to named parameter in jsonrpc layer [#20](https://github.com/sloki-project/sloki/issues/20)
 
 
 ## [0.0.6](https://github.com/sloki-project/sloki/milestone/4) - 2019-02-09
 
 ### Added
-* add method `wait` for testing purpuse [(one sec)](https://github.com/sloki-project/sloki/commit/80c51ac81d18e18794f1782486aec9d8b4166c55)
+* add method `wait` for testing purpose [(one sec)](https://github.com/sloki-project/sloki/commit/80c51ac81d18e18794f1782486aec9d8b4166c55)
 
 ### Changed
 * fix db is not sticked to tcp session if db already exists [#17](https://github.com/sloki-project/sloki/issues/17)

@@ -1,7 +1,7 @@
 const dbName = '__testListCollection';
 
 require('./client')(__filename, (test, client) => {
-    client.loadDatabase(dbName, (err, result) => {
+    client.loadDatabase({ database:dbName }, (err, result) => {
 
         test.deepEqual(err, undefined, 'loadDatabase should not return any error');
         test.deepEqual(typeof result, 'object', 'database loaded');

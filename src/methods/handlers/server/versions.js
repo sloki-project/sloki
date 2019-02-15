@@ -3,12 +3,8 @@ const slokiVersion = require('../../../../package.json').version;
 const lokijsVersion = require('../../../../node_modules/lokijs/package.json').version;
 
 const descriptor = {
-    name:'version',
-    categories:['server'],
-    description:{
-        short:'Return sloki and lokijs version'
-    },
-    parameters:[]
+    title:'version',
+    description:'Return sloki and lokijs version'
 };
 
 /**

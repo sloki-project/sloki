@@ -2,12 +2,8 @@ const Method = require('../../Method');
 const prettyBytes = require('pretty-bytes');
 
 const descriptor = {
-    name:'memory',
-    categories:['server'],
-    description:{
-        short:'Return sloki process memory usage',
-    },
-    parameters:[]
+    title:'memory',
+    description:'Return sloki process memory usage'
 };
 
 

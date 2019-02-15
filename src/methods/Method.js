@@ -10,77 +10,137 @@ function triggerError(msg, callback) {
 
 function Command(descriptor, handler) {
 
-    let mandatoryParametersCount = 0;
+    let descriptorPropertiesCount = 0;
+    if (descriptor.properties) {
+        descriptorPropertiesCount = Object.keys(descriptor.properties).length;
+    }
+
+    if (!descriptor.required) {
+        descriptor.required = [];
+    }
+
+    if (!descriptor.oneOf) {
+        descriptor.oneOf = [];
+    }
+
+    function unwantedProperties(params) {
+        if (
+            params
+            && Object.keys(params).length>0
+            && (!descriptor.properties || !Object.keys(descriptor.properties).length)
+        ) {
+            return true;
+        }
+        return false;
+    }
 
     function handle(params, callback) {
 
+        if (!params) params = {};
 
-        //
-        // Sanity Checks
-        //
+        // request has parameters, but the descriptor don't have
+        if (unwantedProperties(params)) {
+            triggerError(`method "${descriptor.title}" does NOT wait for any property`, callback);
+            return;
+        }
 
-        if (!params || !params.length) {
-            if (mandatoryParametersCount) {
-                triggerError(`${descriptor.name}: number of parameters should be at least ${mandatoryParametersCount}`, callback);
-                return;
-            }
+        const paramsCount = Object.keys(params).length;
 
-            // "this" is the socket socket if client is TCP/TLS
+        // request has no parameters, as specified in the descriptor
+        if (descriptorPropertiesCount === 0 && paramsCount === 0) {
             handler(params, callback, this);
             return;
         }
 
-        if (params.length<mandatoryParametersCount) {
-            triggerError(`${descriptor.name}: number of parameters should be at least ${mandatoryParametersCount}`, callback);
+        // request has more parameters than expected in the descriptor
+        if (paramsCount>descriptorPropertiesCount) {
+            triggerError(`method "${descriptor.title}": too many properties, expected ${descriptorPropertiesCount}, find ${paramsCount}`, callback);
             return;
         }
 
 
-        if (params.length>descriptor.parameters.length) {
-            if (descriptor.parameters.length>0) {
-                triggerError(`${descriptor.name}: number of parameters should be lower or equal than ${descriptor.parameters.length}`, callback);
+        let property;
+
+        for (const prop in descriptor.properties) {
+
+            property = descriptor.properties[prop];
+
+            // a mandatory property is missing
+            if (descriptor.required.indexOf(prop)>=0 && params[prop] === undefined) {
+                triggerError(`method "${descriptor.title}": property ${prop} is mandatory`, callback);
                 return;
             }
-            triggerError(`${descriptor.name}: this method does not wait for parameters`, callback);
-        }
 
-        let parameter;
-
-        for (let i = 0; i< descriptor.parameters.length; i++) {
-
-            parameter = descriptor.parameters[i];
-
-            if (!parameter.sanityCheck) {
+            // non mandatory property
+            if (params[prop] === undefined) {
                 continue;
             }
 
-            if (
-                params[i] != null && params[i] != undefined &&
-                (
-                    (typeof parameter.sanityCheck.type === 'object' && parameter.sanityCheck.type.indexOf(typeof params[i])<0) ||
-                    (typeof parameter.sanityCheck.type === 'string' && typeof params[i] != parameter.sanityCheck.type)
-                )
-            ) {
-                triggerError(`${descriptor.name}: wrong type for parameter '${parameter.name}' : found '${typeof params[i]}', expected '${parameter.sanityCheck.type}'`, callback);
+            // check type
+            if (property.type != typeof params[prop]) {
+                triggerError(`method "${descriptor.title}": property "${prop}" should be a ${property.type}, found ${typeof params[prop]}`, callback);
                 return;
             }
 
-            if (params[i] === null || params[i] === undefined && parameter.mandatory) {
-                triggerError(`${descriptor.name}: parameter '${parameter.name}' is mandatory`, callback);
-                return;
-            }
-
-            if (parameter.sanityCheck.re) {
-                // re is a compiled regexp (see _compileDescriptorParametersRegexp)
-                if (!parameter.sanityCheck.re.test(params[i])) {
-                    if (parameter.sanityCheck.reError) {
-                        triggerError(`${descriptor.name}: ${parameter.sanityCheck.reError}`, callback);
+            if (property.type === 'string') {
+                if (property.pattern) {
+                    // patternRe is the compiled version of the regexp, see _compileDescriptorParametersRegexp
+                    if (!property.patternRe.test(params[prop])) {
+                        triggerError(`method "${descriptor.title}": property "${prop}" does not match regular expression ${property.pattern}`, callback);
                         return;
                     }
+                }
+            }
 
-                    triggerError(`${descriptor.name}: parameter '${parameter.name}' does not match regular expression ${parameter.sanityCheck.reString}`, callback);
+            if (property.type === 'number') {
+                // greater than
+                if (typeof property.minimum === 'number' && params[prop]<property.minimum) {
+                    triggerError(`method "${descriptor.title}": property "${prop}" should be > ${property.minimum}`, callback);
                     return;
                 }
+                // lower than
+                if (typeof property.maximum === 'number' && params[prop]>property.maximum) {
+                    triggerError(`method "${descriptor.title}": property "${prop}" should be < ${property.maximum}`, callback);
+                    return;
+                }
+            }
+        }
+
+        if (descriptor.oneOf.length) {
+            let oneOfMatch = false;
+            let multipleOneOfFound = false;
+            let oneOfStr = [];
+            let strs = [];
+
+            for (const oneof of descriptor.oneOf) {
+                let found = 0;
+                for (const requiredProperty of oneof.required) {
+                    strs.push(requiredProperty);
+                    if (params[requiredProperty] != undefined) {
+                        found++;
+                    }
+                }
+                if (found === descriptor.oneOf.length) {
+                    if (!oneOfMatch) {
+                        oneOfMatch = true;
+                    } else {
+                        multipleOneOfFound = true;
+                    }
+                }
+                oneOfStr.push(strs.join(', '));
+                strs = [];
+            }
+
+            oneOfStr = oneOfStr.join('" OR "');
+
+            if (multipleOneOfFound) {
+                triggerError(`method "${descriptor.title}": mandatory properties conflict, please specify properties "${oneOfStr}"`, callback);
+                return;
+            }
+
+            if (!oneOfMatch) {
+                triggerError(`method "${descriptor.title}": mandatory properties are missing (at least "${oneOfStr}")`, callback);
+                return;
             }
         }
 
@@ -96,44 +156,19 @@ function Command(descriptor, handler) {
         return descriptor;
     }
 
-    function _hasParametersInDescriptor() {
-        if (
-            !descriptor
-            ||
-            !descriptor.parameters
-            ||
-            !descriptor.parameters.length
-        ) {
-            return false;
-        }
-
-        return true;
-    }
-
     function _compileDescriptorParametersRegexp() {
 
-        if (!_hasParametersInDescriptor()) {
+        if (!descriptorPropertiesCount) {
             return;
         }
 
-        let parameter;
-
-        for (let i = 0; i< descriptor.parameters.length; i++) {
-
-            parameter = descriptor.parameters[i];
-
-            if (parameter.mandatory) {
-                mandatoryParametersCount+=1;
+        for (const prop in descriptor.properties) {
+            if (descriptor.properties[prop].pattern) {
+                descriptor.properties[prop].patternRe = new RegExp(
+                    descriptor.properties[prop].pattern,
+                    descriptor.properties[prop].patternFlag||''
+                );
             }
-
-            if (!parameter.sanityCheck) {
-                continue;
-            }
-
-            parameter.sanityCheck.re = new RegExp(
-                parameter.sanityCheck.reString,
-                parameter.sanityCheck.reFlag
-            );
         }
 
     }
