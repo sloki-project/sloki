@@ -4,6 +4,7 @@
 
 ### Added
 * add method `versions` [#19](https://github.com/sloki-project/sloki/issues/19)
+* add alias property for all methods [#21](https://github.com/sloki-project/sloki/issues/21)
 
 ### Changed
 * switch to named parameter in jsonrpc layer [#20](https://github.com/sloki-project/sloki/issues/20)
