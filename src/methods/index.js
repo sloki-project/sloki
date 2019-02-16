@@ -2,8 +2,8 @@ const log = require('evillogger')({ ns:'methods' });
 const klawSync = require('klaw-sync');
 const path = require('path');
 
-const commands = {};
-const commandsDescriptor = {};
+const methods = {};
+const methodsDescriptor = {};
 const reDirname = new RegExp(__dirname+'/');
 const showLog = !process.mainModule.filename.match(/\/cli/);
 
@@ -22,35 +22,35 @@ for (file of klawSync(path.resolve(__dirname+'/handlers'), { depthLimit:1, nodir
     if (cmdBase.match(/\//)) {
         cmdBase = cmdBase.split('/')[1];
     }
-    showLog && log.debug(`Command registered ${cmdBase}/${cmdName}`);
-    commands[cmdName] = require(file.path);
-    commandsDescriptor[cmdName] = commands[cmdName].getDescriptor();
+    showLog && log.debug(`method registered ${cmdBase}/${cmdName}`);
+    methods[cmdName] = require(file.path);
+    methodsDescriptor[cmdName] = methods[cmdName].getDescriptor();
 }
 
-function getHandler(command, params, scope) {
-    if (!commands[command]) {
+function getHandler(method, params, scope) {
+    if (!methods[method]) {
         return;
     }
 
     // @TODO: optimize scope ?
     if (scope) {
-        return commands[command].handle.bind(scope);
+        return methods[method].handle.bind(scope);
     } else {
-        return commands[command].handle;
+        return methods[method].handle;
     }
 }
 
 function list() {
-    return commands;
+    return methods;
 }
 
 function listWithDescriptor() {
-    return commandsDescriptor;
+    return methodsDescriptor;
 }
 
 
-function exists(command) {
-    if (commands[command]) {
+function exists(method) {
+    if (methods[method]) {
         return true;
     }
     return false;
