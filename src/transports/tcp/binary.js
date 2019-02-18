@@ -1,4 +1,4 @@
-const log = require('evillogger')({ ns:'transports:tcpMissive' });
+const log = require('evillogger')({ ns:'transports:binary' });
 const config = require('../../config');
 const methods = require('../../methods/');
 const shared = require('../../methods/shared');

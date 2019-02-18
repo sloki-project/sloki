@@ -1,4 +1,4 @@
-const log = require('evillogger')({ ns:'transports:tcpJayson' });
+const log = require('evillogger')({ ns:'transports:jsonrpc' });
 const config = require('../../config');
 const jayson = require('jayson');
 const methods = require('../../methods/');
