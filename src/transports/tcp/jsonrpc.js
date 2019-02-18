@@ -52,6 +52,11 @@ function _handleMaxClients(socket) {
         delete tcpServer.clients[socket.id];
     });
 
+    socket.on('error', err => {
+        log.error(`${socket.id}: ${err.message}`);
+        delete tcpServer.clients[socket.id];
+    });
+
     tcpServer.clients[socket.id] = socket;
     log.info(`${socket.id}: client connected`);
     return true;
@@ -145,12 +150,14 @@ function stop(callback) {
 
     log.warn('stop: closing TCP server');
 
-    tcpServer.close((err) => {
+    tcpServer.close(err => {
         if (err) {
             log.error(err);
         }
         config.SHOW_OPS_INTERVAL && clearInterval(timerShowOperationsCount);
-        callback && callback();
+        if (callback) {
+            callback();
+        }
     });
 
 }

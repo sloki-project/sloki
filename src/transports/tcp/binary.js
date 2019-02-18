@@ -23,7 +23,6 @@ const INFLATE = false;
 let tcpServer;
 let operationsCount = 0;
 let timerShowOperationsCount;
-let timerMemoryAlert;
 
 const q = async.queue((task, next) => {
     methods.exec(task.data.m, task.data.p, task.socket, (err, result) => {
@@ -61,7 +60,7 @@ const q = async.queue((task, next) => {
         });
         next();
     });
-}, 2);
+}, 200);
 
 function _onServerListen(err) {
     if (err) {
@@ -89,7 +88,7 @@ function _onConnect(socket) {
         delete tcpServer.clients[socket.id];
     });
 
-    socket.on('error', (err) => {
+    socket.on('error', err => {
         log.error(`${socket.id}: ${err.message}`);
         delete tcpServer.clients[socket.id];
     });
@@ -157,9 +156,9 @@ function start(callback) {
         timerShowOperationsCount = setInterval(showOperationsCount, config.SHOW_OPS_INTERVAL);
     }
 
-    timerMemoryAlert = setInterval(memoryAlert, 1000);
-
-    callback && callback();
+    if (callback) {
+        callback();
+    }
 }
 
 function showOperationsCount() {
@@ -167,23 +166,9 @@ function showOperationsCount() {
         '%s ops/sec %s/%s',
         Math.round((operationsCount*1000)/config.SHOW_OPS_INTERVAL),
         prettyBytes(process.memoryUsage().heapTotal),
-        prettyBytes(config.MEM_LIMIT)
+        prettyBytes(config.MEM_LIMIT*1024*1024)
     );
     operationsCount = 0;
-}
-
-function memoryAlert() {
-    const heapTotal = process.memoryUsage().heapTotal;
-    if (heapTotal>config.MEM_LIMIT) {
-        log.warn(
-            'memory limit reached (used = %s/ max = %s)',
-            prettyBytes(heapTotal),
-            prettyBytes(config.MEM_LIMIT)
-        );
-        config.MEM_LIMIT_REACHED = true;
-    } else {
-        config.MEM_LIMIT_REACHED = false;
-    }
 }
 
 function stop(callback) {
@@ -210,15 +195,16 @@ function stop(callback) {
 
     log.warn('stop: closing TCP server');
 
-    tcpServer.close((err) => {
+    tcpServer.close(err => {
         if (err) {
             log.error(err);
         }
         if (config.SHOW_OPS_INTERVAL) {
             clearInterval(timerShowOperationsCount);
         }
-        clearInterval(timerMemoryAlert);
-        callback && callback();
+        if (callback) {
+            callback();
+        }
     });
 
 }

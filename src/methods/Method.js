@@ -51,9 +51,11 @@ function Command(descriptor, handler) {
 
         if (!params) params = {};
 
-        if (config.MEM_LIMIT_REACHED) {
-            triggerErrorInternal(`method "${descriptor.title}": memory limit reached`, callback);
-            return;
+        if (descriptor.title.match(/insert|update/)) {
+            if (config.MEM_LIMIT_REACHED) {
+                triggerErrorInternal(`method "${descriptor.title}": memory limit reached`, callback);
+                return;
+            }
         }
 
         // request has parameters, but the descriptor don't have

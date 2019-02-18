@@ -105,7 +105,8 @@ function runTests() {
 
 const options = {
     DATABASES_DIRECTORY:path.resolve(homedir+'/.slokitest/dbs'),
-    NET_TCP_PORT:6371
+    NET_TCP_PORT:6371,
+    MEM_LIMIT:25 // in Mb
 };
 
 server.start(options, (err) => {

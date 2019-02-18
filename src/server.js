@@ -8,7 +8,7 @@ let config = require('./config');
 let tcpServer;
 let closing = false;
 let running = false;
-
+let timerMemoryAlert;
 
 function handleSignals() {
     process.on('SIGINT', handleSignalSIGINT);
@@ -57,27 +57,34 @@ function start(options, callback) {
         config.NET_TCP_PORT
     );
 
-    tcpServer.start((err) => {
+    timerMemoryAlert = setInterval(memoryAlert, 1000);
+
+    tcpServer.start(err => {
         if (err) {
             log.error(err);
             return;
         }
         running = true;
         handleSignals();
-        callback && callback();
+        if (callback) {
+            callback();
+        }
     });
 
 }
 
 function stop(callback) {
     if (!running) {
-        callback && callback('ENOTRUNNING');
+        if (callback) {
+            callback('ENOTRUNNING');
+        }
         return;
     }
 
     log.warn('shutdown in progress');
 
-    tcpServer.stop((err) => {
+    tcpServer.stop(err => {
+        clearInterval(timerMemoryAlert);
         log.info('server stopped, exiting');
         if (callback) {
             callback(err);
@@ -87,6 +94,22 @@ function stop(callback) {
     });
 }
 
+function memoryAlert() {
+    const heapTotal = process.memoryUsage().heapTotal;
+    const max = config.MEM_LIMIT*1024*1024;
+    if (heapTotal>max) {
+        log.warn(
+            'memory limit reached (used = %s/ max = %s)',
+            prettyBytes(heapTotal),
+            prettyBytes(max)
+        );
+        config.MEM_LIMIT_REACHED = true;
+    } else {
+        config.MEM_LIMIT_REACHED = false;
+    }
+}
+
+
 if (global.gc) {
     log.info(`Garbage collector will run every ${config.GC_INTERVAL} ms`);
     setInterval(() => {
@@ -95,7 +118,6 @@ if (global.gc) {
         log.info('garbage collector end');
     }, config.GC_INTERVAL);
 }
-
 
 module.exports = {
     start,
