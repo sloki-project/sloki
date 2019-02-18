@@ -2,16 +2,16 @@ const log = require('evillogger')({ ns:'server' });
 const use = require('abrequire');
 
 const loki = require('./loki');
-const ENV = use('src/env');
+const config = use('src/config');
 
 const tcpJsonRpc = require('./transports/tcp/jsonrpc');
 const tcpBinary = require('./transports/tcp/binary');
 
 let tcpServer;
 
-if (ENV.NET_TCP_ENGINE === 'jsonrpc') {
+if (config.NET_TCP_ENGINE === 'jsonrpc') {
     tcpServer = tcpJsonRpc;
-} else if (ENV.NET_TCP_ENGINE === 'binary') {
+} else if (config.NET_TCP_ENGINE === 'binary') {
     tcpServer = tcpBinary;
 }
 
@@ -46,10 +46,9 @@ function start(callback) {
     }
 
     log.info(
-        'server starting ... (%s@%s:%s)',
-        ENV.NET_TCP_ENGINE,
-        ENV.NET_TCP_HOST,
-        ENV.NET_TCP_PORT
+        'server starting ... (%s:%s)',
+        config.NET_TCP_HOST,
+        config.NET_TCP_PORT
     );
 
     tcpServer.start((err) => {

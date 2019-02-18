@@ -2,7 +2,7 @@ const log = require('evillogger')({ ns:'methods/shared' });
 const path = require('path');
 const loki = require('lokijs');
 
-const ENV = require('../env');
+const config = require('../config');
 
 const dbs = {};
 const collections = {};
@@ -15,7 +15,7 @@ const DEFAULT_DATABASE_OPTIONS =  {
     serializationMethod:'pretty',
     autoload:true,
     autosave:true,
-    autosaveInterval:ENV.DATABASES_AUTOSAVE_INTERVAL
+    autosaveInterval:config.DATABASES_AUTOSAVE_INTERVAL
 };
 
 function databaseSelected(databaseName, callback) {
@@ -83,7 +83,7 @@ function getDatabase(databaseName, callback) {
 
 function createDatabase(databaseName, databaseOptions, callback) {
 
-    const dbPath = path.resolve(ENV.DATABASES_DIRECTORY+`/${databaseName}.json`);
+    const dbPath = path.resolve(config.DATABASES_DIRECTORY+`/${databaseName}.json`);
     const options = Object.assign(DEFAULT_DATABASE_OPTIONS, databaseOptions||{});
 
     options.autoloadCallback = () => {
@@ -95,7 +95,7 @@ function createDatabase(databaseName, databaseOptions, callback) {
     dbs[databaseName] = new loki(dbPath, options);
 
     // by default, immediate save (force flush) after creating database
-    ENV.DATABASES_FORCE_SAVE_ON_CREATE && dbs[databaseName].save();
+    config.DATABASES_FORCE_SAVE_ON_CREATE && dbs[databaseName].save();
 }
 
 module.exports = {
@@ -109,6 +109,5 @@ module.exports = {
     RE_DATABASE_NAME: '^[a-z0-9\-\.\_]{1,50}$',
     DEFAULT_DATABASE_OPTIONS,
     ERROR_CODE_PARAMETER,
-    ERROR_CODE_INTERNAL,
-    ENV
+    ERROR_CODE_INTERNAL
 };

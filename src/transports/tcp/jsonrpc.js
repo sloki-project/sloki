@@ -1,5 +1,5 @@
 const log = require('evillogger')({ ns:'transports:tcpJayson' });
-const ENV = require('../../env');
+const config = require('../../config');
 const jayson = require('jayson');
 const methods = require('../../methods/');
 
@@ -25,7 +25,7 @@ function _onServerListen(err) {
         throw new Error(err);
     }
 
-    log.info(`TCP Server listening at ${ENV.NET_TCP_HOST}:${ENV.NET_TCP_PORT} (maxClients ${ENV.NET_TCP_MAX_CLIENTS})`);
+    log.info(`TCP Server listening at ${config.NET_TCP_HOST}:${config.NET_TCP_PORT} (maxClients ${config.NET_TCP_MAX_CLIENTS}, raw jsonrpc protocol)`);
 }
 
 function _onServerError(err) {
@@ -37,7 +37,7 @@ function _handleMaxClients(socket) {
     socket.id = `${socket.remoteAddress}:${socket.remotePort}`;
 
     if (_maxClientsReached()) {
-        log.warn(`${socket.id}: refusing connection, number of connection: ${tcpServer._connections-1}, allowed: ${ENV.NET_TCP_MAX_CLIENTS}`);
+        log.warn(`${socket.id}: refusing connection, number of connection: ${tcpServer._connections-1}, allowed: ${config.NET_TCP_MAX_CLIENTS}`);
 
         // if client is just a tcp connect (prevent kind of slowLoris attack)
         setTimeout(() => {
@@ -71,7 +71,7 @@ function _onConnect(socket) {
 }
 
 function _maxClientsReached() {
-    return tcpServer._connections>ENV.NET_TCP_MAX_CLIENTS;
+    return tcpServer._connections>config.NET_TCP_MAX_CLIENTS;
 }
 
 function _maxClientsReachedResponse(params, callback) {
@@ -95,38 +95,33 @@ function router(method, params, socket) {
         log.debug('%s: exec %s', socket.id, method);
     }
 
-    ENV.SHOW_OPS_INTERVAL && operationsCount++;
+    config.SHOW_OPS_INTERVAL && operationsCount++;
     return methods.getHandler(method, params, socket);
 }
 
 
 function start(callback) {
 
-    if (!ENV.NET_TCP_PORT) {
-        callback(new Error('ENV.NET_TCP_PORT unavailable'));
-        return;
-    }
-
     jaysonServer = jayson.server(null, { routerTcp:router });
 
-    tcpServer = jaysonServer.tcp({ allowHalfOpen:true });
+    tcpServer = jaysonServer.tcp();
     tcpServer.clients = {};
 
     tcpServer.on('connection', _onConnect);
     tcpServer.on('listening', _onServerListen);
     tcpServer.on('error', _onServerError);
 
-    tcpServer.listen(ENV.NET_TCP_PORT, ENV.NET_TCP_HOST);
+    tcpServer.listen(config.NET_TCP_PORT, config.NET_TCP_HOST);
 
-    if (ENV.SHOW_OPS_INTERVAL) {
-        timerShowOperationsCount = setInterval(showOperationsCount, ENV.SHOW_OPS_INTERVAL);
+    if (config.SHOW_OPS_INTERVAL) {
+        timerShowOperationsCount = setInterval(showOperationsCount, config.SHOW_OPS_INTERVAL);
     }
 
     callback && callback();
 }
 
 function showOperationsCount() {
-    log.info('%s ops/sec', Math.round((operationsCount*1000)/ENV.SHOW_OPS_INTERVAL));
+    log.info('%s ops/sec', Math.round((operationsCount*1000)/config.SHOW_OPS_INTERVAL));
     operationsCount = 0;
 }
 
@@ -154,7 +149,7 @@ function stop(callback) {
         if (err) {
             log.error(err);
         }
-        ENV.SHOW_OPS_INTERVAL && clearInterval(timerShowOperationsCount);
+        config.SHOW_OPS_INTERVAL && clearInterval(timerShowOperationsCount);
         callback && callback();
     });
 

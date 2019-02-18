@@ -5,7 +5,7 @@ const path = require('path');
 const async = require('async');
 const spawn = require('child_process').spawn;
 const fs = require('fs-extra');
-const ENV = require('../src/env');
+const config = require('../src/config');
 
 const tests = {};
 const testFailed = false;
@@ -31,12 +31,12 @@ function prepareTests() {
 }
 
 function cleanTestDatabases() {
-    if (!fs.pathExistsSync(ENV.DATABASES_DIRECTORY)) {
+    if (!fs.pathExistsSync(config.DATABASES_DIRECTORY)) {
         return;
     }
 
     let file;
-    for (file of klawSync(ENV.DATABASES_DIRECTORY, { depthLimit:0 })) {
+    for (file of klawSync(config.DATABASES_DIRECTORY, { depthLimit:0 })) {
         if (path.basename(file.path).match(/\_\_/)) {
             console.log('removing', file.path);
             fs.removeSync(file.path);

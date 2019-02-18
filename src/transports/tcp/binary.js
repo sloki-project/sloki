@@ -1,5 +1,5 @@
 const log = require('evillogger')({ ns:'transports:tcpMissive' });
-const ENV = require('../../env');
+const config = require('../../config');
 const methods = require('../../methods/');
 const shared = require('../../methods/shared');
 const net = require('net');
@@ -61,7 +61,7 @@ function _onServerListen(err) {
         throw new Error(err);
     }
 
-    log.info(`TCP Server listening at ${ENV.NET_TCP_HOST}:${ENV.NET_TCP_PORT} (maxClients ${ENV.NET_TCP_MAX_CLIENTS})`);
+    log.info(`TCP Server listening at ${config.NET_TCP_HOST}:${config.NET_TCP_PORT} (maxClients ${config.NET_TCP_MAX_CLIENTS}, binary protocol)`);
 }
 
 function _onServerError(err) {
@@ -90,8 +90,8 @@ function _onConnect(socket) {
 
     decoder.on('message', data => {
 
-        if (tcpServer._connections>ENV.NET_TCP_MAX_CLIENTS) {
-            log.warn(`${socket.id}: refusing connection, number of connection: ${tcpServer._connections-1}, allowed: ${ENV.NET_TCP_MAX_CLIENTS}`);
+        if (tcpServer._connections>config.NET_TCP_MAX_CLIENTS) {
+            log.warn(`${socket.id}: refusing connection, number of connection: ${tcpServer._connections-1}, allowed: ${config.NET_TCP_MAX_CLIENTS}`);
             encoder.write({ id: data.id, error:errors.MAX_CLIENT_REACHED });
             socket.end();
             return;
@@ -113,7 +113,7 @@ function _onConnect(socket) {
             log.debug(`${socket.id}: exec ${data.m}`);
         }
 
-        ENV.SHOW_OPS_INTERVAL && operationsCount++;
+        config.SHOW_OPS_INTERVAL && operationsCount++;
 
         q.push({ data, socket, encoder });
 
@@ -130,30 +130,25 @@ function _onConnect(socket) {
 
 function start(callback) {
 
-    if (!ENV.NET_TCP_PORT) {
-        callback(new Error('ENV.NET_TCP_PORT unavailable'));
-        return;
-    }
-
     tcpServer = net.createServer();
-    tcpServer.maxConnections = ENV.NET_TCP_MAX_CLIENTS;
+    tcpServer.maxConnections = config.NET_TCP_MAX_CLIENTS+1;
     tcpServer.clients = {};
 
     tcpServer.on('connection', _onConnect);
     tcpServer.on('listening', _onServerListen);
     tcpServer.on('error', _onServerError);
 
-    tcpServer.listen(ENV.NET_TCP_PORT, ENV.NET_TCP_HOST);
+    tcpServer.listen(config.NET_TCP_PORT, config.NET_TCP_HOST);
 
-    if (ENV.SHOW_OPS_INTERVAL) {
-        timerShowOperationsCount = setInterval(showOperationsCount, ENV.SHOW_OPS_INTERVAL);
+    if (config.SHOW_OPS_INTERVAL) {
+        timerShowOperationsCount = setInterval(showOperationsCount, config.SHOW_OPS_INTERVAL);
     }
 
     callback && callback();
 }
 
 function showOperationsCount() {
-    log.info('%s ops/sec', Math.round((operationsCount*1000)/ENV.SHOW_OPS_INTERVAL));
+    log.info('%s ops/sec', Math.round((operationsCount*1000)/config.SHOW_OPS_INTERVAL));
     operationsCount = 0;
 }
 
@@ -185,7 +180,7 @@ function stop(callback) {
         if (err) {
             log.error(err);
         }
-        ENV.SHOW_OPS_INTERVAL && clearInterval(timerShowOperationsCount);
+        config.SHOW_OPS_INTERVAL && clearInterval(timerShowOperationsCount);
         callback && callback();
     });
 

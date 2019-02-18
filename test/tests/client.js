@@ -1,18 +1,18 @@
 const tap = require('../tap');
 const use = require('abrequire');
 const Client = require('sloki-node-client');
-const ENV = use('src/env');
+const config = use('src/config');
 const endpoint = require('../endpoints').tcp;
 const path = require('path');
 
 module.exports = (title, callback) => {
 
-    const tcpClient = new Client(endpoint, { engine:ENV.NET_TCP_ENGINE });
+    const tcpClient = new Client(endpoint, { engine:config.NET_TCP_ENGINE });
 
     tap.test(
         path.basename(title),
         {
-            timeout:ENV.DATABASES_AUTOSAVE_INTERVAL*3
+            timeout:config.DATABASES_AUTOSAVE_INTERVAL*3
         },
         (t) => {
 

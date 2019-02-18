@@ -1,9 +1,9 @@
 const use = require('abrequire');
 const Client = require('sloki-node-client');
 const endpoint = require('../endpoints').tcp;
-const ENV = use('src/env');
+const config = use('src/config');
 
-let maxClients = ENV.NET_TCP_MAX_CLIENTS;
+let maxClients = config.NET_TCP_MAX_CLIENTS;
 
 require('./client')(__filename, (test, client) => {
     test.test('client1: getMaxClients', (subtest)  => {
@@ -54,9 +54,9 @@ require('./client')(__filename, (test, client) => {
     });
 
     test.test('client1: restore maxClients', (subtest)  => {
-        client.maxClients({ value:ENV.NET_TCP_MAX_CLIENTS }, (err, result) => {
+        client.maxClients({ value:config.NET_TCP_MAX_CLIENTS }, (err, result) => {
             subtest.deepEqual(err, undefined, 'method should not return an error');
-            subtest.equal(result, ENV.NET_TCP_MAX_CLIENTS, 'client1: maxClients should be set to '+ENV.NET_TCP_MAX_CLIENTS);
+            subtest.equal(result, config.NET_TCP_MAX_CLIENTS, 'client1: maxClients should be set to '+config.NET_TCP_MAX_CLIENTS);
             subtest.end();
         });
     });
