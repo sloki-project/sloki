@@ -42,7 +42,7 @@ const q = async.queue((task, next) => {
             }
 
             task.encoder.write({ id: task.data.id, error: err });
-            log.warn(`${task.socket.id}: ${err}`);
+            log.warn(`${task.socket.id}: ${err.message}`);
             next();
             return;
         }
