@@ -1,5 +1,6 @@
 const Method = require('../../Method');
 const prettyBytes = require('pretty-bytes');
+const os = require('os');
 
 const descriptor = {
     title:'memory',
@@ -23,7 +24,16 @@ function handler(params, session, callback) {
         used[key] = prettyBytes(used[key]);
     }
 
-    callback(null, used);
+    const osmem = {
+        free:os.freemem(),
+        total:os.totalmem()
+    };
+
+    for (const key in osmem) {
+        osmem[key] = prettyBytes(osmem[key]);
+    }
+
+    callback(null, { process:used, os:osmem });
 }
 
 module.exports = new Method(descriptor, handler);
