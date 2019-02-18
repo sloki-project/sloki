@@ -50,7 +50,7 @@ const expected = {
     changes: []
 };
 
-require('./client')(__filename, (test, client) => {
+require('./client')(__filename, (test, client, end) => {
     client.loadDatabase({ database:dbName }, (err, result) => {
         test.deepEqual(err, undefined, 'loadDatabase should not return any error');
         test.deepEqual(typeof result, 'object', 'database loaded');
@@ -78,6 +78,7 @@ require('./client')(__filename, (test, client) => {
                 subtest.deepEqual(err, undefined, 'method should not return an error');
                 subtest.deepEqual(result, expected, 'should return collection properties');
                 subtest.end();
+                end();
             });
         });
 

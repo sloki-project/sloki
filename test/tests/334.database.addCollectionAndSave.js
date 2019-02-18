@@ -55,7 +55,7 @@ const expectedCollectionProperties = {
     changes :[]
 };
 
-require('./client')(__filename, (test, client) => {
+require('./client')(__filename, (test, client, end) => {
     client.loadDatabase({ database: dbName }, (err, result) => {
 
         test.deepEqual(err, undefined, 'loadDatabase should not return any error');
@@ -83,6 +83,7 @@ require('./client')(__filename, (test, client) => {
                 subtest.deepEqual(err, undefined, 'method should not return an error');
                 subtest.deepEqual(result, expectedCollectionProperties, 'should return '+collectionName+' properties');
                 subtest.end();
+                end();
             });
         });
     });

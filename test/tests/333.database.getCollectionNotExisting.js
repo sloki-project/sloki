@@ -2,7 +2,7 @@ const dbName = '__testAddCollectionWithOptions';
 const collectionName = 'myCollectionNotExisting';
 
 
-require('./client')(__filename, (test, client) => {
+require('./client')(__filename, (test, client, end) => {
     test.test('loadDatabase', (subtest)  => {
         client.loadDatabase({ database:dbName }, (err, result) => {
             subtest.deepEqual(err, undefined, 'method should not return an error');
@@ -16,6 +16,7 @@ require('./client')(__filename, (test, client) => {
             subtest.deepEqual(err, undefined, 'method should not return an error');
             subtest.deepEqual(result, null, 'should return '+collectionName+' properties');
             subtest.end();
+            end();
         });
     });
 

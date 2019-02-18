@@ -18,7 +18,7 @@ const expectedErr3 = {
     message: 'method "remove": mandatory properties conflict, please specify properties "collection, document" OR "collection, id"'
 };
 
-require('./client')(__filename, (test, client) => {
+require('./client')(__filename, (test, client, end) => {
     client.loadDatabase({ database:dbName }, (err, result) => {
 
         test.deepEqual(err, undefined, 'loadDatabase should not return any error');
@@ -66,6 +66,7 @@ require('./client')(__filename, (test, client) => {
                     subtest.deepEqual(err, expectedErr1, `should return error ${JSON.stringify(expectedErr1)}`);
                     subtest.deepEqual(result, undefined, 'result should be undefined');
                     subtest.end();
+                    end();
                 });
             });
         });

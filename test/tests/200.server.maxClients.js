@@ -4,7 +4,7 @@ const config = require('../../src/config');
 
 let maxClients = config.NET_TCP_MAX_CLIENTS;
 
-require('./client')(__filename, (test, client) => {
+require('./client')(__filename, (test, client, end) => {
     test.test('client1: getMaxClients', (subtest)  => {
         client.maxClients((err, result) => {
             subtest.deepEqual(err, undefined, 'method should not return an error');
@@ -48,6 +48,7 @@ require('./client')(__filename, (test, client) => {
             .catch((err) => {
                 const expectedErr = { code: -32000, message: 'Max Clients Reached' };
                 subtest.deepEqual(err, expectedErr, 'client2: should return '+JSON.stringify(expectedErr));
+                client2.close();
                 setTimeout(subtest.end, 500);
             });
     });
@@ -57,6 +58,7 @@ require('./client')(__filename, (test, client) => {
             subtest.deepEqual(err, undefined, 'method should not return an error');
             subtest.equal(result, config.NET_TCP_MAX_CLIENTS, 'client1: maxClients should be set to '+config.NET_TCP_MAX_CLIENTS);
             subtest.end();
+            end();
         });
     });
 

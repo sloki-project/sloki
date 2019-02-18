@@ -1,4 +1,4 @@
-require('./client')(__filename, (test, client) => {
+require('./client')(__filename, (test, client, end) => {
     test.test('memory', (subtest)  => {
         client.memory((err, result) => {
             subtest.deepEqual(err, undefined, 'method should not return an error');
@@ -11,6 +11,7 @@ require('./client')(__filename, (test, client) => {
             subtest.equal(typeof result.heapUsed, 'string', 'heapUsed should be a string');
             subtest.equal(typeof result.external, 'string', 'external should be a string');
             subtest.end();
+            end();
         });
     });
 });

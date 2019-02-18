@@ -8,6 +8,10 @@ module.exports = (title, callback) => {
 
     const tcpClient = new Client(endpoint, { engine:config.NET_TCP_ENGINE });
 
+    function end() {
+        tcpClient.close();
+    }
+
     tap.test(
         path.basename(title),
         {
@@ -24,15 +28,9 @@ module.exports = (title, callback) => {
                 .connect()
                 .then((err) => {
                     t.deepEqual(err, undefined, 'should be connected');
-                    callback(t, tcpClient);
+                    callback(t, tcpClient, end);
                 });
         }
     );
 
-    tap.test('close client', (t) => {
-        tcpClient.close();
-        t.pass('client closed');
-        t.end();
-        process.exit(0);
-    });
 };

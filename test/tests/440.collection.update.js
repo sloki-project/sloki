@@ -14,7 +14,7 @@ const expected = {
     $loki: 1
 };
 
-require('./client')(__filename, (test, client) => {
+require('./client')(__filename, (test, client, end) => {
     client.loadDatabase({ database:dbName }, (err, result) => {
 
         test.deepEqual(err, undefined, 'loadDatabase should not return any error');
@@ -35,6 +35,7 @@ require('./client')(__filename, (test, client) => {
                     newDoc.meta.updated = typeof newDoc.meta.updated === 'number';
                     subtest.deepEqual(newDoc, expected, `should return ${JSON.stringify(expected)}`);
                     subtest.end();
+                    end();
                 });
             });
 

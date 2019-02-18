@@ -1,6 +1,6 @@
 const dbName = '__testUse';
 
-require('./client')(__filename, (test, client) => {
+require('./client')(__filename, (test, client, end) => {
     test.test('loadDatabase', (subtest)  => {
         // 'database' property got 2 aliases: 'db' and 'd', let's use 'db'
         client.loadDatabase({ db:dbName }, (err, result) => {
@@ -15,6 +15,7 @@ require('./client')(__filename, (test, client) => {
             subtest.deepEqual(err, undefined, 'method should not return an error');
             subtest.deepEqual(result, dbName, `current database should be ${dbName}`);
             subtest.end();
+            end();
         });
     });
 });

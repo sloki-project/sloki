@@ -20,7 +20,7 @@ const expectedErr = {
     message: 'method "insert": property collection (alias col,c) is mandatory'
 };
 
-require('./client')(__filename, (test, client) => {
+require('./client')(__filename, (test, client, end) => {
     client.loadDatabase({ database: dbName }, (err, result) => {
 
         test.deepEqual(err, undefined, 'loadDatabase should not return any error');
@@ -68,7 +68,8 @@ require('./client')(__filename, (test, client) => {
             test.test('insert without callback (lazy mode)', (subtest)  => {
                 client.insert({ collection:collectionName, document: doc }, { lazy:true });
                 subtest.pass('pass');
-                setTimeout(subtest.end, 200);
+                subtest.end();
+                end();
             });
         });
     });

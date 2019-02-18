@@ -2,7 +2,7 @@ const dbName = '__testInsert401_'+Date.now();
 const collectionName = 'insert';
 const doc = { 'foo':'bar' };
 
-require('./client')(__filename, (test, client) => {
+require('./client')(__filename, (test, client, end) => {
     client.loadDatabase({ database:dbName }, (err, result) => {
 
         test.deepEqual(err, undefined, 'loadDatabase should not return any error');
@@ -42,6 +42,7 @@ require('./client')(__filename, (test, client) => {
                     subtest.deepEqual(err, undefined, 'method should not return an error');
                     subtest.deepEqual(typeof result, 'number', 'should return true');
                     subtest.end();
+                    end();
                 });
             });
 

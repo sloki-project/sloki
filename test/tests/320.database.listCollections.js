@@ -1,6 +1,6 @@
 const dbName = '__testListCollection';
 
-require('./client')(__filename, (test, client) => {
+require('./client')(__filename, (test, client, end) => {
     client.loadDatabase({ database:dbName }, (err, result) => {
 
         test.deepEqual(err, undefined, 'loadDatabase should not return any error');
@@ -11,6 +11,7 @@ require('./client')(__filename, (test, client) => {
                 subtest.deepEqual(err, undefined, 'method should not return an error');
                 subtest.deepEqual(result, [], 'should return empty array');
                 subtest.end();
+                end();
             });
         });
     });
