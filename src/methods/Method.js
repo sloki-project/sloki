@@ -1,9 +1,12 @@
 const log = require('evillogger')({ ns:'Method' });
 const shared = require('./shared');
+const config = require('../config');
 
 function triggerError(msg, callback) {
     callback({ code:shared.ERROR_CODE_PARAMETER, message:msg });
-    log.warn(msg);
+    if (config.NET_TCP_ENGINE!='binary') {
+        log.warn(msg);
+    }
 }
 
 function Command(descriptor, handler) {
