@@ -20,6 +20,7 @@ const descriptor = {
             type:'object'
         },
         'options':{
+            alias:['opts', 'o'],
             description:'Insert options',
             type:'object'
         }
@@ -38,8 +39,8 @@ const descriptor = {
  * @param {function} callback - callback
  * @memberof Commands
  */
-function handler(params, callback, socket) {
-    const databaseName = socket.loki.currentDatabase;
+function handler(params, session, callback) {
+    const databaseName = session.loki.currentDatabase;
     const collectionName = params.collection;
     const doc = params.document;
     const options = params.options;

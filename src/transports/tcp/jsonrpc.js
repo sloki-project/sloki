@@ -1,7 +1,7 @@
 const log = require('evillogger')({ ns:'transports:tcpJayson' });
-const ENV = require('../env');
+const ENV = require('../../env');
 const jayson = require('jayson');
-const methods = require('../methods/');
+const methods = require('../../methods/');
 
 const errors = {
     MAX_CLIENT_REACHED:{

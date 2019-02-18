@@ -17,7 +17,7 @@ const descriptor = {
 * @param {function} callback - callback
 * @memberof Commands
 */
-function handler(params, callback) {
+function handler(params, session, callback) {
     const used = process.memoryUsage();
     for (const key in used) {
         used[key] = prettyBytes(used[key]);

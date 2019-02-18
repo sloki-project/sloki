@@ -15,7 +15,7 @@ const descriptor = {
     }
 };
 
-function handler(params, callback) {
+function handler(params, session, callback) {
     if (!params.value) {
         callback(null, shared.ENV.NET_TCP_MAX_CLIENTS);
         return;
@@ -24,7 +24,7 @@ function handler(params, callback) {
     const maxClient = params.value;
 
     shared.ENV.NET_TCP_MAX_CLIENTS = parseInt(maxClient);
-    log.info(`Max client has been set to ${shared.ENV.NET_TCP_MAX_CLIENTS}`);
+    log.info(`${session.id}: TCP maxClients has been set to ${shared.ENV.NET_TCP_MAX_CLIENTS}`);
     callback(null, shared.ENV.NET_TCP_MAX_CLIENTS);
 }
 

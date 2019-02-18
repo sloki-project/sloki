@@ -1,7 +1,6 @@
 const argv = require('minimist')(process.argv.slice(2));
-const use = require('abrequire');
-const Client = use('src/Client');
-const readline = require('readline');
+const Client = require('sloki-node-client');
+const run = require('./run');
 
 if (!argv._[0]) {
     require('./usage');
@@ -10,41 +9,12 @@ if (!argv._[0]) {
 
 const client = new Client(argv._[0]);
 
-function onConnected() {
-    console.log('connected');
-    const completions = client.commandsName();
-
-    function autoComplete(line) {
-        const hits = completions.filter((c) => c.startsWith(line));
-        return [hits.length ? hits : completions, line];
-    }
-
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-        completer:autoComplete
+client
+    .connect()
+    .then(() => {
+        run(client);
     });
 
-    rl.setPrompt('> ');
-    rl.prompt();
-    rl.on('line', (data) => {
-        if (data === 'quit') {
-            rl.close();
-            client.quit();
-            return;
-        }
-        rl.prompt();
-    });
-
-
-}
-
-function onError(err) {
+client.on('error', (err) => {
     throw Error(err);
-}
-
-client.connect().then(onConnected);
-client.on('close', () => {
-    console.log('close');
 });
-client.on('error', onError);

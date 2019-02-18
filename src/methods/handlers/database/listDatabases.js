@@ -17,7 +17,7 @@ const descriptor = {
  * @param {function} callback - callback
  * @memberof Commands
  */
-function handler(params, callback) {
+function handler(params, session, callback) {
 
     const dbs = [];
     let db;

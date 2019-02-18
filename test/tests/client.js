@@ -7,7 +7,7 @@ const path = require('path');
 
 module.exports = (title, callback) => {
 
-    const tcpClient = new Client(endpoint, { applicationLayer:'jayson' });
+    const tcpClient = new Client(endpoint, { engine:ENV.NET_TCP_ENGINE });
 
     tap.test(
         path.basename(title),

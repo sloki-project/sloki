@@ -1,8 +1,6 @@
 const log = require('evillogger')({ ns:'database/loadDatabase' });
 const shared = require('../../shared');
 const Method = require('../../Method');
-const path = require('path');
-const loki = require('lokijs');
 
 const descriptor = {
     title:'loadDatabase',
@@ -16,6 +14,7 @@ const descriptor = {
             patternFlag:'i'
         },
         'options':{
+            alias:['opts', 'o'],
             description:'Database options',
             type:'object'
         }
@@ -34,31 +33,30 @@ const descriptor = {
  * @param {function} callback - callback
  * @memberof Commands
  */
-function handler(params, callback, socket) {
+function handler(params, session, callback) {
     const databaseName = params.database;
     const databaseOptions = params.options;
 
-    if (shared.dbs[databaseName]) {
-        socket.loki.currentDatabase = databaseName;
-        log.info(`${socket.id}: current database is now ${databaseName} (loaded)`);
-        callback(null, shared.dbs[databaseName]);
-        return;
+    function ret(result, created) {
+        session.loki.currentDatabase = databaseName;
+        if (created) {
+            log.info(`${session.id}: current database is now ${databaseName} (created)`);
+        } else {
+            log.info(`${session.id}: current database is now ${databaseName}`);
+        }
+        callback(null, result);
     }
 
-    const dbPath = path.resolve(shared.ENV.DATABASES_DIRECTORY+`/${databaseName}.json`);
-    const options = Object.assign(shared.DEFAULT_DATABASE_OPTIONS, databaseOptions||{});
+    shared.getDatabase(databaseName, (err, result) => {
+        if (result) {
+            ret(result);
+            return;
+        }
 
-    options.autoloadCallback = () => {
-        socket.loki.currentDatabase = databaseName;
-        log.info(`${socket.id}: current database is now ${databaseName} (created)`);
-        callback(null, shared.dbs[databaseName]);
-    };
-
-    //log.info(`${socket.id}: creating database ${databaseName}`);
-    shared.dbs[databaseName] = new loki(dbPath, options);
-
-    // by default, immediate save (force flush) after creating database
-    shared.ENV.DATABASES_FORCE_SAVE_ON_CREATE && shared.dbs[databaseName].save();
+        shared.createDatabase(databaseName, databaseOptions, (err, result) => {
+            ret(result, true);
+        });
+    });
 
 }
 

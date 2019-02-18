@@ -56,9 +56,18 @@ function exists(method) {
     return false;
 }
 
+function exec(method, params, scope, callback) {
+    try {
+        methods[method].handle(params, scope, callback);
+    } catch(err) {
+        callback(err);
+    }
+}
+
 module.exports = {
     list,
     listWithDescriptor,
     exists,
-    getHandler
+    getHandler,
+    exec
 };

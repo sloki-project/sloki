@@ -16,6 +16,7 @@ const defaults = {
     NET_TCP_PROMPT:'> ',
     NET_TCP_EOF:'\r\n',
     NET_TCP_OUTPUT_FORMAT:'text',  // or json
+    NET_TCP_ENGINE:'binary',
 
     // limit number of simultaneously connected clients, for basic security reasons
     NET_TCP_MAX_CLIENTS:64,
@@ -42,6 +43,7 @@ if (argv.help) {
     console.log('===============================================================');
     console.log('Environnement variable          Default                        ');
     console.log(`   SLOKI_DIR                    ${env.DATABASES_DIRECTORY}     `);
+    console.log(`   SLOKI_TCP_ENGINE             ${env.NET_TCP_ENGINE}          `);
     console.log(`   SLOKI_TCP_PORT               ${env.NET_TCP_PORT}            `);
     console.log(`   SLOKI_TCP_HOST               ${env.NET_TCP_HOST}            `);
     console.log(`   SLOKI_TCP_MAX_CLIENTS        ${env.NET_TCP_MAX_CLIENTS}     `);
@@ -50,6 +52,7 @@ if (argv.help) {
     console.log('---------------------------------------------------------------');
     console.log('Command Line Options            Default                        ');
     console.log(`   --dir                        ${env.DATABASES_DIRECTORY}     `);
+    console.log(`   --tcp-engine                 ${env.NET_TCP_ENGINE}          `);
     console.log(`   --tcp-port                   ${env.NET_TCP_PORT}            `);
     console.log(`   --tcp-host                   ${env.NET_TCP_HOST}            `);
     console.log(`   --tcp-max-clients            ${env.NET_TCP_MAX_CLIENTS}     `);
@@ -68,6 +71,10 @@ if (argv.help) {
  ***********************************/
 if (process.env.SLOKI_DIR) {
     env.DATABASES_DIRECTORY = path.resolve(process.env.SLOKI_DIR);
+}
+
+if (process.env.SLOKI_TCP_ENGINE) {
+    env.NET_TCP_ENGINE = process.env.SLOKI_TCP_ENGINE;
 }
 
 if (process.env.SLOKI_TCP_PORT) {
@@ -101,6 +108,10 @@ if (process.env.SLOKI_SHOW_OPS_INTERVAL) {
 
 if (argv['dir']) {
     env.DATABASES_DIRECTORY = path.resolve(argv.dir);
+}
+
+if (argv['tcp-engine']) {
+    env.NET_TCP_ENGINE = argv['tcp-engine'];
 }
 
 if (argv['tcp-port']) {
@@ -147,6 +158,10 @@ if (isNaN(env.NET_TCP_MAX_CLIENTS) || !env.NET_TCP_MAX_CLIENTS) {
 
 if (env.NET_TCP_MAX_CLIENTS<1||env.NET_TCP_MAX_CLIENTS>1024) {
     throw new Error(ERROR_BAD_NET_TCP_MAX_CLIENTS);
+}
+
+if (env.NET_TCP_ENGINE != 'jsonrpc' && env.NET_TCP_ENGINE != 'binary') {
+    throw new Error(`Unknow engine ${env.NET_TCP_ENGINE}`);
 }
 
 

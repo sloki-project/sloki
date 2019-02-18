@@ -1,9 +1,13 @@
 const log = require('evillogger')({ ns:'methods/shared' });
+const path = require('path');
+const loki = require('lokijs');
+
 const ENV = require('../env');
 
 const dbs = {};
 const collections = {};
 
+// http://jsonrpc.org/spec.html#error_object
 const ERROR_CODE_PARAMETER = -32602;
 const ERROR_CODE_INTERNAL = -32603;
 
@@ -53,7 +57,50 @@ function collectionExists(databaseName, collectionName, callback) {
     return false;
 }
 
+function getDatabase(databaseName, callback) {
+    if (!dbs[databaseName]) {
+        callback(null, undefined);
+        return;
+    }
+
+    // avoid circular structure: ignore autosaveHandle, persistenceAdapter
+    callback(null, {
+        filename:dbs[databaseName].filename,
+        databaseVersion:dbs[databaseName].databaseVersion,
+        engineVersion:dbs[databaseName].engineVersion,
+        autosave:dbs[databaseName].autosave,
+        autosaveInterval:dbs[databaseName].autosaveInterval,
+        throttledSaves:dbs[databaseName].throttledSaves,
+        options:dbs[databaseName].options,
+        persistenceMethod:dbs[databaseName].persistenceMethod,
+        persistenceAdapter:typeof dbs[databaseName].persistenceAdapter,
+        throttledSavePending:dbs[databaseName].throttledSavePending,
+        verbose:dbs[databaseName].verbose,
+        ENV:dbs[databaseName].ENV,
+        name:dbs[databaseName].name
+    });
+}
+
+function createDatabase(databaseName, databaseOptions, callback) {
+
+    const dbPath = path.resolve(ENV.DATABASES_DIRECTORY+`/${databaseName}.json`);
+    const options = Object.assign(DEFAULT_DATABASE_OPTIONS, databaseOptions||{});
+
+    options.autoloadCallback = () => {
+        getDatabase(databaseName, (err, result) => {
+            callback(null, result);
+        });
+    };
+
+    dbs[databaseName] = new loki(dbPath, options);
+
+    // by default, immediate save (force flush) after creating database
+    ENV.DATABASES_FORCE_SAVE_ON_CREATE && dbs[databaseName].save();
+}
+
 module.exports = {
+    getDatabase,
+    createDatabase,
     dbs,
     collections,
     databaseSelected,

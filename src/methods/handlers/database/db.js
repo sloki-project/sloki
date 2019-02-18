@@ -16,8 +16,8 @@ const descriptor = {
  * @param {function} callback - callback
  * @memberof Commands
  */
-function handler(params, callback, socket) {
-    callback(null, socket.loki.currentDatabase);
+function handler(params, session, callback) {
+    callback(null, session.loki.currentDatabase);
 }
 
 

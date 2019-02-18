@@ -33,6 +33,7 @@
     "jayson": "^2.1.1",
     "klaw-sync": "^6.0.0",
     "lokijs": "franck34/LokiJS",
+    "missive": "sloki-project/missive",
     "pretty-bytes": "^5.1.0",
     "sloki-node-client": "sloki-project/sloki-node-client"
   },

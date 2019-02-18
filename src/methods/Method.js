@@ -1,10 +1,8 @@
-const log = require('evillogger')({ ns:'Command' });
-
-// http://jsonrpc.org/spec.html#error_object
-const ERROR_CODE_PARAMETER = -32602;
+const log = require('evillogger')({ ns:'Method' });
+const shared = require('./shared');
 
 function triggerError(msg, callback) {
-    callback({ code:ERROR_CODE_PARAMETER, message:msg });
+    callback({ code:shared.ERROR_CODE_PARAMETER, message:msg });
     log.warn(msg);
 }
 
@@ -34,7 +32,12 @@ function Command(descriptor, handler) {
         return false;
     }
 
-    function handle(params, callback) {
+    function handle(params, scope, callback) {
+
+        if (!callback) {
+            callback = scope;
+            scope = this;
+        }
 
         if (!params) params = {};
 
@@ -48,7 +51,7 @@ function Command(descriptor, handler) {
 
         // request has no parameters, as specified in the descriptor
         if (descriptorPropertiesCount === 0 && paramsCount === 0) {
-            handler(params, callback, this);
+            handler(params, scope, callback);
             return;
         }
 
@@ -161,8 +164,7 @@ function Command(descriptor, handler) {
         //
         // Sanity Check passed successfully
         //
-        // "this" is the socket socket if client is TCP/TLS
-        handler(params, callback, this);
+        handler(params, scope, callback);
 
     }
 
