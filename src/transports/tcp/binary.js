@@ -81,6 +81,11 @@ function _onConnect(socket) {
         delete tcpServer.clients[socket.id];
     });
 
+    socket.on('error', (err) => {
+        log.error(`${socket.id}: ${err.message}`);
+        delete tcpServer.clients[socket.id];
+    });
+
     const encoder = missive.encode({ deflate: true });
     encoder.pipe(socket);
 
