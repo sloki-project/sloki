@@ -27,7 +27,6 @@
   },
   "homepage": "https://github.com/sloki-project/sloki#readme",
   "dependencies": {
-    "abrequire": "0.0.4",
     "evillogger": "^1.2.2",
     "fs-extra": "^7.0.1",
     "jayson": "^2.1.1",

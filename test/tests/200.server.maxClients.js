@@ -1,7 +1,6 @@
-const use = require('abrequire');
 const Client = require('sloki-node-client');
 const endpoint = require('../endpoints').tcp;
-const config = use('src/config');
+const config = require('../../src/config');
 
 let maxClients = config.NET_TCP_MAX_CLIENTS;
 

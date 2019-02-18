@@ -1,5 +1,4 @@
-const use = require('abrequire');
-const config = use('src/config');
+const config = require('../config');
 
 console.log('Usage: sloki-cli <url>');
 console.log();

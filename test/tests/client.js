@@ -1,7 +1,6 @@
 const tap = require('../tap');
-const use = require('abrequire');
 const Client = require('sloki-node-client');
-const config = use('src/config');
+const config = require('../../src/config');
 const endpoint = require('../endpoints').tcp;
 const path = require('path');
 
