@@ -9,6 +9,7 @@
 
 ### Changed
 * switch to named parameter in jsonrpc layer [#20](https://github.com/sloki-project/sloki/issues/20)
+* no response needed with jsonrpc id = -1
 
 
 ## [0.0.6](https://github.com/sloki-project/sloki/milestone/4) - 2019-02-09
