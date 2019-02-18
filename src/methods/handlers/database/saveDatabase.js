@@ -25,7 +25,7 @@ function handler(params, session, callback) {
         return;
     }
 
-    shared.dbs[databaseName].saveDatabase((err) => {
+    shared.dbs[databaseName].saveDatabase(err => {
         if (err) {
             callback({
                 code: shared.ERROR_CODE_INTERNAL,

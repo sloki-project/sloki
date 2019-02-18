@@ -15,6 +15,6 @@ client
         run(client);
     });
 
-client.on('error', (err) => {
+client.on('error', err => {
     throw Error(err);
 });

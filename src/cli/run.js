@@ -19,7 +19,7 @@ function run(client) {
 
     rl.setPrompt('> ');
     rl.prompt();
-    rl.on('line', (data) => {
+    rl.on('line', data => {
 
         if (data === 'quit') {
             rl.close();
