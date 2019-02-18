@@ -5,6 +5,7 @@ const shared = require('../../methods/shared');
 const net = require('net');
 const missive = require('missive');
 const async = require('async');
+const prettyBytes = require('pretty-bytes');
 
 const errors = {
     MAX_CLIENT_REACHED:{
@@ -22,6 +23,7 @@ const INFLATE = false;
 let tcpServer;
 let operationsCount = 0;
 let timerShowOperationsCount;
+let timerMemoryAlert;
 
 const q = async.queue((task, next) => {
     methods.exec(task.data.m, task.data.p, task.socket, (err, result) => {
@@ -155,12 +157,33 @@ function start(callback) {
         timerShowOperationsCount = setInterval(showOperationsCount, config.SHOW_OPS_INTERVAL);
     }
 
+    timerMemoryAlert = setInterval(memoryAlert, 1000);
+
     callback && callback();
 }
 
 function showOperationsCount() {
-    log.info('%s ops/sec', Math.round((operationsCount*1000)/config.SHOW_OPS_INTERVAL));
+    log.info(
+        '%s ops/sec %s/%s',
+        Math.round((operationsCount*1000)/config.SHOW_OPS_INTERVAL),
+        prettyBytes(process.memoryUsage().heapTotal),
+        prettyBytes(config.MEM_LIMIT)
+    );
     operationsCount = 0;
+}
+
+function memoryAlert() {
+    const heapTotal = process.memoryUsage().heapTotal;
+    if (heapTotal>config.MEM_LIMIT) {
+        log.warn(
+            'memory limit reached (used = %s/ max = %s)',
+            prettyBytes(heapTotal),
+            prettyBytes(config.MEM_LIMIT)
+        );
+        config.MEM_LIMIT_REACHED = true;
+    } else {
+        config.MEM_LIMIT_REACHED = false;
+    }
 }
 
 function stop(callback) {
@@ -191,7 +214,10 @@ function stop(callback) {
         if (err) {
             log.error(err);
         }
-        config.SHOW_OPS_INTERVAL && clearInterval(timerShowOperationsCount);
+        if (config.SHOW_OPS_INTERVAL) {
+            clearInterval(timerShowOperationsCount);
+        }
+        clearInterval(timerMemoryAlert);
         callback && callback();
     });
 

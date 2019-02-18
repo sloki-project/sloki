@@ -2,6 +2,7 @@ const log = require('evillogger')({ ns:'server' });
 const loki = require('./loki');
 const tcpJsonRpc = require('./transports/tcp/jsonrpc');
 const tcpBinary = require('./transports/tcp/binary');
+const prettyBytes = require('pretty-bytes');
 
 let config = require('./config');
 let tcpServer;
@@ -42,6 +43,8 @@ function start(options, callback) {
     }
 
     loki.initialize();
+
+    log.info(`memory limit: ${prettyBytes(config.MEM_LIMIT)}`);
 
     if (running) {
         callback && callback('ERUNNING');

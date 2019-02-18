@@ -1,12 +1,18 @@
 const argv = require('minimist')(process.argv.slice(2));
 const path = require('path');
 const homedir = require('os').homedir();
+const osTotalMem = require('os').totalmem();
+
+const DEFAULT_MEM_LIMIT_PERCENT = 80;
 
 const defaults = {
 
     // manual garbage collector, use --expose-gc to enable it
     // default is 5mn
     GC_INTERVAL: 1000*60*5,
+    MEM_LIMIT_PERCENT:DEFAULT_MEM_LIMIT_PERCENT,
+    MEM_LIMIT:Math.round((osTotalMem*DEFAULT_MEM_LIMIT_PERCENT)/100),
+    MEM_LIMIT_REACHED:false,
 
     // default database dir is in the home of the user
     DATABASES_DIRECTORY:path.resolve(homedir+'/.sloki/dbs'),
@@ -54,6 +60,8 @@ if (argv.help) {
     console.log(`   SLOKI_TCP_DEBUG              ${config.NET_TCP_DEBUG}        `);
     console.log(`   SLOKI_SHOW_OPS_INTERVAL      ${config.SHOW_OPS_INTERVAL}    `);
     console.log(`   SLOKI_GC_INTERVAL            ${config.GC_INTERVAL}          `);
+    console.log(`   SLOKI_MEM_LIMIT_PERCENT      ${config.MEM_LIMIT_PERCENT}    `);
+    console.log(`   SLOKI_MEM_LIMIT              ${config.MEM_LIMIT}            `);
     console.log('---------------------------------------------------------------');
     console.log('Command Line Options            Default                        ');
     console.log(`   --dir                        ${config.DATABASES_DIRECTORY}  `);
@@ -64,6 +72,8 @@ if (argv.help) {
     console.log(`   --tcp-debug                  ${config.NET_TCP_DEBUG}        `);
     console.log(`   --show-ops-interval          ${config.SHOW_OPS_INTERVAL}    `);
     console.log(`   --gc-interval                ${config.GC_INTERVAL}          `);
+    console.log(`   --mem-limit-percent          ${config.MEM_LIMIT_PERCENT}    `);
+    console.log(`   --mem-limit                  ${config.MEM_LIMIT}            `);
     console.log('---------------------------------------------------------------');
     console.log('Examples:                                                      ');
     console.log('$ sloki                                                        ');
@@ -111,6 +121,15 @@ if (process.env.SLOKI_GC_INTERVAL) {
     config.GC_INTERVAL = parseInt(process.env.SLOKI_GC_INTERVAL);
 }
 
+if (process.env.SLOKI_MEM_LIMIT_PERCENT) {
+    config.MEM_LIMIT_PERCENT = parseFloat(process.env.SLOKI_MEM_LIMIT_PERCENT);
+    config.MEM_LIMIT = Math.round((osTotalMem*config.MEM_LIMIT_PERCENT)/100);
+}
+
+if (process.env.SLOKI_MEM_LIMIT) {
+    config.MEM_LIMIT = parseInt(process.env.SLOKI_MEM_LIMIT);
+}
+
 
 /********************************
  * command line options override
@@ -154,6 +173,15 @@ if (argv['gc-interval']) {
     config.GC_INTERVAL = parseInt(argv['gc-interval']);
 }
 
+if (argv['mem-limit-percent']) {
+    config.MEM_LIMIT_PERCENT = parseFloat(argv['mem-limit-percent']);
+    config.MEM_LIMIT = Math.round((osTotalMem*config.MEM_LIMIT_PERCENT)/100);
+}
+
+if (argv['mem-limit']) {
+    config.MEM_LIMIT = parseInt(argv['mem-limit']);
+}
+
 /********************************
  * integrity checks
  ********************************/
@@ -162,6 +190,7 @@ const ERROR_BAD_NET_TCP_PORT = 'tcp port variable must be > 1 and < 65535';
 const ERROR_BAD_NET_TCP_MAX_CLIENTS = 'maxClients must be > 1 and < 1024';
 const ERROR_BAD_NET_TCP_MAX_CLIENTS_TYPE = 'maxClients should be a number';
 const ERROR_BAD_GC_INTERVAL = 'garbage collector should be in millisecond, and > 0';
+const ERROR_BAD_MEM_LIMIT = 'memory limit should be in bytes, and > 0';
 
 if (isNaN(config.NET_TCP_PORT) || config.NET_TCP_PORT<1 || config.NET_TCP_PORT>65534) {
     throw new Error(ERROR_BAD_NET_TCP_PORT);
@@ -181,6 +210,10 @@ if (config.NET_TCP_ENGINE != 'jsonrpc' && config.NET_TCP_ENGINE != 'binary') {
 
 if (isNaN(config.GC_INTERVAL) || !config.GC_INTERVAL) {
     throw new Error(ERROR_BAD_GC_INTERVAL);
+}
+
+if (isNaN(config.MEM_LIMIT) || !config.MEM_LIMIT) {
+    throw new Error(ERROR_BAD_MEM_LIMIT);
 }
 
 module.exports = config;

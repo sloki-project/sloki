@@ -9,6 +9,13 @@ function triggerError(msg, callback) {
     }
 }
 
+function triggerErrorInternal(msg, callback) {
+    callback({ code:shared.ERROR_CODE_INTERNAL, message:msg });
+    if (config.NET_TCP_ENGINE!='binary') {
+        log.warn(msg);
+    }
+}
+
 function Command(descriptor, handler) {
 
     let descriptorPropertiesCount = 0;
@@ -43,6 +50,11 @@ function Command(descriptor, handler) {
         }
 
         if (!params) params = {};
+
+        if (config.MEM_LIMIT_REACHED) {
+            triggerErrorInternal(`method "${descriptor.title}": memory limit reached`, callback);
+            return;
+        }
 
         // request has parameters, but the descriptor don't have
         if (unwantedProperties(params)) {
