@@ -44,7 +44,7 @@ function start(options, callback) {
 
     loki.initialize();
 
-    log.info(`memory limit: ${prettyBytes(config.MEM_LIMIT)}`);
+    log.info(`memory limit: ${prettyBytes(config.MEM_LIMIT*1024*1024)}`);
 
     if (running) {
         callback && callback('ERUNNING');

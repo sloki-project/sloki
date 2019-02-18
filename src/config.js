@@ -1,13 +1,15 @@
 const argv = require('minimist')(process.argv.slice(2));
 const path = require('path');
 const homedir = require('os').homedir();
+const totalmem = require('os').totalmem();
+
 
 const defaults = {
 
     // manual garbage collector, use --expose-gc to enable it
     // default is 5mn
     GC_INTERVAL: 1000*60*5,
-    MEM_LIMIT:15000,   // in MO
+    MEM_LIMIT:Math.round((totalmem-(totalmem*0.20))/1024/1024),   // in Mb
     MEM_LIMIT_REACHED:false,
 
     // default database dir is in the home of the user
