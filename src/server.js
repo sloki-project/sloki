@@ -1,20 +1,10 @@
 const log = require('evillogger')({ ns:'server' });
-const use = require('abrequire');
-
 const loki = require('./loki');
-const config = use('src/config');
-
 const tcpJsonRpc = require('./transports/tcp/jsonrpc');
 const tcpBinary = require('./transports/tcp/binary');
 
+let config = require('./config');
 let tcpServer;
-
-if (config.NET_TCP_ENGINE === 'jsonrpc') {
-    tcpServer = tcpJsonRpc;
-} else if (config.NET_TCP_ENGINE === 'binary') {
-    tcpServer = tcpBinary;
-}
-
 let closing = false;
 let running = false;
 
@@ -36,7 +26,20 @@ function handleSignalSIGINT() {
 }
 
 
-function start(callback) {
+function start(options, callback) {
+
+    if (typeof options === 'function') {
+        callback = options;
+        options = null;
+    }
+
+    config = Object.assign(config, options||{});
+
+    if (config.NET_TCP_ENGINE === 'jsonrpc') {
+        tcpServer = tcpJsonRpc;
+    } else if (config.NET_TCP_ENGINE === 'binary') {
+        tcpServer = tcpBinary;
+    }
 
     loki.initialize();
 
