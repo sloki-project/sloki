@@ -4,6 +4,10 @@ const homedir = require('os').homedir();
 
 const defaults = {
 
+    // manual garbage collector, use --expose-gc to enable it
+    // default is 5mn
+    GC_INTERVAL: 1000*60*5,
+
     // default database dir is in the home of the user
     DATABASES_DIRECTORY:path.resolve(homedir+'/.sloki/dbs'),
     DATABASES_AUTOSAVE_INTERVAL:1000*60,
@@ -49,6 +53,7 @@ if (argv.help) {
     console.log(`   SLOKI_TCP_MAX_CLIENTS        ${config.NET_TCP_MAX_CLIENTS}  `);
     console.log(`   SLOKI_TCP_DEBUG              ${config.NET_TCP_DEBUG}        `);
     console.log(`   SLOKI_SHOW_OPS_INTERVAL      ${config.SHOW_OPS_INTERVAL}    `);
+    console.log(`   SLOKI_GC_INTERVAL            ${config.GC_INTERVAL}          `);
     console.log('---------------------------------------------------------------');
     console.log('Command Line Options            Default                        ');
     console.log(`   --dir                        ${config.DATABASES_DIRECTORY}  `);
@@ -58,6 +63,7 @@ if (argv.help) {
     console.log(`   --tcp-max-clients            ${config.NET_TCP_MAX_CLIENTS}  `);
     console.log(`   --tcp-debug                  ${config.NET_TCP_DEBUG}        `);
     console.log(`   --show-ops-interval          ${config.SHOW_OPS_INTERVAL}    `);
+    console.log(`   --gc-interval                ${config.GC_INTERVAL}          `);
     console.log('---------------------------------------------------------------');
     console.log('Examples:                                                      ');
     console.log('$ sloki                                                        ');
@@ -101,6 +107,10 @@ if (process.env.SLOKI_SHOW_OPS_INTERVAL) {
     config.SHOW_OPS_INTERVAL = parseInt(process.env.SLOKI_SHOW_OPS_INTERVAL);
 }
 
+if (process.env.SLOKI_GC_INTERVAL) {
+    config.GC_INTERVAL = parseInt(process.env.SLOKI_GC_INTERVAL);
+}
+
 
 /********************************
  * command line options override
@@ -140,6 +150,10 @@ if (argv['show-ops-interval']) {
     config.SHOW_OPS_INTERVAL = parseInt(argv['show-ops-interval']);
 }
 
+if (argv['gc-interval']) {
+    config.GC_INTERVAL = parseInt(argv['gc-interval']);
+}
+
 /********************************
  * integrity checks
  ********************************/
@@ -147,6 +161,7 @@ if (argv['show-ops-interval']) {
 const ERROR_BAD_NET_TCP_PORT = 'tcp port variable must be > 1 and < 65535';
 const ERROR_BAD_NET_TCP_MAX_CLIENTS = 'maxClients must be > 1 and < 1024';
 const ERROR_BAD_NET_TCP_MAX_CLIENTS_TYPE = 'maxClients should be a number';
+const ERROR_BAD_GC_INTERVAL = 'garbage collector should be in millisecond, and > 0';
 
 if (isNaN(config.NET_TCP_PORT) || config.NET_TCP_PORT<1 || config.NET_TCP_PORT>65534) {
     throw new Error(ERROR_BAD_NET_TCP_PORT);
@@ -164,5 +179,8 @@ if (config.NET_TCP_ENGINE != 'jsonrpc' && config.NET_TCP_ENGINE != 'binary') {
     throw new Error(`Unknow engine ${config.NET_TCP_ENGINE}`);
 }
 
+if (isNaN(config.GC_INTERVAL) || !config.GC_INTERVAL) {
+    throw new Error(ERROR_BAD_GC_INTERVAL);
+}
 
 module.exports = config;

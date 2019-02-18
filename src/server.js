@@ -84,6 +84,15 @@ function stop(callback) {
     });
 }
 
+if (global.gc) {
+    log.info(`Garbage collector will run every ${config.GC_INTERVAL} ms`);
+    setInterval(() => {
+        log.info('garbage collector begin');
+        global.gc();
+        log.info('garbage collector end');
+    }, config.GC_INTERVAL);
+}
+
 
 module.exports = {
     start,
