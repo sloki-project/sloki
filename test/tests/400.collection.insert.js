@@ -65,8 +65,8 @@ require('./client')(__filename, (test, client) => {
                 });
             });
 
-            test.test('insert without callback', (subtest)  => {
-                client.insert(collectionName, doc);
+            test.test('insert without callback (lazy mode)', (subtest)  => {
+                client.insert({ collection:collectionName, document: doc }, { lazy:true });
                 subtest.pass('pass');
                 subtest.end();
             });
