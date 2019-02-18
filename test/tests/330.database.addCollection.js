@@ -55,7 +55,7 @@ require('./client')(__filename, (test, client, end) => {
         test.deepEqual(err, undefined, 'loadDatabase should not return any error');
         test.deepEqual(typeof result, 'object', 'database loaded');
 
-        test.test('addCollection should failed if Collection name is null', (subtest)  => {
+        test.test('addCollection should failed if Collection name is null', subtest  => {
             client.addCollection(null, (err, result) => {
                 const expected = { code: ERROR_CODE_PARAMETER, message: 'method "addCollection": property collection (alias col,c) is mandatory' };
                 subtest.deepEqual(err, expected, `should return error ${expected.message}`);
@@ -64,7 +64,7 @@ require('./client')(__filename, (test, client, end) => {
             });
         });
 
-        test.test('addCollection should failed if Collection name is undefined', (subtest)  => {
+        test.test('addCollection should failed if Collection name is undefined', subtest  => {
             client.addCollection(undefined, (err, result) => {
                 const expected = { code: ERROR_CODE_PARAMETER, message: 'method "addCollection": property collection (alias col,c) is mandatory' };
                 subtest.deepEqual(err, expected, `should return error ${expected.message}`);
@@ -73,7 +73,7 @@ require('./client')(__filename, (test, client, end) => {
             });
         });
 
-        test.test(`addCollection should create collection '${collectionName}'`, (subtest)  => {
+        test.test(`addCollection should create collection '${collectionName}'`, subtest  => {
             client.addCollection({ collection:collectionName }, (err, result) => {
                 subtest.deepEqual(err, undefined, 'method should not return an error');
                 subtest.deepEqual(result, expected, 'should return collection properties');

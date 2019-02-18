@@ -26,7 +26,7 @@ require('./client')(__filename, (test, client, end) => {
             test.deepEqual(err, undefined, 'insert should not return any error');
             test.deepEqual(typeof result, 'object', 'document inserted');
 
-            test.test('find without filters should return array of documents', (subtest)  => {
+            test.test('find without filters should return array of documents', subtest  => {
                 client.find({ collection:collectionName }, (err, result) => {
                     subtest.deepEqual(err, undefined, 'method should not return an error');
                     result[0].meta.created = typeof result[0].meta.created === 'number';
@@ -35,7 +35,7 @@ require('./client')(__filename, (test, client, end) => {
                 });
             });
 
-            test.test('find with filters should return array of documents', (subtest)  => {
+            test.test('find with filters should return array of documents', subtest  => {
                 client.find({ collection:collectionName, filters:doc }, (err, result) => {
                     subtest.deepEqual(err, undefined, 'method should not return an error');
                     result[0].meta.created = typeof result[0].meta.created === 'number';
@@ -44,7 +44,7 @@ require('./client')(__filename, (test, client, end) => {
                 });
             });
 
-            test.test('find should return [] if no result', (subtest)  => {
+            test.test('find should return [] if no result', subtest  => {
                 client.find({ collection:collectionName, filters:{ foo:'bar2' } }, (err, result) => {
                     subtest.deepEqual(err, undefined, 'method should not return an error');
                     subtest.deepEqual(result, [], `should return ${JSON.stringify([])}`);

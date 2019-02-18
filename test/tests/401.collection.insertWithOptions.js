@@ -13,7 +13,7 @@ require('./client')(__filename, (test, client, end) => {
             test.deepEqual(err, undefined, 'addCollection should not return any error');
             test.deepEqual(typeof result, 'object', 'collection created');
 
-            test.test('insert should return undefined', (subtest)  => {
+            test.test('insert should return undefined', subtest  => {
                 client.insert({ collection:collectionName, document:doc, options:{ sret:null } }, (err, result) => {
                     subtest.deepEqual(err, undefined, 'method should not return an error');
                     subtest.deepEqual(result, undefined, 'should return undefined');
@@ -21,7 +21,7 @@ require('./client')(__filename, (test, client, end) => {
                 });
             });
 
-            test.test('insert should return 1', (subtest)  => {
+            test.test('insert should return 1', subtest  => {
                 client.insert({ collection:collectionName, document:doc, options: { sret:'01' } }, (err, result) => {
                     subtest.deepEqual(err, undefined, 'method should not return an error');
                     subtest.deepEqual(result, 1, 'should return 1');
@@ -29,7 +29,7 @@ require('./client')(__filename, (test, client, end) => {
                 });
             });
 
-            test.test('insert should return true', (subtest)  => {
+            test.test('insert should return true', subtest  => {
                 client.insert({ collection:collectionName, document:doc, options:{ sret:'bool' } }, (err, result) => {
                     subtest.deepEqual(err, undefined, 'method should not return an error');
                     subtest.deepEqual(result, true, 'should return true');
@@ -37,7 +37,7 @@ require('./client')(__filename, (test, client, end) => {
                 });
             });
 
-            test.test('insert should return id', (subtest)  => {
+            test.test('insert should return id', subtest  => {
                 client.insert({ collection:collectionName, document:doc, options:{ sret:'id' } }, (err, result) => {
                     subtest.deepEqual(err, undefined, 'method should not return an error');
                     subtest.deepEqual(typeof result, 'number', 'should return true');

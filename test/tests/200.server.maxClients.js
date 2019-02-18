@@ -5,7 +5,7 @@ const config = require('../../src/config');
 let maxClients = config.NET_TCP_MAX_CLIENTS;
 
 require('./client')(__filename, (test, client, end) => {
-    test.test('client1: getMaxClients', (subtest)  => {
+    test.test('client1: getMaxClients', subtest  => {
         client.maxClients((err, result) => {
             subtest.deepEqual(err, undefined, 'method should not return an error');
             subtest.equal(result, maxClients, 'client1: maxClients should return '+maxClients);
@@ -13,7 +13,7 @@ require('./client')(__filename, (test, client, end) => {
         });
     });
 
-    test.test('client1: setMaxClients', (subtest)  => {
+    test.test('client1: setMaxClients', subtest  => {
         maxClients = 'a';
         client.maxClients({ value:maxClients }, (err) => {
             const expectedError = { code: -32602, message: 'method "maxClients": property "value" should be a number, found string' };
@@ -22,7 +22,7 @@ require('./client')(__filename, (test, client, end) => {
         });
     });
 
-    test.test('client1: setMaxClients', (subtest)  => {
+    test.test('client1: setMaxClients', subtest  => {
         maxClients = 1;
         client.maxClients({ value:maxClients }, (err, result) => {
             subtest.deepEqual(err, undefined, 'method should not return an error');
@@ -31,7 +31,7 @@ require('./client')(__filename, (test, client, end) => {
         });
     });
 
-    test.test('client1: getMaxClients', (subtest)  => {
+    test.test('client1: getMaxClients', subtest  => {
         client.maxClients((err, result) => {
             subtest.deepEqual(err, undefined, 'method should not return an error');
             subtest.equal(result, maxClients, 'client1: maxClients should be '+maxClients);
@@ -39,7 +39,7 @@ require('./client')(__filename, (test, client, end) => {
         });
     });
 
-    test.test('client2: hit maxClients', (subtest) => {
+    test.test('client2: hit maxClients', subtest => {
         const client2 = new Client(endpoint);
         client2
             .connect()
@@ -53,7 +53,7 @@ require('./client')(__filename, (test, client, end) => {
             });
     });
 
-    test.test('client1: restore maxClients', (subtest)  => {
+    test.test('client1: restore maxClients', subtest  => {
         client.maxClients({ value:config.NET_TCP_MAX_CLIENTS }, (err, result) => {
             subtest.deepEqual(err, undefined, 'method should not return an error');
             subtest.equal(result, config.NET_TCP_MAX_CLIENTS, 'client1: maxClients should be set to '+config.NET_TCP_MAX_CLIENTS);

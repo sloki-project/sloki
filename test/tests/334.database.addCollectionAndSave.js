@@ -61,7 +61,7 @@ require('./client')(__filename, (test, client, end) => {
         test.deepEqual(err, undefined, 'loadDatabase should not return any error');
         test.deepEqual(typeof result, 'object', 'database loaded');
 
-        test.test('addCollection', (subtest)  => {
+        test.test('addCollection', subtest  => {
             client.addCollection({ collection:collectionName, options: collectionOptions }, (err, result) => {
                 subtest.deepEqual(err, undefined, 'method should not return an error');
                 subtest.deepEqual(result, expectedCollectionProperties, 'should return '+collectionName);
@@ -70,7 +70,7 @@ require('./client')(__filename, (test, client, end) => {
             });
         });
 
-        test.test('saveDatabase', (subtest) => {
+        test.test('saveDatabase', subtest => {
             client.saveDatabase((err, result) => {
                 subtest.deepEqual(err, undefined, 'method should not return an error');
                 subtest.deepEqual(result, undefined, 'should return undefined');
@@ -78,7 +78,7 @@ require('./client')(__filename, (test, client, end) => {
             });
         });
 
-        test.test('getCollection', (subtest)  => {
+        test.test('getCollection', subtest  => {
             client.getCollection({ collection:collectionName }, (err, result) => {
                 subtest.deepEqual(err, undefined, 'method should not return an error');
                 subtest.deepEqual(result, expectedCollectionProperties, 'should return '+collectionName+' properties');

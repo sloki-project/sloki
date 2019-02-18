@@ -29,7 +29,7 @@ require('./client')(__filename, (test, client, end) => {
             test.deepEqual(err, undefined, 'insert should not return any error');
             test.deepEqual(typeof result, 'object', 'document inserted');
 
-            test.test('remove a document by id should return removed document', (subtest)  => {
+            test.test('remove a document by id should return removed document', subtest  => {
                 client.remove({ collection:collectionName, id:1 }, (err, result) => {
                     subtest.deepEqual(err, undefined, 'method should not return an error');
                     subtest.deepEqual(result, doc1, `should return ${JSON.stringify(doc1)}`);
@@ -37,7 +37,7 @@ require('./client')(__filename, (test, client, end) => {
                 });
             });
 
-            test.test('remove a non existing document by id should return an error', (subtest)  => {
+            test.test('remove a non existing document by id should return an error', subtest  => {
                 client.remove({ collection:collectionName, id:2 }, (err, result) => {
                     subtest.deepEqual(err, expectedErr1, `should return error ${JSON.stringify(expectedErr1)}`);
                     subtest.deepEqual(result, undefined, 'result should be undefined');
@@ -45,7 +45,7 @@ require('./client')(__filename, (test, client, end) => {
                 });
             });
 
-            test.test('missing document and id should return an error', (subtest)  => {
+            test.test('missing document and id should return an error', subtest  => {
                 client.remove({ collection:collectionName }, (err, result) => {
                     subtest.deepEqual(err, expectedErr2, `should return error ${JSON.stringify(expectedErr2)}`);
                     subtest.deepEqual(result, undefined, 'result should be undefined');
@@ -53,7 +53,7 @@ require('./client')(__filename, (test, client, end) => {
                 });
             });
 
-            test.test('document and id specified should return an error', (subtest)  => {
+            test.test('document and id specified should return an error', subtest  => {
                 client.remove({ collection:collectionName, document:{}, id:1 }, (err, result) => {
                     subtest.deepEqual(err, expectedErr3, `should return error ${JSON.stringify(expectedErr3)}`);
                     subtest.deepEqual(result, undefined, 'result should be undefined');
@@ -61,7 +61,7 @@ require('./client')(__filename, (test, client, end) => {
                 });
             });
 
-            test.test('empty doc {} should return an error', (subtest)  => {
+            test.test('empty doc {} should return an error', subtest  => {
                 client.remove({ collection:collectionName, document:{} }, (err, result) => {
                     subtest.deepEqual(err, expectedErr1, `should return error ${JSON.stringify(expectedErr1)}`);
                     subtest.deepEqual(result, undefined, 'result should be undefined');

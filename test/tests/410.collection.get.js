@@ -24,7 +24,7 @@ require('./client')(__filename, (test, client, end) => {
         test.deepEqual(err, undefined, 'loadDatabase should not return any error');
         test.deepEqual(typeof result, 'object', 'database loaded');
 
-        test.test('insert should return document', (subtest)  => {
+        test.test('insert should return document', subtest  => {
             client.insert({ collection:collectionName, document:doc }, (err, result) => {
                 subtest.deepEqual(err, undefined, 'method should not return an error');
                 result.meta.created = typeof result.meta.created === 'number';
@@ -33,7 +33,7 @@ require('./client')(__filename, (test, client, end) => {
             });
         });
 
-        test.test('get should return error when collection does not exist', (subtest)  => {
+        test.test('get should return error when collection does not exist', subtest  => {
             client.get({ collection:'unexistingCollection', id:1 }, (err, result) => {
                 const expectedErr = {
                     code: ERROR_CODE_PARAMETER,
@@ -45,7 +45,7 @@ require('./client')(__filename, (test, client, end) => {
             });
         });
 
-        test.test('get should return document', (subtest)  => {
+        test.test('get should return document', subtest  => {
             client.get({ collection:collectionName, id:1 }, (err, result) => {
                 subtest.deepEqual(err, undefined, 'method should not return an error');
                 result.meta.created = typeof result.meta.created === 'number';
@@ -54,7 +54,7 @@ require('./client')(__filename, (test, client, end) => {
             });
         });
 
-        test.test('get on a non existing document by id should return null', (subtest)  => {
+        test.test('get on a non existing document by id should return null', subtest  => {
             client.get({ collection:collectionName, id:10 }, (err, result) => {
                 subtest.deepEqual(err, undefined, 'method should not return an error');
                 subtest.deepEqual(result, null, `should return error ${JSON.stringify(expectedErr)}`);

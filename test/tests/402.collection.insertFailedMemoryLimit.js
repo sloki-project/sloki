@@ -19,7 +19,7 @@ require('./client')(__filename, (test, client, end) => {
             test.deepEqual(err, undefined, 'addCollection should not return any error');
             test.deepEqual(typeof result, 'object', 'collection created');
 
-            test.test('insert should hit memory limit', async (subtest)  => {
+            test.test('insert should hit memory limit', async subtest  => {
                 const max = 50000000;
                 for (let i = 0;i<max;i++) {
                     doc.foo = doc.foo+i;

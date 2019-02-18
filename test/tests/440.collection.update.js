@@ -25,7 +25,7 @@ require('./client')(__filename, (test, client, end) => {
             test.deepEqual(err, undefined, 'insert should not return any error');
             test.deepEqual(typeof myDoc, 'object', 'document inserted');
 
-            test.test('update should return new document', (subtest)  => {
+            test.test('update should return new document', subtest  => {
 
                 myDoc.foo = 'bar2';
 

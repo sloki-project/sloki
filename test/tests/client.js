@@ -17,16 +17,16 @@ module.exports = (title, callback) => {
         {
             timeout:config.DATABASES_AUTOSAVE_INTERVAL*3
         },
-        (t) => {
+        t => {
 
-            tcpClient.on('error', (err) => {
+            tcpClient.on('error', err => {
                 t.fail('socket error', err);
                 t.end();
             });
 
             tcpClient
                 .connect()
-                .then((err) => {
+                .then(err => {
                     t.deepEqual(err, undefined, 'should be connected');
                     callback(t, tcpClient, end);
                 });
