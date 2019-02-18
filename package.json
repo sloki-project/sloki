@@ -4,7 +4,8 @@
   "description": "A NodeJS server for LokiJS",
   "main": "index.js",
   "scripts": {
-    "test": "node test/index.js"
+    "test": "node test/index.js",
+    "start": "node --optimize_for_size --max_old_space_size=7360 --expose_gc index.js"
   },
   "bin": {
     "sloki-cli": "bin/cli.js",
