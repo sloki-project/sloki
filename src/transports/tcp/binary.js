@@ -4,7 +4,6 @@ const methods = require('../../methods/');
 const shared = require('../../methods/shared');
 const net = require('net');
 const missive = require('missive');
-const async = require('async');
 const prettyBytes = require('pretty-bytes');
 
 const errors = {
@@ -24,12 +23,12 @@ let tcpServer;
 let operationsCount = 0;
 let timerShowOperationsCount;
 
-const q = async.queue((task, next) => {
+function rpcIn(task) {
+
     methods.exec(task.data.m, task.data.p, task.socket, (err, result) => {
 
         if (task.data.id === -1) {
             // request don't want a response
-            next();
             return;
         }
 
@@ -50,7 +49,6 @@ const q = async.queue((task, next) => {
 
             task.encoder.write({ id: task.data.id, error: err });
             log.warn(`${task.socket.id}: ${err.message}`);
-            next();
             return;
         }
 
@@ -58,9 +56,8 @@ const q = async.queue((task, next) => {
             id:task.data.id,
             r:result
         });
-        next();
     });
-}, 200);
+}
 
 function _onServerListen(err) {
     if (err) {
@@ -127,8 +124,8 @@ function _onConnect(socket) {
 
         config.SHOW_OPS_INTERVAL && operationsCount++;
 
-        q.push({ data, socket, encoder });
-
+        //q.push({ data, socket, encoder });
+        rpcIn({ data, socket, encoder });
     });
 
     decoder.on('error', err => {
