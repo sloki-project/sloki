@@ -6,6 +6,7 @@ const async = require('async');
 const spawn = require('child_process').spawn;
 const fs = require('fs-extra');
 const config = require('../src/config');
+const homedir = require('os').homedir();
 
 const tests = {};
 const testFailed = false;
@@ -102,14 +103,15 @@ function runTests() {
     );
 }
 
-if (process.env.CI) {
-    server.start((err) => {
-        if (err) {
-            throw new Error(err);
-        }
-        setTimeout(runTests, 1000);
-    });
-} else {
+const options = {
+    DATABASES_DIRECTORY:path.resolve(homedir+'/.slokitest/dbs'),
+    NET_TCP_PORT:6371
+};
+
+server.start(options, (err) => {
+    if (err) {
+        throw new Error(err);
+    }
     cleanTestDatabases();
-    runTests();
-}
+    setTimeout(runTests, 1000);
+});

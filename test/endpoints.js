@@ -1,6 +1,5 @@
-const use = require('abrequire');
-const config = use('src/config');
+const config = require('../src/config');
 
 module.exports = {
-    tcp:'tcp://'+config.NET_TCP_HOST+':'+config.NET_TCP_PORT
+    tcp:'tcp://'+config.NET_TCP_HOST+':6371'
 };
