@@ -91,6 +91,11 @@ function runTests(engine, done) {
                 }
                 next();
             });
+
+            s.on('error', (err) => {
+                console.log(err);
+                process.exit(255);
+            });
         },
         () => {
             server.stop(done);
