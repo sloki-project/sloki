@@ -38,7 +38,7 @@ function handler(params, session, callback) {
         setTimeout(() => {
             const after = getMem();
             callback(null, { called:true, before, after });
-        }, 1000*2);
+        }, 1000*5);
     } else {
         callback('garbage collector not available, please use node --expose_gc when starting sloki');
     }
