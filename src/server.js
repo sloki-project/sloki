@@ -10,6 +10,16 @@ let closing = false;
 let running = false;
 let timerMemoryAlert;
 
+const memoryAlertInterval = 1000;
+
+function memLimitBytes() {
+    return config.MEM_LIMIT*1024*1024;
+}
+
+function memLimitBytesHuman() {
+    return prettyBytes(memLimitBytes());
+}
+
 function handleSignals() {
     process.on('SIGINT', handleSignalSIGINT);
 }
@@ -44,8 +54,6 @@ function start(options, callback) {
 
     loki.initialize();
 
-    log.info(`memory limit: ${prettyBytes(config.MEM_LIMIT*1024*1024)}`);
-
     if (running) {
         callback && callback('ERUNNING');
         return;
@@ -57,7 +65,7 @@ function start(options, callback) {
         config.NET_TCP_PORT
     );
 
-    timerMemoryAlert = setInterval(memoryAlert, 1000);
+    timerMemoryAlert = setInterval(memoryAlert, memoryAlertInterval);
 
     tcpServer.start(err => {
         if (err) {
@@ -95,17 +103,32 @@ function stop(callback) {
     });
 }
 
+function dumpMemory(level, prefix, mem) {
+    log[level](
+        //'%s (rss=%s, heapTotal=%s, heapUsed=%s, external=%s, allowed %s)',
+        '%s rss=%s, allowed %s',
+        prefix,
+        prettyBytes(mem.rss),
+        //prettyBytes(mem.heapTotal),
+        //prettyBytes(mem.heapUsed),
+        //prettyBytes(mem.external),
+        memLimitBytesHuman(),
+    );
+}
+
 function memoryAlert() {
-    const heapTotal = process.memoryUsage().heapTotal;
-    const max = config.MEM_LIMIT*1024*1024;
-    if (heapTotal>max) {
-        log.warn(
-            'memory limit reached (used = %s/ max = %s)',
-            prettyBytes(heapTotal),
-            prettyBytes(max)
-        );
-        config.MEM_LIMIT_REACHED = true;
+    const mem = process.memoryUsage();
+    if (mem.rss>memLimitBytes()) {
+        if (!config.MEM_LIMIT_REACHED) {
+            dumpMemory('warn', 'memory: limit reached', mem);
+            config.MEM_LIMIT_REACHED = true;
+        } else {
+            dumpMemory('warn', 'memory: always above limit', mem);
+        }
     } else {
+        if (config.MEM_LIMIT_REACHED) {
+            dumpMemory('warn', 'memory: back under limit', mem);
+        }
         config.MEM_LIMIT_REACHED = false;
     }
 }
@@ -114,11 +137,12 @@ function memoryAlert() {
 if (global.gc) {
     log.info(`Garbage collector will run every ${config.GC_INTERVAL} ms`);
     setInterval(() => {
-        log.info('garbage collector begin');
         global.gc();
-        log.info('garbage collector end');
     }, config.GC_INTERVAL);
+
 }
+
+dumpMemory('info', 'memory:', process.memoryUsage());
 
 module.exports = {
     start,
