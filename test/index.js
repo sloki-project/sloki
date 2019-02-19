@@ -106,7 +106,7 @@ function runTests(engine, done) {
 const options = {
     DATABASES_DIRECTORY:path.resolve(homedir+'/.slokitest/dbs'),
     NET_TCP_PORT:6371,
-    MEM_LIMIT:40 // in Mb
+    MEM_LIMIT:44 // in Mb
 };
 
 async.series([
