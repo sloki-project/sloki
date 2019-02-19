@@ -86,6 +86,7 @@ function stop(callback) {
     tcpServer.stop(err => {
         clearInterval(timerMemoryAlert);
         log.info('server stopped, exiting');
+        running = false;
         if (callback) {
             callback(err);
             return;
