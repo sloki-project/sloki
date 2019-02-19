@@ -70,11 +70,11 @@ function runTests(engine, done) {
     async.mapSeries(
         tests,
         (test, next) => {
-            let args = ['--expose_gc'];
+            let args;
             if (tester === 'tape') {
-                args = args.concat(JSON.parse(JSON.stringify(optionTape)));
+                args = JSON.parse(JSON.stringify(optionTape));
             } else {
-                args = args.concat(JSON.parse(JSON.stringify(optionTap)));
+                args = JSON.parse(JSON.stringify(optionTap));
             }
             args.push(test);
 
