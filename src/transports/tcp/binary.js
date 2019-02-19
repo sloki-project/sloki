@@ -27,8 +27,8 @@ function rpcIn(task) {
 
     methods.exec(task.data.m, task.data.p, task.socket, (err, result) => {
 
-        if (task.data.id === -1) {
-            // request don't want a response
+        if (task.data.p && task.data.p.nr) {
+            // request don't want to wait for a response (lazy mode)
             return;
         }
 
