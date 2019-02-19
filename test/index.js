@@ -70,25 +70,21 @@ function runTests(engine, done) {
     async.mapSeries(
         tests,
         (test, next) => {
-            let args;
+            let options;
             if (tester === 'tape') {
-                args = JSON.parse(JSON.stringify(optionTape));
+                options = JSON.parse(JSON.stringify(optionTape));
             } else {
-                args = JSON.parse(JSON.stringify(optionTap));
+                options = JSON.parse(JSON.stringify(optionTap));
             }
-            args.push(test);
+            options.push(test);
 
             const opts = {
                 stdio:'inherit',
-                env:{
-                    SLOKI_TCP_ENGINE:engine
-                }
+                env: { SLOKI_TCP_ENGINE: 'binary' }
             };
 
-            console.log(args);
-            console.log(opts);
-            
-            const s = spawn('node', args, opts);
+            const s = spawn('node', options, opts);
+
 
             s.on('close', (code) => {
                 if (code != 0) {
