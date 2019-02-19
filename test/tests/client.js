@@ -4,9 +4,11 @@ const config = require('../../src/config');
 const endpoint = require('../endpoints').tcp;
 const path = require('path');
 
+const engine = process.env.SLOKI_TCP_ENGINE||'binary';
+
 module.exports = (title, callback) => {
 
-    const tcpClient = new Client(endpoint, { engine:config.NET_TCP_ENGINE });
+    const tcpClient = new Client(endpoint, { engine });
 
     function end() {
         tcpClient.close();
@@ -14,9 +16,7 @@ module.exports = (title, callback) => {
 
     tap.test(
         path.basename(title),
-        {
-            timeout:config.DATABASES_AUTOSAVE_INTERVAL*3
-        },
+        { timeout:config.DATABASES_AUTOSAVE_INTERVAL*3 },
         t => {
 
             tcpClient.on('error', err => {
@@ -27,7 +27,7 @@ module.exports = (title, callback) => {
             tcpClient
                 .connect()
                 .then(err => {
-                    t.deepEqual(err, undefined, 'should be connected');
+                    t.deepEqual(err, undefined, `should be connected (${engine})`);
                     callback(t, tcpClient, end);
                 });
         }
