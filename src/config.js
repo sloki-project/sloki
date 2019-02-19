@@ -85,7 +85,7 @@ if (process.env.SLOKI_DIR) {
     config.DATABASES_DIRECTORY = path.resolve(process.env.SLOKI_DIR);
 }
 
-if (process.config.SLOKI_TCP_ENGINE) {
+if (process.env.SLOKI_TCP_ENGINE) {
     config.NET_TCP_ENGINE = process.env.SLOKI_TCP_ENGINE;
 }
 
