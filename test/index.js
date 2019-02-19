@@ -57,12 +57,12 @@ function runTests(engine, done) {
     const reporter = 'spec';
 
     const optionTap = [
-        'node_modules/tap/bin/run.js',
+        path.resolve('./node_modules/tap/bin/run.js'),
         '--reporter='+reporter
     ];
 
     const optionTape = [
-        'node_modules/tape/bin/tape'
+        path.resolve('./node_modules/tape/bin/tape')
     ];
 
     const tester = 'tape'; // or tap
@@ -70,21 +70,22 @@ function runTests(engine, done) {
     async.mapSeries(
         tests,
         (test, next) => {
-            let options;
+            let args;
             if (tester === 'tape') {
-                options = JSON.parse(JSON.stringify(optionTape));
+                args = JSON.parse(JSON.stringify(optionTape));
             } else {
-                options = JSON.parse(JSON.stringify(optionTap));
+                args = JSON.parse(JSON.stringify(optionTap));
             }
-            options.push(test);
+            args.push(test);
 
             const opts = {
                 stdio:'inherit',
-                env: { SLOKI_TCP_ENGINE: 'binary' }
+                env:{
+                    SLOKI_TCP_ENGINE:engine
+                }
             };
 
-            const s = spawn('node', options, opts);
-
+            const s = spawn('node', args, opts);
 
             s.on('close', (code) => {
                 if (code != 0) {
