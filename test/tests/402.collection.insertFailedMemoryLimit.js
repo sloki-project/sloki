@@ -61,6 +61,7 @@ require('./client')(__filename, (test, client, end) => {
                 }
 
                 subtest.deepEqual(gcResponse.called, true, 'gc (garbage collector) should return called = true');
+                subtest.deepEqual(typeof gcResponse, 'object', `gc should return an object ${JSON.stringify(gcResponse, null, 4)}`);
 
                 end();
                 subtest.end();
