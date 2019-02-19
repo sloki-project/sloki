@@ -78,6 +78,8 @@ function runTests(engine, done) {
             }
             args.push(test);
 
+            process.env.SLOKI_TCP_ENGINE = engine;
+
             const opts = {
                 stdio:'inherit',
                 env:process.env
