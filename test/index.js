@@ -9,7 +9,6 @@ const config = require('../src/config');
 const homedir = require('os').homedir();
 
 const tests = {};
-const testFailed = false;
 
 let testName;
 let dir;
@@ -45,13 +44,8 @@ function cleanTestDatabases() {
     }
 }
 
-function endTests() {
-    cleanTestDatabases();
-    if (testFailed) process.exit(-1);
-    process.exit(0);
-}
 
-function runTests() {
+function runTests(engine, done) {
     prepareTests();
 
 
@@ -76,15 +70,20 @@ function runTests() {
     async.mapSeries(
         tests,
         (test, next) => {
-            let options;
+            let args = ['--expose_gc'];
             if (tester === 'tape') {
-                options = JSON.parse(JSON.stringify(optionTape));
+                args = args.concat(JSON.parse(JSON.stringify(optionTape)));
             } else {
-                options = JSON.parse(JSON.stringify(optionTap));
+                args = args.concat(JSON.parse(JSON.stringify(optionTap)));
             }
-            options.push(test);
+            args.push(test);
 
-            const s = spawn('node', options, { stdio:'inherit' });
+            const s = spawn('node', args, {
+                stdio:'inherit',
+                env:{
+                    SLOKI_TCP_ENGINE:engine
+                }
+            });
 
             s.on('close', (code) => {
                 if (code != 0) {
@@ -94,11 +93,7 @@ function runTests() {
             });
         },
         () => {
-            if (process.env.CI) {
-                server.stop(endTests);
-            } else {
-                endTests();
-            }
+            server.stop(done);
         }
     );
 }
@@ -106,13 +101,30 @@ function runTests() {
 const options = {
     DATABASES_DIRECTORY:path.resolve(homedir+'/.slokitest/dbs'),
     NET_TCP_PORT:6371,
-    MEM_LIMIT:25 // in Mb
+    MEM_LIMIT:38 // in Mb
 };
 
-server.start(options, (err) => {
-    if (err) {
-        throw new Error(err);
+async.series([
+    (next) => {
+        cleanTestDatabases();
+        options.NET_TCP_ENGINE = 'binary';
+        server.start(options, (err) => {
+            if (err) {
+                throw new Error(err);
+            }
+            runTests(options.NET_TCP_ENGINE, next);
+        });
+    },
+    (next) => {
+        cleanTestDatabases();
+        options.NET_TCP_ENGINE = 'jsonrpc';
+        server.start(options, (err) => {
+            if (err) {
+                throw new Error(err);
+            }
+            runTests(options.NET_TCP_ENGINE, next);
+        });
     }
-    cleanTestDatabases();
-    setTimeout(runTests, 1000);
+], () => {
+    process.exit();
 });
