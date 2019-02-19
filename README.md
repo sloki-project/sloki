@@ -14,40 +14,41 @@ A NodeJS Server for [LokiJS](http://lokijs.org/)
 Sloki make LokiJS ***scalable***.
 
 * It embed [LokiJS](http://lokijs.org/)
-* It expose a [JSONRPC](https://www.jsonrpc.org/) API, thanks to [Jayson](https://github.com/tedeh/jayson)
-* It **WILL** support TCP/TLS
+* It expose as you want
+  * TCP: a [JSONRPC](https://www.jsonrpc.org/) API, thanks to [Jayson](https://github.com/tedeh/jayson)
+  * TCP: a custom protocol like JSONRPC but will less bytes, for performance
 * It **MAY** support HTTP/HTTPS
+* It **MAY** support Websockets
 
 ```
-                                          JSONRPC (jayson)
                                          TCP|TLS|HTTP|HTTPS
 
-        +----------------------------+                         +----------------------------------+
-        |                            |                         |          sloki           |
-        |       NodeJS Daemon        |<----------------------->|        (Local or Remote)         |
-        |                            |                         |                                  |
-        +----------------------------+                         |    +------------------------+    |
-                                                               |    |                        |    |
-        +----------------------------+                         |    |                        |    |
-        |                            |                         |    |                        |    |
-        |       NodeJS Daemon        |<----------------------->|    |         LokiJS         |    |
-        |                            |                         |    |       (database)       |    |
-        +----------------------------+                         |    |                        |    |
-                                                               |    |                        |    |
-        +----------------------------+                         |    +------------------------+    |
-        |                            |                         |                                  |
-        |           CLI              |<----------------------->|                                  |
-        |                            |                         |                                  |
-        +----------------------------+                         +----------------------------------+
+        +----------------------------+                         +-----------------------------------+
+        |                            |                         |              sloki                |
+        |       NodeJS Daemon        |<----------------------->|                                   |
+        |                            |                         |                                   |
+        +----------------------------+                         |    +-------------------------+    |
+                                                               |    |                         |    |
+        +----------------------------+                         |    |                         |    |
+        |                            |                         |    |                         |    |
+        |       NodeJS Daemon        |<----------------------->|    |         LokiJS          |    |
+        |                            |                         |    | fast in-memory database |    |
+        +----------------------------+                         |    |                         |    |
+                                                               |    |                         |    |
+        +----------------------------+                         |    +-------------------------+    |
+        |                            |                         |                                   |
+        |           CLI              |<----------------------->|                                   |
+        |                            |                         |                                   |
+        +----------------------------+                         +-----------------------------------+
 ```
 
 -----
 
-## Installation
+## Server Installation
 
 * ```npm install -g sloki```
 
-## Usage
+## Server Usage
 
 * `sloki`
 * `sloki --help`
@@ -57,6 +58,10 @@ Sloki make LokiJS ***scalable***.
 ## Client
 
 See https://github.com/sloki-project/sloki-node-client
+
+The client will load every methods that sloki server have, so, the client documentation is not really usefull
+
+
 
 ## Benchmarks
 
@@ -96,15 +101,18 @@ See https://github.com/sloki-project/sloki-benchs
 </summary>
 <p>
 
-| Status            | Command           | Parameter     | Description                
+| Status            | Method            | Parameter     | Description                
 |:-----------------:|-------------------|---------------|----------------
-| :heavy_check_mark:| quit              |               | disconnect (TCP/TLS clients only)
-| :heavy_check_mark:| shutdown          |               | shutdown sloki
-| :heavy_check_mark:| memory            |               | return sloki memory usage
 | :heavy_check_mark:| clients           |               | return TCP/TLS connected clients
+| :heavy_check_mark:| gc                |               | invoke gc(), for testing purpose
 | :heavy_check_mark:| maxClients        |               | return TCP/TLS maxClients
 | :heavy_check_mark:| maxClients        | maxClients    | set TCP/TLS maxClients
-| :heavy_check_mark:| commands          |               | return available commands
+| :heavy_check_mark:| memory            |               | return sloki memory usage
+| :heavy_check_mark:| methods           |               | return sloki methods
+| :heavy_check_mark:| quit              |               | disconnect (TCP/TLS clients only)
+| :heavy_check_mark:| shutdown          |               | shutdown sloki
+| :heavy_check_mark:| version           |               | return versions (sloki, lokijs, sloki-node-client)
+| :heavy_check_mark:| wait              |               | wait for one second, for testing purpose
 
 </p>
 </details>
@@ -160,11 +168,11 @@ See https://github.com/sloki-project/sloki-benchs
 
 | Status            | Command                       | Parameter(s)                      | Description  
 |:-----------------:|-------------------------------|-----------------------------------|----------------
-| :heavy_check_mark:| get                           | collectionName, lokiId            | return a document by his id         
-| :heavy_check_mark:| insert                        | collectionName, document          | insert a document
-| :heavy_check_mark:| update                        | collectionName, document          | update a document
-| :heavy_check_mark:| remove                        | collectionName, document or id    | remove a document
 | :heavy_check_mark:| find                          | collectionName, filter            | find document(s)
+| :heavy_check_mark:| get                           | collectionName, lokiId            | return a document by his id         
+| :heavy_check_mark:| insert                        | collectionName, document          | insert one or more document(s)
+| :heavy_check_mark:| remove                        | collectionName, document or id    | remove one or more document(s)
+| :heavy_check_mark:| update                        | collectionName, document          | update a document
 
 </p>
 </details>
