@@ -17,7 +17,7 @@ const errors = {
     }
 };
 
-const INFLATE = false;
+const ZLIB = false;
 
 let tcpServer;
 let operationsCount = 0;
@@ -90,12 +90,10 @@ function _onConnect(socket) {
         delete tcpServer.clients[socket.id];
     });
 
-    const encoder = missive.encode({ deflate: true });
-    encoder.pipe(socket);
-
     log.info(`${socket.id}: client connected`);
 
-    const decoder = missive.parse({ inflate: INFLATE });
+    const encoder = missive.encode({ deflate: ZLIB });
+    const decoder = missive.parse({ inflate: ZLIB });
 
     decoder.on('message', data => {
 
@@ -133,6 +131,8 @@ function _onConnect(socket) {
     });
 
     socket.pipe(decoder);
+    encoder.pipe(socket);
+
     tcpServer.clients[socket.id] = { socket, encoder };
 
 }
