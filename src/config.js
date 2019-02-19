@@ -35,7 +35,7 @@ const defaults = {
 
     // Below some variable to benchs and tests
     // Show number of operation per interval
-    SHOW_OPS_INTERVAL:1000,
+    SHOW_OPS_INTERVAL:0,
 };
 
 const config = Object.assign({}, defaults);
