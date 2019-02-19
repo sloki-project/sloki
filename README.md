@@ -230,7 +230,7 @@ See https://github.com/sloki-project/sloki-benchs
               Sloki - a NodeJS Server for LokyJS
 ===============================================================
 Environnement variable          Default
-   SLOKI_DIR                    /home/franck/.sloki/dbs
+   SLOKI_DIR                    ~user/.sloki/dbs
    SLOKI_TCP_ENGINE             binary
    SLOKI_TCP_PORT               6370
    SLOKI_TCP_HOST               127.0.0.1
@@ -241,7 +241,7 @@ Environnement variable          Default
    SLOKI_MEM_LIMIT              26094 Mb
 ---------------------------------------------------------------
 Command Line Options            Default
-   --dir                        /home/franck/.sloki/dbs
+   --dir                        ~user/.sloki/dbs
    --tcp-engine                 binary
    --tcp-port                   6370
    --tcp-host                   127.0.0.1
@@ -255,3 +255,10 @@ Examples:
 $ sloki
 $ sloki --tcp-port=6370 --tcp-host=127.0.0.1
 ```
+
+* SLOKI_TCP_ENGINE [binary|jsonrpc]
+  * binary (default) is a JSONRPC like custom binary protocol
+  * jsonrpc is a pure JSONRPC (jayson) protocol
+
+* SLOKI_MEM_LIMIT
+  * by default, it's 80% of appliance/VM available memory
