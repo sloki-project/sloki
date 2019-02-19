@@ -223,7 +223,7 @@ See https://github.com/sloki-project/sloki-benchs
 
 ## Server options
 
-`(sloki --help)`
+`$ sloki --help`
 
 ```
 ===============================================================
