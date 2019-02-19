@@ -6,7 +6,7 @@
 * add method `versions` [#19](https://github.com/sloki-project/sloki/issues/19)
 * add alias property for all methods [#21](https://github.com/sloki-project/sloki/issues/21)
 * add custom tcp protocol [#22](https://github.com/sloki-project/sloki/issues/22)
-* add manual garbage collector [#23](https://github.com/sloki-project/sloki/issues/23)
+* add manual garbage collector [#23](https://github.com/sloki-project/sloki/issues/23) [#24](https://github.com/sloki-project/sloki/issues/24)
 
 ### Changed
 * switch to named parameter in jsonrpc layer [#20](https://github.com/sloki-project/sloki/issues/20)
