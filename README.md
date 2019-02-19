@@ -223,4 +223,35 @@ See https://github.com/sloki-project/sloki-benchs
 
 ## Server options
 
-TODO
+`(sloki --help)`
+
+```
+===============================================================
+              Sloki - a NodeJS Server for LokyJS
+===============================================================
+Environnement variable          Default
+   SLOKI_DIR                    /home/franck/.sloki/dbs
+   SLOKI_TCP_ENGINE             binary
+   SLOKI_TCP_PORT               6370
+   SLOKI_TCP_HOST               127.0.0.1
+   SLOKI_TCP_MAX_CLIENTS        64
+   SLOKI_TCP_DEBUG              true
+   SLOKI_SHOW_OPS_INTERVAL      0
+   SLOKI_GC_INTERVAL            3600000
+   SLOKI_MEM_LIMIT              26094 Mb
+---------------------------------------------------------------
+Command Line Options            Default
+   --dir                        /home/franck/.sloki/dbs
+   --tcp-engine                 binary
+   --tcp-port                   6370
+   --tcp-host                   127.0.0.1
+   --tcp-max-clients            64
+   --tcp-debug                  true
+   --show-ops-interval          0
+   --gc-interval                3600000
+   --mem-limit                  26094 Mb
+---------------------------------------------------------------
+Examples:
+$ sloki
+$ sloki --tcp-port=6370 --tcp-host=127.0.0.1
+```
