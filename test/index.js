@@ -78,12 +78,17 @@ function runTests(engine, done) {
             }
             args.push(test);
 
-            const s = spawn('node', args, {
+            const opts = {
                 stdio:'inherit',
                 env:{
                     SLOKI_TCP_ENGINE:engine
                 }
-            });
+            };
+
+            console.log(args);
+            console.log(opts);
+            
+            const s = spawn('node', args, opts);
 
             s.on('close', (code) => {
                 if (code != 0) {
