@@ -181,6 +181,13 @@ function Command(descriptor, handler) {
         //
         // Sanity Check passed successfully
         //
+
+
+        if (params.nr) {
+            // if "nr" (like "no response") passed in params, override callback with an empty one
+            callback = () => {};
+        }
+
         handler(params, scope, callback);
 
     }
