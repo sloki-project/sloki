@@ -7,8 +7,8 @@ const totalmem = require('os').totalmem();
 const defaults = {
 
     // manual garbage collector, use --expose-gc to enable it
-    // default is 5mn
-    GC_INTERVAL: 1000*60*5,
+    // default is 1 hour
+    GC_INTERVAL: 1000*60*60,
     MEM_LIMIT:Math.round((totalmem-(totalmem*0.20))/1024/1024),   // in Mb
     MEM_LIMIT_REACHED:false,
 
