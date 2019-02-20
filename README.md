@@ -10,13 +10,13 @@ A NodeJS Server for [LokiJS](http://lokijs.org/)
 
 -----
 ## Documentation
-1. [Introduction](#1)
+1. [Introduction](#1.Introduction)
 2. [Transports](#transports)
 3. [Protocols](#protocols)
 
 -----
 
-## 1. Introduction
+## 1.Introduction
 
 Sloki is a nodejs server which embed [LokiJS](http://lokijs.org/), a blazing fast in-memory documents database.
 Sloki help to make LokiJS ***scalable*** : you can now have multiple processes speaking with LokiJS through Sloki.
