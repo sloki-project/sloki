@@ -13,6 +13,8 @@ A NodeJS Server for [LokiJS](http://lokijs.org/)
 1. [Introduction](#1-introduction)
 2. [Transports](#2-transports)
 3. [Protocols](#3-protocols)
+    1. [Binary](#31-binary-protocol-default) (default)
+    2. [JSONRPC](#32-jsonrpc)
 
 -----
 
