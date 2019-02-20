@@ -13,8 +13,8 @@ A NodeJS Server for [LokiJS](http://lokijs.org/)
 1. [Introduction](#1-introduction)
 2. [Transports](#2-transports)
 3. [Protocols](#3-protocols)
-    1. [Binary](#31-binary-protocol-default) (default)
-    2. [JSONRPC](#32-jsonrpc)
+    1. [Binary](#3i-binary-protocol-default) (default)
+    2. [JSONRPC](#3ii-jsonrpc)
 
 -----
 
@@ -62,7 +62,7 @@ You will need a [client](#clients) to speak with sloki.
 
 ## 3. Protocols
 
-### 3.1. Binary protocol (default)
+### 3.i. Binary protocol (default)
 
 The binary protocol has been made with performance in mind. Payloads looks like JSONRPC, but it's not.
 ```
@@ -77,7 +77,7 @@ REQUEST                                     | RESPONSE
 * Payload is a little lighter compared to compliant JSONRPC protocol described below (i.e no `jsonrpc` version attribute, `method` become `m`, `params` become `p`, `result` become `r`)
 * [Missive](https://github.com/StarryInternet/missive) package is used both server and client side to transform payloads into a binary format. Missive support zlib compression, but it's not used here and it's not recommended because of performance crumble. Missive is based on [fringe](https://github.com/StarryInternet/fringe), an extensible message framing over streams for nodejs.
 
-### 3.2 **JSONRPC**
+### 3.ii. **JSONRPC**
 
 The JSONRPC protocol has been chosen for interoperability.
 ```
