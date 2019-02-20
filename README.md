@@ -11,11 +11,11 @@ A NodeJS Server for [LokiJS](http://lokijs.org/)
 -----
 ## Documentation
 1. [Introduction](#1-introduction)
-2. [Transports](#2-transports)
-3. [Protocols](#3-protocols)
-    1. [Binary](#3i-binary-protocol-default) (default)
-    2. [JSONRPC](#3ii-jsonrpc)
-
+    1. [Transports](#2-transports)
+    2. [Protocols](#3-protocols)
+        1. [Binary](#3i-binary-protocol-default) (default)
+        2. [JSONRPC](#3ii-jsonrpc)
+2. [Installation](#4-installation)
 -----
 
 ## 1. Introduction
