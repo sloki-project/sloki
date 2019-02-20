@@ -9,9 +9,16 @@ A NodeJS Server for [LokiJS](http://lokijs.org/)
 [![Dev Dependencies](https://david-dm.org/sloki-project/sloki/dev-status.svg)](https://david-dm.org/sloki-project/sloki?type=dev)
 
 
+# Documentation
+
+# Table of Contents
+1. [Overview](#overview)
+2. [Example2](#example2)
+3. [Third Example](#third-example)
+
 ## Overview
 
-Sloki make LokiJS ***scalable***.
+Sloki is a nodejs server which embed [LokiJS](http://lokijs.org/), a blazing fast in-memory documents database. It make LokiJS ***scalable***.
 
 * It embed [LokiJS](http://lokijs.org/)
 * It expose as you want
@@ -229,7 +236,7 @@ See https://github.com/sloki-project/sloki-benchs
 ===============================================================
               Sloki - a NodeJS Server for LokyJS
 ===============================================================
-Environnement variable          Default
+Environment variable            Default
    SLOKI_DIR                    ~user/.sloki/dbs
    SLOKI_TCP_ENGINE             binary
    SLOKI_TCP_PORT               6370
@@ -238,7 +245,7 @@ Environnement variable          Default
    SLOKI_TCP_DEBUG              true
    SLOKI_SHOW_OPS_INTERVAL      0
    SLOKI_GC_INTERVAL            3600000
-   SLOKI_MEM_LIMIT              26094 Mb
+   SLOKI_MEM_LIMIT              ...
 ---------------------------------------------------------------
 Command Line Options            Default
    --dir                        ~user/.sloki/dbs
@@ -249,12 +256,21 @@ Command Line Options            Default
    --tcp-debug                  true
    --show-ops-interval          0
    --gc-interval                3600000
-   --mem-limit                  26094 Mb
+   --mem-limit                  ...
 ---------------------------------------------------------------
 Examples:
 $ sloki
 $ sloki --tcp-port=6370 --tcp-host=127.0.0.1
 ```
+
+The default values ​​can be overridden first with those of the environment variables,
+and then those of the command line options.
+
+* SLOKI_DIR `/path/to/lokijs/databases`
+  * default is user's home (~user/.sloki/dbs)
+  * directory where lokijs will save databases as json files
+  * directory will be created if not exist
+  * may be overriden
 
 * SLOKI_TCP_ENGINE [binary|jsonrpc]
   * binary (default) is a JSONRPC like custom binary protocol
@@ -262,3 +278,6 @@ $ sloki --tcp-port=6370 --tcp-host=127.0.0.1
 
 * SLOKI_MEM_LIMIT
   * by default, it's 80% of appliance/VM available memory
+
+* SLOKI_GC_INTERVAL ()
+  * run nodejs garbage collector
