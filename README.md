@@ -8,16 +8,15 @@ A NodeJS Server for [LokiJS](http://lokijs.org/)
 [![Dependencies](https://david-dm.org/sloki-project/sloki.svg)](https://david-dm.org/sloki-project/sloki)
 [![Dev Dependencies](https://david-dm.org/sloki-project/sloki/dev-status.svg)](https://david-dm.org/sloki-project/sloki?type=dev)
 
-
+-----
 ## Documentation
-
-1. [Overview](#overview)
+1. [Introduction](#introduction)
 2. [Transports](#transports)
 3. [Protocols](#protocols)
-4. [Clients](#clients)
 
+-----
 
-## Overview
+## 1. Introduction
 
 Sloki is a nodejs server which embed [LokiJS](http://lokijs.org/), a blazing fast in-memory documents database.
 Sloki help to make LokiJS ***scalable*** : you can now have multiple processes speaking with LokiJS through Sloki.
@@ -26,10 +25,10 @@ A possible architecture using sloki :
 ```                  
 
     +----------------------------+    TCP / Binary     +-----------------------------------+
-    |   NodeJS app worker #1     |<------------------->|              sloki                |
-    +----------------------------+                     |                                   |
-                                                       |    +-------------------------+    |
-    +----------------------------+    TCP / Binary     |    |                         |    |
+    |   NodeJS app worker #1     |<------------------->|                                   |
+    +----------------------------+                     |               Sloki               |
+                                                       |                                   |
+    +----------------------------+    TCP / Binary     |    +-------------------------+    |
     |  NodeJS app worker #2      |<------------------->|    |                         |    |
     +----------------------------+                     |    |                         |    |
                                                        |    |         LokiJS          |    |
@@ -43,23 +42,25 @@ A possible architecture using sloki :
 
 ```
 
-## Transports
+## 2. Transports
+
+For moment, only TCP transport is supported. The advantage of TCP vs HTTP API is that the connection is persistent.
 
 By default, Sloki listens on the following ports:
 
-| Port      | Transport  | TLS  | Protocol         |              
-|:---------:|------------|------|------------------|
-| 6370      | TCP        | NO   | Binary (fastest) |
-| 6371      | TCP        | YES  | Binary (fastest) |
-| 6372      | TCP        | NO   | JSONRPC          |
-| 6373      | TCP        | YES  | JSONRPC          |
+| Port      | Transport  | TLS  | Protocol         | Note             
+|:---------:|------------|------|------------------|------------
+| 6370      | TCP        | NO   | Binary (fastest) | implemented
+| 6371      | TCP        | YES  | Binary (fastest) | TODO
+| 6372      | TCP        | NO   | JSONRPC          | implemented
+| 6373      | TCP        | YES  | JSONRPC          | TODO
 
 
 You will need a [client](#clients) to speak with sloki.
 
-## Protocols
+## 3. Protocols
 
-### Binary protocol (default)
+### 3.1. Binary protocol (default)
 
 The binary protocol has been made with performance in mind. Payloads looks like JSONRPC, but it's not.
 ```
@@ -71,12 +72,12 @@ REQUEST                                     | RESPONSE
     "id":"operation-uniq-id"                | }
 }                                           |
 ```
-* Payload is a little bit more light compared to compliant JSONRPC protocol below (no `jsonrpc` attribute, `method` become `m`, `params` become `p`, `result` become `r`)
-* [Missive](https://github.com/StarryInternet/missive) package is used both server and client side to transform payloads into a binary format. Missive support zlib compression, but it's not used here and it's not recommended because of performance crumble. Missive is based on [fringe](https://github.com/StarryInternet/fringe), an extensible message framing over streams.
+* Payload is a little lighter compared to compliant JSONRPC protocol described below (i.e no `jsonrpc` version attribute, `method` become `m`, `params` become `p`, `result` become `r`)
+* [Missive](https://github.com/StarryInternet/missive) package is used both server and client side to transform payloads into a binary format. Missive support zlib compression, but it's not used here and it's not recommended because of performance crumble. Missive is based on [fringe](https://github.com/StarryInternet/fringe), an extensible message framing over streams for nodejs.
 
-### **JSONRPC**
+### 3.2 **JSONRPC**
 
-The JSONRPC protocol has been chosen for operability.
+The JSONRPC protocol has been chosen for interoperability.
 ```
 REQUEST                                     | RESPONSE
 ------------------------------------------- | --------------------------------------
