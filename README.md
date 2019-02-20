@@ -11,10 +11,10 @@ A NodeJS Server for [LokiJS](http://lokijs.org/)
 -----
 ## Documentation
 1. [Introduction](#1-introduction)
-    1. [Transports](#2-transports)
-    2. [Protocols](#3-protocols)
-        1. [Binary](#3i-binary-protocol-default) (default)
-        2. [JSONRPC](#3ii-jsonrpc)
+    1. [Transports](#1i-transports)
+    2. [Protocols](#1ii-protocols)
+        1. [Binary](#1iia-binary-protocol-default) (default)
+        2. [JSONRPC](#1iib-jsonrpc)
 2. [Installation](#4-installation)
 -----
 
@@ -44,7 +44,7 @@ A possible architecture using sloki :
 
 ```
 
-## 2. Transports
+## 1.i. Transports
 
 For moment, only TCP transport is supported. The advantage of TCP vs HTTP API is that the connection is persistent.
 
@@ -60,9 +60,9 @@ By default, Sloki listens on the following ports:
 
 You will need a [client](#clients) to speak with sloki.
 
-## 3. Protocols
+## 1.ii. Protocols
 
-### 3.i. Binary protocol (default)
+### 1.ii.a. Binary protocol (default)
 
 The binary protocol has been made with performance in mind. Payloads looks like JSONRPC, but it's not.
 ```
@@ -77,7 +77,7 @@ REQUEST                                     | RESPONSE
 * Payload is a little lighter compared to compliant JSONRPC protocol described below (i.e no `jsonrpc` version attribute, `method` become `m`, `params` become `p`, `result` become `r`)
 * [Missive](https://github.com/StarryInternet/missive) package is used both server and client side to transform payloads into a binary format. Missive support zlib compression, but it's not used here and it's not recommended because of performance crumble. Missive is based on [fringe](https://github.com/StarryInternet/fringe), an extensible message framing over streams for nodejs.
 
-### 3.ii. **JSONRPC**
+### 1.ii.b. **JSONRPC**
 
 The JSONRPC protocol has been chosen for interoperability.
 ```
