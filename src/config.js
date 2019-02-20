@@ -20,17 +20,10 @@ const defaults = {
     // TCP API enabled by default
     TCP_PORT:6370,
     TCP_HOST:'127.0.0.1',
-    TCP_PROMPT:'> ',
-    TCP_EOF:'\r\n',
-    TCP_OUTPUT_FORMAT:'text',  // or json
     TCP_ENGINE:'binary',
 
     // limit number of simultaneously connected clients, for basic security reasons
     TCP_MAX_CLIENTS:64,
-
-    // HTTP API is disabled by default for moment (not implemented yet)
-    NET_HTTP_PORT:null,
-    NET_HTTP_HOST:'127.0.0.1',
 
     // Below some variable to benchs and tests
     // Show number of operation per interval
@@ -134,16 +127,6 @@ if (argv['tcp_host']) {
 if (argv['tcp-max-clients']) {
     config.TCP_MAX_CLIENTS = parseInt(argv['tcp-max-clients']);
 }
-
-/*
-if (argv['http-port']) {
-    config.NET_HTTP_PORT = parseInt(argv['http-port']);
-}
-
-if (argv['http-host']) {
-    config.NET_HTTP_HOST = parseInt(argv['http-host']);
-}
-*/
 
 if (argv['show-ops-interval']) {
     config.SHOW_OPS_INTERVAL = parseInt(argv['show-ops-interval']);
