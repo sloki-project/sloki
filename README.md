@@ -9,45 +9,86 @@ A NodeJS Server for [LokiJS](http://lokijs.org/)
 [![Dev Dependencies](https://david-dm.org/sloki-project/sloki/dev-status.svg)](https://david-dm.org/sloki-project/sloki?type=dev)
 
 
-# Documentation
+## Documentation
 
-# Table of Contents
 1. [Overview](#overview)
-2. [Example2](#example2)
-3. [Third Example](#third-example)
+2. [Transports](#transports)
+3. [Protocols](#protocols)
+4. [Clients](#clients)
+
 
 ## Overview
 
-Sloki is a nodejs server which embed [LokiJS](http://lokijs.org/), a blazing fast in-memory documents database. It make LokiJS ***scalable***.
+Sloki is a nodejs server which embed [LokiJS](http://lokijs.org/), a blazing fast in-memory documents database.
+Sloki help to make LokiJS ***scalable*** : you can now have multiple processes speaking with LokiJS through Sloki.
 
-* It embed [LokiJS](http://lokijs.org/)
-* It expose as you want
-  * TCP: a [JSONRPC](https://www.jsonrpc.org/) API, thanks to [Jayson](https://github.com/tedeh/jayson)
-  * TCP: a custom protocol like JSONRPC but will less bytes, for performance
-* It **MAY** support HTTP/HTTPS
-* It **MAY** support Websockets
+A possible architecture using sloki :
+```                  
+
+    +----------------------------+    TCP / Binary     +-----------------------------------+
+    |   NodeJS app worker #1     |<------------------->|              sloki                |
+    +----------------------------+                     |                                   |
+                                                       |    +-------------------------+    |
+    +----------------------------+    TCP / Binary     |    |                         |    |
+    |  NodeJS app worker #2      |<------------------->|    |                         |    |
+    +----------------------------+                     |    |                         |    |
+                                                       |    |         LokiJS          |    |
+    +----------------------------+    TCP / JSONRPC    |    | fast in-memory database |    |
+    | go/php/python/C/whatever   |<------------------->|    |                         |    |
+    +----------------------------+                     |    |                         |    |
+                                                       |    |                         |    |
+    +----------------------------+    TCP / Binary     |    +-------------------------+    |
+    |        sloki-cli           |<------------------->|                                   |
+    +----------------------------+                     +-----------------------------------+
 
 ```
-                                         TCP|TLS|HTTP|HTTPS
 
-        +----------------------------+                         +-----------------------------------+
-        |                            |                         |              sloki                |
-        |       NodeJS Daemon        |<----------------------->|                                   |
-        |                            |                         |                                   |
-        +----------------------------+                         |    +-------------------------+    |
-                                                               |    |                         |    |
-        +----------------------------+                         |    |                         |    |
-        |                            |                         |    |                         |    |
-        |       NodeJS Daemon        |<----------------------->|    |         LokiJS          |    |
-        |                            |                         |    | fast in-memory database |    |
-        +----------------------------+                         |    |                         |    |
-                                                               |    |                         |    |
-        +----------------------------+                         |    +-------------------------+    |
-        |                            |                         |                                   |
-        |           CLI              |<----------------------->|                                   |
-        |                            |                         |                                   |
-        +----------------------------+                         +-----------------------------------+
+## Transports
+
+By default, Sloki listens on the following ports:
+
+| Port      | Transport  | TLS  | Protocol         |              
+|:---------:|------------|------|------------------|
+| 6370      | TCP        | NO   | Binary (fastest) |
+| 6371      | TCP        | YES  | Binary (fastest) |
+| 6372      | TCP        | NO   | JSONRPC          |
+| 6373      | TCP        | YES  | JSONRPC          |
+
+
+You will need a [client](#clients) to speak with sloki.
+
+## Protocols
+
+### Binary protocol (default)
+
+The binary protocol has been made with performance in mind. Payloads looks like JSONRPC, but it's not.
 ```
+REQUEST                                     | RESPONSE
+------------------------------------------- | --------------------------------------
+{                                           | {
+    "m":"myMethod",                         |   "r":true,
+    "p":["foo","bar"],                      |   "id":"operation-uniq-id"
+    "id":"operation-uniq-id"                | }
+}                                           |
+```
+* Payload is a little bit more light compared to compliant JSONRPC protocol below (no `jsonrpc` attribute, `method` become `m`, `params` become `p`, `result` become `r`)
+* [Missive](https://github.com/StarryInternet/missive) package is used both server and client side to transform payloads into a binary format. Missive support zlib compression, but it's not used here and it's not recommended because of performance crumble. Missive is based on [fringe](https://github.com/StarryInternet/fringe), an extensible message framing over streams.
+
+### **JSONRPC**
+
+The JSONRPC protocol has been chosen for operability.
+```
+REQUEST                                     | RESPONSE
+------------------------------------------- | --------------------------------------
+{                                           | {
+    "jsonrpc":"2.0",                        |   "jsonrpc":"2.0"
+    "method":"myMethod",                    |   "result":true,
+    "params":["foo","bar"],                 |   "id":"operation-uniq-id"
+    "id":"operation-uniq-id"                | }
+}                                           |
+```
+* Raw and standard JSONRPC over TCP
+* [jayson](https://github.com/tedeh/jayson) package is used server side. Actually only TCP transport is implemented, but HTTP(s) JSON API and websocket API may be implemented in the future.   
 
 -----
 
