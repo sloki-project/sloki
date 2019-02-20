@@ -18,16 +18,16 @@ const defaults = {
     DATABASES_FORCE_SAVE_ON_CREATE:true,
 
     // TCP API enabled by default
-    NET_TCP_PORT:6370,
-    NET_TCP_HOST:'127.0.0.1',
-    NET_TCP_DEBUG:true,
-    NET_TCP_PROMPT:'> ',
-    NET_TCP_EOF:'\r\n',
-    NET_TCP_OUTPUT_FORMAT:'text',  // or json
-    NET_TCP_ENGINE:'binary',
+    TCP_PORT:6370,
+    TCP_HOST:'127.0.0.1',
+    TCP_DEBUG:true,
+    TCP_PROMPT:'> ',
+    TCP_EOF:'\r\n',
+    TCP_OUTPUT_FORMAT:'text',  // or json
+    TCP_ENGINE:'binary',
 
     // limit number of simultaneously connected clients, for basic security reasons
-    NET_TCP_MAX_CLIENTS:64,
+    TCP_MAX_CLIENTS:64,
 
     // HTTP API is disabled by default for moment (not implemented yet)
     NET_HTTP_PORT:null,
@@ -51,22 +51,22 @@ if (argv.help) {
     console.log('===============================================================');
     console.log('Environnement variable          Default                        ');
     console.log(`   SLOKI_DIR                    ${config.DATABASES_DIRECTORY}  `);
-    console.log(`   SLOKI_TCP_ENGINE             ${config.NET_TCP_ENGINE}       `);
-    console.log(`   SLOKI_TCP_PORT               ${config.NET_TCP_PORT}         `);
-    console.log(`   SLOKI_TCP_HOST               ${config.NET_TCP_HOST}         `);
-    console.log(`   SLOKI_TCP_MAX_CLIENTS        ${config.NET_TCP_MAX_CLIENTS}  `);
-    console.log(`   SLOKI_TCP_DEBUG              ${config.NET_TCP_DEBUG}        `);
+    console.log(`   SLOKI_TCP_ENGINE             ${config.TCP_ENGINE}       `);
+    console.log(`   SLOKI_TCP_PORT               ${config.TCP_PORT}         `);
+    console.log(`   SLOKI_TCP_HOST               ${config.TCP_HOST}         `);
+    console.log(`   SLOKI_TCP_MAX_CLIENTS        ${config.TCP_MAX_CLIENTS}  `);
+    console.log(`   SLOKI_TCP_DEBUG              ${config.TCP_DEBUG}        `);
     console.log(`   SLOKI_SHOW_OPS_INTERVAL      ${config.SHOW_OPS_INTERVAL}    `);
     console.log(`   SLOKI_GC_INTERVAL            ${config.GC_INTERVAL}          `);
     console.log(`   SLOKI_MEM_LIMIT              ${config.MEM_LIMIT} Mb         `);
     console.log('---------------------------------------------------------------');
     console.log('Command Line Options            Default                        ');
     console.log(`   --dir                        ${config.DATABASES_DIRECTORY}  `);
-    console.log(`   --tcp-engine                 ${config.NET_TCP_ENGINE}       `);
-    console.log(`   --tcp-port                   ${config.NET_TCP_PORT}         `);
-    console.log(`   --tcp-host                   ${config.NET_TCP_HOST}         `);
-    console.log(`   --tcp-max-clients            ${config.NET_TCP_MAX_CLIENTS}  `);
-    console.log(`   --tcp-debug                  ${config.NET_TCP_DEBUG}        `);
+    console.log(`   --tcp-engine                 ${config.TCP_ENGINE}       `);
+    console.log(`   --tcp-port                   ${config.TCP_PORT}         `);
+    console.log(`   --tcp-host                   ${config.TCP_HOST}         `);
+    console.log(`   --tcp-max-clients            ${config.TCP_MAX_CLIENTS}  `);
+    console.log(`   --tcp-debug                  ${config.TCP_DEBUG}        `);
     console.log(`   --show-ops-interval          ${config.SHOW_OPS_INTERVAL}    `);
     console.log(`   --gc-interval                ${config.GC_INTERVAL}          `);
     console.log(`   --mem-limit                  ${config.MEM_LIMIT} Mb         `);
@@ -86,27 +86,27 @@ if (process.env.SLOKI_DIR) {
 }
 
 if (process.env.SLOKI_TCP_ENGINE) {
-    config.NET_TCP_ENGINE = process.env.SLOKI_TCP_ENGINE;
+    config.TCP_ENGINE = process.env.SLOKI_TCP_ENGINE;
 }
 
 if (process.env.SLOKI_TCP_PORT) {
-    config.NET_TCP_PORT = parseInt(process.env.SLOKI_TCP_PORT);
+    config.TCP_PORT = parseInt(process.env.SLOKI_TCP_PORT);
 }
 
 if (process.env.SLOKI_TCP_IP) {
-    config.NET_TCP_IP = process.env.SLOKI_TCP_IP;
+    config.TCP_IP = process.env.SLOKI_TCP_IP;
 }
 
 if (process.env.SLOKI_TCP_DEBUG) {
     if (process.env.SLOKI_TCP_DEBUG === 'true') {
-        config.NET_TCP_DEBUG = true;
+        config.TCP_DEBUG = true;
     } else {
-        config.NET_TCP_DEBUG = false;
+        config.TCP_DEBUG = false;
     }
 }
 
 if (process.env.SLOKI_TCP_MAX_CLIENTS) {
-    config.NET_TCP_MAX_CLIENTS = parseInt(process.env.SLOKI_TCP_MAX_CLIENTS);
+    config.TCP_MAX_CLIENTS = parseInt(process.env.SLOKI_TCP_MAX_CLIENTS);
 }
 
 if (process.env.SLOKI_SHOW_OPS_INTERVAL) {
@@ -131,19 +131,19 @@ if (argv['dir']) {
 }
 
 if (argv['tcp-engine']) {
-    config.NET_TCP_ENGINE = argv['tcp-engine'];
+    config.TCP_ENGINE = argv['tcp-engine'];
 }
 
 if (argv['tcp-port']) {
-    config.NET_TCP_PORT = parseInt(argv['tcp-port']);
+    config.TCP_PORT = parseInt(argv['tcp-port']);
 }
 
 if (argv['tcp_host']) {
-    config.NET_TCP_HOST = argv['tcp_host'];
+    config.TCP_HOST = argv['tcp_host'];
 }
 
 if (argv['tcp-max-clients']) {
-    config.NET_TCP_MAX_CLIENTS = parseInt(argv['tcp-max-clients']);
+    config.TCP_MAX_CLIENTS = parseInt(argv['tcp-max-clients']);
 }
 
 /*
@@ -172,26 +172,26 @@ if (argv['mem-limit']) {
  * integrity checks
  ********************************/
 
-const ERROR_BAD_NET_TCP_PORT = 'tcp port variable must be > 1 and < 65535';
-const ERROR_BAD_NET_TCP_MAX_CLIENTS = 'maxClients must be > 1 and < 1024';
-const ERROR_BAD_NET_TCP_MAX_CLIENTS_TYPE = 'maxClients should be a number';
+const ERROR_BAD_TCP_PORT = 'tcp port variable must be > 1 and < 65535';
+const ERROR_BAD_TCP_MAX_CLIENTS = 'maxClients must be > 1 and < 1024';
+const ERROR_BAD_TCP_MAX_CLIENTS_TYPE = 'maxClients should be a number';
 const ERROR_BAD_GC_INTERVAL = 'garbage collector should be in millisecond, and > 0';
 const ERROR_BAD_MEM_LIMIT = 'memory limit should be in MegaBytes, and > 0';
 
-if (isNaN(config.NET_TCP_PORT) || config.NET_TCP_PORT<1 || config.NET_TCP_PORT>65534) {
-    throw new Error(ERROR_BAD_NET_TCP_PORT);
+if (isNaN(config.TCP_PORT) || config.TCP_PORT<1 || config.TCP_PORT>65534) {
+    throw new Error(ERROR_BAD_TCP_PORT);
 }
 
-if (isNaN(config.NET_TCP_MAX_CLIENTS) || !config.NET_TCP_MAX_CLIENTS) {
-    throw new Error(ERROR_BAD_NET_TCP_MAX_CLIENTS_TYPE);
+if (isNaN(config.TCP_MAX_CLIENTS) || !config.TCP_MAX_CLIENTS) {
+    throw new Error(ERROR_BAD_TCP_MAX_CLIENTS_TYPE);
 }
 
-if (config.NET_TCP_MAX_CLIENTS<1||config.NET_TCP_MAX_CLIENTS>1024) {
-    throw new Error(ERROR_BAD_NET_TCP_MAX_CLIENTS);
+if (config.TCP_MAX_CLIENTS<1||config.TCP_MAX_CLIENTS>1024) {
+    throw new Error(ERROR_BAD_TCP_MAX_CLIENTS);
 }
 
-if (config.NET_TCP_ENGINE != 'jsonrpc' && config.NET_TCP_ENGINE != 'binary') {
-    throw new Error(`Unknow engine ${config.NET_TCP_ENGINE}`);
+if (config.TCP_ENGINE != 'jsonrpc' && config.TCP_ENGINE != 'binary') {
+    throw new Error(`Unknow engine ${config.TCP_ENGINE}`);
 }
 
 if (isNaN(config.GC_INTERVAL) || !config.GC_INTERVAL) {

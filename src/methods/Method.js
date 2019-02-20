@@ -4,14 +4,14 @@ const config = require('../config');
 
 function triggerError(msg, callback) {
     callback({ code:shared.ERROR_CODE_PARAMETER, message:msg });
-    if (config.NET_TCP_ENGINE!='binary') {
+    if (config.TCP_ENGINE!='binary') {
         log.warn(msg);
     }
 }
 
 function triggerErrorInternal(msg, callback) {
     callback({ code:shared.ERROR_CODE_INTERNAL, message:msg });
-    if (config.NET_TCP_ENGINE!='binary') {
+    if (config.TCP_ENGINE!='binary') {
         log.warn(msg);
     }
 }

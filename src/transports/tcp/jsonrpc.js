@@ -25,7 +25,7 @@ function _onServerListen(err) {
         throw new Error(err);
     }
 
-    log.info(`TCP Server listening at ${config.NET_TCP_HOST}:${config.NET_TCP_PORT} (maxClients ${config.NET_TCP_MAX_CLIENTS}, raw jsonrpc protocol)`);
+    log.info(`TCP Server listening at ${config.TCP_HOST}:${config.TCP_PORT} (maxClients ${config.TCP_MAX_CLIENTS}, raw jsonrpc protocol)`);
 }
 
 function _onServerError(err) {
@@ -37,7 +37,7 @@ function _handleMaxClients(socket) {
     socket.id = `${socket.remoteAddress}:${socket.remotePort}`;
 
     if (_maxClientsReached()) {
-        log.warn(`${socket.id}: refusing connection, number of connection: ${tcpServer._connections-1}, allowed: ${config.NET_TCP_MAX_CLIENTS}`);
+        log.warn(`${socket.id}: refusing connection, number of connection: ${tcpServer._connections-1}, allowed: ${config.TCP_MAX_CLIENTS}`);
 
         // if client is just a tcp connect (prevent kind of slowLoris attack)
         setTimeout(() => {
@@ -76,7 +76,7 @@ function _onConnect(socket) {
 }
 
 function _maxClientsReached() {
-    return tcpServer._connections>config.NET_TCP_MAX_CLIENTS;
+    return tcpServer._connections>config.TCP_MAX_CLIENTS;
 }
 
 function _maxClientsReachedResponse(params, callback) {
@@ -116,7 +116,7 @@ function start(callback) {
     tcpServer.on('listening', _onServerListen);
     tcpServer.on('error', _onServerError);
 
-    tcpServer.listen(config.NET_TCP_PORT, config.NET_TCP_HOST);
+    tcpServer.listen(config.TCP_PORT, config.TCP_HOST);
 
     if (config.SHOW_OPS_INTERVAL) {
         timerShowOperationsCount = setInterval(showOperationsCount, config.SHOW_OPS_INTERVAL);

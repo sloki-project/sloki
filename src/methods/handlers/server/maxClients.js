@@ -17,15 +17,15 @@ const descriptor = {
 
 function handler(params, session, callback) {
     if (!params.value) {
-        callback(null, config.NET_TCP_MAX_CLIENTS);
+        callback(null, config.TCP_MAX_CLIENTS);
         return;
     }
 
     const maxClient = params.value;
 
-    config.NET_TCP_MAX_CLIENTS = parseInt(maxClient);
-    log.info(`${session.id}: TCP maxClients has been set to ${config.NET_TCP_MAX_CLIENTS}`);
-    callback(null, config.NET_TCP_MAX_CLIENTS);
+    config.TCP_MAX_CLIENTS = parseInt(maxClient);
+    log.info(`${session.id}: TCP maxClients has been set to ${config.TCP_MAX_CLIENTS}`);
+    callback(null, config.TCP_MAX_CLIENTS);
 }
 
 module.exports = new Method(descriptor, handler);

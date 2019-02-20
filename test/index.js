@@ -107,29 +107,29 @@ function runTests(engine, done) {
 
 const options = {
     DATABASES_DIRECTORY:path.resolve(homedir+'/.slokitest/dbs'),
-    NET_TCP_PORT:6371,
+    TCP_PORT:6371,
     MEM_LIMIT:62        // in Mb, for travis
 };
 
 async.series([
     (next) => {
         cleanTestDatabases();
-        options.NET_TCP_ENGINE = 'binary';
+        options.TCP_ENGINE = 'binary';
         server.start(options, (err) => {
             if (err) {
                 throw new Error(err);
             }
-            runTests(options.NET_TCP_ENGINE, next);
+            runTests(options.TCP_ENGINE, next);
         });
     },
     (next) => {
         cleanTestDatabases();
-        options.NET_TCP_ENGINE = 'jsonrpc';
+        options.TCP_ENGINE = 'jsonrpc';
         server.start(options, (err) => {
             if (err) {
                 throw new Error(err);
             }
-            runTests(options.NET_TCP_ENGINE, next);
+            runTests(options.TCP_ENGINE, next);
         });
     }
 ], () => {

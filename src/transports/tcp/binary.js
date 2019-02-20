@@ -60,7 +60,7 @@ function _onServerListen(err) {
         throw new Error(err);
     }
 
-    log.info(`TCP Server listening at ${config.NET_TCP_HOST}:${config.NET_TCP_PORT} (maxClients ${config.NET_TCP_MAX_CLIENTS}, binary protocol)`);
+    log.info(`TCP Server listening at ${config.TCP_HOST}:${config.TCP_PORT} (maxClients ${config.TCP_MAX_CLIENTS}, binary protocol)`);
 }
 
 function _onServerError(err) {
@@ -92,8 +92,8 @@ function _onConnect(socket) {
 
     decoder.on('message', data => {
 
-        if (tcpServer._connections>config.NET_TCP_MAX_CLIENTS) {
-            log.warn(`${socket.id}: refusing connection, number of connection: ${tcpServer._connections-1}, allowed: ${config.NET_TCP_MAX_CLIENTS}`);
+        if (tcpServer._connections>config.TCP_MAX_CLIENTS) {
+            log.warn(`${socket.id}: refusing connection, number of connection: ${tcpServer._connections-1}, allowed: ${config.TCP_MAX_CLIENTS}`);
             encoder.write({ id: data.id, error:errors.MAX_CLIENT_REACHED });
             socket.end();
             return;
@@ -135,14 +135,14 @@ function _onConnect(socket) {
 function start(callback) {
 
     tcpServer = net.createServer();
-    tcpServer.maxConnections = config.NET_TCP_MAX_CLIENTS+1;
+    tcpServer.maxConnections = config.TCP_MAX_CLIENTS+1;
     tcpServer.clients = {};
 
     tcpServer.on('connection', _onConnect);
     tcpServer.on('listening', _onServerListen);
     tcpServer.on('error', _onServerError);
 
-    tcpServer.listen(config.NET_TCP_PORT, config.NET_TCP_HOST);
+    tcpServer.listen(config.TCP_PORT, config.TCP_HOST);
 
     if (config.SHOW_OPS_INTERVAL) {
         timerShowOperationsCount = setInterval(showOperationsCount, config.SHOW_OPS_INTERVAL);

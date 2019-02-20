@@ -46,9 +46,9 @@ function start(options, callback) {
 
     config = Object.assign(config, options||{});
 
-    if (config.NET_TCP_ENGINE === 'jsonrpc') {
+    if (config.TCP_ENGINE === 'jsonrpc') {
         tcpServer = tcpJsonRpc;
-    } else if (config.NET_TCP_ENGINE === 'binary') {
+    } else if (config.TCP_ENGINE === 'binary') {
         tcpServer = tcpBinary;
     }
 
@@ -61,8 +61,8 @@ function start(options, callback) {
 
     log.info(
         'server starting ... (%s:%s)',
-        config.NET_TCP_HOST,
-        config.NET_TCP_PORT
+        config.TCP_HOST,
+        config.TCP_PORT
     );
 
     timerMemoryAlert = setInterval(memoryAlert, memoryAlertInterval);
