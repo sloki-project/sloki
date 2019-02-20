@@ -20,7 +20,6 @@ const defaults = {
     // TCP API enabled by default
     TCP_PORT:6370,
     TCP_HOST:'127.0.0.1',
-    TCP_DEBUG:true,
     TCP_PROMPT:'> ',
     TCP_EOF:'\r\n',
     TCP_OUTPUT_FORMAT:'text',  // or json
@@ -55,7 +54,6 @@ if (argv.help) {
     console.log(`   SLOKI_TCP_PORT               ${config.TCP_PORT}         `);
     console.log(`   SLOKI_TCP_HOST               ${config.TCP_HOST}         `);
     console.log(`   SLOKI_TCP_MAX_CLIENTS        ${config.TCP_MAX_CLIENTS}  `);
-    console.log(`   SLOKI_TCP_DEBUG              ${config.TCP_DEBUG}        `);
     console.log(`   SLOKI_SHOW_OPS_INTERVAL      ${config.SHOW_OPS_INTERVAL}    `);
     console.log(`   SLOKI_GC_INTERVAL            ${config.GC_INTERVAL}          `);
     console.log(`   SLOKI_MEM_LIMIT              ${config.MEM_LIMIT} Mb         `);
@@ -66,7 +64,6 @@ if (argv.help) {
     console.log(`   --tcp-port                   ${config.TCP_PORT}         `);
     console.log(`   --tcp-host                   ${config.TCP_HOST}         `);
     console.log(`   --tcp-max-clients            ${config.TCP_MAX_CLIENTS}  `);
-    console.log(`   --tcp-debug                  ${config.TCP_DEBUG}        `);
     console.log(`   --show-ops-interval          ${config.SHOW_OPS_INTERVAL}    `);
     console.log(`   --gc-interval                ${config.GC_INTERVAL}          `);
     console.log(`   --mem-limit                  ${config.MEM_LIMIT} Mb         `);
@@ -95,14 +92,6 @@ if (process.env.SLOKI_TCP_PORT) {
 
 if (process.env.SLOKI_TCP_IP) {
     config.TCP_IP = process.env.SLOKI_TCP_IP;
-}
-
-if (process.env.SLOKI_TCP_DEBUG) {
-    if (process.env.SLOKI_TCP_DEBUG === 'true') {
-        config.TCP_DEBUG = true;
-    } else {
-        config.TCP_DEBUG = false;
-    }
 }
 
 if (process.env.SLOKI_TCP_MAX_CLIENTS) {
