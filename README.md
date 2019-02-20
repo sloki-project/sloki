@@ -10,9 +10,9 @@ A NodeJS Server for [LokiJS](http://lokijs.org/)
 
 -----
 ## Documentation
-1. [Introduction](#1.Introduction)
-2. [Transports](#transports)
-3. [Protocols](#protocols)
+1. [Introduction](#1introduction)
+2. [Transports](#2transports)
+3. [Protocols](#3protocols)
 
 -----
 
