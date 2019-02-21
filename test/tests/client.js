@@ -1,14 +1,14 @@
 const tap = require('../tap');
 const Client = require('sloki-node-client');
 const config = require('../../src/config');
-const endpoint = require('../endpoints').tcp;
+const endpoints = require('../endpoints');
 const path = require('path');
 
-const engine = process.env.SLOKI_TCP_ENGINE||'binary';
+const engine = process.env.SLOKI_SERVER_ENGINE||'tcpbinary';
 
 module.exports = (title, callback) => {
 
-    const tcpClient = new Client(endpoint, { engine });
+    const tcpClient = new Client(endpoints[engine], { engine });
 
     function end() {
         tcpClient.close();

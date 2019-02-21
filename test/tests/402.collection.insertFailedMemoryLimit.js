@@ -19,7 +19,7 @@ require('./client')(__filename, (test, client, end) => {
             test.deepEqual(err, undefined, 'addCollection should not return any error');
             test.deepEqual(typeof result, 'object', 'collection created');
 
-            test.test('insert should hit memory limit (60 Mb for this test) to prevent nodejs crash - out of memory', async subtest  => {
+            test.test('insert should hit memory limit to prevent nodejs crash - out of memory', async subtest  => {
                 const max = 50000000;
                 let reached = 0;
                 let len = 0;

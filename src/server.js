@@ -1,11 +1,11 @@
 const log = require('evillogger')({ ns:'server' });
 const loki = require('./loki');
-const tcpJsonRpc = require('./transports/tcp/jsonrpc');
-const tcpBinary = require('./transports/tcp/binary');
+const tcpBinaryServer = require('./transports/tcp/binary');
+const tcpJsonRpcServer = require('./transports/tcp/jsonrpc');
 const prettyBytes = require('pretty-bytes');
+const async = require('async');
 
 let config = require('./config');
-let tcpServer;
 let closing = false;
 let running = false;
 let timerMemoryAlert;
@@ -36,7 +36,6 @@ function handleSignalSIGINT() {
     stop();
 }
 
-
 function start(options, callback) {
 
     if (typeof options === 'function') {
@@ -44,41 +43,31 @@ function start(options, callback) {
         options = null;
     }
 
-    config = Object.assign(config, options||{});
-
-    if (config.TCP_ENGINE === 'jsonrpc') {
-        tcpServer = tcpJsonRpc;
-    } else if (config.TCP_ENGINE === 'binary') {
-        tcpServer = tcpBinary;
-    }
-
-    loki.initialize();
-
+    // already running !
     if (running) {
-        callback && callback('ERUNNING');
+        if (callback) {
+            callback('ERUNNING');
+        }
         return;
     }
 
-    log.info(
-        'server starting ... (%s:%s)',
-        config.TCP_HOST,
-        config.TCP_PORT
-    );
 
-    timerMemoryAlert = setInterval(memoryAlert, memoryAlertInterval);
+    config = Object.assign(config, options||{});
 
-    tcpServer.start(err => {
-        if (err) {
-            log.error(err);
-            return;
-        }
-        running = true;
-        handleSignals();
-        if (callback) {
-            callback();
+    async.series([
+        tcpBinaryServer.start,
+        tcpJsonRpcServer.start
+    ], (err) => {
+        if (!err) {
+            running = true;
+            handleSignals();
+            loki.initialize();
+            timerMemoryAlert = setInterval(memoryAlert, memoryAlertInterval);
+            if (callback) {
+                callback();
+            }
         }
     });
-
 }
 
 function stop(callback) {
@@ -91,27 +80,25 @@ function stop(callback) {
 
     log.warn('shutdown in progress');
 
-    tcpServer.stop(err => {
-        clearInterval(timerMemoryAlert);
-        log.info('server stopped, exiting');
+    async.series([
+        tcpBinaryServer.stop,
+        tcpJsonRpcServer.stop
+    ], (err) => {
+        log.warn('bye');
         running = false;
+        clearInterval(timerMemoryAlert);
         if (callback) {
             callback(err);
-            return;
         }
-        process.exit(err ? 1 : 0);
+        process.exit();
     });
 }
 
 function dumpMemory(level, prefix, mem) {
     log[level](
-        //'%s (rss=%s, heapTotal=%s, heapUsed=%s, external=%s, allowed %s)',
         '%s rss=%s, allowed %s',
         prefix,
         prettyBytes(mem.rss),
-        //prettyBytes(mem.heapTotal),
-        //prettyBytes(mem.heapUsed),
-        //prettyBytes(mem.external),
         memLimitBytesHuman(),
     );
 }

@@ -3,5 +3,5 @@ const config = require('../config');
 console.log('Usage: sloki-cli <url>');
 console.log();
 console.log('Examples:');
-console.log(`   sloki-cli tcp://localhost:${config.TCP_PORT}`);
-console.log(`   sloki-cli tls://localhost:${config.TCP_PORT}`);
+console.log(`   sloki-cli tcp://localhost:${config.TCP_BINARY_PORT}`);
+console.log(`   sloki-cli tls://localhost:${config.TCP_BINARY_PORT}`);

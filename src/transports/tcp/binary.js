@@ -1,10 +1,9 @@
-const log = require('evillogger')({ ns:'transports:binary' });
+const log = require('evillogger')({ ns:'tcpbinary' });
 const config = require('../../config');
 const methods = require('../../methods/');
 const shared = require('../../methods/shared');
 const net = require('net');
 const missive = require('missive');
-const prettyBytes = require('pretty-bytes');
 
 const errors = {
     MAX_CLIENT_REACHED:{
@@ -19,11 +18,13 @@ const errors = {
 
 const ZLIB = false;
 
-let tcpServer;
+let server;
 let operationsCount = 0;
 let timerShowOperationsCount;
 
 function rpcIn(task) {
+
+    task.socket.engine = 'tcpbinary';
 
     methods.exec(task.data.m, task.data.p, task.socket, (err, result) => {
 
@@ -54,15 +55,6 @@ function rpcIn(task) {
     });
 }
 
-function _onServerListen(err) {
-    if (err) {
-        log.error(err);
-        throw new Error(err);
-    }
-
-    log.info(`TCP Server listening at ${config.TCP_HOST}:${config.TCP_PORT} (maxClients ${config.TCP_MAX_CLIENTS}, binary protocol)`);
-}
-
 function _onServerError(err) {
     log.error(err);
 }
@@ -76,13 +68,13 @@ function _onConnect(socket) {
 
     socket.on('end', () => {
         log.info(`${socket.id}: client disconnected`);
-        tcpServer.clients[socket.id].socket.destroy();
-        delete tcpServer.clients[socket.id];
+        server.clients[socket.id].socket.destroy();
+        delete server.clients[socket.id];
     });
 
     socket.on('error', err => {
         log.error(`${socket.id}: ${err.message}`);
-        delete tcpServer.clients[socket.id];
+        delete server.clients[socket.id];
     });
 
     log.info(`${socket.id}: client connected`);
@@ -92,8 +84,8 @@ function _onConnect(socket) {
 
     decoder.on('message', data => {
 
-        if (tcpServer._connections>config.TCP_MAX_CLIENTS) {
-            log.warn(`${socket.id}: refusing connection, number of connection: ${tcpServer._connections-1}, allowed: ${config.TCP_MAX_CLIENTS}`);
+        if (server._connections>config.TCP_BINARY_MAX_CLIENTS) {
+            log.warn(`${socket.id}: refusing connection, number of connection: ${server._connections-1}, allowed: ${config.TCP_BINARY_MAX_CLIENTS}`);
             encoder.write({ id: data.id, error:errors.MAX_CLIENT_REACHED });
             socket.end();
             return;
@@ -117,7 +109,6 @@ function _onConnect(socket) {
 
         config.SHOW_OPS_INTERVAL && operationsCount++;
 
-        //q.push({ data, socket, encoder });
         rpcIn({ data, socket, encoder });
     });
 
@@ -128,38 +119,47 @@ function _onConnect(socket) {
     socket.pipe(decoder);
     encoder.pipe(socket);
 
-    tcpServer.clients[socket.id] = { socket, encoder };
+    server.clients[socket.id] = { socket, encoder };
 
 }
 
 function start(callback) {
 
-    tcpServer = net.createServer();
-    tcpServer.maxConnections = config.TCP_MAX_CLIENTS+1;
-    tcpServer.clients = {};
+    if (!config.TCP_BINARY_ENABLE) {
+        callback();
+        return;
+    }
 
-    tcpServer.on('connection', _onConnect);
-    tcpServer.on('listening', _onServerListen);
-    tcpServer.on('error', _onServerError);
+    log.info(`TCP Binary Server starting ... (${config.TCP_BINARY_HOST}:${config.TCP_BINARY_PORT})`);
 
-    tcpServer.listen(config.TCP_PORT, config.TCP_HOST);
+    function _onServerListen(err) {
+
+        if (err) {
+            log.error(err);
+            throw new Error(err);
+        }
+
+        log.info(`TCP Binary Server started (maxClients ${config.TCP_BINARY_MAX_CLIENTS})`);
+        callback();
+    }
+
+    server = net.createServer();
+    server.clients = {};
+
+    server.on('connection', _onConnect);
+    server.on('listening', _onServerListen);
+    server.on('error', _onServerError);
+
+    server.listen(config.TCP_BINARY_PORT, config.TCP_BINARY_HOST);
 
     if (config.SHOW_OPS_INTERVAL) {
         timerShowOperationsCount = setInterval(showOperationsCount, config.SHOW_OPS_INTERVAL);
     }
 
-    if (callback) {
-        callback();
-    }
 }
 
 function showOperationsCount() {
-    log.info(
-        '%s ops/sec %s/%s',
-        Math.round((operationsCount*1000)/config.SHOW_OPS_INTERVAL),
-        prettyBytes(process.memoryUsage().heapTotal),
-        prettyBytes(config.MEM_LIMIT*1024*1024)
-    );
+    log.info(Math.round((operationsCount*1000)/config.SHOW_OPS_INTERVAL), 'ops/sec');
     operationsCount = 0;
 }
 
@@ -167,27 +167,25 @@ function stop(callback) {
     let closed = 0;
     try {
         let id;
-        for (id in tcpServer.clients) {
-            tcpServer.clients[id].encoder.write(JSON.stringify({ error:errors.SERVER_SHUTDOWN }));
-            tcpServer.clients[id].socket.end();
-            tcpServer.clients[id].socket.destroy();
+        for (id in server.clients) {
+            server.clients[id].encoder.write(JSON.stringify({ error:errors.SERVER_SHUTDOWN }));
+            server.clients[id].socket.end();
+            server.clients[id].socket.destroy();
             log.warn(`stop: ${id}: force disconnection`);
             closed++;
-            delete tcpServer.clients[id];
+            delete server.clients[id];
         }
     } catch(e) {
         log.error(e);
     }
 
     if (closed) {
-        log.warn(`stop: ${closed} client(s) has been closed`);
-    } else {
-        log.warn('stop: no client was connected');
+        log.warn(`${closed} client(s) has been closed`);
     }
 
-    log.warn('stop: closing TCP server');
+    log.warn('closing server');
 
-    tcpServer.close(err => {
+    server.close(err => {
         if (err) {
             log.error(err);
         }

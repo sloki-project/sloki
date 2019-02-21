@@ -1,4 +1,4 @@
-const log = require('evillogger')({ ns:'transports:jsonrpc' });
+const log = require('evillogger')({ ns:'tcpjsonrpc' });
 const config = require('../../config');
 const jayson = require('jayson');
 const methods = require('../../methods/');
@@ -15,18 +15,9 @@ const errors = {
 };
 
 let jaysonServer;
-let tcpServer;
+let server;
 let operationsCount = 0;
 let timerShowOperationsCount;
-
-function _onServerListen(err) {
-    if (err) {
-        log.error(err);
-        throw new Error(err);
-    }
-
-    log.info(`TCP Server listening at ${config.TCP_HOST}:${config.TCP_PORT} (maxClients ${config.TCP_MAX_CLIENTS}, raw jsonrpc protocol)`);
-}
 
 function _onServerError(err) {
     log.error(err);
@@ -37,7 +28,7 @@ function _handleMaxClients(socket) {
     socket.id = `${socket.remoteAddress}:${socket.remotePort}`;
 
     if (_maxClientsReached()) {
-        log.warn(`${socket.id}: refusing connection, number of connection: ${tcpServer._connections-1}, allowed: ${config.TCP_MAX_CLIENTS}`);
+        log.warn(`${socket.id}: refusing connection, number of connection: ${server._connections-1}, allowed: ${config.TCP_JSONRPC_MAX_CLIENTS}`);
 
         // if client is just a tcp connect (prevent kind of slowLoris attack)
         setTimeout(() => {
@@ -48,16 +39,16 @@ function _handleMaxClients(socket) {
 
     socket.on('end', () => {
         log.info(`${socket.id}: client disconnected`);
-        tcpServer.clients[socket.id].destroy();
-        delete tcpServer.clients[socket.id];
+        server.clients[socket.id].destroy();
+        delete server.clients[socket.id];
     });
 
     socket.on('error', err => {
         log.error(`${socket.id}: ${err.message}`);
-        delete tcpServer.clients[socket.id];
+        delete server.clients[socket.id];
     });
 
-    tcpServer.clients[socket.id] = socket;
+    server.clients[socket.id] = socket;
     log.info(`${socket.id}: client connected`);
     return true;
 }
@@ -76,7 +67,7 @@ function _onConnect(socket) {
 }
 
 function _maxClientsReached() {
-    return tcpServer._connections>config.TCP_MAX_CLIENTS;
+    return server._connections>config.TCP_JSONRPC_MAX_CLIENTS;
 }
 
 function _maxClientsReachedResponse(params, callback) {
@@ -101,63 +92,76 @@ function router(method, params, socket) {
     }
 
     config.SHOW_OPS_INTERVAL && operationsCount++;
+
+    socket.engine = 'tcpjsonrpc';
     return methods.getHandler(method, params, socket);
 }
 
 
 function start(callback) {
 
+    if (!config.TCP_JSONRPC_ENABLE) {
+        callback();
+        return;
+    }
+
+    log.info(`TCP JSONRPC Server starting ... (${config.TCP_JSONRPC_HOST}:${config.TCP_JSONRPC_PORT})`);
+
+    function _onServerListen(err) {
+        if (err) {
+            log.error(err);
+            throw new Error(err);
+        }
+
+        log.info(`TCP JSONRPC Server started (maxClients ${config.TCP_JSONRPC_MAX_CLIENTS})`);
+        callback();
+    }
+
     jaysonServer = jayson.server(null, { routerTcp:router });
 
-    tcpServer = jaysonServer.tcp();
-    tcpServer.clients = {};
+    server = jaysonServer.tcp();
+    server.clients = {};
 
-    tcpServer.on('connection', _onConnect);
-    tcpServer.on('listening', _onServerListen);
-    tcpServer.on('error', _onServerError);
+    server.on('connection', _onConnect);
+    server.on('listening', _onServerListen);
+    server.on('error', _onServerError);
 
-    tcpServer.listen(config.TCP_PORT, config.TCP_HOST);
+    server.listen(config.TCP_JSONRPC_PORT, config.TCP_JSONRPC_HOST);
 
     if (config.SHOW_OPS_INTERVAL) {
         timerShowOperationsCount = setInterval(showOperationsCount, config.SHOW_OPS_INTERVAL);
     }
-
-    callback && callback();
 }
 
 function showOperationsCount() {
-    log.info('%s ops/sec', Math.round((operationsCount*1000)/config.SHOW_OPS_INTERVAL));
+    log.info(Math.round((operationsCount*1000)/config.SHOW_OPS_INTERVAL), 'ops/sec');
     operationsCount = 0;
 }
 
 function stop(callback) {
     let id;
     let closed = 0;
-    for (id in tcpServer.clients) {
-        tcpServer.clients[id].write(JSON.stringify(errors.SERVER_SHUTDOWN));
-        tcpServer.clients[id].end();
-        tcpServer.clients[id].destroy();
+    for (id in server.clients) {
+        server.clients[id].write(JSON.stringify(errors.SERVER_SHUTDOWN));
+        server.clients[id].end();
+        server.clients[id].destroy();
         log.warn(`stop: ${id}: force disconnection`);
         closed++;
-        delete tcpServer.clients[id];
+        delete server.clients[id];
     }
 
     if (closed) {
-        log.warn(`stop: ${closed} client(s) has been closed`);
-    } else {
-        log.warn('stop: no client was connected');
+        log.warn(`${closed} client(s) has been closed`);
     }
 
-    log.warn('stop: closing TCP server');
+    log.warn('closing server');
 
-    tcpServer.close(err => {
+    server.close(err => {
         if (err) {
             log.error(err);
         }
         config.SHOW_OPS_INTERVAL && clearInterval(timerShowOperationsCount);
-        if (callback) {
-            callback();
-        }
+        callback();
     });
 
 }

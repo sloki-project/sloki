@@ -78,7 +78,7 @@ function runTests(engine, done) {
             }
             args.push(test);
 
-            process.env.SLOKI_TCP_ENGINE = engine;
+            process.env.SLOKI_SERVER_ENGINE = engine;
 
             const opts = {
                 stdio:'inherit',
@@ -99,39 +99,37 @@ function runTests(engine, done) {
                 process.exit(255);
             });
         },
-        () => {
-            server.stop(done);
-        }
+        done
     );
 }
 
 const options = {
     DATABASES_DIRECTORY:path.resolve(homedir+'/.slokitest/dbs'),
-    TCP_PORT:6371,
-    MEM_LIMIT:62        // in Mb, for travis
+    MEM_LIMIT:36        // in Mb
 };
 
-async.series([
-    (next) => {
-        cleanTestDatabases();
-        options.TCP_ENGINE = 'binary';
-        server.start(options, (err) => {
-            if (err) {
-                throw new Error(err);
-            }
-            runTests(options.TCP_ENGINE, next);
-        });
-    },
-    (next) => {
-        cleanTestDatabases();
-        options.TCP_ENGINE = 'jsonrpc';
-        server.start(options, (err) => {
-            if (err) {
-                throw new Error(err);
-            }
-            runTests(options.TCP_ENGINE, next);
-        });
+if (process.env.TRAVIS) {
+    options.MEM_LIMIT = 62;
+}
+
+server.start(options, (err) => {
+    if (err) {
+        throw new Error(err);
     }
-], () => {
-    process.exit();
+
+    async.series([
+        (next) => {
+            cleanTestDatabases();
+            runTests('tcpbinary', next);
+        },
+        (next) => {
+            cleanTestDatabases();
+            runTests('tcpjsonrpc', next);
+        },
+        (next) => {
+            server.stop(next);
+        }
+    ], () => {
+        process.exit();
+    });
 });
