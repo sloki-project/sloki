@@ -1,8 +1,8 @@
 const log = require('evillogger')({ ns:'server' });
 const path = require('path');
 const loki = require('./loki');
-const tcpBinaryServer = require('./transports/tcp/binary');
-const tcpJsonRpcServer = require('./transports/tcp/jsonrpc');
+const binaryServer = require('./protocols/binary');
+const jsonRpcServer = require('./protocols/jsonrpc');
 const prettyBytes = require('pretty-bytes');
 const async = require('async');
 const ssl = require('./ssl');
@@ -59,8 +59,8 @@ function start(options, callback) {
 
     async.series([
         ssl.check,
-        tcpBinaryServer.start,
-        tcpJsonRpcServer.start
+        binaryServer.start,
+        jsonRpcServer.start
     ], (err) => {
         if (!err) {
             running = true;
@@ -85,8 +85,8 @@ function stop(callback) {
     log.warn('shutdown in progress');
 
     async.series([
-        tcpBinaryServer.stop,
-        tcpJsonRpcServer.stop
+        binaryServer.stop,
+        jsonRpcServer.stop
     ], (err) => {
         log.warn('bye');
         running = false;
