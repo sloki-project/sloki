@@ -9,21 +9,21 @@ const shared = require('./methods/shared');
 
 function initialize() {
 
-    if (!fs.pathExistsSync(config.SLOKI_DIR)) {
-        fs.ensureDirSync(config.SLOKI_DIR);
-        log.info('Directory %s created', config.SLOKI_DIR);
+    if (!fs.pathExistsSync(config.SLOKI_DIR_DBS)) {
+        fs.ensureDirSync(config.SLOKI_DIR_DBS);
+        log.info('Directory %s created', config.SLOKI_DIR_DBS);
     }
 
     let dbName;
     let file;
 
-    for (file of klawSync(config.SLOKI_DIR)) {
+    for (file of klawSync(config.SLOKI_DIR_DBS)) {
         dbName = path.basename(file.path).replace(/\.json/, '');
         log.info(`Loading database ${file.path}`);
         shared.dbs[dbName] = new loki(file.path, shared.DEFAULT_DATABASE_OPTIONS);
     }
 
-    const dbTestFile = path.resolve(config.SLOKI_DIR+'/test.json');
+    const dbTestFile = path.resolve(config.SLOKI_DIR_DBS+'/test.json');
 
     if (!shared.dbs['test']) {
         shared.dbs['test'] = new loki(dbTestFile, shared.DEFAULT_DATABASE_OPTIONS);

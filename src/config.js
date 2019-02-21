@@ -12,7 +12,7 @@ const defaults = {
     MEM_LIMIT_REACHED:false,
 
     // default database dir is in the home of the user
-    SLOKI_DIR:path.resolve(homedir+'/.sloki/dbs'),
+    SLOKI_DIR:path.resolve(homedir+'/.sloki'),
     DATABASES_AUTOSAVE_INTERVAL:1000*60,
     DATABASES_FORCE_SAVE_ON_CREATE:true,
 
@@ -185,6 +185,7 @@ for (const t of transports) {
 // others
 
 c.SLOKI_DIR = path.resolve(c.SLOKI_DIR);
+c.SLOKI_DIR_DBS = path.resolve(c.SLOKI_DIR+'/dbs');
 
 if (isNaN(c.GC_INTERVAL) || !c.GC_INTERVAL) {
     exitError('SLOKI_GC_INTERVAL or --gc-interval value should be a number (milliseconds)');

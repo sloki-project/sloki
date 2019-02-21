@@ -83,7 +83,7 @@ function getDatabase(databaseName, callback) {
 
 function createDatabase(databaseName, databaseOptions, callback) {
 
-    const dbPath = path.resolve(config.SLOKI_DIR+`/${databaseName}.json`);
+    const dbPath = path.resolve(config.SLOKI_DIR_DBS+`/${databaseName}.json`);
     const options = Object.assign(DEFAULT_DATABASE_OPTIONS, databaseOptions||{});
 
     options.autoloadCallback = () => {
