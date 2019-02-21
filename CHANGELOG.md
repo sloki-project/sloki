@@ -7,6 +7,7 @@
 * add alias property for all methods [#21](https://github.com/sloki-project/sloki/issues/21)
 * add binary tcp protocol [#22](https://github.com/sloki-project/sloki/issues/22)
 * add manual garbage collector [#23](https://github.com/sloki-project/sloki/issues/23) [#24](https://github.com/sloki-project/sloki/issues/24)
+* TLS: generate self signed certificate when sloki start [#26](https://github.com/sloki-project/sloki/issues/26)
 
 ### Changed
 * switch to named parameter in jsonrpc layer [#20](https://github.com/sloki-project/sloki/issues/20)

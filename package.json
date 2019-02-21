@@ -35,7 +35,8 @@
     "klaw-sync": "6.0.0",
     "lokijs": "franck34/LokiJS",
     "missive": "3.0.1",
-    "pretty-bytes": "5.1.0"
+    "pretty-bytes": "5.1.0",
+    "selfsigned": "1.10.4"
   },
   "devDependencies": {
     "eslint": "5.13.0",
