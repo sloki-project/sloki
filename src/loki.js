@@ -11,7 +11,7 @@ function initialize() {
 
     if (!fs.pathExistsSync(config.SLOKI_DIR_DBS)) {
         fs.ensureDirSync(config.SLOKI_DIR_DBS);
-        log.info(`Directory ${config.SLOKI_DIR_DBS} created`);
+        log.info(`directory ${config.SLOKI_DIR_DBS} created`);
     }
 
     let dbName;
@@ -19,7 +19,7 @@ function initialize() {
 
     for (file of klawSync(config.SLOKI_DIR_DBS)) {
         dbName = path.basename(file.path).replace(/\.json/, '');
-        log.info(`Loading database ${file.path}`);
+        log.info(`loading database ${file.path}`);
         shared.dbs[dbName] = new loki(file.path, shared.DEFAULT_DATABASE_OPTIONS);
     }
 
