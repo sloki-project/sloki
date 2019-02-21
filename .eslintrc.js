@@ -10,6 +10,7 @@ module.exports = {
     "sourceType": "module"
   },
   "rules": {
+    "linebreak-style":2,
     "comma-dangle": ["error", "only-multiline"],
     "comma-spacing": ["error", { "before": false, "after": true }],
     "eol-last": ["error", "always"],
