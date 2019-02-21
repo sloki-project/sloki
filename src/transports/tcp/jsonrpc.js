@@ -97,6 +97,10 @@ function router(method, params, socket) {
     return methods.getHandler(method, params, socket);
 }
 
+function showOperationsCount() {
+    log.info(Math.round((operationsCount*1000)/config.SHOW_OPS_INTERVAL), 'ops/sec');
+    operationsCount = 0;
+}
 
 function start(callback) {
 
@@ -131,11 +135,6 @@ function start(callback) {
     if (config.SHOW_OPS_INTERVAL) {
         timerShowOperationsCount = setInterval(showOperationsCount, config.SHOW_OPS_INTERVAL);
     }
-}
-
-function showOperationsCount() {
-    log.info(Math.round((operationsCount*1000)/config.SHOW_OPS_INTERVAL), 'ops/sec');
-    operationsCount = 0;
 }
 
 function stop(callback) {

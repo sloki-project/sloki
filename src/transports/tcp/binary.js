@@ -123,6 +123,11 @@ function _onConnect(socket) {
 
 }
 
+function showOperationsCount() {
+    log.info(Math.round((operationsCount*1000)/config.SHOW_OPS_INTERVAL), 'ops/sec');
+    operationsCount = 0;
+}
+
 function start(callback) {
 
     if (!config.TCP_BINARY_ENABLE) {
@@ -156,11 +161,6 @@ function start(callback) {
         timerShowOperationsCount = setInterval(showOperationsCount, config.SHOW_OPS_INTERVAL);
     }
 
-}
-
-function showOperationsCount() {
-    log.info(Math.round((operationsCount*1000)/config.SHOW_OPS_INTERVAL), 'ops/sec');
-    operationsCount = 0;
 }
 
 function stop(callback) {
