@@ -12,7 +12,7 @@ const defaults = {
     MEM_LIMIT_REACHED:false,
 
     // default database dir is in the home of the user
-    DATABASES_DIRECTORY:path.resolve(homedir+'/.sloki/dbs'),
+    SLOKI_DIR:path.resolve(homedir+'/.sloki/dbs'),
     DATABASES_AUTOSAVE_INTERVAL:1000*60,
     DATABASES_FORCE_SAVE_ON_CREATE:true,
 
@@ -72,7 +72,7 @@ if (argv.help) {
     console.log(`   SLOKI_TLS_JSONRPC_PORT          ${c.TLS_JSONRPC_PORT}               `);
     console.log(`   SLOKI_TLS_JSONRPC_HOST          ${c.TLS_JSONRPC_HOST}               `);
     console.log(`   SLOKI_TLS_JSONRPC_MAX_CLIENTS   ${c.TLS_JSONRPC_MAX_CLIENTS}        `);
-    console.log(`   SLOKI_DIR                       ${c.DATABASES_DIRECTORY}            `);
+    console.log(`   SLOKI_DIR                       ${c.SLOKI_DIR}                      `);
     console.log(`   SLOKI_SHOW_OPS_INTERVAL         ${c.SHOW_OPS_INTERVAL}              `);
     console.log(`   SLOKI_GC_INTERVAL               ${c.GC_INTERVAL}                    `);
     console.log(`   SLOKI_MEM_LIMIT                 ${c.MEM_LIMIT} Mb                   `);
@@ -94,7 +94,7 @@ if (argv.help) {
     console.log(`   --tls-jsonrpc-port              ${c.TLS_JSONRPC_PORT}               `);
     console.log(`   --tls-jsonrpc-host              ${c.TLS_JSONRPC_HOST}               `);
     console.log(`   --tls-jsonrpc-max-clients       ${c.TLS_JSONRPC_MAX_CLIENTS}        `);
-    console.log(`   --dir                           ${c.DATABASES_DIRECTORY}            `);
+    console.log(`   --dir                           ${c.SLOKI_DIR}                      `);
     console.log(`   --show-ops-interval             ${c.SHOW_OPS_INTERVAL}              `);
     console.log(`   --gc-interval                   ${c.GC_INTERVAL}                    `);
     console.log(`   --mem-limit                     ${c.MEM_LIMIT} Mb                   `);
@@ -124,7 +124,7 @@ for (const t of transports) {
     }
 }
 
-c.DATABASES_DIRECTORY = process.env.SLOKI_DIR || argv['dir'] || c.DATABASES_DIRECTORY;
+c.SLOKI_DIR = process.env.SLOKI_DIR || argv['dir'] || c.SLOKI_DIR;
 c.SHOW_OPS_INTERVAL = process.env.SLOKI_SHOW_OPS_INTERVAL || argv['show-ops-interval'] || c.SHOW_OPS_INTERVAL;
 c.GC_INTERVAL = process.env.SLOKI_GC_INTERVAL || argv['gc-interval'] || c.GC_INTERVAL;
 c.MEM_LIMIT = process.env.SLOKI_MEM_LIMIT || argv['mem-limit'] || c.MEM_LIMIT;
@@ -184,7 +184,7 @@ for (const t of transports) {
 
 // others
 
-c.DATABASES_DIRECTORY = path.resolve(c.DATABASES_DIRECTORY);
+c.SLOKI_DIR = path.resolve(c.SLOKI_DIR);
 
 if (isNaN(c.GC_INTERVAL) || !c.GC_INTERVAL) {
     exitError('SLOKI_GC_INTERVAL or --gc-interval value should be a number (milliseconds)');

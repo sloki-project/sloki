@@ -31,12 +31,12 @@ function prepareTests() {
 }
 
 function cleanTestDatabases() {
-    if (!fs.pathExistsSync(config.DATABASES_DIRECTORY)) {
+    if (!fs.pathExistsSync(config.SLOKI_DIR)) {
         return;
     }
 
     let file;
-    for (file of klawSync(config.DATABASES_DIRECTORY, { depthLimit:0 })) {
+    for (file of klawSync(config.SLOKI_DIR, { depthLimit:0 })) {
         if (path.basename(file.path).match(/\_\_/)) {
             console.log('removing', file.path);
             fs.removeSync(file.path);
@@ -104,7 +104,7 @@ function runTests(engine, done) {
 }
 
 const options = {
-    DATABASES_DIRECTORY:path.resolve(homedir+'/.slokitest/dbs'),
+    SLOKI_DIR:path.resolve(homedir+'/.slokitest/dbs'),
     MEM_LIMIT:36        // in Mb
 };
 
