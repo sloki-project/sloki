@@ -105,7 +105,7 @@ function start(callback) {
         return;
     }
 
-    log.info(`TCP JSONRPC Server starting ... (${config.TCP_JSONRPC_HOST}:${config.TCP_JSONRPC_PORT})`);
+    log.info(`TCP JSONRPC server starting ... (${config.TCP_JSONRPC_HOST}:${config.TCP_JSONRPC_PORT})`);
 
     function _onServerListen(err) {
         if (err) {
@@ -113,7 +113,7 @@ function start(callback) {
             throw new Error(err);
         }
 
-        log.info(`TCP JSONRPC Server started (maxClients ${config.TCP_JSONRPC_MAX_CLIENTS})`);
+        log.info(`TCP JSONRPC server started (maxClients ${config.TCP_JSONRPC_MAX_CLIENTS})`);
         callback();
     }
 

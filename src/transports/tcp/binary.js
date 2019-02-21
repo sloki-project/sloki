@@ -130,7 +130,7 @@ function start(callback) {
         return;
     }
 
-    log.info(`TCP Binary Server starting ... (${config.TCP_BINARY_HOST}:${config.TCP_BINARY_PORT})`);
+    log.info(`TCP binary server starting ... (${config.TCP_BINARY_HOST}:${config.TCP_BINARY_PORT})`);
 
     function _onServerListen(err) {
 
@@ -139,7 +139,7 @@ function start(callback) {
             throw new Error(err);
         }
 
-        log.info(`TCP Binary Server started (maxClients ${config.TCP_BINARY_MAX_CLIENTS})`);
+        log.info(`TCP binary server started (maxClients ${config.TCP_BINARY_MAX_CLIENTS})`);
         callback();
     }
 
