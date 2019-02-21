@@ -1,9 +1,11 @@
 const log = require('evillogger')({ ns:'server' });
+const path = require('path');
 const loki = require('./loki');
 const tcpBinaryServer = require('./transports/tcp/binary');
 const tcpJsonRpcServer = require('./transports/tcp/jsonrpc');
 const prettyBytes = require('pretty-bytes');
 const async = require('async');
+const ssl = require('./ssl');
 
 let config = require('./config');
 let closing = false;
@@ -53,8 +55,10 @@ function start(options, callback) {
 
 
     config = Object.assign(config, options||{});
+    config.SLOKI_DIR_DBS = path.resolve(config.SLOKI_DIR+'/dbs');
 
     async.series([
+        ssl.check,
         tcpBinaryServer.start,
         tcpJsonRpcServer.start
     ], (err) => {
