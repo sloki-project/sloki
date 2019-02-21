@@ -10,7 +10,7 @@
 
 ### Changed
 * switch to named parameter in jsonrpc layer [#20](https://github.com/sloki-project/sloki/issues/20)
-* no response needed with jsonrpc id = -1
+* no response needed if attribute "nr" exists in params (lazy mode)
 * listen on multiple port per transport/protocol by default [#25](https://github.com/sloki-project/sloki/issues/25)
 
 
