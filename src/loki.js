@@ -11,7 +11,7 @@ function initialize() {
 
     if (!fs.pathExistsSync(config.SLOKI_DIR_DBS)) {
         fs.ensureDirSync(config.SLOKI_DIR_DBS);
-        log.info('Directory %s created', config.SLOKI_DIR_DBS);
+        log.info(`Directory ${config.SLOKI_DIR_DBS} created`);
     }
 
     let dbName;
