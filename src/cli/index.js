@@ -9,12 +9,11 @@ if (!argv._[0]) {
 
 const client = new Client(argv._[0]);
 
-client
-    .connect()
-    .then(() => {
+try {
+    (async function() {
+        await client.connect();
         run(client);
-    });
-
-client.on('error', err => {
-    throw Error(err);
-});
+    })();
+} catch(e) {
+    throw e;
+}
