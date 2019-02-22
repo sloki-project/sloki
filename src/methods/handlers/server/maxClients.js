@@ -23,7 +23,7 @@ function handler(params, context, callback) {
     const maxClients = params.value;
 
     context.server.setMaxClients(maxClients);
-    log.info(`${context.session.id}: maxClients has been set to ${maxClients} in engine ${context.server.engine}`);
+    log.info(`${context.session.id}: maxClients has been set to ${maxClients} for protocol ${context.server.protocol}`);
     callback(null, maxClients);
 }
 

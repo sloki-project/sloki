@@ -116,19 +116,19 @@ server.start(options, (err) => {
     async.series([
         (next) => {
             cleanTestDatabases();
-            runTests('tcpbinary', next);
+            runTests('binary', next);
         },
         (next) => {
             cleanTestDatabases();
-            runTests('tlsbinary', next);
+            runTests('binarys', next);
         },
         (next) => {
             cleanTestDatabases();
-            runTests('tcpjsonrpc', next);
+            runTests('jsonrpc', next);
         },
         (next) => {
             cleanTestDatabases();
-            runTests('tlsjsonrpc', next);
+            runTests('jsonrpcs', next);
         },
         (next) => {
             server.stop(next);

@@ -43,7 +43,7 @@ const defaults = {
 const c = Object.assign({}, defaults);
 
 const transports = ['TCP', 'TLS'];
-const engines = ['BINARY', 'JSONRPC'];
+const protocols = ['BINARY', 'JSONRPC'];
 const opts = ['ENABLE', 'PORT', 'HOST', 'MAX_CLIENTS'];
 
 /*******************************************
@@ -111,7 +111,7 @@ if (argv.help) {
  ***********************************************************************/
 
 for (const t of transports) {
-    for (const e of engines) {
+    for (const e of protocols) {
         for (const o of opts) {
             const v = `${t}_${e}_${o}`;
             const l = v.toLowerCase().replace(/\_/g, '-');
@@ -141,7 +141,7 @@ function exitError(msg) {
 // check enable/disable transport/protocol
 
 for (const t of transports) {
-    for (const e of engines) {
+    for (const e of protocols) {
         const v = `${t}_${e}_ENABLE`;
         const o = '--'+v.toLowerCase().replace(/\_/g, '-');
         if (c[v] === 'true') c[v] = true;
@@ -157,7 +157,7 @@ for (const t of transports) {
 const maxPort = 65534;
 
 for (const t of transports) {
-    for (const e of engines) {
+    for (const e of protocols) {
         const v = `${t}_${e}_PORT`;
         const o = '--'+v.toLowerCase().replace(/\_/g, '-');
         c[v] = parseInt(c[v]);
@@ -172,7 +172,7 @@ for (const t of transports) {
 const maxClients = 1024;
 
 for (const t of transports) {
-    for (const e of engines) {
+    for (const e of protocols) {
         const v = `${t}_${e}_MAX_CLIENTS`;
         const o = '--'+v.toLowerCase().replace(/\_/g, '-');
         c[v] = parseInt(c[v]);
@@ -195,23 +195,27 @@ if (isNaN(c.MEM_LIMIT) || !c.MEM_LIMIT) {
     exitError('SLOKI_MEM_LIMIT or --mem-limit value should be in MegaBytes, and > 0');
 }
 
-c.getMaxClients = function(engine) {
-    switch (engine) {
-    case 'tcpbinary': return c.TCP_BINARY_MAX_CLIENTS;
-    case 'tlsbinary': return c.TLS_BINARY_MAX_CLIENTS;
-    case 'tcpjsonrpc': return c.TCP_JSONRPC_MAX_CLIENTS;
-    case 'tlsjsonrpc': return c.TLS_JSONRPC_MAX_CLIENTS;
-    default:throw new Error(`unknow engine '${engine}'`);
+c.getMaxClients = function(protocol) {
+    switch (protocol) {
+    case 'tcp': return c.TCP_BINARY_MAX_CLIENTS;
+    case 'tls': return c.TLS_BINARY_MAX_CLIENTS;
+    case 'binary': return c.TCP_BINARY_MAX_CLIENTS;
+    case 'binarys': return c.TLS_BINARY_MAX_CLIENTS;
+    case 'jsonrpc': return c.TCP_JSONRPC_MAX_CLIENTS;
+    case 'jsonrpcs': return c.TLS_JSONRPC_MAX_CLIENTS;
+    default:throw new Error(`unknow protocol '${protocol}'`);
     }
 };
 
-c.setMaxClients = function(engine, max) {
-    switch (engine) {
-    case 'tcpbinary': c.TCP_BINARY_MAX_CLIENTS = max;break;
-    case 'tlsbinary': c.TLS_BINARY_MAX_CLIENTS = max;break;
-    case 'tcpjsonrpc': c.TCP_JSONRPC_MAX_CLIENTS = max;break;
-    case 'tlsjsonrpc': c.TLS_JSONRPC_MAX_CLIENTS = max;break;
-    default:throw new Error(`unknow engine '${engine}'`);
+c.setMaxClients = function(protocol, max) {
+    switch (protocol) {
+    case 'tcp': c.TCP_BINARY_MAX_CLIENTS = max;break;
+    case 'tls': c.TLS_BINARY_MAX_CLIENTS = max;break;
+    case 'binary': c.TCP_BINARY_MAX_CLIENTS = max;break;
+    case 'binarys': c.TLS_BINARY_MAX_CLIENTS = max;break;
+    case 'jsonrpc': c.TCP_JSONRPC_MAX_CLIENTS = max;break;
+    case 'jsonrpcs': c.TLS_JSONRPC_MAX_CLIENTS = max;break;
+    default:throw new Error(`unknow protocol '${protocol}'`);
     }
 };
 

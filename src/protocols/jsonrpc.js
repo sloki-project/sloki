@@ -9,15 +9,15 @@ function Server(options) {
     let server;
     let operationsCount = 0;
     let timerShowOperationsCount;
-    let engine;
+    let protocol;
 
     if (options.SSL) {
-        engine = 'tlsjsonrpc';
+        protocol = 'jsonrpcs';
     } else {
-        engine = 'tcpjsonrpc';
+        protocol = 'jsonrpc';
     }
 
-    const log = require('evillogger')({ ns:engine });
+    const log = require('evillogger')({ ns:protocol });
 
     function _onServerError(err) {
         log.error(err);
@@ -140,7 +140,7 @@ function Server(options) {
 
         }
         server.clients = {};
-        server.engine = 'tcpjsonrpc';
+        server.protocol = protocol;
         server.on('listening', _onServerListen);
         server.on('error', _onServerError);
 

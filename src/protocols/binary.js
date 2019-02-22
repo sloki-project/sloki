@@ -12,15 +12,15 @@ function Server(options) {
     let server;
     let operationsCount = 0;
     let timerShowOperationsCount;
-    let engine;
+    let protocol;
 
     if (options.SSL) {
-        engine = 'tlsbinary';
+        protocol = 'binarys';
     } else {
-        engine = 'tcpbinary';
+        protocol = 'binary';
     }
 
-    const log = require('evillogger')({ ns:engine });
+    const log = require('evillogger')({ ns:protocol });
 
 
     function rpcIn(task) {
@@ -164,7 +164,7 @@ function Server(options) {
             server.on('connection', _onConnect);
         }
 
-        server.engine = engine;
+        server.protocol = protocol;
         server.clients = {};
         server.on('listening', _onServerListen);
         server.on('error', _onServerError);
