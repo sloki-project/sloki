@@ -50,13 +50,14 @@ For moment, only TCP transport is supported. The advantage of TCP vs HTTP API is
 
 By default, Sloki listens on the following ports:
 
-| Port      | Transport  | TLS  | Protocol         | Note             
+| Port      | Transport  | TLS  | Protocol         | Lazy insert bench             
 |:---------:|------------|------|------------------|------------
-| 6370      | TCP        | NO   | Binary (fastest) | implemented
-| 6371      | TCP        | YES  | Binary (fastest) | TODO
-| 6372      | TCP        | NO   | JSONRPC          | implemented
-| 6373      | TCP        | YES  | JSONRPC          | TODO
+| 6370      | TCP        | NO   | Binary (fastest) | avg 18K/sec
+| 6371      | TCP        | YES  | Binary (fastest) | avg 25K/sec (??)
+| 6372      | TCP        | NO   | JSONRPC          | avg 17K/sec
+| 6373      | TCP        | YES  | JSONRPC          | avg 24K/sec (??)
 
+If somebody have an idea why TLS is fastest than TCP, i'd like to know .. :)
 
 You will need a [client](#clients) to speak with sloki.
 
