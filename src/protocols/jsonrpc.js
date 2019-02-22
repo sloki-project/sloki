@@ -175,12 +175,11 @@ function Server(options) {
             log.warn(`${closed} client(s) has been closed`);
         }
 
-        log.warn('closing server');
-
         server.close(err => {
             if (err) {
                 log.error(err);
             }
+            log.warn('server closed');
             config.SHOW_OPS_INTERVAL && clearInterval(timerShowOperationsCount);
             callback();
         });
