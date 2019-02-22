@@ -278,34 +278,56 @@ See https://github.com/sloki-project/sloki-benchs
 `$ sloki --help`
 
 ```
-===============================================================
+=======================================================================
               Sloki - a NodeJS Server for LokyJS
-===============================================================
-Environment variable            Default
-   SLOKI_DIR                    ~user/.sloki/dbs
-   SLOKI_TCP_ENGINE             binary
-   SLOKI_TCP_PORT               6370
-   SLOKI_TCP_HOST               127.0.0.1
-   SLOKI_TCP_MAX_CLIENTS        64
-   SLOKI_TCP_DEBUG              true
-   SLOKI_SHOW_OPS_INTERVAL      0
-   SLOKI_GC_INTERVAL            3600000
-   SLOKI_MEM_LIMIT              ...
----------------------------------------------------------------
-Command Line Options            Default
-   --dir                        ~user/.sloki/dbs
-   --tcp-engine                 binary
-   --tcp-port                   6370
-   --tcp-host                   127.0.0.1
-   --tcp-max-clients            64
-   --tcp-debug                  true
-   --show-ops-interval          0
-   --gc-interval                3600000
-   --mem-limit                  ...
----------------------------------------------------------------
+=======================================================================
+ Environnement variable             Default
+   SLOKI_TCP_BINARY_ENABLE         true
+   SLOKI_TCP_BINARY_PORT           6370
+   SLOKI_TCP_BINARY_HOST           localhost
+   SLOKI_TCP_BINARY_MAX_CLIENTS    64
+   SLOKI_TLS_BINARY_ENABLE         true
+   SLOKI_TLS_BINARY_PORT           6371
+   SLOKI_TLS_BINARY_HOST           localhost
+   SLOKI_TLS_BINARY_MAX_CLIENTS    64
+   SLOKI_TCP_JSONRPC_ENABLE        true
+   SLOKI_TCP_JSONRPC_PORT          6372
+   SLOKI_TCP_JSONRPC_HOST          localhost
+   SLOKI_TCP_JSONRPC_MAX_CLIENTS   64
+   SLOKI_TLS_JSONRPC_ENABLE        true
+   SLOKI_TLS_JSONRPC_PORT          6373
+   SLOKI_TLS_JSONRPC_HOST          localhost
+   SLOKI_TLS_JSONRPC_MAX_CLIENTS   64
+   SLOKI_DIR                       /home/franck/.sloki
+   SLOKI_SHOW_OPS_INTERVAL         0
+   SLOKI_GC_INTERVAL               3600000
+   SLOKI_MEM_LIMIT                 26094 Mb
+-----------------------------------------------------------------------
+ Command Line Options               Default
+   --tcp-binary-enable             true
+   --tcp-binary-port               6370
+   --tcp-binary-host               localhost
+   --tcp-binary-max-clients        64
+   --tls-binary-enable             true
+   --tls-binary-port               6371
+   --tls-binary-host               localhost
+   --tls-binary-max-clients        64
+   --tcp-jsonrpc-enable            true
+   --tcp-jsonrpc-port              6372
+   --tcp-jsonrpc-host              localhost
+   --tcp-jsonrpc-max-clients       64
+   --tls-jsonrpc-enable            true
+   --tls-jsonrpc-port              6373
+   --tls-jsonrpc-host              localhost
+   --tls-jsonrpc-max-clients       64
+   --dir                           /home/franck/.sloki
+   --show-ops-interval             0
+   --gc-interval                   3600000
+   --mem-limit                     26094 Mb
+-----------------------------------------------------------------------
 Examples:
-$ sloki
-$ sloki --tcp-port=6370 --tcp-host=127.0.0.1
+$ sloki     # will use defaults
+$ sloki --tcp-binary-port=6370 --tcp-binary-host=localhost
 ```
 
 The default values ​​can be overridden first with those of the environment variables,
