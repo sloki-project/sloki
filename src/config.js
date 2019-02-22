@@ -55,7 +55,7 @@ if (argv.help) {
     console.log('=======================================================================');
     console.log('              Sloki - a NodeJS Server for LokyJS                       ');
     console.log('=======================================================================');
-    console.log(' Environnement variable             Default                            ');
+    console.log(' Environnement variable            Default                             ');
     console.log(`   SLOKI_TCP_BINARY_ENABLE         ${c.TCP_BINARY_ENABLE}              `);
     console.log(`   SLOKI_TCP_BINARY_PORT           ${c.TCP_BINARY_PORT}                `);
     console.log(`   SLOKI_TCP_BINARY_HOST           ${c.TCP_BINARY_HOST}                `);
@@ -77,7 +77,7 @@ if (argv.help) {
     console.log(`   SLOKI_GC_INTERVAL               ${c.GC_INTERVAL}                    `);
     console.log(`   SLOKI_MEM_LIMIT                 ${c.MEM_LIMIT} Mb                   `);
     console.log('-----------------------------------------------------------------------');
-    console.log(' Command Line Options               Default                            ');
+    console.log(' Command Line Options              Default                             ');
     console.log(`   --tcp-binary-enable             ${c.TCP_BINARY_ENABLE}              `);
     console.log(`   --tcp-binary-port               ${c.TCP_BINARY_PORT}                `);
     console.log(`   --tcp-binary-host               ${c.TCP_BINARY_HOST}                `);
