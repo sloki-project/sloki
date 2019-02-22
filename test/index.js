@@ -105,11 +105,11 @@ function runTests(engine, done) {
 
 const options = {
     SLOKI_DIR:path.resolve(homedir+'/.slokitest'),
-    MEM_LIMIT:36        // in Mb
+    MEM_LIMIT:62        // in Mb
 };
 
-if (process.env.TRAVIS) {
-    options.MEM_LIMIT = 62;
+if (process.version.match(/v9/)) {
+    options.MEM_LIMIT = 36;
 }
 
 server.start(options, (err) => {
@@ -124,7 +124,15 @@ server.start(options, (err) => {
         },
         (next) => {
             cleanTestDatabases();
+            runTests('tlsbinary', next);
+        },
+        (next) => {
+            cleanTestDatabases();
             runTests('tcpjsonrpc', next);
+        },
+        (next) => {
+            cleanTestDatabases();
+            runTests('tlsjsonrpc', next);
         },
         (next) => {
             server.stop(next);

@@ -1,6 +1,5 @@
 const log = require('evillogger')({ ns:'server/maxClients' });
 const Method = require('../../Method');
-const config = require('../../../config');
 
 const descriptor = {
     title:'maxClients',
@@ -15,16 +14,16 @@ const descriptor = {
     }
 };
 
-function handler(params, session, callback) {
+function handler(params, context, callback) {
     if (!params.value) {
-        callback(null, config.getMaxClients(session.engine));
+        callback(null, context.server.getMaxClients());
         return;
     }
 
     const maxClients = params.value;
 
-    config.setMaxClients(session.engine, maxClients);
-    log.info(`${session.id}: maxClients has been set to ${maxClients} in engine ${session.engine}`);
+    context.server.setMaxClients(maxClients);
+    log.info(`${context.session.id}: maxClients has been set to ${maxClients} in engine ${context.server.engine}`);
     callback(null, maxClients);
 }
 

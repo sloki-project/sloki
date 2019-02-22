@@ -20,8 +20,10 @@ function generateCertificates() {
 
     const options = {
         days:3650,
-        clientCertificate: true,
-        clientCertificateCN: 'sloki-client'
+        keySize: 1024,
+        algorithm: 'sha256',
+        //clientCertificate: true,
+        //clientCertificateCN: 'sloki-client'
     };
 
     log.info('generating SSL certificates ...');

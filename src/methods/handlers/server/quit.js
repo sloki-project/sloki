@@ -16,9 +16,9 @@ const descriptor = {
  * @param {function} callback - callback
  * @memberof Commands
  */
-function handler(params, session, callback) {
+function handler(params, context, callback) {
     callback(null, 'bye');
-    session.end();
+    context.session.end();
 }
 
 module.exports = new Method(descriptor, handler);

@@ -32,8 +32,8 @@ const descriptor = {
  * @param {function} callback - callback
  * @memberof Commands
  */
-function handler(params, session, callback) {
-    const databaseName = session.loki.currentDatabase;
+function handler(params, context, callback) {
+    const databaseName = context.session.loki.currentDatabase;
     const collectionName = params.collection;
     const lokiId = params.id;
 

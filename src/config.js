@@ -21,7 +21,7 @@ const defaults = {
     TCP_BINARY_HOST:'localhost',
     TCP_BINARY_MAX_CLIENTS:64,
 
-    TLS_BINARY_ENABLE:false,
+    TLS_BINARY_ENABLE:true,
     TLS_BINARY_PORT:6371,
     TLS_BINARY_HOST:'localhost',
     TLS_BINARY_MAX_CLIENTS:64,
@@ -31,7 +31,7 @@ const defaults = {
     TCP_JSONRPC_HOST:'localhost',
     TCP_JSONRPC_MAX_CLIENTS:64,
 
-    TLS_JSONRPC_ENABLE:false,
+    TLS_JSONRPC_ENABLE:true,
     TLS_JSONRPC_PORT:6373,
     TLS_JSONRPC_HOST:'localhost',
     TLS_JSONRPC_MAX_CLIENTS:64,

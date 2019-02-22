@@ -27,14 +27,13 @@ for (file of klawSync(path.resolve(__dirname+'/handlers'), { depthLimit:1, nodir
     methodsDescriptor[cmdName] = methods[cmdName].getDescriptor();
 }
 
-function getHandler(method, params, scope) {
+function getHandler(method, params, context) {
     if (!methods[method]) {
         return;
     }
 
-    // @TODO: optimize scope ?
-    if (scope) {
-        return methods[method].handle.bind(scope);
+    if (context) {
+        return methods[method].handle.bind(context);
     } else {
         return methods[method].handle;
     }
@@ -56,9 +55,9 @@ function exists(method) {
     return false;
 }
 
-function exec(method, params, scope, callback) {
+function exec(method, params, context, callback) {
     try {
-        methods[method].handle(params, scope, callback);
+        methods[method].handle(params, context, callback);
     } catch(err) {
         callback(err);
     }

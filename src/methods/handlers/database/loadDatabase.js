@@ -33,16 +33,16 @@ const descriptor = {
  * @param {function} callback - callback
  * @memberof Commands
  */
-function handler(params, session, callback) {
+function handler(params, context, callback) {
     const databaseName = params.database;
     const databaseOptions = params.options;
 
     function ret(result, created) {
-        session.loki.currentDatabase = databaseName;
+        context.session.loki.currentDatabase = databaseName;
         if (created) {
-            log.info(`${session.id}: current database is now ${databaseName} (created)`);
+            log.info(`${context.session.id}: current database is now ${databaseName} (created)`);
         } else {
-            log.info(`${session.id}: current database is now ${databaseName}`);
+            log.info(`${context.session.id}: current database is now ${databaseName}`);
         }
         callback(null, result);
     }

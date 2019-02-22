@@ -11,6 +11,10 @@ let config = require('./config');
 let closing = false;
 let running = false;
 let timerMemoryAlert;
+let tcpBinaryServerInstance;
+let tlsBinaryServerInstance;
+let tcpJsonRpcServerInstance;
+let tlsJsonRpcServerInstance;
 
 const memoryAlertInterval = 1000;
 
@@ -58,9 +62,79 @@ function start(options, callback) {
     config.SLOKI_DIR_DBS = path.resolve(config.SLOKI_DIR+'/dbs');
 
     async.series([
-        ssl.check,
-        binaryServer.start,
-        jsonRpcServer.start
+        (next) => {
+            ssl.check(next);
+        },
+        (next) => {
+            if (!config.TCP_BINARY_ENABLE) {
+                next();
+                return;
+            }
+
+            tcpBinaryServerInstance = new binaryServer({
+                HOST:config.TCP_BINARY_HOST,
+                PORT:config.TCP_BINARY_PORT,
+                MAX_CLIENTS:config.TCP_BINARY_MAX_CLIENTS,
+                SSL:false,
+                SHOW_OPS_INTERVAL:config.SHOW_OPS_INTERVAL
+            });
+
+            tcpBinaryServerInstance.start(next);
+        },
+        (next) => {
+            if (!config.TLS_BINARY_ENABLE) {
+                next();
+                return;
+            }
+
+            tlsBinaryServerInstance = new binaryServer({
+                HOST:config.TLS_BINARY_HOST,
+                PORT:config.TLS_BINARY_PORT,
+                MAX_CLIENTS:config.TLS_BINARY_MAX_CLIENTS,
+                SSL:true,
+                SSL_PRIVATE_KEY:config.SSL_PRIVATE_KEY,
+                SSL_CERTIFICATE:config.SSL_CERTIFICATE,
+                SSL_CA:config.SSL_CA,
+                SHOW_OPS_INTERVAL:config.SHOW_OPS_INTERVAL
+            });
+
+            tlsBinaryServerInstance.start(next);
+        },
+        (next) => {
+            if (!config.TCP_JSONRPC_ENABLE) {
+                next();
+                return;
+            }
+
+            tcpJsonRpcServerInstance = new jsonRpcServer({
+                HOST:config.TCP_JSONRPC_HOST,
+                PORT:config.TCP_JSONRPC_PORT,
+                MAX_CLIENTS:config.TCP_JSONRPC_MAX_CLIENTS,
+                SSL:false,
+                SHOW_OPS_INTERVAL:config.SHOW_OPS_INTERVAL
+            });
+
+            tcpJsonRpcServerInstance.start(next);
+        },
+        (next) => {
+            if (!config.TLS_JSONRPC_ENABLE) {
+                next();
+                return;
+            }
+
+            tlsJsonRpcServerInstance = new jsonRpcServer({
+                HOST:config.TLS_JSONRPC_HOST,
+                PORT:config.TLS_JSONRPC_PORT,
+                MAX_CLIENTS:config.TLS_JSONRPC_MAX_CLIENTS,
+                SSL:true,
+                SSL_PRIVATE_KEY:config.SSL_PRIVATE_KEY,
+                SSL_CERTIFICATE:config.SSL_CERTIFICATE,
+                SSL_CA:config.SSL_CA,
+                SHOW_OPS_INTERVAL:config.SHOW_OPS_INTERVAL
+            });
+
+            tlsJsonRpcServerInstance.start(next);
+        }
     ], (err) => {
         if (!err) {
             running = true;
@@ -85,8 +159,10 @@ function stop(callback) {
     log.warn('shutdown in progress');
 
     async.series([
-        binaryServer.stop,
-        jsonRpcServer.stop
+        tcpBinaryServerInstance.stop,
+        tlsBinaryServerInstance.stop,
+        tcpJsonRpcServerInstance.stop,
+        tlsJsonRpcServerInstance.stop
     ], (err) => {
         log.warn('bye');
         running = false;

@@ -1,205 +1,228 @@
-const log = require('evillogger')({ ns:'tcpbinary' });
-const config = require('../../config');
-const methods = require('../../methods/');
-const shared = require('../../methods/shared');
+const methods = require('../methods/');
+const shared = require('../methods/shared');
 const net = require('net');
+const tls = require('tls');
 const missive = require('missive');
-
-const errors = {
-    MAX_CLIENT_REACHED:{
-        code: -32000,
-        message:'Max Clients Reached'
-    },
-    SERVER_SHUTDOWN:{
-        code: -32001,
-        message:'Server shutdown'
-    }
-};
+const errors = require('./errors');
 
 const ZLIB = false;
 
-let server;
-let operationsCount = 0;
-let timerShowOperationsCount;
+function Server(options) {
 
-function rpcIn(task) {
+    let server;
+    let operationsCount = 0;
+    let timerShowOperationsCount;
+    let engine;
 
-    task.socket.engine = 'tcpbinary';
+    if (options.SSL) {
+        engine = 'tlsbinary';
+    } else {
+        engine = 'tcpbinary';
+    }
 
-    methods.exec(task.data.m, task.data.p, task.socket, (err, result) => {
+    const log = require('evillogger')({ ns:engine });
 
-        if (err) {
 
-            if (err instanceof Error) {
-                task.encoder.write({
-                    id:task.data.id,
-                    error:{
-                        code:shared.ERROR_CODE_PARAMETER,
-                        message:err.message
-                    }
-                });
+    function rpcIn(task) {
 
-                log.error(`${task.socket.id}: ${err.stack}`);
+        methods.exec(task.data.m, task.data.p, { server, session:task.socket }, (err, result) => {
+
+            if (err) {
+
+                if (err instanceof Error) {
+                    task.encoder.write({
+                        id:task.data.id,
+                        error:{
+                            code:shared.ERROR_CODE_PARAMETER,
+                            message:err.message
+                        }
+                    });
+
+                    log.error(`${task.socket.id}: ${err.stack}`);
+                    return;
+                }
+
+                task.encoder.write({ id: task.data.id, error: err });
+                log.warn(`${task.socket.id}: ${err.message}`);
                 return;
             }
 
-            task.encoder.write({ id: task.data.id, error: err });
-            log.warn(`${task.socket.id}: ${err.message}`);
-            return;
-        }
-
-        task.encoder.write({
-            id:task.data.id,
-            r:result
+            task.encoder.write({
+                id:task.data.id,
+                r:result
+            });
         });
-    });
-}
+    }
 
-function _onServerError(err) {
-    log.error(err);
-}
-
-function _onConnect(socket) {
-
-    socket.id = `${socket.remoteAddress}:${socket.remotePort}`;
-    socket.loki = {
-        currentDatabase:'test'
-    };
-
-    socket.on('end', () => {
-        log.info(`${socket.id}: client disconnected`);
-        server.clients[socket.id].socket.destroy();
-        delete server.clients[socket.id];
-    });
-
-    socket.on('error', err => {
-        log.error(`${socket.id}: ${err.message}`);
-        delete server.clients[socket.id];
-    });
-
-    log.info(`${socket.id}: client connected`);
-
-    const encoder = missive.encode({ deflate: ZLIB });
-    const decoder = missive.parse({ inflate: ZLIB });
-
-    decoder.on('message', data => {
-
-        if (server._connections>config.TCP_BINARY_MAX_CLIENTS) {
-            log.warn(`${socket.id}: refusing connection, number of connection: ${server._connections-1}, allowed: ${config.TCP_BINARY_MAX_CLIENTS}`);
-            encoder.write({ id: data.id, error:errors.MAX_CLIENT_REACHED });
-            socket.end();
-            return;
-        }
-
-        if (!data.m) {
-            log.error(`${socket.id}: missing method in the payload`);
-            return;
-        }
-
-        if (!methods.exists(data.m)) {
-            log.warn(`${socket.id}: unknow method ${data.m}`);
-            return;
-        }
-
-        if (data.p) {
-            log.debug(`${socket.id}: exec ${data.m} ${JSON.stringify(data.p)}`);
-        } else {
-            log.debug(`${socket.id}: exec ${data.m}`);
-        }
-
-        config.SHOW_OPS_INTERVAL && operationsCount++;
-
-        rpcIn({ data, socket, encoder });
-    });
-
-    decoder.on('error', err => {
+    function _onServerError(err) {
         log.error(err);
-    });
-
-    socket.pipe(decoder);
-    encoder.pipe(socket);
-
-    server.clients[socket.id] = { socket, encoder };
-
-}
-
-function showOperationsCount() {
-    log.info(Math.round((operationsCount*1000)/config.SHOW_OPS_INTERVAL), 'ops/sec');
-    operationsCount = 0;
-}
-
-function start(callback) {
-
-    if (!config.TCP_BINARY_ENABLE) {
-        callback();
-        return;
     }
 
-    log.info(`TCP binary server starting ... (${config.TCP_BINARY_HOST}:${config.TCP_BINARY_PORT})`);
+    function _onConnect(socket) {
 
-    function _onServerListen(err) {
+        socket.id = `${socket.remoteAddress}:${socket.remotePort}`;
+        socket.loki = {
+            currentDatabase:'test'
+        };
 
-        if (err) {
+        socket.on('end', () => {
+            log.info(`${socket.id}: client disconnected`);
+            server.clients[socket.id].socket.destroy();
+            delete server.clients[socket.id];
+        });
+
+        socket.on('error', err => {
+            log.error(`${socket.id}: ${err.message}`);
+            delete server.clients[socket.id];
+        });
+
+        log.info(`${socket.id}: client connected`);
+
+        const encoder = missive.encode({ deflate: ZLIB });
+        const decoder = missive.parse({ inflate: ZLIB });
+
+        decoder.on('message', data => {
+
+            if (server._connections>options.MAX_CLIENTS) {
+                log.warn(`${socket.id}: refusing connection, number of connection: ${server._connections-1}, allowed: ${options.MAX_CLIENTS}`);
+                encoder.write({ id: data.id, error:errors.MAX_CLIENT_REACHED });
+                socket.end();
+                return;
+            }
+
+            if (!data.m) {
+                log.error(`${socket.id}: missing method in the payload`);
+                return;
+            }
+
+            if (!methods.exists(data.m)) {
+                log.warn(`${socket.id}: unknow method ${data.m}`);
+                return;
+            }
+
+            if (data.p) {
+                log.debug(`${socket.id}: exec ${data.m} ${JSON.stringify(data.p)}`);
+            } else {
+                log.debug(`${socket.id}: exec ${data.m}`);
+            }
+
+            options.SHOW_OPS_INTERVAL && operationsCount++;
+
+            rpcIn({ data, socket, encoder });
+        });
+
+        decoder.on('error', err => {
             log.error(err);
-            throw new Error(err);
-        }
+        });
 
-        log.info(`TCP binary server started (maxClients ${config.TCP_BINARY_MAX_CLIENTS})`);
-        callback();
+        socket.pipe(decoder);
+        encoder.pipe(socket);
+
+        server.clients[socket.id] = { socket, encoder };
+
     }
 
-    server = net.createServer();
-    server.clients = {};
-
-    server.on('connection', _onConnect);
-    server.on('listening', _onServerListen);
-    server.on('error', _onServerError);
-
-    server.listen(config.TCP_BINARY_PORT, config.TCP_BINARY_HOST);
-
-    if (config.SHOW_OPS_INTERVAL) {
-        timerShowOperationsCount = setInterval(showOperationsCount, config.SHOW_OPS_INTERVAL);
+    function showOperationsCount() {
+        const c = Math.round((operationsCount*1000)/options.SHOW_OPS_INTERVAL);
+        if (c>0) log.info(c, 'ops/sec');
+        operationsCount = 0;
     }
 
-}
+    function start(callback) {
 
-function stop(callback) {
-    let closed = 0;
-    try {
-        let id;
-        for (id in server.clients) {
-            server.clients[id].encoder.write(JSON.stringify({ error:errors.SERVER_SHUTDOWN }));
-            server.clients[id].socket.end();
-            server.clients[id].socket.destroy();
-            log.warn(`stop: ${id}: force disconnection`);
-            closed++;
-            delete server.clients[id];
-        }
-    } catch(e) {
-        log.error(e);
-    }
+        log.info(`server starting ... (${options.HOST}:${options.PORT} maxClients ${options.MAX_CLIENTS})`);
 
-    if (closed) {
-        log.warn(`${closed} client(s) has been closed`);
-    }
+        function _onServerListen(err) {
 
-    log.warn('closing server');
+            if (err) {
+                log.error(err);
+                throw new Error(err);
+            }
 
-    server.close(err => {
-        if (err) {
-            log.error(err);
-        }
-        if (config.SHOW_OPS_INTERVAL) {
-            clearInterval(timerShowOperationsCount);
-        }
-        if (callback) {
+            //log.info(`server started (maxClients ${options.MAX_CLIENTS})`);
             callback();
         }
-    });
 
+        if (options.SSL) {
+
+            server = tls.createServer({
+                key:options.SSL_PRIVATE_KEY,
+                cert:options.SSL_CERTIFICATE,
+                ca:[options.SSL_CA],
+                secureProtocol: 'TLSv1_2_method',
+                rejectUnauthorized: false
+            });
+
+            server.on('tlsClientError', (err) => {
+                log.error(err.message);
+            });
+
+            server.on('secureConnection', _onConnect);
+
+        } else {
+            server = net.createServer();
+            server.on('connection', _onConnect);
+        }
+
+        server.engine = engine;
+        server.clients = {};
+        server.on('listening', _onServerListen);
+        server.on('error', _onServerError);
+
+        server.getMaxClients = function() {
+            return options.MAX_CLIENTS;
+        };
+
+        server.setMaxClients = function(m) {
+            options.MAX_CLIENTS = m;
+        };
+
+        server.listen(options.PORT, options.HOST);
+
+        if (options.SHOW_OPS_INTERVAL) {
+            timerShowOperationsCount = setInterval(showOperationsCount, options.SHOW_OPS_INTERVAL);
+        }
+
+    }
+
+    function stop(callback) {
+        let closed = 0;
+        try {
+            let id;
+            for (id in server.clients) {
+                server.clients[id].encoder.write(JSON.stringify({ error:errors.SERVER_SHUTDOWN }));
+                server.clients[id].socket.end();
+                server.clients[id].socket.destroy();
+                log.warn(`disconnect client ${id}`);
+                closed++;
+                delete server.clients[id];
+            }
+        } catch(e) {
+            log.error(e);
+        }
+
+        if (closed) {
+            log.warn(`${closed} client(s) has been closed`);
+        }
+
+        server.close(err => {
+            if (err) {
+                log.error(err);
+            }
+            if (options.SHOW_OPS_INTERVAL) {
+                clearInterval(timerShowOperationsCount);
+            }
+
+            log.warn('server closed');
+
+            if (callback) {
+                callback();
+            }
+        });
+    }
+
+    return { start, stop };
 }
 
-module.exports = {
-    start,
-    stop
-};
+
+module.exports = Server;

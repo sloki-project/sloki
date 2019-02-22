@@ -28,7 +28,7 @@ function getMem() {
     };
 }
 
-function handler(params, session, callback) {
+function handler(params, context, callback) {
     if (global.gc) {
         log.warn('running garbage collector ...');
         const before = getMem();

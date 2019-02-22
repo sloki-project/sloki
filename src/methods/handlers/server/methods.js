@@ -17,7 +17,7 @@ const descriptor = {
 * @param {function} callback - callback
 * @memberof Commands
 */
-function handler(params, session, callback) {
+function handler(params, context, callback) {
     callback(null, require('../../').listWithDescriptor());
 }
 

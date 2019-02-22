@@ -42,11 +42,11 @@ function Command(descriptor, handler) {
         return false;
     }
 
-    function handle(params, scope, callback) {
+    function handle(params, context, callback) {
 
         if (!callback) {
-            callback = scope;
-            scope = this;
+            callback = context;
+            context = this;
         }
 
         if (!params) params = {};
@@ -68,7 +68,7 @@ function Command(descriptor, handler) {
 
         // request has no parameters, as specified in the descriptor
         if (descriptorPropertiesCount === 0 && paramsCount === 0) {
-            handler(params, scope, callback);
+            handler(params, context, callback);
             return;
         }
 
@@ -188,7 +188,7 @@ function Command(descriptor, handler) {
             callback = () => {};
         }
 
-        handler(params, scope, callback);
+        handler(params, context, callback);
 
     }
 

@@ -31,7 +31,7 @@
     "async": "2.6.1",
     "evillogger": "1.2.2",
     "fs-extra": "7.0.1",
-    "jayson": "2.1.1",
+    "jayson": "^2.1.2",
     "klaw-sync": "6.0.0",
     "lokijs": "franck34/LokiJS",
     "missive": "3.0.1",
