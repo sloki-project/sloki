@@ -108,10 +108,6 @@ const options = {
     MEM_LIMIT:62        // in Mb
 };
 
-if (process.version.match(/v9/)) {
-    options.MEM_LIMIT = 36;
-}
-
 server.start(options, (err) => {
     if (err) {
         throw new Error(err);
