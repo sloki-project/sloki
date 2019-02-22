@@ -1,8 +1,18 @@
 const readline = require('readline');
 
-function run(client) {
+function run(url, client) {
 
-    console.log('connected');
+    console.log(`client connected on ${url}`);
+
+    client.on('close', () => {
+        console.log('client disconnected');
+        rl.close();
+    });
+
+    client.on('error', (err) => {
+        console.log(err);
+        rl.prompt();
+    });
 
     const completions = client.getMethodsName();
 
