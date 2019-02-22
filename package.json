@@ -31,16 +31,16 @@
     "async": "2.6.1",
     "evillogger": "1.2.2",
     "fs-extra": "7.0.1",
-    "jayson": "^2.1.2",
+    "jayson": "2.1.2",
     "klaw-sync": "6.0.0",
     "lokijs": "franck34/LokiJS",
     "missive": "3.0.1",
     "pretty-bytes": "5.1.0",
-    "selfsigned": "1.10.4"
+    "selfsigned": "1.10.4",
+    "sloki-node-client": "sloki-project/sloki-node-client"
   },
   "devDependencies": {
     "eslint": "5.13.0",
-    "sloki-node-client": "sloki-project/sloki-node-client",
     "tap-spec": "5.0.0",
     "tape": "4.9.2"
   }
