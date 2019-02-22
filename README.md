@@ -339,12 +339,8 @@ and then those of the command line options.
   * directory will be created if not exist
   * may be overriden
 
-* SLOKI_TCP_ENGINE [binary|jsonrpc]
-  * binary (default) is a JSONRPC like custom binary protocol
-  * jsonrpc is a pure JSONRPC (jayson) protocol
-
 * SLOKI_MEM_LIMIT
-  * by default, it's 80% of appliance/VM available memory
+  * by default, 80% of the available memory
 
-* SLOKI_GC_INTERVAL ()
-  * run nodejs garbage collector
+* SLOKI_GC_INTERVAL
+  * run nodejs garbage collector at regular interval (value in milliseconds)
