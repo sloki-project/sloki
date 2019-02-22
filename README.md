@@ -333,11 +333,11 @@ $ sloki --tcp-binary-port=6370 --tcp-binary-host=localhost
 The default values ​​can be overridden first with those of the environment variables,
 and then those of the command line options.
 
-* SLOKI_DIR `/path/to/lokijs/databases`
-  * default is user's home (~user/.sloki/dbs)
-  * directory where lokijs will save databases as json files
-  * directory will be created if not exist
-  * may be overriden
+* SLOKI_DIR `/path/to/sloki`
+  * default is user's home (~user/.sloki)
+  * subdirectory `dbs` contains lokijs databases
+  * subdirectory `certs` contains SSL Certificates for TLS
+  * directories will be created if not exist
 
 * SLOKI_MEM_LIMIT
   * by default, 80% of the available memory
