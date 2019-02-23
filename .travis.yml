@@ -8,4 +8,4 @@ cache: false
 before_install:
   - cd clients/node
   - npm install
-  - cd ../server
+  - cd ../../server
