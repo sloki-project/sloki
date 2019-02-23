@@ -5,8 +5,8 @@ A NodeJS Server for [LokiJS](http://lokijs.org/)
 [![alt CI-badge](https://travis-ci.org/sloki-project/sloki.svg?branch=master)](https://travis-ci.org/sloki-project/sloki)
 [![npm version](https://badge.fury.io/js/sloki.svg?v=0)](http://badge.fury.io/js/sloki)
 [![Known Vulnerabilities](https://snyk.io/test/github/sloki-project/sloki/badge.svg?targetFile=server/package.json)](https://snyk.io/test/github/sloki-project/sloki?targetFile=server/package.json)
-[![Dependencies](https://david-dm.org/sloki-project/sloki.svg)](https://david-dm.org/sloki-project/sloki)
-[![Dev Dependencies](https://david-dm.org/sloki-project/sloki/dev-status.svg)](https://david-dm.org/sloki-project/sloki?type=dev)
+[![Dependencies](https://david-dm.org/sloki-project/sloki.svg?path=server/)](https://david-dm.org/sloki-project/sloki)
+[![Dev Dependencies](https://david-dm.org/sloki-project/sloki/dev-status.svg?path=server/)](https://david-dm.org/sloki-project/sloki?type=dev)
 
 -----
 ## Documentation
