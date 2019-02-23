@@ -6,4 +6,6 @@ node_js:
   - "11"
 cache: false
 before_install:
-  - cd server
+  - cd clients/node
+  - npm install
+  - cd ../server
