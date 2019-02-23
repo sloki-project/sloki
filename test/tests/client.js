@@ -5,6 +5,8 @@ const path = require('path');
 
 let Client;
 
+console.log(process.env.NODE_ENV);
+
 if (process.env.NODE_ENV === 'dev') {
     Client = require('../../../sloki-node-client');
 } else {
