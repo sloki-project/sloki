@@ -5,7 +5,3 @@ node_js:
   - "10"
   - "11"
 cache: false
-before_install:
-  - cd clients/node
-  - npm install
-  - cd ../../server
