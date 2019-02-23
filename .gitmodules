@@ -1,0 +1,3 @@
+[submodule "sloki-node-client"]
+	path = sloki-node-client
+	url = https://github.com/sloki-project/sloki-node-client
