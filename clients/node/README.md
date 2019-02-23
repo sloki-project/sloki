@@ -4,7 +4,7 @@ A NodeJS Client for [Sloki](https://github.com/sloki-project/sloki)
 [![npm version](https://badge.fury.io/js/sloki-node-client.svg?v=0)](http://badge.fury.io/js/sloki-node-client)
 [![Known Vulnerabilities](https://snyk.io/test/github/sloki-project/sloki/badge.svg?targetFile=clients/node/package.json)](https://snyk.io/test/github/sloki-project/sloki?targetFile=clients/node/package.json)
 [![Dependencies](https://david-dm.org/sloki-project/sloki.svg?path=clients/node)](https://david-dm.org/sloki-project/sloki-node-client)
-[![Dev Dependencies](https://david-dm.org/sloki-project/sloki-node-client/dev-status.svg?path=clients/node)](https://david-dm.org/sloki-project/sloki-node-client?type=dev)
+[![Dev Dependencies](https://david-dm.org/sloki-project/sloki/dev-status.svg?path=clients/node)](https://david-dm.org/sloki-project/sloki-node-client?type=dev)
 
 -----
 
