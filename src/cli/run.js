@@ -39,12 +39,14 @@ function run(url, client) {
 
         const method = data;
         if (client[method]) {
+            rl.pause();
             client[method]((err, result) => {
                 if (err) {
                     console.log(err);
                 } else {
                     console.log(JSON.stringify(result, null, 2));
                 }
+                rl.resume();
                 rl.prompt();
             });
             return;
