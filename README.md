@@ -331,6 +331,7 @@ $ sloki     # will use defaults
 $ sloki --tcp-binary-port=6370 --tcp-binary-host=localhost
 ```
 
+
 The default values ​​can be overridden first with those of the environment variables,
 and then those of the command line options.
 
