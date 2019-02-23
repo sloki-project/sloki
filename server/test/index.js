@@ -79,6 +79,7 @@ function runTests(engine, done) {
             args.push(test);
 
             process.env.SLOKI_SERVER_ENGINE = engine;
+            process.env.NODE_ENV = 'dev';
 
             const opts = {
                 stdio:'inherit',

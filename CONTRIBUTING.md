@@ -10,7 +10,7 @@ We do not ask that you agree with our guidelines but if you want to contribute y
 
 ## Pull-requests
 
-Sloki puts a strong emphasis on performance. Make sure to benchmark performance on your machine before and after you apply a change and ensure performance is unchanged (or unnoticeable), even better if it is improved.
+Sloki-node-client puts a strong emphasis on performance. Make sure to benchmark performance on your machine before and after you apply a change and ensure performance is unchanged (or unnoticeable), even better if it is improved.
 Verify your changes are non-breaking by running `npm test`, and if you're adding a feature make sure to add a test somewhere in the relevant file in `spec/` (or a brand new file if the test cannot be included in existing files).
 
 ## A few things we recommend

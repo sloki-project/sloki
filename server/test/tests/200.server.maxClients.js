@@ -1,4 +1,4 @@
-const Client = require('sloki-node-client');
+const Client = require('../../../clients/node');
 const config = require('../../src/config');
 const engine = process.env.SLOKI_SERVER_ENGINE||'tcpbinary';
 const endpoint = require('../endpoints')[engine];

@@ -1,9 +1,10 @@
 const argv = require('minimist')(process.argv.slice(2));
-const Client = require('sloki-node-client');
 const run = require('./run');
 
+let Client;
+if (process.env.NODE_ENV === 'dev') {
+    Client = require('../../../clients/node');
 
-if (process.env.DEV) {
     process.on('uncaughtException', function (err) {
         console.log('uncaughtException');
         console.log(err);
@@ -17,7 +18,11 @@ if (process.env.DEV) {
         console.log('stack');
         console.log(reason.stack);
     });
+
+} else {
+    Client = require('sloki-node-client');
 }
+
 
 if (!argv._[0]) {
     require('./usage');
