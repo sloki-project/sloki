@@ -18,3 +18,8 @@ A NodeJS Client for [Sloki](https://github.com/sloki-project/sloki)
 ## Usage
 
 See [examples](examples/)
+
+
+## Source code
+
+See [sloki repository](https://github.com/sloki-project/sloki/tree/master/clients/node)
