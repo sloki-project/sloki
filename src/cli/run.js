@@ -2,6 +2,8 @@ const readline = require('readline');
 
 function run(url, client) {
 
+    let ctrlC = false;
+
     console.log(`client connected on ${url}`);
 
     client.on('close', () => {
@@ -27,9 +29,25 @@ function run(url, client) {
         completer:autoComplete
     });
 
+    rl.on('SIGINT', () => {
+        if (!ctrlC) {
+            console.log();
+            console.log('(To exit, press ^C again or type .exit)');
+            rl.prompt();
+            ctrlC = true;
+        } else {
+            console.log();
+            process.exit();
+        }
+    });
+
     rl.setPrompt('> ');
     rl.prompt();
     rl.on('line', data => {
+
+        if (!data) {
+            ctrlC = false;
+        }
 
         if (data === 'quit') {
             rl.close();
