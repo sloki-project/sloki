@@ -40,6 +40,14 @@ const defaults = {
     SHOW_OPS_INTERVAL:0,
 };
 
+if (process.env.DOCKER) {
+    const ip = '0.0.0.0';
+    defaults.TCP_BINARY_HOST = ip;
+    defaults.TLS_BINARY_HOST = ip;
+    defaults.TCP_JSONRPC_HOST = ip;
+    defaults.TLS_JSONRPC_HOST = ip;
+}
+
 const c = Object.assign({}, defaults);
 
 const transports = ['TCP', 'TLS'];
