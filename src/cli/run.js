@@ -37,7 +37,8 @@ function run(url, client) {
             ctrlC = true;
         } else {
             console.log();
-            process.exit();
+            rl.close();
+            client.quit();
         }
     });
 
@@ -46,10 +47,11 @@ function run(url, client) {
     rl.on('line', data => {
 
         if (!data) {
+            // reset flag previously setted by hitting Ctrl+C
             ctrlC = false;
         }
 
-        if (data === 'quit') {
+        if (data === 'quit' || data === 'exit') {
             rl.close();
             client.quit();
             return;
