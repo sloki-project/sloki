@@ -1,6 +1,6 @@
 const Method = require('../../Method');
 const slokiVersion = require('../../../../package.json').version;
-const lokijsVersion = require('../../../../node_modules/lokijs/package.json').version;
+const lokijsVersion = require(process.cwd()+'/node_modules/lokijs/package.json').version;
 
 const descriptor = {
     title:'version',
