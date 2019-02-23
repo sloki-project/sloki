@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/sloki-project/sloki#readme",
   "dependencies": {
-    "async": "2.6.1",
+    "async": "2.6.2",
     "evillogger": "1.2.2",
     "fs-extra": "7.0.1",
     "jayson": "2.1.2",
@@ -39,8 +39,8 @@
     "selfsigned": "1.10.4"
   },
   "devDependencies": {
-    "eslint": "5.13.0",
+    "eslint": "5.14.1",
     "tap-spec": "5.0.0",
-    "tape": "4.9.2"
+    "tape": "4.10.1"
   }
 }
