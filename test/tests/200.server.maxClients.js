@@ -1,7 +1,14 @@
-const Client = require('../../../clients/node');
 const config = require('../../src/config');
 const engine = process.env.SLOKI_SERVER_ENGINE||'tcpbinary';
 const endpoint = require('../endpoints')[engine];
+
+let Client;
+
+if (process.env.NODE_ENV === 'dev') {
+    Client = require('../../../sloki-node-client');
+} else {
+    Client = require('sloki-node-client');
+}
 
 const MAX_CLIENTS = config.getMaxClients(engine);
 

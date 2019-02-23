@@ -1,8 +1,16 @@
 const tap = require('../tap');
-const Client = require('../../../clients/node');
 const config = require('../../src/config');
 const endpoints = require('../endpoints');
 const path = require('path');
+
+let Client;
+
+if (process.env.NODE_ENV === 'dev') {
+    Client = require('../../../sloki-node-client');
+} else {
+    Client = require('sloki-node-client');
+}
+
 
 const engine = process.env.SLOKI_SERVER_ENGINE||'tcpbinary';
 

@@ -2,8 +2,9 @@ const argv = require('minimist')(process.argv.slice(2));
 const run = require('./run');
 
 let Client;
+
 if (process.env.NODE_ENV === 'dev') {
-    Client = require('../../../clients/node');
+    Client = require('../../../sloki-node-client');
 
     process.on('uncaughtException', function (err) {
         console.log('uncaughtException');
@@ -25,6 +26,10 @@ if (process.env.NODE_ENV === 'dev') {
 
 
 if (!argv._[0]) {
+    argv._[0] = 'tcp://localhost';
+}
+
+if (argv.help) {
     require('./usage');
     process.exit(-1);
 }
