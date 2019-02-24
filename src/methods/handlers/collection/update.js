@@ -43,6 +43,10 @@ function handler(params, context, callback) {
         return;
     }
 
+    if (!doc.meta) {
+        doc.meta = shared.collections[`${databaseName}.${collectionName}`].get(doc.$loki).meta;
+    }
+
     try {
         callback(null, shared.collections[`${databaseName}.${collectionName}`].update(doc));
     } catch(e) {
