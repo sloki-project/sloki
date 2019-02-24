@@ -3,10 +3,21 @@ const collectionName = 'myCollection_'+Date.now();
 
 const doc = { foo:'bar' };
 
-const expected = {
+const expected1 = {
     foo: 'bar2',
     meta: {
         revision: 1,
+        created: true,  // we can not test timestamp
+        version: 0,
+        updated: true,  // we can not test timestamp
+    },
+    $loki: 1
+};
+
+const expected2 = {
+    foo: 'bar3',
+    meta: {
+        revision: 2,
         created: true,  // we can not test timestamp
         version: 0,
         updated: true,  // we can not test timestamp
@@ -33,7 +44,22 @@ require('./client')(__filename, (test, client, end) => {
                     subtest.deepEqual(err, undefined, 'method should not return an error');
                     newDoc.meta.created = typeof newDoc.meta.created === 'number';
                     newDoc.meta.updated = typeof newDoc.meta.updated === 'number';
-                    subtest.deepEqual(newDoc, expected, `should return ${JSON.stringify(expected)}`);
+                    subtest.deepEqual(newDoc, expected1, `should return ${JSON.stringify(expected1)}`);
+                    subtest.end();
+                    end();
+                });
+            });
+
+            test.test('update should return new document', subtest  => {
+
+                myDoc.foo = 'bar3';
+                delete myDoc.meta;
+
+                client.update({ collection:collectionName, document:myDoc }, (err, newDoc) => {
+                    subtest.deepEqual(err, undefined, 'method should not return an error');
+                    newDoc.meta.created = typeof newDoc.meta.created === 'number';
+                    newDoc.meta.updated = typeof newDoc.meta.updated === 'number';
+                    subtest.deepEqual(newDoc, expected2, `should return ${JSON.stringify(expected2)}`);
                     subtest.end();
                     end();
                 });
