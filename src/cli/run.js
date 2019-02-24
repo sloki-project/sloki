@@ -1,8 +1,10 @@
 const readline = require('readline');
+const parseLine = require('./parseLine');
 
 function run(url, client) {
 
     let ctrlC = false;
+    let prettyJson = false;
 
     console.log(`client connected on ${url}`);
 
@@ -17,6 +19,7 @@ function run(url, client) {
     });
 
     const completions = client.getMethodsName();
+    completions.push('.pretty');
 
     function autoComplete(line) {
         const hits = completions.filter((c) => c.startsWith(line));
@@ -44,32 +47,79 @@ function run(url, client) {
 
     rl.setPrompt('> ');
     rl.prompt();
-    rl.on('line', data => {
+    rl.on('line', line => {
 
-        if (!data) {
+        if (!line) {
             // reset flag previously setted by hitting Ctrl+C
             ctrlC = false;
         }
 
-        if (data === 'quit' || data === 'exit') {
+        if (line === 'quit' || line === 'exit') {
             rl.close();
             client.quit();
             return;
         }
 
-        const method = data;
-        if (client[method]) {
+        if (line === '.pretty') {
+            if (prettyJson) {
+                prettyJson = false;
+                console.log('JSON will be displayed as a line');
+            } else {
+                prettyJson = true;
+                console.log('JSON will be displayed with indentation and multiple lines');
+            }
+            rl.prompt();
+            return;
+        }
+
+        const data = parseLine(line);
+
+        if (client[data.method]) {
+
+            if (data.args === 'help') {
+                console.log(JSON.stringify(client._methods[data.method], null, 2));
+                rl.prompt();
+                return;
+            }
+
             rl.pause();
-            client[method]((err, result) => {
+
+            let args;
+
+            if (data.args) {
+                try {
+                    // eval or json.parse, that is the question !
+                    // eval permit a simplifier version i.e foo:"bar"
+                    // with json.parse, double quote are mandatory i.e "foo":"bar"
+                    //args = JSON.parse(data.args);
+                    eval('args='+data.args);
+                } catch(e) {
+                    console.error(e.message);
+                    rl.prompt();
+                    return;
+                }
+            }
+
+            client[data.method](args, (err, result) => {
                 if (err) {
-                    console.log(err);
+                    if (err.message) {
+                        console.log('error:', err.message);
+                    } else {
+                        console.log('error:', err);
+                    }
                 } else {
-                    console.log(JSON.stringify(result, null, 2));
+                    if (prettyJson) {
+                        console.log(JSON.stringify(result, null, 2));
+                    } else {
+                        console.log(JSON.stringify(result));
+                    }
                 }
                 rl.resume();
                 rl.prompt();
             });
             return;
+        } else {
+            console.log(`error: ${data.method} method does not exist`);
         }
 
         rl.prompt();
