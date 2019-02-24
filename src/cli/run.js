@@ -21,7 +21,7 @@ function run(url, client) {
     readline.createInterface({
         input: process.stdin,
         output: process.stdout,
-        path: path.join(homedir, '.sloki-cli', 'history.txt'),
+        path: path.join(homedir, '.sloki_history'),
         maxLength: 100, //Only keep 100 lines worth of history
         completer:autoComplete,
         next:(rl) => {
