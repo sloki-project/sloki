@@ -50,7 +50,7 @@ require('./client')(__filename, (test, client, end) => {
                 });
             });
 
-            test.test('update should return new document', subtest  => {
+            test.test('update should return new document (meta not specified)', subtest  => {
 
                 myDoc.foo = 'bar3';
                 delete myDoc.meta;
