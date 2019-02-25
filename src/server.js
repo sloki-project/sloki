@@ -1,10 +1,11 @@
 const log = require('evillogger')({ ns:'server' });
 const path = require('path');
+const top = require('process-top')();
+const prettyBytes = require('pretty-bytes');
+const async = require('async');
 const loki = require('./loki');
 const binaryServer = require('./protocols/binary');
 const jsonRpcServer = require('./protocols/jsonrpc');
-const prettyBytes = require('pretty-bytes');
-const async = require('async');
 const ssl = require('./ssl');
 
 let config = require('./config');
@@ -184,8 +185,8 @@ function dumpMemory(level, prefix, mem) {
 }
 
 function memoryAlert() {
-    const mem = process.memoryUsage();
-    if (mem.rss>memLimitBytes()) {
+    const mem = top.memory().rss;
+    if (top.memory().rss>memLimitBytes()) {
         if (!config.MEM_LIMIT_REACHED) {
             dumpMemory('warn', 'memory: limit reached', mem);
             config.MEM_LIMIT_REACHED = true;
