@@ -1,6 +1,7 @@
 const log = require('evillogger')({ ns:'methods/shared' });
 const path = require('path');
 const loki = require('lokijs');
+const lokilfsa = require(process.cwd()+'/node_modules/lokijs/src/loki-fs-structured-adapter.js');
 
 const config = require('../config');
 
@@ -12,10 +13,10 @@ const ERROR_CODE_PARAMETER = -32602;
 const ERROR_CODE_INTERNAL = -32603;
 
 const DEFAULT_DATABASE_OPTIONS =  {
-    serializationMethod:'pretty',
+    //serializationMethod:'pretty',
     autoload:true,
     autosave:true,
-    autosaveInterval:config.DATABASES_AUTOSAVE_INTERVAL
+    autosaveInterval:config.DATABASES_AUTOSAVE_INTERVAL,
 };
 
 function databaseSelected(databaseName, callback) {
@@ -57,49 +58,87 @@ function collectionExists(databaseName, collectionName, callback) {
     return false;
 }
 
-function getDatabase(databaseName, callback) {
-    if (!dbs[databaseName]) {
-        callback(null, undefined);
-        return;
+function getDatabaseProperties(databaseName, callback) {
+    const rdb = dbs[databaseName];
+    if (!rdb) {
+        if (callback) {
+            callback(null, undefined);
+        }
+        return undefined;
     }
 
     // avoid circular structure: ignore autosaveHandle, persistenceAdapter
-    callback(null, {
-        filename:dbs[databaseName].filename,
-        databaseVersion:dbs[databaseName].databaseVersion,
-        engineVersion:dbs[databaseName].engineVersion,
-        autosave:dbs[databaseName].autosave,
-        autosaveInterval:dbs[databaseName].autosaveInterval,
-        throttledSaves:dbs[databaseName].throttledSaves,
-        options:dbs[databaseName].options,
-        persistenceMethod:dbs[databaseName].persistenceMethod,
-        persistenceAdapter:typeof dbs[databaseName].persistenceAdapter,
-        throttledSavePending:dbs[databaseName].throttledSavePending,
-        verbose:dbs[databaseName].verbose,
-        ENV:dbs[databaseName].ENV,
-        name:dbs[databaseName].name
-    });
+    const db = {
+        filename:rdb.filename,
+        databaseVersion:rdb.databaseVersion,
+        engineVersion:rdb.engineVersion,
+        autosave:rdb.autosave,
+        autosaveInterval:rdb.autosaveInterval,
+        throttledSaves:rdb.throttledSaves,
+        options:rdb.options,
+        persistenceMethod:rdb.persistenceMethod,
+        persistenceAdapter:typeof rdb.persistenceAdapter,
+        throttledSavePending:rdb.throttledSavePending,
+        verbose:rdb.verbose,
+        ENV:rdb.ENV,
+        name:rdb.name
+    };
+
+    //console.log('getDatabase', db);
+
+    if (callback) {
+        callback(null, db);
+    }
+
+    return db;
 }
 
 function createDatabase(databaseName, databaseOptions, callback) {
 
-    const dbPath = path.resolve(config.SLOKI_DIR_DBS+`/${databaseName}.json`);
-    const options = Object.assign(DEFAULT_DATABASE_OPTIONS, databaseOptions||{});
+    if (typeof databaseOptions === 'function') {
+        callback = databaseOptions;
+        databaseOptions = null;
+    }
 
-    options.autoloadCallback = () => {
-        getDatabase(databaseName, (err, result) => {
-            callback(null, result);
-        });
+    const dbPath = path.resolve(config.SLOKI_DIR_DBS+`/${databaseName}.db`);
+    const options = {};
+
+    for (const prop in DEFAULT_DATABASE_OPTIONS) {
+        if (DEFAULT_DATABASE_OPTIONS.hasOwnProperty(prop)) {
+            options[prop] = DEFAULT_DATABASE_OPTIONS[prop];
+        }
+    }
+
+    for (const prop in databaseOptions||{}) {
+        if (databaseOptions.hasOwnProperty(prop)) {
+            options[prop] = databaseOptions[prop];
+        }
+    }
+
+    options.autoloadCallback = (err) => {
+        if (callback) {
+            callback(err, getDatabaseProperties(databaseName));
+        }
     };
+
+    options.adapter = new lokilfsa();
 
     dbs[databaseName] = new loki(dbPath, options);
 
-    // by default, immediate save (force flush) after creating database
-    config.DATABASES_FORCE_SAVE_ON_CREATE && dbs[databaseName].save();
+    // save on create when adapter specified
+    if (options.adapter && dbs[databaseName].collections.length === 0) {
+        dbs[databaseName].save((err) => {
+            if (callback) {
+                callback(err, getDatabaseProperties(databaseName));
+            }
+        });
+    }
+
+    return dbs[databaseName];
 }
 
 module.exports = {
-    getDatabase,
+    getDatabaseProperties,
     createDatabase,
     dbs,
     collections,

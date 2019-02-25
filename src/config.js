@@ -13,7 +13,7 @@ const defaults = {
 
     // default database dir is in the home of the user
     SLOKI_DIR:path.resolve(homedir+'/.sloki'),
-    DATABASES_AUTOSAVE_INTERVAL:1000*60,
+    DATABASES_AUTOSAVE_INTERVAL:1000*60*5,
     DATABASES_FORCE_SAVE_ON_CREATE:true,
 
     TCP_BINARY_ENABLE:true,

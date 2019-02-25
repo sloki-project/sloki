@@ -25,17 +25,20 @@ function handler(params, context, callback) {
         return;
     }
 
-    shared.dbs[databaseName].saveDatabase(err => {
-        if (err) {
-            callback({
-                code: shared.ERROR_CODE_INTERNAL,
-                message: err.message
-            });
-            return;
-        }
-
-        callback();
-    });
+    try {
+        shared.dbs[databaseName].saveDatabase(err => {
+            if (err) {
+                callback({
+                    code: shared.ERROR_CODE_INTERNAL,
+                    message: err.message
+                });
+                return;
+            }
+            callback(null, { success:true });
+        });
+    } catch(e) {
+        callback(e);
+    }
 }
 
 module.exports = new Method(descriptor, handler);

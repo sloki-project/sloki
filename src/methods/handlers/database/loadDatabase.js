@@ -47,7 +47,7 @@ function handler(params, context, callback) {
         callback(null, result);
     }
 
-    shared.getDatabase(databaseName, (err, result) => {
+    shared.getDatabaseProperties(databaseName, (err, result) => {
         if (result) {
             ret(result);
             return;

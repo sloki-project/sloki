@@ -135,12 +135,12 @@ function start(options, callback) {
             });
 
             tlsJsonRpcServerInstance.start(next);
-        }
+        },
+        loki.initialize
     ], (err) => {
         if (!err) {
             running = true;
             handleSignals();
-            loki.initialize();
             timerMemoryAlert = setInterval(memoryAlert, memoryAlertInterval);
             if (callback) {
                 callback();
@@ -210,7 +210,7 @@ if (global.gc) {
 
 }
 
-dumpMemory('info', 'memory:', process.memoryUsage());
+dumpMemory('info', 'memory:', top.memory().rss);
 
 module.exports = {
     start,

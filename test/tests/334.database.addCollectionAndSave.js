@@ -73,7 +73,7 @@ require('./client')(__filename, (test, client, end) => {
         test.test('saveDatabase', subtest => {
             client.saveDatabase((err, result) => {
                 subtest.deepEqual(err, undefined, 'method should not return an error');
-                subtest.deepEqual(result, undefined, 'should return undefined');
+                subtest.deepEqual(result, { success: true }, 'should return {success:true}');
                 subtest.end();
             });
         });

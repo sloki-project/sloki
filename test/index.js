@@ -30,18 +30,20 @@ function prepareTests() {
     }
 }
 
-function cleanTestDatabases() {
+function cleanTestDatabases(callback) {
     if (!fs.pathExistsSync(config.SLOKI_DIR_DBS)) {
+        callback();
         return;
     }
 
     let file;
     for (file of klawSync(config.SLOKI_DIR_DBS, { depthLimit:0 })) {
         if (path.basename(file.path).match(/\_\_/)) {
-            console.log('removing', file.path);
             fs.removeSync(file.path);
+            console.log(`removed ${file.path}`);
         }
     }
+    callback();
 }
 
 
@@ -114,22 +116,23 @@ server.start(options, (err) => {
     }
 
     async.series([
+        cleanTestDatabases,
         (next) => {
-            cleanTestDatabases();
             runTests('binary', next);
         },
+        cleanTestDatabases,
         (next) => {
-            cleanTestDatabases();
             runTests('binarys', next);
         },
+        cleanTestDatabases,
         (next) => {
-            cleanTestDatabases();
             runTests('jsonrpc', next);
         },
+        cleanTestDatabases,
         (next) => {
-            cleanTestDatabases();
             runTests('jsonrpcs', next);
         },
+        cleanTestDatabases,
         (next) => {
             server.stop(next);
         }
