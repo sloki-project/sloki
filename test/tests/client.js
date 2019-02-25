@@ -12,7 +12,7 @@ if (process.env.NODE_ENV === 'dev') {
 }
 
 
-const engine = process.env.SLOKI_SERVER_ENGINE||'tcpbinary';
+const engine = process.env.SLOKI_SERVER_ENGINE||'binary';
 
 module.exports = (title, callback) => {
 
