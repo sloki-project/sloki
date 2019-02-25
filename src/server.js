@@ -175,27 +175,27 @@ function stop(callback) {
     });
 }
 
-function dumpMemory(level, prefix, mem) {
+function dumpMemory(level, prefix, rss) {
     log[level](
         '%s rss=%s, allowed %s',
         prefix,
-        prettyBytes(mem.rss),
+        prettyBytes(rss),
         memLimitBytesHuman(),
     );
 }
 
 function memoryAlert() {
-    const mem = top.memory().rss;
-    if (top.memory().rss>memLimitBytes()) {
+    const rss = top.memory().rss;
+    if (rss > memLimitBytes()) {
         if (!config.MEM_LIMIT_REACHED) {
-            dumpMemory('warn', 'memory: limit reached', mem);
+            dumpMemory('warn', 'memory: limit reached', rss);
             config.MEM_LIMIT_REACHED = true;
         } else {
-            dumpMemory('warn', 'memory: always above limit', mem);
+            dumpMemory('warn', 'memory: always above limit', rss);
         }
     } else {
         if (config.MEM_LIMIT_REACHED) {
-            dumpMemory('warn', 'memory: back under limit', mem);
+            dumpMemory('warn', 'memory: back under limit', rss);
         }
         config.MEM_LIMIT_REACHED = false;
     }
