@@ -57,7 +57,7 @@ require('./client')(__filename, (test, client, end) => {
                 try {
                     gcResponse = await client.gc();
                 } catch(e) {
-                    console.log(e);
+                    gcResponse = {};
                 }
 
                 subtest.deepEqual(gcResponse.called, true, 'gc (garbage collector) should return called = true');
