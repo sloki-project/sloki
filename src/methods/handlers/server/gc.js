@@ -1,6 +1,7 @@
 const log = require('evillogger')({ ns:'server/maxClient' });
 const Method = require('../../Method');
 const prettyBytes = require('pretty-bytes');
+const shared = require('../../shared');
 
 const descriptor = {
     title:'gc',
@@ -40,7 +41,11 @@ function handler(params, context, callback) {
             callback(null, { called:true, before, after });
         }, 1000*5);
     } else {
-        callback('garbage collector not available, please use node --expose_gc when starting sloki');
+        const err = {
+            code:shared.ERROR_CODE_PARAMETER,
+            message:'garbage collector not available, please use node --expose_gc when starting sloki'
+        };
+        callback(err);
     }
 }
 
