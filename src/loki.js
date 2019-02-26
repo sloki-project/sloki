@@ -32,7 +32,7 @@ function initialize(callback) {
 
     async.each(dbs, (db, next) => {
         log.info(`loading database ${db}`);
-        shared.createDatabase(db, () => {
+        shared.loadDatabaseFromDisk(db, () => {
             log.info(`database ${db} loaded`);
             next();
         });

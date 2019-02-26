@@ -93,14 +93,7 @@ function getDatabaseProperties(databaseName, callback) {
     return db;
 }
 
-function createDatabase(databaseName, databaseOptions, callback) {
-
-    if (typeof databaseOptions === 'function') {
-        callback = databaseOptions;
-        databaseOptions = null;
-    }
-
-    const dbPath = path.resolve(config.SLOKI_DIR_DBS+`/${databaseName}.db`);
+function getDatabaseOptions(databaseName, databaseOptions, callback) {
     const options = {};
 
     for (const prop in DEFAULT_DATABASE_OPTIONS) {
@@ -115,18 +108,33 @@ function createDatabase(databaseName, databaseOptions, callback) {
         }
     }
 
-    options.autoloadCallback = (err) => {
-        if (callback) {
-            callback(err, getDatabaseProperties(databaseName));
-        }
-    };
-
     options.adapter = new lokilfsa();
+
+    if (callback) {
+        options.autoloadCallback = (err) => {
+            if (callback) {
+                callback(err, getDatabaseProperties(databaseName));
+            }
+        };
+    }
+
+    return options;
+}
+
+function createDatabase(databaseName, databaseOptions, callback) {
+
+    if (typeof databaseOptions === 'function') {
+        callback = databaseOptions;
+        databaseOptions = null;
+    }
+
+    const dbPath = path.resolve(config.SLOKI_DIR_DBS+`/${databaseName}.db`);
+    const options = getDatabaseOptions(databaseName, databaseOptions, callback);
 
     dbs[databaseName] = new loki(dbPath, options);
 
     // save on create when adapter specified
-    if (options.adapter && dbs[databaseName].collections.length === 0) {
+    if (options.adapter) {
         dbs[databaseName].save((err) => {
             if (callback) {
                 callback(err, getDatabaseProperties(databaseName));
@@ -137,8 +145,16 @@ function createDatabase(databaseName, databaseOptions, callback) {
     return dbs[databaseName];
 }
 
+
+function loadDatabaseFromDisk(databaseName, callback) {
+    const dbPath = path.resolve(config.SLOKI_DIR_DBS+`/${databaseName}.db`);
+    const options = getDatabaseOptions(databaseName, null, callback);
+    dbs[databaseName] = new loki(dbPath, options);
+}
+
 module.exports = {
     getDatabaseProperties,
+    loadDatabaseFromDisk,
     createDatabase,
     dbs,
     collections,
