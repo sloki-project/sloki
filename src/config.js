@@ -133,9 +133,9 @@ for (const t of transports) {
 }
 
 c.SLOKI_DIR = process.env.SLOKI_DIR || argv['dir'] || c.SLOKI_DIR;
-c.SHOW_OPS_INTERVAL = process.env.SLOKI_SHOW_OPS_INTERVAL || argv['show-ops-interval'] || c.SHOW_OPS_INTERVAL;
-c.GC_INTERVAL = process.env.SLOKI_GC_INTERVAL || argv['gc-interval'] || c.GC_INTERVAL;
-c.MEM_LIMIT = process.env.SLOKI_MEM_LIMIT || argv['mem-limit'] || c.MEM_LIMIT;
+c.SHOW_OPS_INTERVAL = parseInt(process.env.SLOKI_SHOW_OPS_INTERVAL || argv['show-ops-interval'] || c.SHOW_OPS_INTERVAL);
+c.GC_INTERVAL = parseInt(process.env.SLOKI_GC_INTERVAL || argv['gc-interval'] || c.GC_INTERVAL);
+c.MEM_LIMIT = parseInt(process.env.SLOKI_MEM_LIMIT || argv['mem-limit'] || c.MEM_LIMIT);
 
 
 /********************************
