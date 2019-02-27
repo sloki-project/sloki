@@ -31,7 +31,7 @@
     "async": "2.6.2",
     "evillogger": "1.2.2",
     "fs-extra": "7.0.1",
-    "historic-readline": "^1.0.8",
+    "historic-readline": "1.0.8",
     "jayson": "2.1.2",
     "klaw-sync": "6.0.0",
     "lokijs": "franck34/LokiJS",
@@ -40,11 +40,12 @@
     "process-top": "1.0.0",
     "selfsigned": "1.10.4",
     "sloki-node-client": "sloki-project/sloki-node-client",
-    "sprintf-js": "^1.1.2"
   },
   "devDependencies": {
     "eslint": "5.14.1",
-    "microtime-fast": "^1.0.2",
+    "microtime-fast": "1.0.2",
+    "pretty-ms": "4.0.0",
+    "sprintf-js": "1.1.2",
     "tap-spec": "5.0.0",
     "tape": "4.10.1"
   }
