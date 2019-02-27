@@ -14,7 +14,7 @@ require('./client')(__filename, (test, client, end) => {
     test.test('getCollection', subtest  => {
         client.getCollection({ collection: collectionName }, (err, result) => {
             subtest.deepEqual(err, undefined, 'method should not return an error');
-            subtest.deepEqual(result, null, 'should return '+collectionName+' properties');
+            subtest.deepEqual(result, undefined, 'should return undefined');
             subtest.end();
             end();
         });
