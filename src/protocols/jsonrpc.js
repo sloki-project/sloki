@@ -1,4 +1,3 @@
-const config = require('../config');
 const jayson = require('jayson');
 const methods = require('../methods/');
 const errors = require('./errors');
@@ -8,6 +7,7 @@ function Server(options) {
     let jaysonServer;
     let server;
     let operationsCount = 0;
+    let totalOperationsCount = 0;
     let timerShowOperationsCount;
     let protocol;
 
@@ -91,14 +91,17 @@ function Server(options) {
             log.debug('%s: exec %s', socket.id, method);
         }
 
-        config.SHOW_OPS_INTERVAL && operationsCount++;
+        options.SHOW_OPS_INTERVAL && operationsCount++;
+        totalOperationsCount++;
 
         return methods.getHandler(method, params, { server, session:socket });
     }
 
     function showOperationsCount() {
         const c = Math.round((operationsCount*1000)/options.SHOW_OPS_INTERVAL);
-        if (c>0) log.info(c, 'ops/sec');
+        if (operationsCount>0) {
+            log.info(c, 'ops/sec', totalOperationsCount, 'ops');
+        }
         operationsCount = 0;
     }
 
@@ -154,8 +157,8 @@ function Server(options) {
 
         server.listen(options.PORT, options.HOST);
 
-        if (config.SHOW_OPS_INTERVAL) {
-            timerShowOperationsCount = setInterval(showOperationsCount, config.SHOW_OPS_INTERVAL);
+        if (options.SHOW_OPS_INTERVAL) {
+            timerShowOperationsCount = setInterval(showOperationsCount, options.SHOW_OPS_INTERVAL);
         }
     }
 
@@ -180,7 +183,7 @@ function Server(options) {
                 log.error(err);
             }
             log.warn('server closed');
-            config.SHOW_OPS_INTERVAL && clearInterval(timerShowOperationsCount);
+            options.SHOW_OPS_INTERVAL && clearInterval(timerShowOperationsCount);
             callback();
         });
     }

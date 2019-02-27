@@ -11,6 +11,7 @@ function Server(options) {
 
     let server;
     let operationsCount = 0;
+    let totalOperationsCount = 0;
     let timerShowOperationsCount;
     let protocol;
 
@@ -107,6 +108,7 @@ function Server(options) {
             }
 
             options.SHOW_OPS_INTERVAL && operationsCount++;
+            totalOperationsCount++;
 
             rpcIn({ data, socket, encoder });
         });
@@ -124,7 +126,9 @@ function Server(options) {
 
     function showOperationsCount() {
         const c = Math.round((operationsCount*1000)/options.SHOW_OPS_INTERVAL);
-        if (c>0) log.info(c, 'ops/sec');
+        if (operationsCount>0) {
+            log.info(c, 'ops/sec', totalOperationsCount, 'ops');
+        }
         operationsCount = 0;
     }
 
