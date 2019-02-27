@@ -4,8 +4,8 @@
   "description": "A NodeJS server for LokiJS",
   "main": "index.js",
   "scripts": {
-    "test": "node --optimize_for_size --expose_gc test/index.js",
-    "start": "node --optimize_for_size --max_old_space_size=7360 --expose_gc index.js"
+    "test": "node --expose_gc test/index.js",
+    "start": "node --max_old_space_size=7360 --expose_gc index.js"
   },
   "bin": {
     "sloki-cli": "bin/cli.js",
@@ -39,10 +39,12 @@
     "pretty-bytes": "5.1.0",
     "process-top": "1.0.0",
     "selfsigned": "1.10.4",
-    "sloki-node-client": "sloki-project/sloki-node-client"
+    "sloki-node-client": "sloki-project/sloki-node-client",
+    "sprintf-js": "^1.1.2"
   },
   "devDependencies": {
     "eslint": "5.14.1",
+    "microtime-fast": "^1.0.2",
     "tap-spec": "5.0.0",
     "tape": "4.10.1"
   }
