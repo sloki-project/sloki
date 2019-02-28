@@ -58,26 +58,41 @@ function start(options, callback) {
         return;
     }
 
+    let realConfig = JSON.parse(JSON.stringify(config));
+    realConfig = Object.assign(realConfig, options||{});
+    realConfig.SLOKI_DIR_DBS = path.resolve(realConfig.SLOKI_DIR+'/dbs');
 
-    config = Object.assign(config, options||{});
-    config.SLOKI_DIR_DBS = path.resolve(config.SLOKI_DIR+'/dbs');
+    config = realConfig;
 
     async.series([
         (next) => {
-            ssl.check(next);
+            ssl.check(config, next);
         },
         (next) => {
-            if (!config.TCP_BINARY_ENABLE) {
+            if (!process.env.DEBUG) {
+                return next();
+            }
+            for (const key in config) {
+                if (key.match(/SSL\_/)) {
+                    log.debug(`${key} (pem file content, but not displayed)`);
+                } else {
+                    log.debug(`${key}: ${config[key]}`);
+                }
+            }
+            next();
+        },
+        (next) => {
+            if (!realConfig.TCP_BINARY_ENABLE) {
                 next();
                 return;
             }
 
             tcpBinaryServerInstance = new binaryServer({
-                HOST:config.TCP_BINARY_HOST,
-                PORT:config.TCP_BINARY_PORT,
-                MAX_CLIENTS:config.TCP_BINARY_MAX_CLIENTS,
+                HOST:realConfig.TCP_BINARY_HOST,
+                PORT:realConfig.TCP_BINARY_PORT,
+                MAX_CLIENTS:realConfig.TCP_BINARY_MAX_CLIENTS,
                 SSL:false,
-                SHOW_OPS_INTERVAL:config.SHOW_OPS_INTERVAL
+                SHOW_OPS_INTERVAL:realConfig.SHOW_OPS_INTERVAL
             });
 
             tcpBinaryServerInstance.start(next);

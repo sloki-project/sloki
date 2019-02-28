@@ -38,16 +38,16 @@ function generateCertificates() {
     fs.outputFileSync(clientCertificateFile, pems.clientcert);
 }
 
-function readCertificates() {
+function readCertificates(realConfig) {
 
     log.info('reading SSL certificates ...');
 
-    config.SSL_PRIVATE_KEY = fs.readFileSync(serverPrivateKeyFile);
-    config.SSL_CERTIFICATE = fs.readFileSync(serverCertificateFile);
-    config.SSL_CA = fs.readFileSync(serverCAFile);
+    realConfig.SSL_PRIVATE_KEY = fs.readFileSync(serverPrivateKeyFile);
+    realConfig.SSL_CERTIFICATE = fs.readFileSync(serverCertificateFile);
+    realConfig.SSL_CA = fs.readFileSync(serverCAFile);
 }
 
-function check(callback) {
+function check(realConfig, callback) {
 
     if (!fs.pathExistsSync(certPath)) {
         fs.ensureDirSync(certPath);
@@ -58,7 +58,7 @@ function check(callback) {
         generateCertificates();
     }
 
-    readCertificates();
+    readCertificates(realConfig);
 
     callback();
 }
