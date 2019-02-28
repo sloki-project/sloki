@@ -6,12 +6,14 @@ const async = require('async');
 const loki = require('lokijs');
 const lokilfsa = require(process.cwd()+'/node_modules/lokijs/src/loki-fs-structured-adapter.js');
 
-const config = require('./config');
+let config;
 
 const dbs = {};
 const collections = {};
 
-function initialize(callback) {
+function initialize(realConfig, callback) {
+
+    config = realConfig;
 
     if (!fs.pathExistsSync(config.SLOKI_DIR_DBS)) {
         fs.ensureDirSync(config.SLOKI_DIR_DBS);

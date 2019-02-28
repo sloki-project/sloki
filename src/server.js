@@ -151,7 +151,9 @@ function start(options, callback) {
 
             tlsJsonRpcServerInstance.start(next);
         },
-        db.initialize
+        (next) => {
+            db.initialize(config, next);
+        }
     ], (err) => {
         if (!err) {
             running = true;
