@@ -11,32 +11,34 @@ if (process.env.NODE_ENV === 'dev') {
     Client = require('sloki-node-client');
 }
 
-
 const engine = process.env.SLOKI_SERVER_ENGINE||'binary';
 
 module.exports = (title, callback) => {
 
-    const tcpClient = new Client(endpoints[engine], { engine });
+    const client = new Client(endpoints[engine], { engine });
 
     function end() {
-        tcpClient.close();
+        client.close();
     }
 
     tap.test(
         path.basename(title),
-        { timeout:config.DATABASES_AUTOSAVE_INTERVAL*3 },
+        { timeout:config.DATABASES_DEFAULT_OPTIONS.autosaveInterval*3 },
         t => {
 
-            tcpClient.on('error', err => {
+            client.on('error', err => {
                 t.fail('socket error', err);
                 t.end();
             });
 
-            tcpClient
+            client
                 .connect()
                 .then(err => {
                     t.deepEqual(err, undefined, `should be connected (${engine})`);
-                    callback(t, tcpClient, end);
+                    callback(t, client, end);
+                })
+                .catch(err => {
+                    throw err;
                 });
         }
     );
