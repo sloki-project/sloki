@@ -1,12 +1,17 @@
 const log = require('evillogger')({ ns:'tests' });
-const server = require('../src/server');
 const klawSync = require('klaw-sync');
 const path = require('path');
 const async = require('async');
 const spawn = require('child_process').spawn;
 const fs = require('fs-extra');
-const config = require('../src/config');
 const homedir = require('os').homedir();
+const server = require('../').server;
+
+const options = {
+    SLOKI_DIR:path.resolve(homedir+'/.slokitest'),
+    SLOKI_DIR_DBS:path.resolve(homedir+'/.slokitest/dbs'),
+    MEM_LIMIT:62        // in Mb
+};
 
 const tests = {};
 
@@ -31,19 +36,24 @@ function prepareTests() {
 }
 
 function cleanTestDatabases(callback) {
-    if (!fs.pathExistsSync(config.SLOKI_DIR_DBS)) {
-        callback();
+    if (!fs.pathExistsSync(options.SLOKI_DIR_DBS)) {
+        if (callback) {
+            callback();
+        }
         return;
     }
 
     let file;
-    for (file of klawSync(config.SLOKI_DIR_DBS, { depthLimit:0 })) {
-        if (path.basename(file.path).match(/\_\_/)) {
+    const files = klawSync(options.SLOKI_DIR_DBS, { depthLimit:0 });
+    for (file of files) {
+        if (path.basename(file.path).match(/^\_\_/)) {
             fs.removeSync(file.path);
             console.log(`removed ${file.path}`);
         }
     }
-    callback();
+    if (callback) {
+        callback();
+    }
 }
 
 
@@ -105,38 +115,33 @@ function runTests(engine, done) {
     );
 }
 
-const options = {
-    SLOKI_DIR:path.resolve(homedir+'/.slokitest'),
-    MEM_LIMIT:62        // in Mb
-};
-
-server.start(options, (err) => {
-    if (err) {
-        throw new Error(err);
-    }
-
-    async.series([
-        cleanTestDatabases,
-        (next) => {
-            runTests('binary', next);
-        },
-        cleanTestDatabases,
-        (next) => {
-            runTests('binarys', next);
-        },
-        cleanTestDatabases,
-        (next) => {
-            runTests('jsonrpc', next);
-        },
-        cleanTestDatabases,
-        (next) => {
-            runTests('jsonrpcs', next);
-        },
-        cleanTestDatabases,
-        (next) => {
-            server.stop(next);
+function startServer(callback) {
+    cleanTestDatabases();
+    server.start(options, (err) => {
+        if (err) {
+            throw new Error(err);
         }
-    ], () => {
-        process.exit();
+        callback();
     });
+}
+
+function stopServer(callback) {
+    server.stop(callback);
+}
+
+function binarys(callback) {
+    runTests('binarys', callback);
+}
+
+function jsonrpcs(callback) {
+    runTests('jsonrpcs', callback);
+}
+
+async.series([
+    startServer,
+    binarys,
+    jsonrpcs,
+    stopServer
+], () => {
+    process.exit();
 });
