@@ -34,7 +34,7 @@ function handler(params, context, callback) {
             callback(null, { success:true });
         });
     } catch(e) {
-        callback(e);
+        callback(method.internalError(e.message));
     }
 }
 
