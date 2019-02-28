@@ -54,10 +54,10 @@ require('./client')(__filename, (test, client, end) => {
             });
         });
 
-        test.test('get on a non existing document by id should return null', subtest  => {
+        test.test('get on a non existing document by id should return an error', subtest  => {
             client.get({ collection:collectionName, id:10 }, (err, result) => {
-                subtest.deepEqual(err, undefined, 'method should not return an error');
-                subtest.deepEqual(result, undefined, `should return error ${JSON.stringify(expectedErr)}`);
+                subtest.deepEqual(err, expectedErr, `should return error ${JSON.stringify(expectedErr)}`);
+                subtest.deepEqual(result, undefined, 'should return undefined');
                 subtest.end();
                 end();
             });
