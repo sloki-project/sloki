@@ -58,39 +58,19 @@ function cleanTestDatabases(callback) {
 
 
 function runTests(engine, done) {
+
     prepareTests();
-
-
-    // available reporters:
-    // classic doc dot dump json jsonstream
-    // landing list markdown min nyan progress
-    // silent spec tap xunit
-
-    const reporter = 'spec';
-
-    const optionTap = [
-        path.resolve('./node_modules/tap/bin/run.js'),
-        '--reporter='+reporter
-    ];
-
-    const optionTape = [
-        path.resolve('./node_modules/tape/bin/tape')
-    ];
-
-    const tester = 'tape'; // or tap
 
     async.mapSeries(
         tests,
         (test, next) => {
-            let args;
-            if (tester === 'tape') {
-                args = JSON.parse(JSON.stringify(optionTape));
-            } else {
-                args = JSON.parse(JSON.stringify(optionTap));
-            }
-            args.push(test);
 
             process.env.SLOKI_SERVER_ENGINE = engine;
+
+            const args = [
+                path.resolve('./node_modules/tape/bin/tape'),
+                test
+            ];
 
             const opts = {
                 stdio:'inherit',
@@ -116,7 +96,6 @@ function runTests(engine, done) {
 }
 
 function startServer(callback) {
-    cleanTestDatabases();
     server.start(options, (err) => {
         if (err) {
             throw new Error(err);
@@ -138,6 +117,7 @@ function jsonrpcs(callback) {
 }
 
 async.series([
+    cleanTestDatabases,
     startServer,
     binarys,
     jsonrpcs,
