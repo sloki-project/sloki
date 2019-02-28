@@ -1,22 +1,21 @@
 const log = require('evillogger')({ ns:'Method' });
-const shared = require('./shared');
 const config = require('../config');
 
 function triggerError(msg, callback) {
-    callback({ code:shared.ERROR_CODE_PARAMETER, message:msg });
+    callback({ code:config.ERROR_CODE_PARAMETER, message:msg });
     if (config.TCP_ENGINE!='binary') {
         log.warn(msg);
     }
 }
 
 function triggerErrorInternal(msg, callback) {
-    callback({ code:shared.ERROR_CODE_INTERNAL, message:msg });
+    callback({ code:config.ERROR_CODE_INTERNAL, message:msg });
     if (config.TCP_ENGINE!='binary') {
         log.warn(msg);
     }
 }
 
-function Command(descriptor, handler) {
+function Method(descriptor, handler) {
 
     let descriptorPropertiesCount = 0;
     if (descriptor.properties) {
@@ -222,4 +221,23 @@ function Command(descriptor, handler) {
     };
 }
 
-module.exports = Command;
+function internalError(msg) {
+    return {
+        code: config.ERROR_CODE_INTERNAL,
+        message: msg
+    };
+}
+
+function parameterError(msg) {
+    return {
+        code: config.ERROR_CODE_PARAMETER,
+        message: msg
+    };
+}
+
+module.exports = {
+    Method,
+    internalError,
+    parameterError,
+    RE_DATABASE_NAME:config.RE_DATABASE_NAME
+};

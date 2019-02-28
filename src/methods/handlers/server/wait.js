@@ -1,4 +1,4 @@
-const Method = require('../../Method');
+const method = require('../../method');
 
 const descriptor = {
     title:'wait',
@@ -21,4 +21,4 @@ function handler(params, context, callback) {
     }, 1000);
 }
 
-module.exports = new Method(descriptor, handler);
+module.exports = new method.Method(descriptor, handler);

@@ -3,7 +3,7 @@ const path = require('path');
 const top = require('process-top')();
 const prettyBytes = require('pretty-bytes');
 const async = require('async');
-const loki = require('./loki');
+const db = require('./db');
 const binaryServer = require('./protocols/binary');
 const jsonRpcServer = require('./protocols/jsonrpc');
 const ssl = require('./ssl');
@@ -136,7 +136,7 @@ function start(options, callback) {
 
             tlsJsonRpcServerInstance.start(next);
         },
-        loki.initialize
+        db.initialize
     ], (err) => {
         if (!err) {
             running = true;

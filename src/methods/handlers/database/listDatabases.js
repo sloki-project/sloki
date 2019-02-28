@@ -1,5 +1,5 @@
-const shared = require('../../shared');
-const Method = require('../../Method');
+const db = require('../../../db');
+const method = require('../../method');
 
 const descriptor = {
     title:'listDatabases',
@@ -20,12 +20,11 @@ const descriptor = {
 function handler(params, context, callback) {
 
     const dbs = [];
-    let db;
-    for (db of Object.keys(shared.dbs)) {
-        dbs.push(db);
+    for (const dbName of Object.keys(db.dbs)) {
+        dbs.push(dbName);
     }
 
     callback(null, dbs);
 }
 
-module.exports = new Method(descriptor, handler);
+module.exports = new method.Method(descriptor, handler);

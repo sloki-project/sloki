@@ -1,4 +1,4 @@
-const Method = require('../../Method');
+const method = require('../../method');
 const slokiVersion = require('../../../../package.json').version;
 const lokijsVersion = require(process.cwd()+'/node_modules/lokijs/package.json').version;
 
@@ -24,4 +24,4 @@ function handler(params, context, callback) {
     });
 }
 
-module.exports = new Method(descriptor, handler);
+module.exports = new method.Method(descriptor, handler);

@@ -1,9 +1,9 @@
 const methods = require('../methods/');
-const shared = require('../methods/shared');
 const net = require('net');
 const tls = require('tls');
 const missive = require('missive');
 const errors = require('./errors');
+const config = require('../config');
 
 const ZLIB = false;
 
@@ -34,7 +34,7 @@ function Server(options) {
                     task.encoder.write({
                         id:task.data.id,
                         error:{
-                            code:shared.ERROR_CODE_PARAMETER,
+                            code:config.ERROR_CODE_PARAMETER,
                             message:err.message
                         }
                     });

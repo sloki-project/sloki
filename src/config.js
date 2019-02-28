@@ -13,9 +13,22 @@ const defaults = {
 
     // default database dir is in the home of the user
     SLOKI_DIR:path.resolve(homedir+'/.sloki'),
-    DATABASES_AUTOSAVE_INTERVAL:1000*60*5,
-    DATABASES_FORCE_SAVE_ON_CREATE:true,
 
+    DATABASES_DEFAULT_OPTIONS :  {
+        //serializationMethod:'pretty',
+        autoload:true,
+        autosave:true,
+        autosaveInterval:1000*60*5,
+    },
+
+    RE_COLLETION_NAME: '^[a-z0-9\-\.\_]{1,50}$',
+    RE_DATABASE_NAME: '^[a-z0-9\-\.\_]{1,50}$',
+
+    // http://jsonrpc.org/spec.html#error_object
+    ERROR_CODE_PARAMETER: -32602,
+    ERROR_CODE_INTERNAL: -32603,
+
+    // listeners
     TCP_BINARY_ENABLE:true,
     TCP_BINARY_PORT:6370,
     TCP_BINARY_HOST:'localhost',
@@ -48,7 +61,7 @@ if (process.env.DOCKER) {
     defaults.TLS_JSONRPC_HOST = ip;
 }
 
-const c = Object.assign({}, defaults);
+const c = JSON.parse(JSON.stringify(defaults));
 
 const transports = ['TCP', 'TLS'];
 const protocols = ['BINARY', 'JSONRPC'];

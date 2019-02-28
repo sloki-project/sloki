@@ -1,4 +1,4 @@
-const Method = require('../../Method');
+const method = require('../../method');
 
 const descriptor = {
     title:'clients',
@@ -20,4 +20,4 @@ function handler(params, context, callback) {
     callback(null, Object.keys(context.server.clients));
 }
 
-module.exports = new Method(descriptor, handler);
+module.exports = new method.Method(descriptor, handler);

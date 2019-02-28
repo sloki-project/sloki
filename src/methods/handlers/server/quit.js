@@ -1,4 +1,4 @@
-const Method = require('../../Method');
+const method = require('../../method');
 
 const descriptor = {
     title:'quit',
@@ -21,4 +21,4 @@ function handler(params, context, callback) {
     context.session.end();
 }
 
-module.exports = new Method(descriptor, handler);
+module.exports = new method.Method(descriptor, handler);

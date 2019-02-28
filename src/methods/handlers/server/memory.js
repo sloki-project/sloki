@@ -1,4 +1,4 @@
-const Method = require('../../Method');
+const method = require('../../method');
 const prettyBytes = require('pretty-bytes');
 const os = require('os');
 
@@ -36,4 +36,4 @@ function handler(params, context, callback) {
     callback(null, { process:used, os:osmem });
 }
 
-module.exports = new Method(descriptor, handler);
+module.exports = new method.Method(descriptor, handler);

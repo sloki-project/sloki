@@ -1,6 +1,6 @@
 const log = require('evillogger')({ ns:'collection/find' });
-const shared = require('../../shared');
-const Method = require('../../Method');
+const db = require('../../../db');
+const method = require('../../method');
 
 const descriptor = {
     title:'find',
@@ -11,7 +11,7 @@ const descriptor = {
             alias:['col', 'c'],
             description:'Collection name',
             type:'string',
-            pattern:shared.RE_COLLETION_NAME,
+            pattern:db.RE_COLLETION_NAME,
             patternFlag:'i'
         },
         'filters':{
@@ -39,19 +39,16 @@ function handler(params, context, callback) {
     const collectionName = params.collection;
     const filters = params.filters;
 
-    if (!shared.collectionExists(databaseName, collectionName, callback)) {
+    if (!db.collectionExists(databaseName, collectionName, callback)) {
         return;
     }
 
     try {
-        callback(null, shared.collections[`${databaseName}.${collectionName}`].find(filters));
+        callback(null, db.collections[`${databaseName}.${collectionName}`].find(filters));
     } catch(e) {
-        callback({
-            code: shared.ERROR_CODE_INTERNAL,
-            message: e.message
-        });
+        callback(method.internalError(e.message));
         log.warn(e);
     }
 }
 
-module.exports = new Method(descriptor, handler);
+module.exports = new method.Method(descriptor, handler);

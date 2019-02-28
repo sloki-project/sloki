@@ -1,5 +1,5 @@
-const shared = require('../../shared');
-const Method = require('../../Method');
+const method = require('../../method');
+const db = require('../../../db');
 
 const descriptor = {
     title:'get',
@@ -10,7 +10,7 @@ const descriptor = {
             alias:['col', 'c'],
             description:'Collection name',
             type:'string',
-            pattern:shared.RE_COLLETION_NAME,
+            pattern:db.RE_COLLETION_NAME,
             patternFlag:'i'
         },
         'id':{
@@ -37,20 +37,18 @@ function handler(params, context, callback) {
     const collectionName = params.collection;
     const lokiId = params.id;
 
-    if (!shared.collectionExists(databaseName, collectionName, callback)) {
+    if (!db.collectionExists(databaseName, collectionName, callback)) {
         return;
     }
 
-    const doc = shared.collections[`${databaseName}.${collectionName}`].get(lokiId);
+    const doc = db.collections[`${databaseName}.${collectionName}`].get(lokiId);
     if (doc) {
         callback(null, doc);
         return;
     }
 
-    callback({
-        code: shared.ERROR_CODE_INTERNAL,
-        message:'Object is not a document stored in the collection'
-    });
+    callback(method.internalError('Object is not a document stored in the collection'));
+
 }
 
-module.exports = new Method(descriptor, handler);
+module.exports = new method.Method(descriptor, handler);

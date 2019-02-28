@@ -1,6 +1,6 @@
 const log = require('evillogger')({ ns:'collection/remove' });
-const shared = require('../../shared');
-const Method = require('../../Method');
+const method = require('../../method');
+const db = require('../../../db');
 
 const descriptor = {
     title:'update',
@@ -11,7 +11,7 @@ const descriptor = {
             alias:['col', 'c'],
             description:'Collection name',
             type:'string',
-            pattern:shared.RE_COLLETION_NAME,
+            pattern:db.RE_COLLETION_NAME,
             patternFlag:'i'
         },
         'document':{
@@ -39,23 +39,20 @@ function handler(params, context, callback) {
     const collectionName = params.collection;
     const doc = params.document;
 
-    if (!shared.collectionExists(databaseName, collectionName, callback)) {
+    if (!db.collectionExists(databaseName, collectionName, callback)) {
         return;
     }
 
     if (!doc.meta) {
-        doc.meta = shared.collections[`${databaseName}.${collectionName}`].get(doc.$loki).meta;
+        doc.meta = db.collections[`${databaseName}.${collectionName}`].get(doc.$loki).meta;
     }
 
     try {
-        callback(null, shared.collections[`${databaseName}.${collectionName}`].update(doc));
+        callback(null, db.collections[`${databaseName}.${collectionName}`].update(doc));
     } catch(e) {
-        callback({
-            code: shared.ERROR_CODE_INTERNAL,
-            message: e.message
-        });
+        callback(method.internalError(e.message));
         log.warn(e);
     }
 }
 
-module.exports = new Method(descriptor, handler);
+module.exports = new method.Method(descriptor, handler);

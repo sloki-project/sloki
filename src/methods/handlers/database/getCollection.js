@@ -1,5 +1,5 @@
-const shared = require('../../shared');
-const Method = require('../../Method');
+const db = require('../../../db');
+const method = require('../../method');
 
 const descriptor = {
     title:'getCollection',
@@ -9,7 +9,7 @@ const descriptor = {
             alias:['col', 'c'],
             description:'Collection name',
             type:'string',
-            pattern:shared.RE_COLLETION_NAME,
+            pattern:db.RE_COLLETION_NAME,
             patternFlag:'i'
         }
     },
@@ -31,20 +31,17 @@ function handler(params, context, callback) {
     const databaseName = context.session.loki.currentDatabase;
     const collectionName = params.collection;
 
-    if (!shared.databaseSelected(databaseName, callback)) {
+    if (!db.databaseSelected(databaseName, callback)) {
         return;
     }
 
-    const collectionProperties = shared.dbs[databaseName].getCollection(collectionName);
+    const collectionProperties = db.dbs[databaseName].getCollection(collectionName);
     if (collectionProperties) {
         callback(null, collectionProperties);
     } else {
-        callback({
-            code: shared.ERROR_CODE_INTERNAL,
-            message: 'Collection does not exist'
-        });
+        callback(method.internalError('Collection does not exist'));
     }
 }
 
 
-module.exports = new Method(descriptor, handler);
+module.exports = new method.Method(descriptor, handler);

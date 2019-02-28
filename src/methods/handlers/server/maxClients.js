@@ -1,5 +1,5 @@
 const log = require('evillogger')({ ns:'server/maxClients' });
-const Method = require('../../Method');
+const method = require('../../method');
 
 const descriptor = {
     title:'maxClients',
@@ -27,4 +27,4 @@ function handler(params, context, callback) {
     callback(null, maxClients);
 }
 
-module.exports = new Method(descriptor, handler);
+module.exports = new method.Method(descriptor, handler);

@@ -1,6 +1,6 @@
 const log = require('evillogger')({ ns:'collection/insert' });
-const shared = require('../../shared');
-const Method = require('../../Method');
+const method = require('../../method');
+const db = require('../../../db');
 
 const descriptor = {
     title:'insert',
@@ -11,7 +11,7 @@ const descriptor = {
             alias:['col', 'c'],
             description:'Collection name',
             type:'string',
-            pattern:shared.RE_COLLETION_NAME,
+            pattern:db.RE_COLLETION_NAME,
             patternFlag:'i'
         },
         'document':{
@@ -45,28 +45,28 @@ function handler(params, context, callback) {
     const doc = params.document;
     const options = params.options;
 
-    if (!shared.databaseSelected(databaseName, callback)) {
+    if (!db.databaseSelected(databaseName, callback)) {
         return;
     }
 
     const collectionReference = `${databaseName}.${collectionName}`;
-    let collection = shared.collections[collectionReference];
+    let collection = db.collections[collectionReference];
 
     if (!collection) {
         // collection reference does not exist, let's create reference
-        shared.collections[collectionReference] = shared.dbs[databaseName].getCollection(collectionName);
-        collection = shared.collections[collectionReference];
+        db.collections[collectionReference] = db.dbs[databaseName].getCollection(collectionName);
+        collection = db.collections[collectionReference];
         if (!collection) {
             // collection does not exist, let's create a collection without options
-            shared.collections[collectionReference] = shared.dbs[databaseName].addCollection(collectionName);
+            db.collections[collectionReference] = db.dbs[databaseName].addCollection(collectionName);
             log.debug(`collection ${collectionName} created in database ${databaseName}`);
-            collection = shared.collections[collectionReference];
+            collection = db.collections[collectionReference];
         }
     }
 
     if (!collection) {
         // Jayson will make a nice error for us, we don't care about err value
-        callback('internalerror');
+        callback(method.internalError('Collection not found and can not be created'));
         return;
     }
 
@@ -105,4 +105,4 @@ function handler(params, context, callback) {
     }
 }
 
-module.exports = new Method(descriptor, handler);
+module.exports = new method.Method(descriptor, handler);

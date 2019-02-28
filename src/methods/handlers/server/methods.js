@@ -1,4 +1,4 @@
-const Method = require('../../Method');
+const method = require('../../method');
 
 const descriptor = {
     title:'methods',
@@ -21,4 +21,4 @@ function handler(params, context, callback) {
     callback(null, require('../../').listWithDescriptor());
 }
 
-module.exports = new Method(descriptor, handler);
+module.exports = new method.Method(descriptor, handler);

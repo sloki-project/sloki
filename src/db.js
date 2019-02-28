@@ -1,23 +1,47 @@
-const log = require('evillogger')({ ns:'methods/shared' });
+const log = require('evillogger')({ ns:'db' });
 const path = require('path');
+const fs = require('fs-extra');
+const klawSync = require('klaw-sync');
+const async = require('async');
 const loki = require('lokijs');
 const lokilfsa = require(process.cwd()+'/node_modules/lokijs/src/loki-fs-structured-adapter.js');
 
-const config = require('../config');
+const config = require('./config');
 
 const dbs = {};
 const collections = {};
 
-// http://jsonrpc.org/spec.html#error_object
-const ERROR_CODE_PARAMETER = -32602;
-const ERROR_CODE_INTERNAL = -32603;
+function initialize(callback) {
 
-const DEFAULT_DATABASE_OPTIONS =  {
-    //serializationMethod:'pretty',
-    autoload:true,
-    autosave:true,
-    autosaveInterval:config.DATABASES_AUTOSAVE_INTERVAL,
-};
+    if (!fs.pathExistsSync(config.SLOKI_DIR_DBS)) {
+        fs.ensureDirSync(config.SLOKI_DIR_DBS);
+        log.info(`directory ${config.SLOKI_DIR_DBS} created`);
+    }
+
+    let file;
+
+    log.info(`loading databases from ${config.SLOKI_DIR_DBS}`);
+
+    const dbs = [];
+
+    for (file of klawSync(config.SLOKI_DIR_DBS)) {
+        if (file.path.match(/\.(json|db)$/)) {
+            dbs.push(path.basename(file.path).replace(/\.(json|db)/, ''));
+        }
+    }
+
+    if (dbs.indexOf('test')<0) {
+        dbs.push('test');
+    }
+
+    async.each(dbs, (db, next) => {
+        log.info(`loading database ${db}`);
+        loadDatabaseFromDisk(db, () => {
+            log.info(`database ${db} loaded`);
+            next();
+        });
+    }, callback);
+}
 
 function databaseSelected(databaseName, callback) {
     if (dbs[databaseName]) {
@@ -27,7 +51,7 @@ function databaseSelected(databaseName, callback) {
     const msg = 'no database selected';
 
     callback({
-        code: ERROR_CODE_INTERNAL,
+        code: config.ERROR_CODE_INTERNAL,
         message: msg
     });
 
@@ -49,7 +73,7 @@ function collectionExists(databaseName, collectionName, callback) {
     const msg = `collection ${collectionName} does not exist in database ${databaseName}`;
 
     callback({
-        code: ERROR_CODE_PARAMETER,
+        code: config.ERROR_CODE_PARAMETER,
         message: msg
     });
 
@@ -94,13 +118,7 @@ function getDatabaseProperties(databaseName, callback) {
 }
 
 function getDatabaseOptions(databaseName, databaseOptions, callback) {
-    const options = {};
-
-    for (const prop in DEFAULT_DATABASE_OPTIONS) {
-        if (DEFAULT_DATABASE_OPTIONS.hasOwnProperty(prop)) {
-            options[prop] = DEFAULT_DATABASE_OPTIONS[prop];
-        }
-    }
+    const options = JSON.parse(JSON.stringify(config.DATABASES_DEFAULT_OPTIONS));
 
     for (const prop in databaseOptions||{}) {
         if (databaseOptions.hasOwnProperty(prop)) {
@@ -129,18 +147,17 @@ function createDatabase(databaseName, databaseOptions, callback) {
     }
 
     const dbPath = path.resolve(config.SLOKI_DIR_DBS+`/${databaseName}.db`);
-    const options = getDatabaseOptions(databaseName, databaseOptions, callback);
+
+    const options = getDatabaseOptions(databaseName, databaseOptions);
 
     dbs[databaseName] = new loki(dbPath, options);
 
     // save on create when adapter specified
-    if (options.adapter) {
-        dbs[databaseName].save((err) => {
-            if (callback) {
-                callback(err, getDatabaseProperties(databaseName));
-            }
-        });
-    }
+    dbs[databaseName].save((err) => {
+        if (callback) {
+            callback(err, getDatabaseProperties(databaseName));
+        }
+    });
 
     return dbs[databaseName];
 }
@@ -153,16 +170,13 @@ function loadDatabaseFromDisk(databaseName, callback) {
 }
 
 module.exports = {
-    getDatabaseProperties,
-    loadDatabaseFromDisk,
-    createDatabase,
-    dbs,
-    collections,
+    initialize,
     databaseSelected,
     collectionExists,
-    RE_COLLETION_NAME: '^[a-z0-9\-\.\_]{1,50}$',
-    RE_DATABASE_NAME: '^[a-z0-9\-\.\_]{1,50}$',
-    DEFAULT_DATABASE_OPTIONS,
-    ERROR_CODE_PARAMETER,
-    ERROR_CODE_INTERNAL
+    getDatabaseProperties,
+    getDatabaseOptions,
+    createDatabase,
+    loadDatabaseFromDisk,
+    dbs,
+    collections
 };

@@ -1,5 +1,5 @@
-const shared = require('../../shared');
-const Method = require('../../Method');
+const db = require('../../../db');
+const method = require('../../method');
 
 const descriptor = {
     title:'listCollections',
@@ -20,11 +20,11 @@ const descriptor = {
 function handler(params, context, callback) {
     const databaseName = context.session.loki.currentDatabase;
 
-    if (!shared.databaseSelected(databaseName, callback)) {
+    if (!db.databaseSelected(databaseName, callback)) {
         return;
     }
 
-    callback(null, shared.dbs[databaseName].listCollections());
+    callback(null, db.dbs[databaseName].listCollections());
 }
 
-module.exports = new Method(descriptor, handler);
+module.exports = new method.Method(descriptor, handler);

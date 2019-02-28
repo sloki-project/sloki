@@ -1,5 +1,5 @@
-const shared = require('../../shared');
-const Method = require('../../Method');
+const method = require('../../method');
+const db = require('../../../db');
 
 const descriptor = {
     title:'addCollection',
@@ -10,7 +10,7 @@ const descriptor = {
             alias:['col', 'c'],
             description:'Collection name',
             type:'string',
-            pattern:shared.RE_COLLETION_NAME,
+            pattern:db.RE_COLLETION_NAME,
             patternFlag:'i'
         },
         'options':{
@@ -37,12 +37,12 @@ function handler(params, context, callback) {
     const collectionName = params.collection;
     const collectionOptions = params.options;
 
-    if (!shared.databaseSelected(databaseName, callback)) {
+    if (!db.databaseSelected(databaseName, callback)) {
         return;
     }
 
-    shared.collections[`${databaseName}.${collectionName}`] = shared.dbs[databaseName].addCollection(collectionName, collectionOptions);
-    callback(null, shared.collections[`${databaseName}.${collectionName}`]);
+    db.collections[`${databaseName}.${collectionName}`] = db.dbs[databaseName].addCollection(collectionName, collectionOptions);
+    callback(null, db.collections[`${databaseName}.${collectionName}`]);
 }
 
-module.exports = new Method(descriptor, handler);
+module.exports = new method.Method(descriptor, handler);

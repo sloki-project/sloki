@@ -1,6 +1,6 @@
 const log = require('evillogger')({ ns:'database/loadDatabase' });
-const shared = require('../../shared');
-const Method = require('../../Method');
+const db = require('../../../db');
+const method = require('../../method');
 
 const descriptor = {
     title:'loadDatabase',
@@ -10,7 +10,7 @@ const descriptor = {
             alias:['db', 'd'],
             description:'Database name',
             type:'string',
-            pattern:shared.RE_DATABASE_NAME,
+            pattern:db.RE_DATABASE_NAME,
             patternFlag:'i'
         },
         'options':{
@@ -47,17 +47,17 @@ function handler(params, context, callback) {
         callback(null, result);
     }
 
-    shared.getDatabaseProperties(databaseName, (err, result) => {
+    db.getDatabaseProperties(databaseName, (err, result) => {
         if (result) {
             ret(result);
             return;
         }
 
-        shared.createDatabase(databaseName, databaseOptions, (err, result) => {
+        db.createDatabase(databaseName, databaseOptions, (err, result) => {
             ret(result, true);
         });
     });
 
 }
 
-module.exports = new Method(descriptor, handler);
+module.exports = new method.Method(descriptor, handler);
