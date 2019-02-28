@@ -1,3 +1,4 @@
+const log = require('evillogger')({ ns:'database/saveDatabase' });
 const db = require('../../../db');
 const method = require('../../method');
 
@@ -34,6 +35,7 @@ function handler(params, context, callback) {
             callback(null, { success:true });
         });
     } catch(e) {
+        log.error(e);
         callback(method.internalError(e.message));
     }
 }
