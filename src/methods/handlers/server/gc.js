@@ -2,6 +2,7 @@ const log = require('evillogger')({ ns:'server/maxClient' });
 const Method = require('../../Method');
 const prettyBytes = require('pretty-bytes');
 const shared = require('../../shared');
+const config = require('../../../config');
 
 const descriptor = {
     title:'gc',
@@ -25,28 +26,46 @@ function getMem() {
         rss:prettyBytes(mem.rss),
         heapTotal:prettyBytes(mem.heapTotal),
         heapUsed:prettyBytes(mem.heapUsed),
-        external:prettyBytes(mem.external)
+        external:prettyBytes(mem.external),
+        allowed:config.MEM_LIMIT+' MB'
     };
 }
 
 function handler(params, context, callback) {
-    if (global.gc) {
-        log.warn('running garbage collector ...');
-        const before = getMem();
-
-        global.gc();
-
-        setTimeout(() => {
-            const after = getMem();
-            callback(null, { called:true, before, after });
-        }, 1000*5);
-    } else {
+    if (!global.gc) {
         const err = {
             code:shared.ERROR_CODE_PARAMETER,
             message:'garbage collector not available, please use node --expose_gc when starting sloki'
         };
         callback(err);
+        return;
     }
+
+    log.warn('running garbage collector ...');
+    const before = getMem();
+
+    global.gc();
+
+    let i = 0;
+
+    function wait() {
+        if (config.MEM_LIMIT_REACHED && i < 60) {
+            i++;
+            setTimeout(() => {
+                wait();
+            }, 1000);
+        } else {
+            const after = getMem();
+            callback(null, {
+                belowMemLimit:!config.MEM_LIMIT_REACHED,
+                before,
+                after,
+                execTime:i
+            });
+        }
+    }
+
+    wait();
 }
 
 module.exports = new Method(descriptor, handler);
