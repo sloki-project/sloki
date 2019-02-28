@@ -49,7 +49,7 @@ function handler(params, context, callback) {
     let i = 0;
 
     function wait() {
-        if (config.MEM_LIMIT_REACHED && i < 60) {
+        if (config.MEM_LIMIT_REACHED && i < 120) {
             i++;
             setTimeout(() => {
                 wait();
