@@ -40,7 +40,17 @@ function handler(params, context, callback) {
     if (!shared.collectionExists(databaseName, collectionName, callback)) {
         return;
     }
-    callback(null, shared.collections[`${databaseName}.${collectionName}`].get(lokiId));
+
+    const doc = shared.collections[`${databaseName}.${collectionName}`].get(lokiId);
+    if (doc) {
+        callback(null, doc);
+        return;
+    }
+
+    callback({
+        code: shared.ERROR_CODE_INTERNAL,
+        message:'Object is not a document stored in the collection'
+    });
 }
 
 module.exports = new Method(descriptor, handler);
