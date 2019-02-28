@@ -19,6 +19,7 @@ const defaults = {
         autoload:true,
         autosave:true,
         autosaveInterval:1000*60*5,
+        throttledSaves:false
     },
 
     RE_COLLETION_NAME: '^[a-z0-9\-\.\_]{1,50}$',
