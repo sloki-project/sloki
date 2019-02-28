@@ -1,5 +1,4 @@
 const tap = require('../tap');
-const config = require('../../src/config');
 const endpoints = require('../endpoints');
 const path = require('path');
 
@@ -17,13 +16,9 @@ module.exports = (title, callback) => {
 
     const client = new Client(endpoints[engine], { engine });
 
-    function end() {
-        client.close();
-    }
-
     tap.test(
         path.basename(title),
-        { timeout:config.DATABASES_DEFAULT_OPTIONS.autosaveInterval*3 },
+        { timeout:1000*30 },
         t => {
 
             client.on('error', err => {
@@ -35,7 +30,9 @@ module.exports = (title, callback) => {
                 .connect()
                 .then(err => {
                     t.deepEqual(err, undefined, `should be connected (${engine})`);
-                    callback(t, client, end);
+                    callback(t, client, () => {
+                        client.close();
+                    });
                 })
                 .catch(err => {
                     throw err;
