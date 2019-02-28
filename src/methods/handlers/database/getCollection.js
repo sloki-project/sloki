@@ -35,7 +35,15 @@ function handler(params, context, callback) {
         return;
     }
 
-    callback(null, shared.dbs[databaseName].getCollection(collectionName));
+    const collectionProperties = shared.dbs[databaseName].getCollection(collectionName);
+    if (collectionProperties) {
+        callback(null, collectionProperties);
+    } else {
+        callback({
+            code: shared.ERROR_CODE_INTERNAL,
+            message: 'Collection does not exist'
+        });
+    }
 }
 
 
