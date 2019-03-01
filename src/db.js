@@ -162,7 +162,7 @@ function createDatabase(databaseName, databaseOptions, callback) {
         }
     });
     */
-    
+
     callback(null, getDatabaseProperties(databaseName));
 
     return dbs[databaseName];
