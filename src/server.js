@@ -9,7 +9,7 @@ const jsonRpcServer = require('./protocols/jsonrpc');
 const ssl = require('./ssl');
 
 const config = require('./config');
-const memoryAlertInterval = 500;
+const memoryAlertInterval = 1000;
 
 let closing = false;
 let running = false;
