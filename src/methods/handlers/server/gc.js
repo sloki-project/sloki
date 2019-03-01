@@ -1,5 +1,5 @@
 const log = require('evillogger')({ ns:'server/maxClient' });
-const method = require('../../method');
+const handler = require('../../handler');
 const prettyBytes = require('pretty-bytes');
 const config = require('../../../config');
 
@@ -30,9 +30,9 @@ function getMem() {
     };
 }
 
-function handler(params, context, callback) {
+function handle(params, context, callback) {
     if (!global.gc) {
-        callback(method.internalError('garbage collector not available, please use node --expose_gc when starting sloki'));
+        callback(handler.internalError('garbage collector not available, please use node --expose_gc when starting sloki'));
         return;
     }
 
@@ -63,4 +63,4 @@ function handler(params, context, callback) {
     wait();
 }
 
-module.exports = new method.Method(descriptor, handler);
+module.exports = new handler.Method(descriptor, handle);

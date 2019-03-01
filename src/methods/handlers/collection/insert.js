@@ -1,5 +1,5 @@
 const log = require('evillogger')({ ns:'collection/insert' });
-const method = require('../../method');
+const handler = require('../../handler');
 const db = require('../../../db');
 
 const descriptor = {
@@ -39,7 +39,7 @@ const descriptor = {
  * @param {function} callback - callback
  * @memberof Commands
  */
-function handler(params, context, callback) {
+function handle(params, context, callback) {
     const databaseName = context.session.loki.currentDatabase;
     const collectionName = params.collection;
     const doc = params.document;
@@ -66,7 +66,7 @@ function handler(params, context, callback) {
 
     if (!collection) {
         // Jayson will make a nice error for us, we don't care about err value
-        callback(method.internalError('Collection not found and can not be created'));
+        callback(handler.internalError('Collection not found and can not be created'));
         return;
     }
 
@@ -105,4 +105,4 @@ function handler(params, context, callback) {
     }
 }
 
-module.exports = new method.Method(descriptor, handler);
+module.exports = new handler.Method(descriptor, handle);

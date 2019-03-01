@@ -1,6 +1,6 @@
 const log = require('evillogger')({ ns:'database/loadDatabase' });
 const db = require('../../../db');
-const method = require('../../method');
+const handler = require('../../handler');
 
 const descriptor = {
     title:'loadDatabase',
@@ -33,7 +33,7 @@ const descriptor = {
  * @param {function} callback - callback
  * @memberof Commands
  */
-function handler(params, context, callback) {
+function handle(params, context, callback) {
     const databaseName = params.database;
     const databaseOptions = params.options;
 
@@ -60,4 +60,4 @@ function handler(params, context, callback) {
 
 }
 
-module.exports = new method.Method(descriptor, handler);
+module.exports = new handler.Method(descriptor, handle);

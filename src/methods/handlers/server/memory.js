@@ -1,4 +1,4 @@
-const method = require('../../method');
+const handler = require('../../handler');
 const prettyBytes = require('pretty-bytes');
 const os = require('os');
 
@@ -18,7 +18,7 @@ const descriptor = {
 * @param {function} callback - callback
 * @memberof Commands
 */
-function handler(params, context, callback) {
+function handle(params, context, callback) {
     const used = process.memoryUsage();
     for (const key in used) {
         used[key] = prettyBytes(used[key]);
@@ -36,4 +36,4 @@ function handler(params, context, callback) {
     callback(null, { process:used, os:osmem });
 }
 
-module.exports = new method.Method(descriptor, handler);
+module.exports = new handler.Method(descriptor, handle);

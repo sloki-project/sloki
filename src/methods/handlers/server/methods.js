@@ -1,24 +1,24 @@
-const method = require('../../method');
+const handler = require('../../handler');
 
 const descriptor = {
     title:'methods',
-    description:'Return methods list'
+    description:'Return handlers list'
 };
 
 /**
 * return available commands
 *
 * @example
-* > methods
-* ['method1','method2', ...]
+* > handlers
+* ['handler1','handler2', ...]
 * ...
 *
 * @param {object} params - not used
 * @param {function} callback - callback
 * @memberof Commands
 */
-function handler(params, context, callback) {
+function handle(params, context, callback) {
     callback(null, require('../../').listWithDescriptor());
 }
 
-module.exports = new method.Method(descriptor, handler);
+module.exports = new handler.Method(descriptor, handle);

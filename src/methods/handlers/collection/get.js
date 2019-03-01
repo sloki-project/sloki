@@ -1,4 +1,4 @@
-const method = require('../../method');
+const handler = require('../../handler');
 const db = require('../../../db');
 
 const descriptor = {
@@ -32,7 +32,7 @@ const descriptor = {
  * @param {function} callback - callback
  * @memberof Commands
  */
-function handler(params, context, callback) {
+function handle(params, context, callback) {
     const databaseName = context.session.loki.currentDatabase;
     const collectionName = params.collection;
     const lokiId = params.id;
@@ -47,8 +47,8 @@ function handler(params, context, callback) {
         return;
     }
 
-    callback(method.internalError('Object is not a document stored in the collection'));
+    callback(handler.internalError('Object is not a document stored in the collection'));
 
 }
 
-module.exports = new method.Method(descriptor, handler);
+module.exports = new handler.Method(descriptor, handle);

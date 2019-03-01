@@ -1,5 +1,5 @@
 const log = require('evillogger')({ ns:'collection/remove' });
-const method = require('../../method');
+const handler = require('../../handler');
 const db = require('../../../db');
 
 const descriptor = {
@@ -45,7 +45,7 @@ const descriptor = {
  * @param {function} callback - callback
  * @memberof Commands
  */
-function handler(params, context, callback) {
+function handle(params, context, callback) {
     const databaseName = context.session.loki.currentDatabase;
     const collectionName = params.collection;
     const documentOrId = params.document || params.id;
@@ -57,9 +57,9 @@ function handler(params, context, callback) {
     try {
         callback(null, db.collections[`${databaseName}.${collectionName}`].remove(documentOrId));
     } catch(e) {
-        callback(method.internalError(e.message));
+        callback(handler.internalError(e.message));
         log.warn(e);
     }
 }
 
-module.exports = new method.Method(descriptor, handler);
+module.exports = new handler.Method(descriptor, handle);

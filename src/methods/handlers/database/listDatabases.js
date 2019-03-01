@@ -1,5 +1,5 @@
 const db = require('../../../db');
-const method = require('../../method');
+const handler = require('../../handler');
 
 const descriptor = {
     title:'listDatabases',
@@ -17,7 +17,7 @@ const descriptor = {
  * @param {function} callback - callback
  * @memberof Commands
  */
-function handler(params, context, callback) {
+function handle(params, context, callback) {
 
     const dbs = [];
     for (const dbName of Object.keys(db.dbs)) {
@@ -27,4 +27,4 @@ function handler(params, context, callback) {
     callback(null, dbs);
 }
 
-module.exports = new method.Method(descriptor, handler);
+module.exports = new handler.Method(descriptor, handle);

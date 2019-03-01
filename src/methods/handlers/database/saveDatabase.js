@@ -1,6 +1,6 @@
 const log = require('evillogger')({ ns:'database/saveDatabase' });
 const db = require('../../../db');
-const method = require('../../method');
+const handler = require('../../handler');
 
 const descriptor = {
     title:'saveDatabase',
@@ -19,7 +19,7 @@ const descriptor = {
  * @param {function} callback - callback
  * @memberof Commands
  */
-function handler(params, context, callback) {
+function handle(params, context, callback) {
     const databaseName = context.session.loki.currentDatabase;
 
     if (!db.databaseSelected(databaseName, callback)) {
@@ -29,15 +29,15 @@ function handler(params, context, callback) {
     try {
         db.dbs[databaseName].saveDatabase(err => {
             if (err) {
-                callback(method.internalError(err.message));
+                callback(handler.internalError(err.message));
                 return;
             }
             callback(null, { success:true });
         });
     } catch(e) {
         log.error(e);
-        callback(method.internalError(e.message));
+        callback(handler.internalError(e.message));
     }
 }
 
-module.exports = new method.Method(descriptor, handler);
+module.exports = new handler.Method(descriptor, handle);

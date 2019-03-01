@@ -1,4 +1,4 @@
-const method = require('../../method');
+const handler = require('../../handler');
 
 const descriptor = {
     title:'clients',
@@ -16,8 +16,8 @@ const descriptor = {
  * @param {function} callback - callback
  * @memberof Commands
  */
-function handler(params, context, callback) {
+function handle(params, context, callback) {
     callback(null, Object.keys(context.server.clients));
 }
 
-module.exports = new method.Method(descriptor, handler);
+module.exports = new handler.Method(descriptor, handle);
