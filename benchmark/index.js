@@ -7,6 +7,7 @@ const slokiVersion = require('../package.json').version;
 const sprintf = require('sprintf-js').sprintf;
 const argv = require('minimist')(process.argv.slice(2));
 const prettyMs = require('pretty-ms');
+const si = require('systeminformation');
 
 const clients = {};
 const tests = {};
@@ -162,18 +163,22 @@ function report() {
 
 function run() {
 
-    console.log('#'.repeat(lineLen+1));
-    console.log(`# Benchmark suite using sloki v${slokiVersion}`);
-    console.log('#'.repeat(lineLen+1));
-    console.log(`# ${os.arch()} | ${os.cpus().length} CPU(s) | ${os.platform()} (${os.release()} ${os.type}) | node ${process.version}`);
-    console.log('#'.repeat(lineLen+1));
+    si.cpu((cpuInfo) => {
 
-    async.series([
-        prepareTests,
-        clientsConnect,
-        runAllTests,
-        clientsDisconnect
-    ], report);
+
+        console.log('#'.repeat(lineLen+1));
+        console.log(`# Benchmark suite using sloki v${slokiVersion}    ${cpuInfo.manufacturer} ${cpuInfo.brand} ${cpuInfo.speed}Ghz`);
+        console.log('#'.repeat(lineLen+1));
+        console.log(`# ${os.arch()} | ${os.cpus().length} CPU(s) | ${os.platform()} (${os.release()} ${os.type}) | node ${process.version}`);
+        console.log('#'.repeat(lineLen+1));
+
+        async.series([
+            prepareTests,
+            clientsConnect,
+            runAllTests,
+            clientsDisconnect
+        ], report);
+    });
 }
 
 run();
