@@ -46,6 +46,9 @@ function handle(params, context, callback) {
     function wait() {
         if (config.MEM_LIMIT_REACHED && i < 120) {
             i++;
+            if (i%10 === 0) {
+                global.gc();
+            }
             setTimeout(() => {
                 wait();
             }, 1000);
