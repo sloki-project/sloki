@@ -154,12 +154,16 @@ function createDatabase(databaseName, databaseOptions, callback) {
 
     dbs[databaseName] = new loki(dbPath, options);
 
+    /*
     // save on create when adapter specified
     dbs[databaseName].save((err) => {
         if (callback) {
             callback(err, getDatabaseProperties(databaseName));
         }
     });
+    */
+    
+    callback(null, getDatabaseProperties(databaseName));
 
     return dbs[databaseName];
 }

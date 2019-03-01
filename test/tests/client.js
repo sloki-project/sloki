@@ -18,7 +18,7 @@ module.exports = (title, callback) => {
 
     tap.test(
         path.basename(title),
-        { timeout:1000*30 },
+        { timeout:1000*60 },
         t => {
 
             client.on('error', err => {

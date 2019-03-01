@@ -8,7 +8,9 @@ const binaryServer = require('./protocols/binary');
 const jsonRpcServer = require('./protocols/jsonrpc');
 const ssl = require('./ssl');
 
-let config = require('./config');
+const config = require('./config');
+const memoryAlertInterval = 500;
+
 let closing = false;
 let running = false;
 let timerMemoryAlert;
@@ -16,8 +18,6 @@ let tcpBinaryServerInstance;
 let tlsBinaryServerInstance;
 let tcpJsonRpcServerInstance;
 let tlsJsonRpcServerInstance;
-
-const memoryAlertInterval = 1000;
 
 function memLimitBytes() {
     return config.MEM_LIMIT*1024*1024;
@@ -62,7 +62,11 @@ function start(options, callback) {
     realConfig = Object.assign(realConfig, options||{});
     realConfig.SLOKI_DIR_DBS = path.resolve(realConfig.SLOKI_DIR+'/dbs');
 
-    config = realConfig;
+    for (const key in realConfig) {
+        config[key] = realConfig[key];
+    }
+
+    dumpMemory('info', 'memory:', top.memory().rss);
 
     async.series([
         (next) => {
@@ -226,8 +230,6 @@ if (global.gc) {
     }, config.GC_INTERVAL);
 
 }
-
-dumpMemory('info', 'memory:', top.memory().rss);
 
 module.exports = {
     start,
