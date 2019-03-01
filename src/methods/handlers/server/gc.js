@@ -1,4 +1,4 @@
-const log = require('evillogger')({ ns:'server/maxClient' });
+const log = require('evillogger')({ ns:'server/gc' });
 const handler = require('../../handler');
 const prettyBytes = require('pretty-bytes');
 const config = require('../../../config');
