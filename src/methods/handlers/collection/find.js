@@ -1,6 +1,6 @@
 const log = require('evillogger')({ ns:'collection/find' });
 const db = require('../../../db');
-const method = require('../../method');
+const method = require('../../handler');
 
 const descriptor = {
     title:'find',
