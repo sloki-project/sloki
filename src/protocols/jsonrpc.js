@@ -1,6 +1,6 @@
 const jayson = require('jayson');
 const methods = require('../methods/');
-const errors = require('./errors');
+const errors = require('./libs/errors');
 
 function Server(options) {
 

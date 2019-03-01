@@ -2,7 +2,7 @@ const methods = require('../methods/');
 const net = require('net');
 const tls = require('tls');
 const missive = require('missive');
-const errors = require('./errors');
+const errors = require('./libs/errors');
 const config = require('../config');
 
 const ZLIB = false;
