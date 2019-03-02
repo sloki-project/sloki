@@ -289,19 +289,3 @@ The winner is dinary protocol !
 Not usable yet.
 
 -----
-
-
-The default values ​​can be overridden first with those of the environment variables,
-and then those of the command line options.
-
-* SLOKI_DIR `/path/to/sloki`
-  * default is user's home (~user/.sloki)
-  * subdirectory `dbs` contains lokijs databases
-  * subdirectory `certs` contains SSL Certificates for TLS
-  * directories will be created if not exist
-
-* SLOKI_MEM_LIMIT
-  * by default, 80% of the available memory
-
-* SLOKI_GC_INTERVAL
-  * run nodejs garbage collector at regular interval (value in milliseconds)
