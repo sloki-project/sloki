@@ -41,7 +41,7 @@
     "pretty-bytes": "5.1.0",
     "process-top": "1.0.0",
     "selfsigned": "1.10.4",
-    "sloki-node-client": "0.0.9"
+    "sloki-node-client": "sloki-project/sloki-node-client"
   },
   "devDependencies": {
     "eslint": "5.14.1",

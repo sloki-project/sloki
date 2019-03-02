@@ -1,6 +1,6 @@
 # Changelog
 
-## [0.0.9](https://github.com/sloki-project/sloki/milestone/7) - UNRELEASED
+## [0.0.9](https://github.com/sloki-project/sloki/milestone/7) - 2019-03-02
 
 ### Added
 * add "Dinary" protocol support [#33](https://github.com/sloki-project/sloki/issues/33)
