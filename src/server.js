@@ -6,6 +6,7 @@ const async = require('async');
 const db = require('./db');
 const binaryServer = require('./protocols/binary');
 const jsonRpcServer = require('./protocols/jsonrpc');
+const dinaryServer = require('./protocols/dinary');
 const ssl = require('./ssl');
 
 const config = require('./config');
@@ -18,6 +19,8 @@ let tcpBinaryServerInstance;
 let tlsBinaryServerInstance;
 let tcpJsonRpcServerInstance;
 let tlsJsonRpcServerInstance;
+let tcpDinaryServerInstance;
+let tlsDinaryServerInstance;
 
 function memLimitBytes() {
     return config.MEM_LIMIT*1024*1024;
@@ -86,17 +89,17 @@ function start(options, callback) {
             next();
         },
         (next) => {
-            if (!realConfig.TCP_BINARY_ENABLE) {
+            if (!config.TCP_BINARY_ENABLE) {
                 next();
                 return;
             }
 
             tcpBinaryServerInstance = new binaryServer({
-                HOST:realConfig.TCP_BINARY_HOST,
-                PORT:realConfig.TCP_BINARY_PORT,
-                MAX_CLIENTS:realConfig.TCP_BINARY_MAX_CLIENTS,
+                HOST:config.TCP_BINARY_HOST,
+                PORT:config.TCP_BINARY_PORT,
+                MAX_CLIENTS:config.TCP_BINARY_MAX_CLIENTS,
                 SSL:false,
-                SHOW_OPS_INTERVAL:realConfig.SHOW_OPS_INTERVAL
+                SHOW_OPS_INTERVAL:config.SHOW_OPS_INTERVAL
             });
 
             tcpBinaryServerInstance.start(next);
@@ -154,6 +157,41 @@ function start(options, callback) {
             });
 
             tlsJsonRpcServerInstance.start(next);
+        },
+        (next) => {
+            if (!realConfig.TCP_DINARY_ENABLE) {
+                next();
+                return;
+            }
+
+            tcpDinaryServerInstance = new dinaryServer({
+                HOST:realConfig.TCP_DINARY_HOST,
+                PORT:realConfig.TCP_DINARY_PORT,
+                MAX_CLIENTS:realConfig.TCP_DINARY_MAX_CLIENTS,
+                SSL:false,
+                SHOW_OPS_INTERVAL:realConfig.SHOW_OPS_INTERVAL
+            });
+
+            tcpDinaryServerInstance.start(next);
+        },
+        (next) => {
+            if (!config.TLS_DINARY_ENABLE) {
+                next();
+                return;
+            }
+
+            tlsDinaryServerInstance = new dinaryServer({
+                HOST:config.TLS_DINARY_HOST,
+                PORT:config.TLS_DINARY_PORT,
+                MAX_CLIENTS:config.TLS_DINARY_MAX_CLIENTS,
+                SSL:true,
+                SSL_PRIVATE_KEY:config.SSL_PRIVATE_KEY,
+                SSL_CERTIFICATE:config.SSL_CERTIFICATE,
+                SSL_CA:config.SSL_CA,
+                SHOW_OPS_INTERVAL:config.SHOW_OPS_INTERVAL
+            });
+
+            tlsDinaryServerInstance.start(next);
         },
         (next) => {
             db.initialize(config, next);

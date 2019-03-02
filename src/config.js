@@ -50,6 +50,16 @@ const defaults = {
     TLS_JSONRPC_HOST:'localhost',
     TLS_JSONRPC_MAX_CLIENTS:64,
 
+    TCP_DINARY_ENABLE:true,
+    TCP_DINARY_PORT:6374,
+    TCP_DINARY_HOST:'localhost',
+    TCP_DINARY_MAX_CLIENTS:64,
+
+    TLS_DINARY_ENABLE:true,
+    TLS_DINARY_PORT:6375,
+    TLS_DINARY_HOST:'localhost',
+    TLS_DINARY_MAX_CLIENTS:64,
+
     // Show number of operation per interval
     SHOW_OPS_INTERVAL:0,
 };
@@ -60,12 +70,14 @@ if (process.env.DOCKER) {
     defaults.TLS_BINARY_HOST = ip;
     defaults.TCP_JSONRPC_HOST = ip;
     defaults.TLS_JSONRPC_HOST = ip;
+    defaults.TCP_DINARY_HOST = ip;
+    defaults.TLS_DINARY_HOST = ip;
 }
 
 const c = JSON.parse(JSON.stringify(defaults));
 
 const transports = ['TCP', 'TLS'];
-const protocols = ['BINARY', 'JSONRPC'];
+const protocols = ['BINARY', 'JSONRPC', 'DINARY'];
 const opts = ['ENABLE', 'PORT', 'HOST', 'MAX_CLIENTS'];
 
 /*******************************************
@@ -225,6 +237,8 @@ c.getMaxClients = function(protocol) {
     case 'binarys': return c.TLS_BINARY_MAX_CLIENTS;
     case 'jsonrpc': return c.TCP_JSONRPC_MAX_CLIENTS;
     case 'jsonrpcs': return c.TLS_JSONRPC_MAX_CLIENTS;
+    case 'dinary': return c.TCP_DINARY_MAX_CLIENTS;
+    case 'dinarys': return c.TLS_DINARY_MAX_CLIENTS;
     default:throw new Error(`unknow protocol '${protocol}'`);
     }
 };
@@ -237,6 +251,8 @@ c.setMaxClients = function(protocol, max) {
     case 'binarys': c.TLS_BINARY_MAX_CLIENTS = max;break;
     case 'jsonrpc': c.TCP_JSONRPC_MAX_CLIENTS = max;break;
     case 'jsonrpcs': c.TLS_JSONRPC_MAX_CLIENTS = max;break;
+    case 'dinary': c.TCP_DINARY_MAX_CLIENTS = max;break;
+    case 'dinarys': c.TLS_DINARY_MAX_CLIENTS = max;break;
     default:throw new Error(`unknow protocol '${protocol}'`);
     }
 };

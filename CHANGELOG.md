@@ -1,6 +1,19 @@
 # Changelog
 
-## [0.0.7](https://github.com/sloki-project/sloki/milestone/5) - UNRELEASED
+## [0.0.9](https://github.com/sloki-project/sloki/milestone/7) - UNRELEASED
+
+### Added
+* add "Dinary" protocol support [#33](https://github.com/sloki-project/sloki/issues/33)
+
+
+
+## [0.0.8](https://github.com/sloki-project/sloki/milestone/6) - 2019-02-23
+
+### Changed
+* fix some require path for docker
+
+
+## [0.0.7](https://github.com/sloki-project/sloki/milestone/5) - 2019-02-23
 
 ### Added
 * add method `versions` [#19](https://github.com/sloki-project/sloki/issues/19)
@@ -41,7 +54,6 @@
 * improve code: merge jsonrpc/lokijs layers [#14](https://github.com/sloki-project/sloki/issues/14)
 * improve method collection/insert options [#11](https://github.com/sloki-project/sloki/issues/11)
 * improve sanity check [#10](https://github.com/sloki-project/sloki/issues/10)
-
 
 
 ## [0.0.4](https://github.com/sloki-project/sloki/milestone/2) - 2019-02-07

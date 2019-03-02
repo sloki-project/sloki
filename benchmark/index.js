@@ -20,7 +20,8 @@ let protocols = [
     'binary',
     'binarys',
     'jsonrpc',
-    'jsonrpcs'
+    'jsonrpcs',
+    'dinarys'
 ];
 
 if (argv.protocol) {
@@ -106,7 +107,7 @@ function resetMemory(callback) {
         return;
     }
 
-    clients['binarys'].gc((err, result) => {
+    clients[argv.protocol || 'dinarys'].gc((err, result) => {
         if (err) {
             throw err;
         }

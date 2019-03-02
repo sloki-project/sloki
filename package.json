@@ -32,6 +32,7 @@
     "evillogger": "1.2.2",
     "fs-extra": "7.0.1",
     "historic-readline": "1.0.8",
+    "hyperid": "2.0.2",
     "jayson": "2.1.2",
     "klaw-sync": "6.0.0",
     "lokijs": "franck34/LokiJS",

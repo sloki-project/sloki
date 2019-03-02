@@ -116,11 +116,16 @@ function jsonrpcs(callback) {
     runTests('jsonrpcs', callback);
 }
 
+function dinary(callback) {
+    runTests('dinarys', callback);
+}
+
 async.series([
     cleanTestDatabases,
     startServer,
     binarys,
     jsonrpcs,
+    dinary,
     stopServer
 ], () => {
     process.exit();

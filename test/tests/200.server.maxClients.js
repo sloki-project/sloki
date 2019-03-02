@@ -13,6 +13,13 @@ if (process.env.NODE_ENV === 'dev') {
 const MAX_CLIENTS = config.getMaxClients(engine);
 
 require('./client')(__filename, (test, client, end) => {
+
+    let tmpMaxClient = 1;
+    if (client.protocol.match(/dinary/)) {
+        // dinary use a two-way protocol, so 2 sockets per clients
+        tmpMaxClient = 2;
+    }
+
     test.test('client1: getMaxClients', subtest  => {
         client.maxClients((err, result) => {
             subtest.deepEqual(err, undefined, 'method should not return an error');
@@ -30,9 +37,9 @@ require('./client')(__filename, (test, client, end) => {
     });
 
     test.test('client1: setMaxClients', subtest  => {
-        client.maxClients({ value:1 }, (err, result) => {
+        client.maxClients({ value:tmpMaxClient }, (err, result) => {
             subtest.deepEqual(err, undefined, 'method should not return an error');
-            subtest.equal(result, 1, 'client1: maxClients should be set to 1');
+            subtest.equal(result, tmpMaxClient, `client1: maxClients should be set to ${tmpMaxClient}`);
             subtest.end();
         });
     });
@@ -40,7 +47,7 @@ require('./client')(__filename, (test, client, end) => {
     test.test('client1: getMaxClients', subtest  => {
         client.maxClients((err, result) => {
             subtest.deepEqual(err, undefined, 'method should not return an error');
-            subtest.equal(result, 1, 'client1: maxClients should be 1');
+            subtest.equal(result, tmpMaxClient, `client1: maxClients should be ${tmpMaxClient}`);
             subtest.end();
         });
     });
