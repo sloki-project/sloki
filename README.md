@@ -12,8 +12,9 @@ A NodeJS Server for [LokiJS](http://lokijs.org/)
 -----
 ## Documentation
 1. [Introduction](#introduction)
-    1. [Transports](#transports)
-    2. [Protocols](#protocols)
+    1. [Goal](#Goal)
+    2. [Transports](#transports)
+    3. [Protocols](#protocols)
         1. [Binary](#binary) (default)
         2. [JSONRPC](#jsonrpc)
         3. [Dinary](#dinary) (default)
@@ -52,6 +53,10 @@ A possible architecture using sloki :
     +----------------------------+                     +-----------------------------------+
 
 ```
+## Goal
+
+The goal is to have a complete in-memory database, supporting documents (like mongodb) AND key-value (like redis).
+
 
 ## Transports
 
