@@ -11,15 +11,18 @@ A NodeJS Server for [LokiJS](http://lokijs.org/)
 
 -----
 ## Documentation
-1. [Introduction](#1-introduction)
-    1. [Transports](#1i-transports)
-    2. [Protocols](#1ii-protocols)
-        1. [Binary](#1iia-binary-protocol-default) (default)
-        2. [JSONRPC](#1iib-jsonrpc)
-2. [Installation](#4-installation)
+1. [Introduction](#introduction)
+    1. [Transports](#transports)
+    2. [Protocols](#protocols)
+        1. [Binary](#binary) (default)
+        2. [JSONRPC](#jsonrpc)
+        3. [Dinary](#dinary) (default)
+2. [Installation](#2-installation)
+3. [Clients](#3-clients)
+
 -----
 
-## 1. Introduction
+## Introduction
 
 Sloki is a nodejs server which embed [LokiJS](http://lokijs.org/), a blazing fast in-memory documents database.
 Sloki help to make LokiJS ***scalable*** : you can now have multiple processes speaking with LokiJS through Sloki.
@@ -45,7 +48,7 @@ A possible architecture using sloki :
 
 ```
 
-## 1.i. Transports
+## Transports
 
 For moment, only TCP transport is implemented. The advantage of TCP vs HTTP API is that the connection is persistent (i.e more fast).
 Websockets should be implemented before HTTP API.
@@ -55,7 +58,7 @@ By default, Sloki listens on the following ports:
 | Port      | Transport  | TLS  | Protocol              
 |:---------:|------------|------|-----------------
 | 6370      | TCP        | NO   | Binary           
-| 6371      | TCP        | YES  | Binary (fast)
+| 6371      | TCP        | YES  | Binary
 | 6372      | TCP        | NO   | JSONRPC          
 | 6373      | TCP        | YES  | JSONRPC
 | 6374      | TCP        | NO   | Dinary
@@ -65,9 +68,9 @@ If somebody have an idea why TLS over TCP is fastest than raw TCP, i'd like to k
 
 You will need a [client](#clients) to speak with sloki.
 
-## 1.ii. Protocols
+## Protocols
 
-### 1.ii.a. Binary protocol (default)
+### **Binary protocol**
 
 The binary protocol has been made with performance in mind. Payloads looks like JSONRPC, but it's not.
 ```
@@ -82,7 +85,7 @@ REQUEST                                     | RESPONSE
 * Payload is a little lighter compared to compliant JSONRPC protocol described below (i.e no `jsonrpc` version attribute, `method` become `m`, `params` become `p`, `result` become `r`)
 * [Missive](https://github.com/StarryInternet/missive) package is used both server and client side to transform payloads into a binary format. Missive support zlib compression, but it's not used here and it's not recommended because of performance crumble. Missive is based on [fringe](https://github.com/StarryInternet/fringe), an extensible message framing over streams for nodejs.
 
-### 1.ii.b. **JSONRPC**
+### **JSONRPC**
 
 The JSONRPC protocol has been chosen for interoperability.
 ```
@@ -98,7 +101,7 @@ REQUEST                                     | RESPONSE
 * Raw and standard JSONRPC over TCP
 * [jayson](https://github.com/tedeh/jayson) package is used server side. Actually only TCP transport is implemented, but HTTP(s) JSON API and websocket API may be implemented in the future.   
 
-### 1.ii.b. **Dinary**
+### **Dinary protocol**
 
 It's not a typo. Dinary use 2 Binary clients, one socket for requests, the other one for responses. This is the fastest protocol, the one by default.
 
@@ -209,7 +212,7 @@ Not usable yet.
 =======================================================================
               Sloki - a NodeJS Server for LokyJS
 =======================================================================
- Environnement variable             Default
+ Environment variable              Default
    SLOKI_TCP_BINARY_ENABLE         true
    SLOKI_TCP_BINARY_PORT           6370
    SLOKI_TCP_BINARY_HOST           localhost
@@ -218,6 +221,7 @@ Not usable yet.
    SLOKI_TLS_BINARY_PORT           6371
    SLOKI_TLS_BINARY_HOST           localhost
    SLOKI_TLS_BINARY_MAX_CLIENTS    64
+
    SLOKI_TCP_JSONRPC_ENABLE        true
    SLOKI_TCP_JSONRPC_PORT          6372
    SLOKI_TCP_JSONRPC_HOST          localhost
@@ -226,12 +230,22 @@ Not usable yet.
    SLOKI_TLS_JSONRPC_PORT          6373
    SLOKI_TLS_JSONRPC_HOST          localhost
    SLOKI_TLS_JSONRPC_MAX_CLIENTS   64
+
+   SLOKI_TCP_DINARY_ENABLE         true
+   SLOKI_TCP_DINARY_PORT           6374
+   SLOKI_TCP_DINARY_HOST           localhost
+   SLOKI_TCP_DINARY_MAX_CLIENTS    64
+   SLOKI_TLS_DINARY_ENABLE         true
+   SLOKI_TLS_DINARY_PORT           6375
+   SLOKI_TLS_DINARY_HOST           localhost
+   SLOKI_TLS_DINARY_MAX_CLIENTS    64
+
    SLOKI_DIR                       /home/franck/.sloki
    SLOKI_SHOW_OPS_INTERVAL         0
    SLOKI_GC_INTERVAL               3600000
    SLOKI_MEM_LIMIT                 26094 Mb
 -----------------------------------------------------------------------
- Command Line Options               Default
+ Command Line Options              Default
    --tcp-binary-enable             true
    --tcp-binary-port               6370
    --tcp-binary-host               localhost
@@ -248,6 +262,14 @@ Not usable yet.
    --tls-jsonrpc-port              6373
    --tls-jsonrpc-host              localhost
    --tls-jsonrpc-max-clients       64
+   --tcp-dinary-enable             undefined
+   --tcp-dinary-port               6374
+   --tcp-dinary-host               localhost
+   --tcp-dinary-max-clients        64
+   --tls-dinary-enable             true
+   --tls-dinary-port               6375
+   --tls-dinary-host               localhost
+   --tls-dinary-max-clients        64
    --dir                           /home/franck/.sloki
    --show-ops-interval             0
    --gc-interval                   3600000
@@ -273,3 +295,7 @@ and then those of the command line options.
 
 * SLOKI_GC_INTERVAL
   * run nodejs garbage collector at regular interval (value in milliseconds)
+
+## Clients
+
+* nodejs : https://github.com/sloki-project/sloki-node-client 
