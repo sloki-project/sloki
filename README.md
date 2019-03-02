@@ -55,7 +55,11 @@ A possible architecture using sloki :
 ```
 ## Goal
 
-The goal is to have a complete in-memory database, supporting documents (like mongodb) AND key-value (like redis).
+The goal is to have a complete in-memory database, supporting documents (mongodb like) AND key/value stores (like redis like).
+
+For documents, [lokiJS](http://lokijs.org) is used.
+
+Key/value stores are not implemented at the moment.
 
 
 ## Transports
