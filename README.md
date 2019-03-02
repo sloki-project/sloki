@@ -31,7 +31,7 @@ A possible architecture using sloki :
     |   NodeJS app worker #1     |<------------------->|                                   |
     +----------------------------+                     |               Sloki               |
                                                        |                                   |
-    +----------------------------+    TCP / Binary     |    +-------------------------+    |
+    +----------------------------+    TCP / Dinary     |    +-------------------------+    |
     |  NodeJS app worker #2      |<------------------->|    |                         |    |
     +----------------------------+                     |    |                         |    |
                                                        |    |         LokiJS          |    |
@@ -47,18 +47,21 @@ A possible architecture using sloki :
 
 ## 1.i. Transports
 
-For moment, only TCP transport is supported. The advantage of TCP vs HTTP API is that the connection is persistent.
+For moment, only TCP transport is implemented. The advantage of TCP vs HTTP API is that the connection is persistent (i.e more fast).
+Websockets should be implemented before HTTP API.
 
 By default, Sloki listens on the following ports:
 
-| Port      | Transport  | TLS  | Protocol         | ops/sec/client             
-|:---------:|------------|------|------------------|------------
-| 6370      | TCP        | NO   | Binary (fastest) | avg 18K ops/sec
-| 6371      | TCP        | YES  | Binary (fastest) | avg 25K ops/sec (??)
-| 6372      | TCP        | NO   | JSONRPC          | avg 17K ops/sec
-| 6373      | TCP        | YES  | JSONRPC          | avg 24K ops/sec (??)
+| Port      | Transport  | TLS  | Protocol              
+|:---------:|------------|------|-----------------
+| 6370      | TCP        | NO   | Binary           
+| 6371      | TCP        | YES  | Binary (fast)
+| 6372      | TCP        | NO   | JSONRPC          
+| 6373      | TCP        | YES  | JSONRPC
+| 6374      | TCP        | NO   | Dinary
+| 6375      | TCP        | YES  | Dinary (fastest)
 
-If somebody have an idea why TLS is fastest than TCP, i'd like to know .. :)
+If somebody have an idea why TLS over TCP is fastest than raw TCP, i'd like to know .. :)
 
 You will need a [client](#clients) to speak with sloki.
 
@@ -95,6 +98,12 @@ REQUEST                                     | RESPONSE
 * Raw and standard JSONRPC over TCP
 * [jayson](https://github.com/tedeh/jayson) package is used server side. Actually only TCP transport is implemented, but HTTP(s) JSON API and websocket API may be implemented in the future.   
 
+### 1.ii.b. **Dinary**
+
+It's not a typo. Dinary use 2 Binary clients, one socket for requests, the other one for responses. This is the fastest protocol, the one by default.
+
+The underling protocol is the same as the Binary one.
+
 -----
 
 ## Server Installation
@@ -118,159 +127,77 @@ The client will load every methods that sloki server have, so, the client docume
 
 ## Benchmarks
 
-See https://github.com/sloki-project/sloki-benchs
+```
+> npm run bench
 
+#################################################################################
+# Benchmark suite using sloki v0.0.8    Intel® Core™ i7-6820HQ 2.70Ghz
+#################################################################################
+# x64 | 8 CPU(s) | linux (4.4.0-43-Microsoft Linux) | node v11.10.0
+#################################################################################
+> client connected (binary)
+> client connected (binarys)
+> client connected (jsonrpc)
+> client connected (jsonrpcs)
+> client connected (dinary)
+> client connected (dinarys)
+>>>>> test insert#nocallback
+> run insert#nocallback@binary
+> run insert#nocallback@binarys
+> run insert#nocallback@jsonrpc
+> run insert#nocallback@jsonrpcs
+> run insert#nocallback@dinary
+> run insert#nocallback@dinarys
+>>>>> test insert#callback.fullDocument
+> run insert#callback.fullDocument@binary
+> run insert#callback.fullDocument@binarys
+> run insert#callback.fullDocument@jsonrpc
+> run insert#callback.fullDocument@jsonrpcs
+> run insert#callback.fullDocument@dinary
+> run insert#callback.fullDocument@dinarys
+>>>>> test insert#callback.sret.01
+> run insert#callback.sret.01@binary
+> run insert#callback.sret.01@binarys
+> run insert#callback.sret.01@jsonrpc
+> run insert#callback.sret.01@jsonrpcs
+> run insert#callback.sret.01@dinary
+> run insert#callback.sret.01@dinarys
+>>>>> gc done (rss before 206 MB, after 194 MB)
+> client disconnected (binary)
+> client disconnected (binarys)
+> client disconnected (jsonrpc)
+> client disconnected (jsonrpcs)
+> client disconnected (dinary)
+> client disconnected (dinarys)
+
+# --------------------------------------------------------------------------------
+# Test                                     | Operations | ops/sec | exec time
+# --------------------------------------------------------------------------------
+# insert#nocallback@binary                 |      20000 |   12462 |    1.6s
+# insert#nocallback@binarys                |      20000 |  314297 |    64ms
+# insert#nocallback@jsonrpc                |      20000 |   19875 |      1s
+# insert#nocallback@jsonrpcs               |      20000 |  359086 |    56ms
+# insert#nocallback@dinary                 |      20000 |   14190 |    1.4s
+# insert#nocallback@dinarys                |      20000 |  939276 |    22ms
+# insert#callback.fullDocument@binary      |      20000 |   11682 |    1.7s
+# insert#callback.fullDocument@binarys     |      20000 |    9542 |    2.1s
+# insert#callback.fullDocument@jsonrpc     |      20000 |   17443 |    1.1s
+# insert#callback.fullDocument@jsonrpcs    |      20000 |   17136 |    1.2s
+# insert#callback.fullDocument@dinary      |      20000 |   11089 |    1.8s
+# insert#callback.fullDocument@dinarys     |      20000 |   26836 |   746ms
+# insert#callback.sret.01@binary           |      20000 |   11939 |    1.7s
+# insert#callback.sret.01@binarys          |      20000 |   27308 |   733ms
+# insert#callback.sret.01@jsonrpc          |      20000 |   17117 |    1.2s
+# insert#callback.sret.01@jsonrpcs         |      20000 |   17031 |    1.2s
+# insert#callback.sret.01@dinary           |      20000 |   11184 |    1.8s
+# insert#callback.sret.01@dinarys          |      20000 |   26900 |   744ms
+```
+
+The winner is dinary protocol !
 
 ## Development status
 
-#### Legends
-
-| Icon              | Description                
-|:-----------------:|----------------------------------------------------------------------
-| :heavy_check_mark:| implemented
-| :heavy_plus_sign: | in progress/MUST be implemented
-| :red_circle:      | does NOT make sens in sloki, will NOT be implemented
-| :question:        | MAY be implemented
-
-
-<details>
-<summary>
-<b><img src="http://progressed.io/bar/25"/> Transports</b>
-</summary>
-<p>
-
-| Status            | Transport            | Notes               
-|:-----------------:|----------------------|--------------------------------
-| :heavy_check_mark:| TCP                  | Persistant connection
-| :heavy_plus_sign: | TLS                  | Persistant connection
-| :question:        | HTTP                 |
-| :question:        | HTTPS                |
-</p>
-</details>
-
-<details>
-<summary>
-<b><img src="http://progressed.io/bar/100"/> Methods: client and server related</b>
-</summary>
-<p>
-
-| Status            | Method            | Parameter     | Description                
-|:-----------------:|-------------------|---------------|----------------
-| :heavy_check_mark:| clients           |               | return TCP/TLS connected clients
-| :heavy_check_mark:| gc                |               | invoke gc(), for testing purpose
-| :heavy_check_mark:| maxClients        |               | return TCP/TLS maxClients
-| :heavy_check_mark:| maxClients        | maxClients    | set TCP/TLS maxClients
-| :heavy_check_mark:| memory            |               | return sloki memory usage
-| :heavy_check_mark:| methods           |               | return sloki methods
-| :heavy_check_mark:| quit              |               | disconnect (TCP/TLS clients only)
-| :heavy_check_mark:| shutdown          |               | shutdown sloki
-| :heavy_check_mark:| version           |               | return versions (sloki, lokijs, sloki-node-client)
-| :heavy_check_mark:| wait              |               | wait for one second, for testing purpose
-
-</p>
-</details>
-
-<details>
-<summary>
-<b><img src="http://progressed.io/bar/77"/> Methods: database related</b>
-</summary>
-<p>
-
-[Loki Class (Database) documentation](https://rawgit.com/techfort/LokiJS/master/jsdoc/Loki.html)
-
-| Status            | Command                       | Parameter(s)                  | Description  
-|:-----------------:|-------------------------------|-------------------------------|----------------              
-| :heavy_check_mark:| loadDatabase                  | databaseName,[options]        | select (and load if needed) a database
-| :heavy_check_mark:| db                            |                               | return current database name (sloki specific)
-| :heavy_check_mark:| listDatabases                 |                               | return available databases
-| :heavy_check_mark:| saveDatabase                  |                               | trigger manual saving of the selected database
-| :heavy_check_mark:| listCollections               |                               | return available collections in selected database
-| :heavy_check_mark:| addCollection                 | options                       | add a collection in selected database
-| :heavy_check_mark:| getCollection                 | collectionName                | return collection properties in selected database
-| :heavy_plus_sign: | removeCollection              | collectionName                | removes a collection from the selected database
-| :heavy_plus_sign: | renameCollection              | oldName, newName              | renames an existing collection in the selected database
-| :question:        | clearChanges                  |                               | clears all the changes in all collections of selected database
-| :question:        | close                         |                               | close selected database
-| :question:        | configureOptions              | options                       | reconfigure selected database options
-| :question:        | copy                          | options                       | copy selected database into a new Loky instance
-| :question:        | deleteDatabase                |                               | delete selected database
-| :question:        | getCollection                 | collectionName                | Retrieves reference to a collection by name
-| :red_circle:      | deserializeCollection         |                               | see LokiJS Class documentation
-| :red_circle:      | deserializeDestructured       |                               | see LokiJS Class documentation
-| :red_circle:      | generateChangesNotification   |                               | see LokiJS Class documentation
-| :red_circle:      | loadDatabase                  |                               | see "use" command
-| :red_circle:      | loadJSON                      |                               | see LokiJS Class documentation
-| :red_circle:      | loadJSONObject                |                               | see LokiJS Class documentation
-| :red_circle:      | serialize                     |                               | see LokiJS Class documentation
-| :red_circle:      | serializeChanges              |                               | see LokiJS Class documentation
-| :red_circle:      | serializeCollection           | options                       | see LokiJS Class documentation
-| :red_circle:      | serializeDestructured         | options                       | see LokiJS Class documentation
-| :red_circle:      | throttledSaveDrain            |                               | see LokiJS Class documentation
-
-</p>
-</details>
-
-
-<details>
-<summary>
-<b><img src="http://progressed.io/bar/10"/> Methods: collection related</b>
-</summary>
-<p>
-
-[Loki Collection documentation](https://rawgit.com/techfort/LokiJS/master/jsdoc/Collection.html)
-
-| Status            | Command                       | Parameter(s)                      | Description  
-|:-----------------:|-------------------------------|-----------------------------------|----------------
-| :heavy_check_mark:| find                          | collectionName, filter            | find document(s)
-| :heavy_check_mark:| get                           | collectionName, lokiId            | return a document by his id         
-| :heavy_check_mark:| insert                        | collectionName, document          | insert one or more document(s)
-| :heavy_check_mark:| remove                        | collectionName, document or id    | remove one or more document(s)
-| :heavy_check_mark:| update                        | collectionName, document          | update a document
-
-</p>
-</details>
-
-<details>
-<summary>
-<b><img src="http://progressed.io/bar/2"/> Benchmarks</b>
-</summary>
-<p>
-
-| Status            | Transport            | Notes               
-|:-----------------:|----------------------|--------------------------------
-| :heavy_plus_sign: | TCP                  | Persistant connection
-| :heavy_plus_sign: | TLS                  | Persistant connection
-| :question:        | HTTP                 |
-| :question:        | HTTPS                |
-
-</p>
-</details>
-
-<details>
-<summary>
-<b><img src="http://progressed.io/bar/10"/> Tools</b>
-</summary>
-<p>
-
-| Status             | Tool                 | Notes               
-|:------------------:|----------------------|--------------------------------
-| :heavy_plus_sign:  | CLI                  | CLI using TCP transport
-
-</p>
-</details>
-
-<details>
-<summary>
-<b><img src="http://progressed.io/bar/0"/> Improvements on top of LokiJS</b>
-</summary>
-<p>
-
-| Status             | Improvement          | Notes               
-|:------------------:|----------------------|--------------------------------
-| :heavy_plus_sign:  | Authentication       | Optional authentication layer (all transports)
-
-</p>
-</details>
+Not usable yet.
 
 -----
 

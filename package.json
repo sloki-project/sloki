@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "node --expose_gc test/index.js",
-    "start": "node --max_old_space_size=7360 --expose_gc index.js"
+    "start": "node --max_old_space_size=7360 --expose_gc index.js",
+    "bench": "node benchmark/"
   },
   "bin": {
     "sloki-cli": "bin/cli.js",
