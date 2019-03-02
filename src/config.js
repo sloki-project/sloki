@@ -89,7 +89,7 @@ if (argv.help) {
     console.log('=======================================================================');
     console.log('              Sloki - a NodeJS Server for LokyJS                       ');
     console.log('=======================================================================');
-    console.log(' Environnement variable            Default                             ');
+    console.log(' Environment variable              Default                             ');
     console.log(`   SLOKI_TCP_BINARY_ENABLE         ${c.TCP_BINARY_ENABLE}              `);
     console.log(`   SLOKI_TCP_BINARY_PORT           ${c.TCP_BINARY_PORT}                `);
     console.log(`   SLOKI_TCP_BINARY_HOST           ${c.TCP_BINARY_HOST}                `);
