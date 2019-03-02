@@ -3,7 +3,7 @@ const argv = require('minimist')(process.argv.slice(2));
 
 const utils = {};
 
-utils.itemsMax = argv.max||50000;
+utils.itemsMax = argv.max||20000;
 
 utils.start = function(test) {
     test.dateStart = microtime.now();
