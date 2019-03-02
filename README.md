@@ -17,9 +17,14 @@ A NodeJS Server for [LokiJS](http://lokijs.org/)
         1. [Binary](#binary) (default)
         2. [JSONRPC](#jsonrpc)
         3. [Dinary](#dinary) (default)
-2. [Installation](#2-installation)
-3. [Clients](#3-clients)
-
+2. [Server](#server)
+    1. [Installation](#installation)
+    2. [Run](#run)
+    3. [Help](#help)
+3. [Clients](#clients)
+    1. [NodeJS](#nodejs)
+4. [Benchmarks](#benchmarks)
+5. [Development Status](#development-status)
 -----
 
 ## Introduction
@@ -70,7 +75,7 @@ You will need a [client](#clients) to speak with sloki.
 
 ## Protocols
 
-### **Binary protocol**
+### **Binary**
 
 The binary protocol has been made with performance in mind. Payloads looks like JSONRPC, but it's not.
 ```
@@ -101,7 +106,7 @@ REQUEST                                     | RESPONSE
 * Raw and standard JSONRPC over TCP
 * [jayson](https://github.com/tedeh/jayson) package is used server side. Actually only TCP transport is implemented, but HTTP(s) JSON API and websocket API may be implemented in the future.   
 
-### **Dinary protocol**
+### **Dinary**
 
 It's not a typo. Dinary use 2 Binary clients, one socket for requests, the other one for responses. This is the fastest protocol, the one by default.
 
@@ -109,22 +114,103 @@ The underling protocol is the same as the Binary one.
 
 -----
 
-## Server Installation
+## Server
 
-* ```npm install -g sloki```
+### Installation
 
-## Server Usage
+```
+npm install -g sloki
+```
 
-* `sloki`
-* `sloki --help`
+### Run
 
+```
+sloki
+```
+
+## Help
+
+```
+sloki --help
+
+=======================================================================
+              Sloki - a NodeJS Server for LokyJS
+=======================================================================
+ Environment variable              Default
+   SLOKI_TCP_BINARY_ENABLE         true
+   SLOKI_TCP_BINARY_PORT           6370
+   SLOKI_TCP_BINARY_HOST           localhost
+   SLOKI_TCP_BINARY_MAX_CLIENTS    64
+   SLOKI_TLS_BINARY_ENABLE         true
+   SLOKI_TLS_BINARY_PORT           6371
+   SLOKI_TLS_BINARY_HOST           localhost
+   SLOKI_TLS_BINARY_MAX_CLIENTS    64
+
+   SLOKI_TCP_JSONRPC_ENABLE        true
+   SLOKI_TCP_JSONRPC_PORT          6372
+   SLOKI_TCP_JSONRPC_HOST          localhost
+   SLOKI_TCP_JSONRPC_MAX_CLIENTS   64
+   SLOKI_TLS_JSONRPC_ENABLE        true
+   SLOKI_TLS_JSONRPC_PORT          6373
+   SLOKI_TLS_JSONRPC_HOST          localhost
+   SLOKI_TLS_JSONRPC_MAX_CLIENTS   64
+
+   SLOKI_TCP_DINARY_ENABLE         true
+   SLOKI_TCP_DINARY_PORT           6374
+   SLOKI_TCP_DINARY_HOST           localhost
+   SLOKI_TCP_DINARY_MAX_CLIENTS    64
+   SLOKI_TLS_DINARY_ENABLE         true
+   SLOKI_TLS_DINARY_PORT           6375
+   SLOKI_TLS_DINARY_HOST           localhost
+   SLOKI_TLS_DINARY_MAX_CLIENTS    64
+
+   SLOKI_DIR                       /home/franck/.sloki
+   SLOKI_SHOW_OPS_INTERVAL         0
+   SLOKI_GC_INTERVAL               3600000
+   SLOKI_MEM_LIMIT                 26094 Mb
+-----------------------------------------------------------------------
+ Command Line Options              Default
+   --tcp-binary-enable             true
+   --tcp-binary-port               6370
+   --tcp-binary-host               localhost
+   --tcp-binary-max-clients        64
+   --tls-binary-enable             true
+   --tls-binary-port               6371
+   --tls-binary-host               localhost
+   --tls-binary-max-clients        64
+   --tcp-jsonrpc-enable            true
+   --tcp-jsonrpc-port              6372
+   --tcp-jsonrpc-host              localhost
+   --tcp-jsonrpc-max-clients       64
+   --tls-jsonrpc-enable            true
+   --tls-jsonrpc-port              6373
+   --tls-jsonrpc-host              localhost
+   --tls-jsonrpc-max-clients       64
+   --tcp-dinary-enable             undefined
+   --tcp-dinary-port               6374
+   --tcp-dinary-host               localhost
+   --tcp-dinary-max-clients        64
+   --tls-dinary-enable             true
+   --tls-dinary-port               6375
+   --tls-dinary-host               localhost
+   --tls-dinary-max-clients        64
+   --dir                           /home/franck/.sloki
+   --show-ops-interval             0
+   --gc-interval                   3600000
+   --mem-limit                     26094 Mb
+-----------------------------------------------------------------------
+Examples:
+$ sloki     # will use defaults
+$ sloki --tcp-binary-port=6370 --tcp-binary-host=localhost
+```
 -----
 
-## Client
+## Clients
 
+### NodeJS
 See https://github.com/sloki-project/sloki-node-client
 
-The client will load every methods that sloki server have, so, the client documentation is not really usefull
+The client will load every methods that sloki server have.
 
 
 
@@ -204,82 +290,6 @@ Not usable yet.
 
 -----
 
-## Server options
-
-`$ sloki --help`
-
-```
-=======================================================================
-              Sloki - a NodeJS Server for LokyJS
-=======================================================================
- Environment variable              Default
-   SLOKI_TCP_BINARY_ENABLE         true
-   SLOKI_TCP_BINARY_PORT           6370
-   SLOKI_TCP_BINARY_HOST           localhost
-   SLOKI_TCP_BINARY_MAX_CLIENTS    64
-   SLOKI_TLS_BINARY_ENABLE         true
-   SLOKI_TLS_BINARY_PORT           6371
-   SLOKI_TLS_BINARY_HOST           localhost
-   SLOKI_TLS_BINARY_MAX_CLIENTS    64
-
-   SLOKI_TCP_JSONRPC_ENABLE        true
-   SLOKI_TCP_JSONRPC_PORT          6372
-   SLOKI_TCP_JSONRPC_HOST          localhost
-   SLOKI_TCP_JSONRPC_MAX_CLIENTS   64
-   SLOKI_TLS_JSONRPC_ENABLE        true
-   SLOKI_TLS_JSONRPC_PORT          6373
-   SLOKI_TLS_JSONRPC_HOST          localhost
-   SLOKI_TLS_JSONRPC_MAX_CLIENTS   64
-
-   SLOKI_TCP_DINARY_ENABLE         true
-   SLOKI_TCP_DINARY_PORT           6374
-   SLOKI_TCP_DINARY_HOST           localhost
-   SLOKI_TCP_DINARY_MAX_CLIENTS    64
-   SLOKI_TLS_DINARY_ENABLE         true
-   SLOKI_TLS_DINARY_PORT           6375
-   SLOKI_TLS_DINARY_HOST           localhost
-   SLOKI_TLS_DINARY_MAX_CLIENTS    64
-
-   SLOKI_DIR                       /home/franck/.sloki
-   SLOKI_SHOW_OPS_INTERVAL         0
-   SLOKI_GC_INTERVAL               3600000
-   SLOKI_MEM_LIMIT                 26094 Mb
------------------------------------------------------------------------
- Command Line Options              Default
-   --tcp-binary-enable             true
-   --tcp-binary-port               6370
-   --tcp-binary-host               localhost
-   --tcp-binary-max-clients        64
-   --tls-binary-enable             true
-   --tls-binary-port               6371
-   --tls-binary-host               localhost
-   --tls-binary-max-clients        64
-   --tcp-jsonrpc-enable            true
-   --tcp-jsonrpc-port              6372
-   --tcp-jsonrpc-host              localhost
-   --tcp-jsonrpc-max-clients       64
-   --tls-jsonrpc-enable            true
-   --tls-jsonrpc-port              6373
-   --tls-jsonrpc-host              localhost
-   --tls-jsonrpc-max-clients       64
-   --tcp-dinary-enable             undefined
-   --tcp-dinary-port               6374
-   --tcp-dinary-host               localhost
-   --tcp-dinary-max-clients        64
-   --tls-dinary-enable             true
-   --tls-dinary-port               6375
-   --tls-dinary-host               localhost
-   --tls-dinary-max-clients        64
-   --dir                           /home/franck/.sloki
-   --show-ops-interval             0
-   --gc-interval                   3600000
-   --mem-limit                     26094 Mb
------------------------------------------------------------------------
-Examples:
-$ sloki     # will use defaults
-$ sloki --tcp-binary-port=6370 --tcp-binary-host=localhost
-```
-
 
 The default values ​​can be overridden first with those of the environment variables,
 and then those of the command line options.
@@ -295,7 +305,3 @@ and then those of the command line options.
 
 * SLOKI_GC_INTERVAL
   * run nodejs garbage collector at regular interval (value in milliseconds)
-
-## Clients
-
-* nodejs : https://github.com/sloki-project/sloki-node-client 
