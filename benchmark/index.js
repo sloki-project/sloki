@@ -21,6 +21,7 @@ let protocols = [
     'binarys',
     'jsonrpc',
     'jsonrpcs',
+    'dinary',
     'dinarys'
 ];
 
