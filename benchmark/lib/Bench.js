@@ -17,6 +17,7 @@ class Bench {
     static prepareClient(callback) {
         const Client = require('sloki-node-client');
         this.client = new Client('tcp://127.0.0.1');
+        this.client.on('error', this.onClientError);
         try {
             (async () => {
                 await this.client.connect();
@@ -26,7 +27,6 @@ class Bench {
             throw e;
         }
 
-        this.client.on('error', this.onClientError);
     }
 
 
