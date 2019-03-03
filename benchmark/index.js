@@ -40,12 +40,15 @@ function clientsConnect(callback) {
         (protocol, next) => {
             clients[protocol] = new Client(`${protocol}://${host}`);
             clients[protocol].on('error', onClientError);
-            clients[protocol].connect(() => {
-                clients[protocol].loadDatabase({ db:dbName, o:{ autosave:false } }, () => {
+            try {
+                (async () => {
+                    await clients[protocol].connect();
                     console.log(`> client connected (${protocol})`);
-                    next();
-                });
-            });
+                    await clients[protocol].loadDatabase({ db:dbName, o:{ autosave:false } }, (next));
+                })();
+            } catch (e) {
+                throw e;
+            }
         },
         callback
     );
