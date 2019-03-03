@@ -271,24 +271,24 @@ The client will load every methods that sloki server have.
 # --------------------------------------------------------------------------------
 # Test                                     | Operations | ops/sec | exec time
 # --------------------------------------------------------------------------------
-# insert#nocallback@binary                 |      20000 |   12462 |    1.6s
-# insert#nocallback@binarys                |      20000 |  314297 |    64ms
-# insert#nocallback@jsonrpc                |      20000 |   19875 |      1s
-# insert#nocallback@jsonrpcs               |      20000 |  359086 |    56ms
-# insert#nocallback@dinary                 |      20000 |   14190 |    1.4s
-# insert#nocallback@dinarys                |      20000 |  939276 |    22ms
-# insert#callback.fullDocument@binary      |      20000 |   11682 |    1.7s
-# insert#callback.fullDocument@binarys     |      20000 |    9542 |    2.1s
-# insert#callback.fullDocument@jsonrpc     |      20000 |   17443 |    1.1s
-# insert#callback.fullDocument@jsonrpcs    |      20000 |   17136 |    1.2s
-# insert#callback.fullDocument@dinary      |      20000 |   11089 |    1.8s
-# insert#callback.fullDocument@dinarys     |      20000 |   26836 |   746ms
-# insert#callback.sret.01@binary           |      20000 |   11939 |    1.7s
-# insert#callback.sret.01@binarys          |      20000 |   27308 |   733ms
-# insert#callback.sret.01@jsonrpc          |      20000 |   17117 |    1.2s
-# insert#callback.sret.01@jsonrpcs         |      20000 |   17031 |    1.2s
-# insert#callback.sret.01@dinary           |      20000 |   11184 |    1.8s
-# insert#callback.sret.01@dinarys          |      20000 |   26900 |   744ms
+# insert#nocallback@binary                 |      20000 |   13489 |    1.5s
+# insert#nocallback@binarys                |      20000 |  406818 |    50ms
+# insert#nocallback@jsonrpc                |      20000 |   21520 |   930ms
+# insert#nocallback@jsonrpcs               |      20000 |  369549 |    55ms
+# insert#nocallback@dinary                 |      20000 |   15348 |    1.3s
+# insert#nocallback@dinarys                |      20000 | 1418742 |    15ms
+# insert#callback.fullDocument@binary      |      20000 |   11745 |    1.7s
+# insert#callback.fullDocument@binarys     |      20000 |   11899 |    1.7s
+# insert#callback.fullDocument@jsonrpc     |      20000 |   19992 |      1s
+# insert#callback.fullDocument@jsonrpcs    |      20000 |   21005 |   953ms
+# insert#callback.fullDocument@dinary      |      20000 |   12324 |    1.6s
+# insert#callback.fullDocument@dinarys     |      20000 |   33110 |   605ms
+# insert#callback.sret.01@binary           |      20000 |   12189 |    1.6s
+# insert#callback.sret.01@binarys          |      20000 |   34291 |   584ms
+# insert#callback.sret.01@jsonrpc          |      20000 |   14420 |    1.4s
+# insert#callback.sret.01@jsonrpcs         |      20000 |   21053 |   951ms
+# insert#callback.sret.01@dinary           |      20000 |   12464 |    1.6s
+# insert#callback.sret.01@dinarys          |      20000 |   32928 |   608ms
 ```
 
 The winner is dinary protocol !
