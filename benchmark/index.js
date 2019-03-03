@@ -39,7 +39,6 @@ function clientsConnect(callback) {
         protocols,
         (protocol, next) => {
             clients[protocol] = new Client(`${protocol}://${host}`);
-            clients[protocol].proto = protocol;
             clients[protocol].on('error', onClientError);
             clients[protocol].connect(() => {
                 clients[protocol].loadDatabase({ db:dbName, o:{ autosave:false } }, () => {
@@ -57,7 +56,7 @@ function clientsDisconnect(callback) {
         clients,
         (client, next) => {
             client.close(() => {
-                console.log(`> client disconnected (${client.proto})`);
+                console.log(`> client disconnected (${client.protocol})`);
                 next();
             });
         },
@@ -75,7 +74,7 @@ function prepareTests(callback) {
 }
 
 function runTest(test, client, callback) {
-    const str = `${test.title}@${client.proto}`;
+    const str = `${test.title}@${client.protocol}`;
     console.log(sprintf('%-50s', `> run ${str}`));
     try {
         test.bench(client, () => {
@@ -144,10 +143,10 @@ function report() {
             async.eachSeries(
                 clients,
                 (client, next) => {
-                    const str = `${test.title}@${client.proto}`;
+                    const str = `${test.title}@${client.protocol}`;
                     console.log(sprintf(
                         '# %-40s | %10s | %7s | %7s',
-                        test.title+'@'+client.proto,
+                        test.title+'@'+client.protocol,
                         results[str].operationsCount,
                         results[str].operationsPerSecond,
                         results[str].timeElapsed
