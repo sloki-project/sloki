@@ -9,10 +9,6 @@ class Bench {
         this.data = shared.data();
     }
 
-    static get title() {
-        return this.title;
-    }
-
     static onClientError(err) {
         console.log(err);
         process.exit();
