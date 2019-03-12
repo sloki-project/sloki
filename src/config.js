@@ -15,10 +15,12 @@ const defaults = {
     SLOKI_DIR:path.resolve(homedir+'/.sloki'),
 
     DATABASES_DEFAULT_OPTIONS :  {
-        //serializationMethod:'pretty',
+        //serializationMethod:'pretty', // no effect with fs structured adapter
         autoload:true,
-        autosave:true,
-        autosaveInterval:1000*60*5,
+
+        // we handle save sloki side, not lokijs side
+        autosave:false,
+        //autosaveInterval:1000*60*5,
         throttledSaves:false
     },
 
