@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === 'dev') {
 
 
 if (!argv._[0]) {
-    argv._[0] = 'tcp://localhost';
+    argv._[0] = 'binary://localhost';
 }
 
 if (argv.help) {
