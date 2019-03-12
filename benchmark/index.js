@@ -69,7 +69,7 @@ function clientsDisconnect(callback) {
 
 function prepareTests(callback) {
     let file;
-    for (file of klawSync(__dirname+'/tests', { depthLimit:1, nodir:true })) {
+    for (file of klawSync(__dirname+'/tests', { depthLimit:0, nodir:true })) {
         const testName = path.basename(file.path).replace(/\.js/, '');
         tests[testName] = require(file.path);
     }
@@ -110,13 +110,26 @@ function resetMemory(callback) {
         return;
     }
 
-    clients[argv.protocol || 'dinarys'].gc((err, result) => {
-        if (err) {
-            throw err;
+    const client = clients[argv.protocol || 'dinarys'];
+
+    async.series([
+        (next) => {
+            client.removeCollection({ c:'i' }, (err, result) => {
+                if (err) throw err;
+                console.log('removed', result);
+                next();
+            });
+        },
+        (next) => {
+            client.gc((err, result) => {
+                if (err) {
+                    throw err;
+                }
+                console.log('>'.repeat(5), `gc done (rss before ${result.before.rss}, after ${result.after.rss})`);
+                next();
+            });
         }
-        console.log('>'.repeat(5), `gc done (rss before ${result.before.rss}, after ${result.after.rss})`);
-        callback();
-    });
+    ], callback);
 }
 
 function runAllTests(callback) {
