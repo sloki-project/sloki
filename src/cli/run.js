@@ -6,7 +6,7 @@ const homedir = require('os').homedir();
 function run(url, client) {
 
     let ctrlC = false;
-    let prettyJson = false;
+    let prettyJson = true;
 
     console.log(`client connected on ${url}`);
 
@@ -56,6 +56,8 @@ function run(url, client) {
                 if (!line) {
                     // reset flag previously setted by hitting Ctrl+C
                     ctrlC = false;
+                    rl.prompt();
+                    return;
                 }
 
                 if (line === 'quit' || line === 'exit') {
